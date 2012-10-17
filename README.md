@@ -10,6 +10,15 @@
 (Add real-world examples, if any)
 (Put the problem into a historical context, from what does it originate? Are there already some proposed solutions?)
 
+We want to study the mechanisms of opinion formation in a network of people. In addition, we also allow the network itself to be adaptable to the opinions existing on it, making two interdependent forces of network evolution and opinion formation measurable.
+
+The motivation for this project involves two different angles on very fundamental dynamics of our society. First of all, we would like to understand the ways in which humans become who they are under the influence of their environment. How do people form their opinions, values, and beliefs and how do their friends and acquaintances play a role in this? Secondly, we are interested in the way our networks of friends and social ties form in the first place. How and why do we choose to be friends with certain people and not with others? How do networks of people in a society form? 
+
+From an intuitive point of view (considering that we are all social beings) most people would argue that the two aspects are interdependent or even that they are two extremes of the same process: Our social environment certainly shapes what we believe and which opinions we hold, while in turn our own values and opinions influence whom we choose to connect with and make part of our social network. On the basis of this rather vague but plausible assumption, our project is an attempt to disentangle and study the effects of these two mechanisms on each other by the means of an abstract, quantitative model. 
+
+
+-example: religious affiliation
+-history of this. older papers on this? what has already been done in the field? (just briefly)
 
 
 ## The Model
