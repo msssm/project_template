@@ -1,5 +1,4 @@
 # MATLAB HS12 – Research Plan (Template)
-(text between brackets to be removed)
 
 > * Group Name: (be creative!)
 > * Group participants names: Fabian Russmann, Stefan Rustler
