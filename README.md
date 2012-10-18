@@ -1,4 +1,4 @@
-# MATLAB HS12 – Research Plan (Template)
+# MATLAB HS12 – Research Plan
 
 > * Group Name: (be creative!)
 > * Group participants names: Fabian Russmann, Stefan Rustler
