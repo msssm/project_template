@@ -16,6 +16,8 @@ The motivation for this project involves two different angles on very fundamenta
 
 From an intuitive point of view (considering that we are all social beings) most people would argue that the two aspects are interdependent or even that they are two extremes of the same process: Our social environment certainly shapes what we believe and which opinions we hold, while in turn our own values and opinions influence whom we choose to connect with and make part of our social network. On the basis of this rather vague but plausible assumption, our project is an attempt to disentangle and study the effects of these two mechanisms on each other by the means of an abstract, quantitative model. 
 
+An example of a system that one would expect to be subject to such behavior and that we would like to put a focus on is religious affiliation within a society. It could be argued that the social surroundings have an effect on (or, as an extreme, completely determine) which religion a person chooses to belong to. Also, one's religion also influences to whom we connect with socially, for example through the community in a church (the opposing extreme would be that a person's social ties are entirely composed of member's of the same religion). 
+
 
 -example: religious affiliation
 -history of this. older papers on this? what has already been done in the field? (just briefly)
@@ -27,6 +29,13 @@ From an intuitive point of view (considering that we are all social beings) most
 
 
 ## Fundamental Questions
+
+Does the social network shape peoples's opinions or do opinions shape the structure of the network?
+How can we classify opinion and network structures based on these competing tendencies?
+	Specific example: How does the distribution of religious affiliation and size of religious groups change in dependence of the "mixture" of these competing forces?
+		Optional (if data and time available): Do the modeled results fit real distributions of religions in specific countries? Based on this, can we make inferences about the mechanisms of opinion and network formation in different countries?
+
+
 
 (At the end of the project you want to find the answer to these questions)
 (Formulate a few, clear questions. Articulate them in sub-questions, from the more general to the more specific. )
