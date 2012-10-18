@@ -19,7 +19,7 @@ From an intuitive point of view (considering that we are all social beings) most
 An example of a system that one would expect to be subject to such behavior and that we would like to put a focus on is religious affiliation within a society. It could be argued that the social surroundings have an effect on (or, as an extreme, completely determine) which religion a person chooses to belong to. Also, one's religion also influences to whom we connect with socially, for example through the community in a church (the opposing extreme would be that a person's social ties are entirely composed of member's of the same religion). 
 
 
--history of this. older papers on this? what has already been done in the field? (just briefly)
+-history of models on opinion formation. other papers on this? what has already been done in the field? (just briefly)
 
 
 ## The Model
@@ -49,7 +49,7 @@ For all cases and from a purely abstract, theoretical consideration, the model c
 
 The proposed model is of course not constructed from scratch, but based on the one described in [1]. In said publication, the authors describe a critical behavior of the group size and group distribution that is analogous to a 2nd order phase transition known from physics: As the probability $\Phi$ (describing a continuous "mixing ratio" of the two processes of network and opinion formation) is varied, the clusters of opinions develop into two distinct types ("phases"). Above a critical value of $\Phi$, the number and size of groups is more or less randomly distributed. Below a critical value, the behavior is radically different and one large group dominates over a few small groups. Several other properties of criticality are shown and analyzed, e.g. the identification of an order parameter, power law behavior at the critical point, scalability in the transition region etc. For our model, we would expect to be able to reproduce this behavior. 
 
-Concerning the comparison with real data on religious affiliation, it is much harder to predict answers to our questions. If we find suitable data at all, it is questionable if this data is meaningful and significant enough to make any comparisons at all. If however, distributions of religious affiliations are similar, this could serve as support for the validity of our model or even allow us to make inferences about possibly dominant processes of religion formation in certain countries. For example if one religion dominates in a country, could this mean that people tend to rather adopt the religion "dictated" by their surroundings instead of reconnecting with other members of a minority religion? 
+Concerning the comparison with real data on religious affiliation, it is much harder to predict answers to our questions. If we find suitable data at all, it is questionable if this data is meaningful and significant enough to make any comparisons at all. If however, distributions of religious affiliations are similar to modeled ones, this could serve as support for the validity of our model or even allow us to make inferences about possibly dominant processes of religion formation in certain countries. If for example one religion dominates in a country, could this mean that people tend to rather adopt the religion "dictated" by their surroundings instead of reconnecting with other members of a minority religion? 
 
 
 (What are the answers to the above questions that you expect to find before starting your research?)
