@@ -1,8 +1,8 @@
 # MATLAB HS12 – Research Plan
 
-> * Group Name: (be creative!)
+> * Group Name: Social State Physicists, Natural Scientologists, The Prophets, The Preachers ...???
 > * Group participants names: Fabian Russmann, Stefan Rustler
-> * Project Title: (can be changed)
+> * Project Title: Dynamics of Religious Views in Networks - Does Religious Freedom Really Exist?
 
 ## General Introduction
 
@@ -25,6 +25,10 @@ An example of a system that one would expect to be subject to such behavior and 
 ## The Model
 
 (Define dependent and independent variables you want to study. Say how you want to measure them.) (Why is your model a good abtraction of the problem you want to study?) (Are you capturing all the relevant aspects of the problem?)
+
+In this work the social network of people will be modeled by means of a graph with vertices and edges (see section "Research Methods"). In two basic update steps, we will enable each vertex, i.e. person, to follow one of the two mechanisms, re-connecting to like-minded individuals or adapting his/her opinion to the neighborhood. A tunable probability of choosing either one of them will be included in the model. After a finite number of time-steps a convergent or equilibrium state is aspired, in which we can check for several dependent variables, like cluster formation or convergence speed. In this work we will be mainly concerned with how this convergent state looks like in terms of opinion size distribution. Intuitively, one can picture two extreme scenarios: one in which there is one prominent opinion, and one in which there is no such opinion but several much less prominent ones. Our model reduces opinion dynamics to two basic mechanisms mentioned above. Nevertheless, it should be well possible to elucidate how these microscopic tendencies will result in different macroscopic phenomena.
+
+As an optional task one can compare the results, i.e. the opinion size distribution, with actual data on opinions of a certain aspect, e.g. religious view. One could then think about by what factors our $\Phi$ is influenced in reality.
 
 
 ## Fundamental Questions
@@ -70,8 +74,17 @@ Concerning the comparison with real data on religious affiliation, it is much ha
 
 ## Research Methods
 
--some gen. comments on our model (graphs, iterative rules etc)…. 
+The model will represent the network of people by a graph with $N$ vertices and $M$ edges, connecting vertices. Thus "graph" in this context is a collection of edges and vertices and not to be confused with graphs of functions. Each vertex represents a single person indexed by $i$, to whom a certain opinion $g_i$, e.g. a religious view, is assigned. The number of all possible opinions $G$ is only limited by the number of people existing in the network, i.e. $N$, to a certain factor $\gamma = N/G$, where $\gamma > 1$. In this sense, it is not possible for every single individual to hold a unique opinion. The edges represent a social connection between two individuals, the number of edges leaving the vertex the degree $k_i$.
+The initial structure of the network will be random and uniform under the external constraints, $N, M and \gamma$, whereby self-edges and multi-edges will be allowed. The dynamics of the network are then simulated by applying the following at each time step:
 
+1. Pick a random vertex $i$ with opinion $g_i$. 
+2. If $k_i=0$, do nothing. 
+3. Otherwise, with probability $\Phi$ randomly select one of the edges of $i$ and connect it to another vertex randomly chosen, having the same opinion $g_j$.
+4. Otherwise, with probability $1-/Phi$ randomly select one of the neighboring vertices $j$ and change $g_i$ to $g_j$
+
+Here the third step corresponds to the mechanism in the network, of an individual reconnecting to like-minded individuals, whereas the forth step to that of an individual adapting his/her opinion to his/her neighborhood. 
+
+This is iteratively done until a convergent state is achieved, which is then used for further investigation of the quantities mentioned in the section "The  Model."
 
 For the optional comparison with empirical data, we would, depending on what the data looks like, intend to use common methods of statistical analysis, e.g. OLS regression, fitting functions on linear and/or logarithmic scales and comparing the values of their coefficients with the fitted distribution functions obtained by our simulations.
 
