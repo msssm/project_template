@@ -19,7 +19,6 @@ From an intuitive point of view (considering that we are all social beings) most
 An example of a system that one would expect to be subject to such behavior and that we would like to put a focus on is religious affiliation within a society. It could be argued that the social surroundings have an effect on (or, as an extreme, completely determine) which religion a person chooses to belong to. Also, one's religion also influences to whom we connect with socially, for example through the community in a church (the opposing extreme would be that a person's social ties are entirely composed of member's of the same religion). 
 
 
--example: religious affiliation
 -history of this. older papers on this? what has already been done in the field? (just briefly)
 
 
@@ -45,6 +44,11 @@ Optional (if data and time available): Do the modeled results fit real distribut
 
 
 ## Expected Results
+
+The proposed model is of course not constructed from scratch, but based on the one described in [1]. In said publication, the authors describe a critical behavior of the group size and group distribution that is analogous to a 2nd order phase transition known from physics: As the probability $\Phi$ (describing a continuous "mixture" of the two processes of network and opinion formation) is varied, the clusters of opinions develop into two distinct types ("phases"). Above a critical value of $\Phi$, the number and size of groups is more or less randomly distributed. Below a critical value, the behavior is radically different and one large group dominates over a few small groups. 
+
+For our model, we would expect to reproduce this behavior. 
+
 
 (What are the answers to the above questions that you expect to find before starting your research?)
 
