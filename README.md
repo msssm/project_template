@@ -34,9 +34,9 @@ Does the social network shape peoples's opinions or do opinions shape the struct
 
 How can we classify opinion and network structures based on these competing tendencies?
 
-	Specific example: How does the distribution of religious affiliation and size of religious groups change in dependence of the "mixture" of these competing forces?
+Specific example: How does the distribution of religious affiliation and size of religious groups change in dependence of the "mixture" of these competing forces?
 
-		Optional (if data and time available): Do the modeled results fit real distributions of religions in specific countries? Based on this, can we make inferences about the mechanisms of opinion and network formation in different countries?
+Optional (if data and time available): Do the modeled results fit real distributions of religions in specific countries? Based on this, can we make inferences about the mechanisms of opinion and network formation in different countries?
 
 
 
