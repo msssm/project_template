@@ -1,14 +1,11 @@
 # MATLAB HS12 – Research Plan
 
-> * Group Name: Social State Physicists, Natural Scientologists, The Prophets, The Preachers ...???
+> * Group Name: Social State Physicists
 > * Group participants names: Fabian Russmann, Stefan Rustler
 > * Project Title: Dynamics of Religious Views in Networks - Does Religious Freedom Really Exist?
 
 ## General Introduction
 
-(States your motivation clearly: why is it important / interesting to solve this problem?)
-(Add real-world examples, if any)
-(Put the problem into a historical context, from what does it originate? Are there already some proposed solutions?)
 
 We want to study the mechanisms of opinion formation in a network of people. In addition, we also allow the network itself to be adaptable to the opinions existing on it, making two interdependent forces of network evolution and opinion formation measurable.
 
@@ -24,7 +21,6 @@ An example of a system that one would expect to be subject to such behavior and 
 
 ## The Model
 
-(Define dependent and independent variables you want to study. Say how you want to measure them.) (Why is your model a good abtraction of the problem you want to study?) (Are you capturing all the relevant aspects of the problem?)
 
 In this work the social network of people will be modeled by means of a graph with vertices and edges (see section "Research Methods"). In two basic update steps, we will enable each vertex, i.e. person, to follow one of the two mechanisms, re-connecting to like-minded individuals or adapting his/her opinion to the neighborhood. A tunable probability of choosing either one of them will be included in the model. After a finite number of time-steps a convergent or equilibrium state is aspired, in which we can check for several dependent variables, like cluster formation or convergence speed. In this work we will be mainly concerned with how this convergent state looks like in terms of opinion size distribution. Intuitively, one can picture two extreme scenarios: one in which there is one prominent opinion, and one in which there is no such opinion but several much less prominent ones. Our model reduces opinion dynamics to two basic mechanisms mentioned above. Nevertheless, it should be well possible to elucidate how these microscopic tendencies will result in different macroscopic phenomena.
 
@@ -43,10 +39,6 @@ As an optional task one can compare the results, i.e. the opinion size distribut
 
 
 
-(At the end of the project you want to find the answer to these questions)
-(Formulate a few, clear questions. Articulate them in sub-questions, from the more general to the more specific. )
-
-
 ## Expected Results
 
 For all cases and from a purely abstract, theoretical consideration, the model can clearly be expected to converge to a non-changing state in which all actors are only connected to other actors holding the same opinion.
@@ -56,7 +48,6 @@ The proposed model is of course not constructed from scratch, but based on the o
 Concerning the comparison with real data on religious affiliation, it is much harder to predict answers to our questions. If we find suitable data at all, it is questionable if this data is meaningful and significant enough to make any comparisons at all. If however, distributions of religious affiliations are similar to modeled ones, this could serve as support for the validity of our model or even allow us to make inferences about possibly dominant processes of religion formation in certain countries. If for example one religion dominates in a country, could this mean that people tend to rather adopt the religion "dictated" by their surroundings instead of reconnecting with other members of a minority religion? 
 
 
-(What are the answers to the above questions that you expect to find before starting your research?)
 
 
 ## References 
@@ -67,9 +58,6 @@ Concerning the comparison with real data on religious affiliation, it is much ha
 
 [3] www.adherents.com
 
-(Add the bibliographic references you intend to use)
-(Explain possible extension to the above models)
-(Code / Projects Reports of the previous year)
 
 
 ## Research Methods
@@ -89,11 +77,9 @@ This is iteratively done until a convergent state is achieved, which is then use
 For the optional comparison with empirical data, we would, depending on what the data looks like, intend to use common methods of statistical analysis, e.g. OLS regression, fitting functions on linear and/or logarithmic scales and comparing the values of their coefficients with the fitted distribution functions obtained by our simulations.
 
 
-(Cellular Automata, Agent-Based Model, Continuous Modeling...) (If you are not sure here: 1. Consult your colleagues, 2. ask the teachers, 3. remember that you can change it afterwards)
 
 
 ## Other
 
 A possible source for data on religion aggregated by country/geographical location could be [3]. However, it will have to be evaluated in the process of the work if this data is extensive and reliable enough to be useful. If there are other data sources on religion, any input is very welcome.
 
-(mention datasets you are going to use)
