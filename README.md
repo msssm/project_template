@@ -66,7 +66,7 @@ The initial structure of the network will be random and uniform under the extern
 1. Pick a random vertex i with opinion g_i. 
 2. If k_i=0, do nothing. 
 3. Otherwise, with probability F randomly select one of the edges of i and connect it to another vertex randomly chosen, having the same opinion g_j.
-4. Otherwise, with probability 1-F randomly select one of the neighboring vertices j and change g_i to g_j
+4. Otherwise, with probability 1-F randomly select one of the neighboring vertices j and change g_i to g_j.
 
 Here the third step corresponds to the mechanism in the network of an individual reconnecting to like-minded individuals, whereas the fourth step to that of an individual adapting his/her opinion to his/her neighborhood. 
 
