@@ -1,0 +1,7 @@
+function [ output_args ] = simulation(A_adj, g)
+%SIMULATION Executes the simulation steps in a given network
+%   Takes an adjencency matrix A_adj and an opinion vector g.
+
+
+end
+
