@@ -4,9 +4,9 @@ clear;
 
 %Set k and gamma and node number as initial parameters
 k_avg_set = 4;  %wanted average degree
-gamma = 10;     %wanted gamma
-N = 50;        %number of nodes
-phi = 0.0;
+gamma = 2;     %wanted gamma
+N = 200;        %number of nodes
+phi = 0.5;
 
 % Calculate other parameters based on this
 M = k_avg_set*N/2;  %number of edges
@@ -28,5 +28,10 @@ k_avg = 2*sum(sum(A_adj))/N;        %Compute avg degree to compare with set
 g = randsample(G,N,true);
 
 
+
+csvwrite('input.csv', A_adj);       %writing inital graph to file
+
 %Run simulation
 [A_adj, g] = simulation(A_adj, g, N, M, phi);
+
+csvwrite('output.csv', A_adj);      %writing "developed" graph to file
