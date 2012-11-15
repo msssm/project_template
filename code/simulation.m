@@ -5,16 +5,15 @@ function [A_adj, g] = simulation(A_adj, g, N, M, phi)
 %   Applies iterative rules, alternating opinions and network
 %   When steady state is reached: Returns network and opinion vector.
 
-counter = 0;
+t = 0;
 
 abort = false;      
 %Boolean to stop the simulation loop. Will be set to true when convergent state is reached
 
 %while(counter < 100000)
-while(abort == false)    %Later: execute the whole thing until convergent state is
-%reached
+while(abort == false)
     
-    counter = counter + 1
+    t = t + 1
 
     i = randi(N,1);     %Picking a random node i out of N nodes
 

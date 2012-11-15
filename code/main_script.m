@@ -4,9 +4,9 @@ clear;
 
 %Set k and gamma and node number as initial parameters
 k_avg_set = 4;  %wanted average degree
-gamma = 2;     %wanted gamma
-N = 200;        %number of nodes
-phi = 0.5;
+gamma = 10;     %wanted gamma
+N = 500;        %number of nodes
+phi = 0.7;
 
 % Calculate other parameters based on this
 M = k_avg_set*N/2;  %number of edges
@@ -17,9 +17,9 @@ p_connect = (M)/(N*(N-1)); % --> probability of connection given by lecture note
 
 
 % Generating graph
-A_sp = random_graph(N, p_connect);  %Generate random graph
+A_sp = random_graph(N, p_connect);  %Generate random graph as sparse matrix
 A_adj = full(A_sp);                 %Same graph as an adjacency 
-k_avg = 2*sum(sum(A_adj))/N;        %Compute avg degree to compare with set
+k_avg = 2*sum(sum(A_adj))/N;        %Compute avg degree to compare with set degree
 
 
 
