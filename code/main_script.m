@@ -5,7 +5,7 @@ clear;
 %Set k and gamma and node number as initial parameters
 k_avg_set = 4;  %wanted average degree
 gamma = 10;     %wanted gamma
-N = 20;        %number of nodes
+N = 50;        %number of nodes
 phi = 0.0;
 
 % Calculate other parameters based on this

@@ -5,18 +5,20 @@ function [A_adj, g] = simulation(A_adj, g, N, M, phi)
 %   Applies iterative rules, alternating opinions and network
 %   When steady state is reached: Returns network and opinion vector.
 
+abort = 1;      
+%Boolean to stop the simulation loop. Will be set to true when convergent state is reached
 
-%while(true)    %Later: execute the whole thing until convergent state is
+while(abort <= 10000)    %Later: execute the whole thing until convergent state is
 %reached
     
 
 
-i = randi(N,1)     %Picking a random node i out of N nodes
+i = randi(N,1);     %Picking a random node i out of N nodes
 
 if sum(A_adj(i,:)) ~= 0     %calculate degree of ith node. If not zero, do following step
     
-    i_cluster = find(A_adj(i,:))   %A vector of nodes that are connected to i
-    j = i_cluster(randi(length(i_cluster)))  %Choose a random node j connected to i its neighbor to be interacted with
+    i_cluster = find(A_adj(i,:));   %A vector of nodes that are connected to i
+    j = i_cluster(randi(length(i_cluster)));  %Choose a random node j connected to i its neighbor to be interacted with
     %Revise this line for speed, there must be a better way  
     
     if rand<phi             %with probability phi, reconnect
@@ -24,7 +26,7 @@ if sum(A_adj(i,:)) ~= 0     %calculate degree of ith node. If not zero, do follo
         
       
         g_idx = find(g == g(i));  %Find nodes that have the same opinion as i and store their INDEX in a vector 
-        i2 = randi(length(g_idx))  %Choose a random element from index vector g_idx,
+        i2 = randi(length(g_idx));  %Choose a random element from index vector g_idx,
                                   %assign the corresponding value to i2,
                                   %which is also an index of g (a node)
                                   
@@ -46,17 +48,16 @@ if sum(A_adj(i,:)) ~= 0     %calculate degree of ith node. If not zero, do follo
         
     else        %If reconnection is not chosen, adjust opinions
         
-        g(j) = g(i);  %Set opinion of neighbor j to opinion of i
-        %This needs to be confirmed still!
-        
+        g(i) = g(j);  %Set opinion of i to opinion of neightbor j
         
     end
     
 end
     
     
+abort = abort + 1;
     
-%end
+end
 
 end
 
