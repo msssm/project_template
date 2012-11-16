@@ -6,7 +6,7 @@ clear;
 k_avg_set = 4;  %wanted average degree
 gamma = 10;     %wanted gamma
 N = 500;        %number of nodes
-phi = 0.7;
+phi = 0.1;
 
 % Calculate other parameters based on this
 M = k_avg_set*N/2;  %number of edges
@@ -35,3 +35,5 @@ csvwrite('input.csv', A_adj);       %writing inital graph to file
 [A_adj, g] = simulation(A_adj, g, N, M, phi);
 
 csvwrite('output.csv', A_adj);      %writing "developed" graph to file
+
+hist(cluster_distr(g), length(g))
