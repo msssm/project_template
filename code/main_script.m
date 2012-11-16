@@ -36,4 +36,4 @@ csvwrite('input.csv', A_adj);       %writing inital graph to file
 
 csvwrite('output.csv', A_adj);      %writing "developed" graph to file
 
-hist(cluster_distr(g), length(g))
+hist(cluster_distr(g), length(g))   %generate histogram of cluster size distribution (fig 2 in paper)
