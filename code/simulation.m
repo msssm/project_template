@@ -1,4 +1,4 @@
-function [A_adj, g] = simulation(A_adj, g, N, M, phi)
+function [A_adj, g] = simulation(A_adj, g, N, phi)
 %SIMULATION Executes the simulation steps in a given network
 %   Takes an adjencency matrix A_adj and an opinion vector g and also the
 %   parameters N and M and phi
@@ -13,7 +13,7 @@ abort = false;
 %while(counter < 100000)
 while(abort == false)
     
-    t = t + 1
+    t = t + 1;
 
     i = randi(N,1);     %Picking a random node i out of N nodes
 
@@ -95,7 +95,7 @@ while(abort == false)
         %If no different opinions of neighbors were ever detected and unequal is still false
         %--> set abort to true such that while loop will break on next
         %iteration
-        abort = true
+        abort = true;
     end
 
 
