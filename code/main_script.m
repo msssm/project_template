@@ -35,8 +35,8 @@ for phi = 0.1:0.1:0.9
     %Run simulation
     [A_adj, g] = simulation(A_adj, g, N, phi);
 
-    csvwrite(['output_matrix_ phi=' num2str(phi) 'N = ' num2str(n) '.csv'], A_adj);      %writing "developed" graph to file
-    csvwrite(['output_opinions_ phi=' num2str(phi) 'N = ' num2str(n) '.csv'], g);
+    csvwrite(['output_matrix_phi=' num2str(phi) 'N = ' num2str(n) '.csv'], A_adj);      %writing "developed" graph to file
+    csvwrite(['output_opinions_phi=' num2str(phi) 'N = ' num2str(n) '.csv'], g);
 
     hist(cluster_distr(g), length(g))   %generate histogram of cluster size distribution (fig 2 in paper)
     title(['Histogram at \phi = ' num2str(phi) 'N = ' num2str(N)]);
