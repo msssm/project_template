@@ -5,7 +5,7 @@ function [distr] = cluster_distr(g)
 n = hist(g,length(g));
 % generate histogram data of opinion vector with binning size of opinions
 
-distr= n(n~=0);     
+distr = n(n~=0);     
 %remove the zeros (there will be tons of clusters with size zero, but nobody cares)
 
 
