@@ -6,7 +6,7 @@ N = 100;
 runs = 100;
 
 %A_adj = csvread(['output_matrix_phi=' num2str(phi) 'N = ' num2str(N) '.csv']);
-g = csvread(['output_opinions_phi=' num2str(phi) ' N = ' num2str(N) ' runs = ' num2str(runs) '.csv']); %reading the files while plugging in specified parameters
+g = csvread(['output_opinions_phi=' num2str(phi) ' N = ' num2str(N) '.csv']); %reading the files while plugging in specified parameters
 
 distr = cluster_distr(g); %generate cluster distribution
 
