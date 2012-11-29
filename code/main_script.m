@@ -6,7 +6,7 @@ clear;
 
 %for N = 500              %Iterate over different system sizes (number of nodes)
 
-for PHI=0.458  %Iterate of different probabilities of reconnection
+for PHI=0.1  %Iterate of different probabilities of reconnection
 %parfor PHI=2:1:3
     %% INITIAL PARAMETERS
     
@@ -14,7 +14,7 @@ for PHI=0.458  %Iterate of different probabilities of reconnection
     %External parameters (use for phase diagram later)
     k_avg_set = 4;  %wanted average degree
     gamma = 10;     %wanted average number of people per opinion
-    N = 500;        %number of nodes
+    N = 1000;        %number of nodes
     ii = 100;         %Number of iterations used for the averaging loop
     
     phi = PHI;      %Reconnection probability
