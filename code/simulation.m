@@ -1,4 +1,4 @@
-function [A_sp,g,t] = simulation(A_sp, g, N, M, phi)
+function [A_sp,g,t] = simulation(A_sp, g, N, phi)
 %SIMULATION Executes the simulation steps in a given network
 %   Takes an adjencency matrix A_sp and an opinion vector g and also the
 %   parameters N and M and phi
