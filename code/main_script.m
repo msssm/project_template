@@ -1,12 +1,13 @@
 %%% The main script from which all functions are called
 
-matlabpool open 2
+matlabpool open 2       %Open parallel computing session for N cores
 
 clear;
 
 %for N = 500              %Iterate over different system sizes (number of nodes)
 
-parfor phi=0.4:0.1:0.5  %Iterate of different probabilities of reconnection
+%for PHI=0.4:0.1:0.5  %Iterate of different probabilities of reconnection
+parfor PHI=2:1:3
     %% INITIAL PARAMETERS
     
     
@@ -15,6 +16,9 @@ parfor phi=0.4:0.1:0.5  %Iterate of different probabilities of reconnection
     gamma = 10;     %wanted average number of people per opinion
     N = 500;        %number of nodes
     ii = 100;         %Number of iterations used for the averaging loop
+    
+    %phi = PHI;      %Reconnection probability
+    phi = PHI/10;   %Recalculate phi when parfor is active (since parfor requires consecutive int values)
     
     %Calculate other parameters based on this
     M = k_avg_set*N/2;  %number of edges
