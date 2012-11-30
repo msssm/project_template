@@ -23,6 +23,8 @@ while(abort == false)
         j = i_cluster(randi(length(i_cluster)));  %Choose a random node j connected to i its neighbor to be interacted with
         %Revise this line for speed, there must be a better way  
 
+        
+        
         %At this point we have randomly chosen a node i and one of its
         %neighbours j. Now let them interact:
         

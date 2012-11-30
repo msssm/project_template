@@ -6,7 +6,7 @@ clear;
 
 %for N = 500              %Iterate over different system sizes (number of nodes)
 
-for PHI=0.1  %Iterate of different probabilities of reconnection
+for PHI=0.4  %Iterate of different probabilities of reconnection
 %parfor PHI=2:1:3
     %% INITIAL PARAMETERS
     
@@ -40,8 +40,8 @@ for PHI=0.1  %Iterate of different probabilities of reconnection
     gg=g;                               %Store g into gg that will be unaffected by the averaging-loop
     
     %Write strings with relevant data for documentation
-    str=['N = ',num2str(N),char(10),'k = ',num2str(k_avg),char(10),'\gamma = ',num2str(gamma),char(10),'\Phi = ',num2str(phi),char(10),'Runs = ',num2str(ii)]; %String for figure legend
-    str2=['N',num2str(N),'k',num2str(k_avg),'gamma',num2str(gamma),'Phi',num2str(phi),'Runs',num2str(ii)]; %Shorter string for SAVEDATA
+    str=['N = ',num2str(N),char(10),'k = ',num2str(k_avg_set),char(10),'\gamma = ',num2str(gamma),char(10),'\Phi = ',num2str(phi),char(10),'Runs = ',num2str(ii)]; %String for figure legend
+    str2=['N',num2str(N),'k',num2str(k_avg_set),'gamma',num2str(gamma),'Phi',num2str(phi),'Runs',num2str(ii)]; %Shorter string for SAVEDATA
     
     
     
@@ -79,6 +79,7 @@ for PHI=0.1  %Iterate of different probabilities of reconnection
     %% PLOT AND SAVE RESULTS
     s_avg=s_sum/ii;                         %Calculate the average cluster size distribution vector.
     createfigure(s_avg,str,str2);           %Second argument gives input for legend. Third argument (string) gives directory for the saving the figure.
+    op = max(find(s_avg));
     clear AA_sp A_sp gg g i s_sum ss str t; %Clear all the intermediate or elsewhere-saved variables, before saving all data.
     save(['Data/',str2,'/AllFinVar.mat']);  %Save all relevant variables into a matlab file.
     
