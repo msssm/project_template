@@ -6,7 +6,7 @@ clear;
 
 %for N = 500              %Iterate over different system sizes (number of nodes)
 
-for PHI=0.4  %Iterate of different probabilities of reconnection
+for PHI=0.6  %Iterate of different probabilities of reconnection
 %parfor PHI=2:1:3
     %% INITIAL PARAMETERS
     
@@ -15,7 +15,7 @@ for PHI=0.4  %Iterate of different probabilities of reconnection
     k_avg_set = 4;  %wanted average degree
     gamma = 10;     %wanted average number of people per opinion
     N = 1000;        %number of nodes
-    ii = 100;         %Number of iterations used for the averaging loop
+    ii = 10;         %Number of iterations used for the averaging loop
     
     phi = PHI;      %Reconnection probability
     %phi = PHI/10;   %Recalculate phi when parfor is active (since parfor requires consecutive int values)
