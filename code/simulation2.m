@@ -1,4 +1,4 @@
-function [A_sp, g] = simulation(A_sp, g, N, M, phi)
+function [A_sp,g,t] = simulation2(A_sp, g, N, phi)
 %SIMULATION Executes the simulation steps in a given network
 %   Takes an adjencency matrix A_sp and an opinion vector g and also the
 %   parameters N and M and phi
@@ -13,8 +13,8 @@ abort = false;
 %while(counter < 100000)
 while(abort == false)
     
-    %%CHECK FOR CONSENSUS STATE:
-    %%SUGGESTION: Write convergence check into a different function.
+%% Determining whether convergent state has been reached:
+%%SUGGESTION: Write convergence check into a different function.
     %If so, abort variable will be set to true and while loop is broken on the
     %next iteration
     %This mechanism seems to work, but was only tested stichprobenartig
@@ -29,11 +29,11 @@ while(abort == false)
         for neighbor = find(A_sp(i,:));    
             %Loop through Vector of neighbors of current i (entries that are
             %non-zero --> there is a neighbor)
-            if g(i) ~= g(neighbor)     
+            if g(i) ~= g(neighbor) %Compare g(i) with one of its neighbors.
                 %if the opinions are DIFFERENT break both loops and don't
                 %change the abort variable since at least one neighbor has a
                 %different opinion and we will continue the big while loop
-                unequal = true;      %Using this variable, we denote an unequal event
+                unequal = true;     %Using this variable, we denote an unequal event
                                     %and break INNER loop
                 break
 
@@ -50,29 +50,28 @@ while(abort == false)
     
     %Now we've gone through all nodes and are able to check for consensus:
     
-    if unequal == false         
+        if unequal == false         
         %If no different opinions of neighbors were ever detected and unequal is still false
         %--> set abort to true such that while loop will break on next
         %iteration
-        abort = true;
-    end
-    
-    
-    %%TIME EVOLUTION OF GRAPH
+            abort = true;
+        end
+ 
+        
+%% Time evolution
+
     t = t + 1;
 
-    i = randi(N,1);     %Picking a random node i out of N nodes (Returning a random 1x1 matrix with entry form 1:N) 
-              %/\This 1 is not necessary
+    i = randi(N);     %Picking a random node i out of N nodes (Returning a random 1x1 matrix with entry form 1:N) 
     if sum(A_sp(i,:)) ~= 0     %calculate (DOUBLE-)degree of ith node. If not zero (i.e. if its conncted to SOMEBODY), do following step
 
         i_cluster = find(A_sp(i,:));   %A vector of nodes that are connected to i (Find nonzero cells in i-th row and return a col-vec with their indices)
-        j=i;    %Set equal such that for the first step g(j)=g(i)
-        while g(j)==g(i) %This loop ensures that only a j with different opinion is chosen
-            j = i_cluster(randi(length(i_cluster)));  %Choose a random node j connected to i its neighbor to be interacted with
-        end        
-        %Revise this line for speed, there must be a better way 
-        %=>Is this better now?;)
-
+        j = i_cluster(randi(length(i_cluster)));  %Choose a random node j connected to i its neighbor to be interacted with 
+        
+        if g(i)==g(j) 
+            continue %If opinions are the same jump to next step in while-loop, i.e. choose new i-j pair.
+        end 
+        
         %At this point we have randomly chosen a node i and one of its
         %neighbours j. Now let them interact:
         
@@ -113,8 +112,8 @@ while(abort == false)
         end
 
     end
-
-
+    
+    
 end
 t 
 %This is the convergence time! This should in fact also be returned!
