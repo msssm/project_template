@@ -30,9 +30,9 @@ for PHI=0.4  %Iterate of different probabilities of reconnection
     %% GENERATING OPINION GRAPH
     
     %Generate bare graph first
-    p_connect = (M)/(N*(N-1));          %probability of connection in a random graph given by lecture notes:
+    p_connect = (2*M)/(N*(N-1));          %probability of connection in a random graph given by lecture notes:
     A_sp = random_graph(N, p_connect);  %Generate random graph as sparse adjacency matrix
-    k_avg = 2*sum(sum(A_sp))/N;         %Compute actual avg degree of generated graph to compare with set degree
+    k_avg = sum(sum(A_sp))/N;         %Compute actual avg degree of generated graph to compare with set degree
     AA_sp=A_sp;                         %Store A_sp into AA_sp that will be unaffected by the averaging-loop, retaining the initial matrix
     
     %Generate opinion vector
