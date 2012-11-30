@@ -16,7 +16,7 @@ nn = n(n~=0);
 %consensus state. This step basically prevents a high peak at size zero to
 %occur, when we take hist(n)
 
-s=hist(n,max(n));   
+s=hist(nn,max(nn));   
 %Generate histogram of cluster size distribution (see Fig. 2 in paper)
 
 end
