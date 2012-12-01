@@ -4,9 +4,9 @@
 
 clear;
 
-%for N = 500              %Iterate over different system sizes (number of nodes)
+for NN = [500 1000]              %Iterate over different system sizes (number of nodes)
 
-for PHI=0.1  %Iterate of different probabilities of reconnection
+for PHI=0.05:0.05:0.95  %Iterate of different probabilities of reconnection
 %parfor PHI=2:1:3
     %% INITIAL PARAMETERS
     
@@ -14,7 +14,7 @@ for PHI=0.1  %Iterate of different probabilities of reconnection
     %External parameters (use for phase diagram later)
     k_avg_set = 4;  %wanted average degree
     gamma = 10;     %wanted average number of people per opinion
-    N = 500;        %number of nodes
+    N = NN;        %number of nodes
     ii = 10;         %Number of iterations used for the averaging loop
     
     phi = PHI;      %Reconnection probability
@@ -79,11 +79,11 @@ for PHI=0.1  %Iterate of different probabilities of reconnection
     %% PLOT AND SAVE RESULTS
     s_avg=s_sum/ii;                         %Calculate the average cluster size distribution vector.
     createfigure(s_avg,str,str2);           %Second argument gives input for legend. Third argument (string) gives directory for the saving the figure.
-    op = max(find(s_avg));
+    op = find(s_avg, 1, 'last' );           %This data is not absolutely necessary as this variable can be calculated and plotted from the stored data.
     clear AA_sp A_sp gg g i s_sum ss str t; %Clear all the intermediate or elsewhere-saved variables, before saving all data.
     save(['Data/',str2,'/AllFinVar.mat']);  %Save all relevant variables into a matlab file.
     
 end
-%end
+end
 
 %matlabpool close
