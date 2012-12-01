@@ -15,3 +15,6 @@ for phi=phi_range
 end
 
 plot(phi_range, op, 'x')
+
+
+%Change your mom
