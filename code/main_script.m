@@ -6,7 +6,7 @@ clear;
 
 %for N = 500              %Iterate over different system sizes (number of nodes)
 
-for PHI=0.6  %Iterate of different probabilities of reconnection
+for PHI=0.1  %Iterate of different probabilities of reconnection
 %parfor PHI=2:1:3
     %% INITIAL PARAMETERS
     
