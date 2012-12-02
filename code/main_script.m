@@ -77,6 +77,7 @@ for NN = [100 101]              %Iterate over different system sizes (number of 
             %loglog(s{i},'o');hold all;grid on;      %Leave this command to be able to plot s for each run such that the s_avg can be compared to it.
         end
         char 'Simulation done!'
+        tau=sum(tt)/ii;                             %Calculate average convergence time for a specific N and Phi.
 
 
 
