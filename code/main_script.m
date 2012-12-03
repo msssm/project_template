@@ -37,7 +37,7 @@ for NN = [500]              %Iterate over different system sizes (number of node
         
 
 
-    for phi=[0.1:0.1:0.9]  %Iterate of different probabilities of reconnection
+    for phi=[0.1:0.1:0.9]  %Iterate of different probabilities of reconnection. Different phi will be used for the SAME initial graph.
         
         %Write strings with relevant data for documentation
         str=['N = ',num2str(N),char(10),'k = ',num2str(k_avg_set),char(10),'\gamma = ',num2str(gamma),char(10),'\Phi = ',num2str(phi),char(10),'Runs = ',num2str(ii)]; %String for figure legend
@@ -45,7 +45,7 @@ for NN = [500]              %Iterate over different system sizes (number of node
         
 
         %%Prepare simulation
-        mkdir('Data/',str2);    %Create a folder for this particular run.
+        mkdir('Data/',str2);    %Create a folder for this particular run. Potentially put this into create figure file.
         csvwrite(['Data/',str2,'/AdjIni.csv'],full(AA_sp));       %Write inital adjacency to file
         csvwrite(['Data/',str2,'/OpiIni.csv'],gg);                %Write inital opinions to file
         s_sum=zeros(1,N);       %Initialize sum for calculating the average of s (cluster size distribution vector)
