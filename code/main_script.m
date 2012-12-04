@@ -6,10 +6,10 @@ for NN = [500]              %Iterate over different system sizes (number of node
     %% INITIAL PARAMETERS
     
     %External parameters (use for phase diagram later)
-    k_avg_set = 4;  %wanted average degree
+    k_avg_set = 8;  %wanted average degree
     gamma = 10;     %wanted average number of people per opinion
     N=NN;
-    ii = 2;         %Number of iterations used for the averaging loop
+    ii = 100;         %Number of iterations used for the averaging loop
     
     %Calculate other parameters based on this
     M = k_avg_set*N/2;  %number of edges
@@ -21,8 +21,8 @@ for NN = [500]              %Iterate over different system sizes (number of node
     %% GENERATING OPINION GRAPH
     
     %Generate bare graph first
-    p_connect = (2*M)/(N*(N-1));        %probability of connection in a random graph given by lecture notes:
-    A_sp = random_graph(N, p_connect);  %Generate random graph as sparse adjacency matrix
+    %p_connect = (2*M)/(N*(N-1));        %probability of connection in a random graph given by lecture notes:
+    A_sp = uniform_random_graph(N,M);  %Generate random graph as sparse adjacency matrix
     k_avg = sum(sum(A_sp))/N;           %Compute actual avg degree of generated graph to compare with set degree
     AA_sp=A_sp;                         %Store A_sp into AA_sp that will be unaffected by the averaging-loop, retaining the initial matrix
     
@@ -37,7 +37,7 @@ for NN = [500]              %Iterate over different system sizes (number of node
         
 
 
-    for phi=[0.1:0.1:0.9]  %Iterate of different probabilities of reconnection. Different phi will be used for the SAME initial graph.
+    for phi=[0.1:0.1:0.8 0.825:0.025:0.95]  %Iterate of different probabilities of reconnection
         
         %Write strings with relevant data for documentation
         str=['N = ',num2str(N),char(10),'k = ',num2str(k_avg_set),char(10),'\gamma = ',num2str(gamma),char(10),'\Phi = ',num2str(phi),char(10),'Runs = ',num2str(ii)]; %String for figure legend
@@ -45,7 +45,7 @@ for NN = [500]              %Iterate over different system sizes (number of node
         
 
         %%Prepare simulation
-        mkdir('Data/',str2);    %Create a folder for this particular run. Potentially put this into create figure file.
+        mkdir('Data/',str2);    %Create a folder for this particular run.
         csvwrite(['Data/',str2,'/AdjIni.csv'],full(AA_sp));       %Write inital adjacency to file
         csvwrite(['Data/',str2,'/OpiIni.csv'],gg);                %Write inital opinions to file
         s_sum=zeros(1,N);       %Initialize sum for calculating the average of s (cluster size distribution vector)
