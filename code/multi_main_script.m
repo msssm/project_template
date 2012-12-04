@@ -37,11 +37,11 @@ for NN = [500]              %Iterate over different system sizes (number of node
         
 
 
-    for phi=[0.1:0.1:0.8 0.825:0.025:0.95]  %Iterate of different probabilities of reconnection
+    for phi=[0.1:0.1:0.3]  %Iterate of different probabilities of reconnection
         
         %Write strings with relevant data for documentation
         str=['N = ',num2str(N),char(10),'k = ',num2str(k_avg_set),char(10),'\gamma = ',num2str(gamma),char(10),'\Phi = ',num2str(phi),char(10),'Runs = ',num2str(ii)]; %String for figure legend
-        str2=['N',num2str(N),'k',num2str(k_avg_set),'gamma',num2str(gamma),'Phi',num2str(phi),'Runs',num2str(ii)]; %Shorter string for SAVEDATA
+        str2=['MULTI_N',num2str(N),'k',num2str(k_avg_set),'gamma',num2str(gamma),'Phi',num2str(phi),'Runs',num2str(ii)]; %Shorter string for SAVEDATA
         
 
         %%Prepare simulation
