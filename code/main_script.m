@@ -2,14 +2,14 @@
 
 clear;
 
-for NN = [200]              %Iterate over different system sizes (number of nodes)
+for NN = [500]              %Iterate over different system sizes (number of nodes)
     %% INITIAL PARAMETERS
     
     %External parameters (use for phase diagram later)
-    k_avg_set = 8;  %wanted average degree
+    k_avg_set = 4;  %wanted average degree
     gamma = 10;     %wanted average number of people per opinion
     N=NN;
-    ii = 50;         %Number of iterations used for the averaging loop
+    ii = 100;         %Number of iterations used for the averaging loop
     
     %Calculate other parameters based on this
     M = k_avg_set*N/2;  %number of edges
