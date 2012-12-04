@@ -2,7 +2,7 @@
 
 clear;
 
-for NN = [500]              %Iterate over different system sizes (number of nodes)
+for NN = [200]              %Iterate over different system sizes (number of nodes)
     %% INITIAL PARAMETERS
     
     %External parameters (use for phase diagram later)
@@ -37,7 +37,7 @@ for NN = [500]              %Iterate over different system sizes (number of node
         
 
 
-    for phi=[0.1 0.6 0.9]  %Iterate of different probabilities of reconnection
+    for phi=[0.6 0.9 0.1]  %Iterate of different probabilities of reconnection
         
         %Write strings with relevant data for documentation
         str=['N = ',num2str(N),char(10),'k = ',num2str(k_avg_set),char(10),'\gamma = ',num2str(gamma),char(10),'\Phi = ',num2str(phi),char(10),'Runs = ',num2str(ii)]; %String for figure legend
