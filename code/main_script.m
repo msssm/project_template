@@ -56,7 +56,7 @@ for NN = [500]              %Iterate over different system sizes (number of node
         %%Run simulation
         for i=1:ii
             status = ['Run ', num2str(i),' of ', num2str(ii), ' at phi = ', num2str(phi)]       %Some status info printed to screen while simulation is running
-            [A_sp, g,t] = multi_simulation2(AA_sp, gg, N, phi);                     %Return upfolderd connections (A_adj)and opinions (g), always starting from the initial AA-adj and gg!
+            [A_sp, g,t] = simulation2(AA_sp, gg, N, phi);                     %Return upfolderd connections (A_adj)and opinions (g), always starting from the initial AA-adj and gg!
             %Fabian: I commented these for the case of averaging over larger numbers
             %csvwrite(['Data/',str2,'/AdjRun',num2str(i),'.csv'],full(A_sp));    %Write "developed," i.e. consensus, graph to file
             %csvwrite(['Data/',str2,'/OpiRun',num2str(i),'.csv'],g);             %Write "developed," i.e. consensus, graph to file
