@@ -1,9 +1,11 @@
-function [A_sp,g,t] = simulation2(A_sp, g, N, phi)
+function [A_sp,g,t] = multi_simulation2(A_sp, g, N, phi)
 %SIMULATION Executes the simulation steps in a given network
 %   Takes an adjencency matrix A_sp and an opinion vector g and also the
 %   parameters N and M and phi
 %   Applies iterative rules, alternating opinions and network
 %   When steady state is reached: Returns network and opinion vector.
+
+%MULTI EDIT: This version allows for self-edges and multi-edges
 
 t = 0;
 
@@ -83,23 +85,20 @@ while(abort == false)
         if rand<phi            %with probability phi, reconnect
 
             g_idx = find(g == g(i));  %Find nodes that have the same opinion as i and store their INDEX in a col-vector 
-            i2 = g_idx(randi(length(g_idx)));  %Choose a random element from index vector g_idx assign the corresponding value to i2 (= choosing random node with same opinion), which is also an index of g (a node)
+            i2 = randi(length(g_idx));  %Choose a random element from index vector g_idx assign the corresponding value to i2 (= choosing random node with same opinion), which is also an index of g (a node)
             %IDEA for not choosing an i2 that i is already connected to:
             %Take i-th row and produce index-vector of ZERO cells. From
             %this vector choose the nodes of same opinion!
             
             %reconnect i with i2
             %Should the reconnection only occur if opinions differ?
-            if A_sp(i,i2) ~= 1 && i ~= i2    %We should only reconnect if i and i2 are not already connected! Otherwise, skip step and do nothing
+            if A_sp(i,i2) ~= 1     %We should only reconnect if i and i2 are not already connected! Otherwise, skip step and do nothing
                                     %just to be sure we don't delete any links
                                     %Possibly find a better way to do this
                                     %I thought about a while loop looking for
                                     %alternative non-existing links, but I'd
                                     %rather not get trapped in it. Stefan: "See
                                     %IDEA for choosing i2 above" 
-                                    
-                                    %Addition: Also excluding self-edges
-                                    %with second condtion
 
                 A_sp(i,j) = 0;     %Delete "old" connection"
                 A_sp(j,i) = 0;

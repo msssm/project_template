@@ -9,7 +9,7 @@ for NN = [500]              %Iterate over different system sizes (number of node
     k_avg_set = 8;  %wanted average degree
     gamma = 10;     %wanted average number of people per opinion
     N=NN;
-    ii = 50;         %Number of iterations used for the averaging loop
+    ii = 100;         %Number of iterations used for the averaging loop
     
     %Calculate other parameters based on this
     M = k_avg_set*N/2;  %number of edges
@@ -22,7 +22,7 @@ for NN = [500]              %Iterate over different system sizes (number of node
     
     %Generate bare graph first
     %p_connect = (2*M)/(N*(N-1));        %probability of connection in a random graph given by lecture notes:
-    A_sp = uniform_random_graph(N,M);  %Generate random graph as sparse adjacency matrix
+    A_sp = multi_uniform_random_graph(N,M);  %Generate random graph as sparse adjacency matrix
     k_avg = sum(sum(A_sp))/N;           %Compute actual avg degree of generated graph to compare with set degree
     AA_sp=A_sp;                         %Store A_sp into AA_sp that will be unaffected by the averaging-loop, retaining the initial matrix
     
@@ -37,7 +37,7 @@ for NN = [500]              %Iterate over different system sizes (number of node
         
 
 
-    for phi=[0.1 0.6 0.9]  %Iterate of different probabilities of reconnection
+    for phi=[0.1:0.1:0.8 0.825:0.025:0.95]  %Iterate of different probabilities of reconnection
         
         %Write strings with relevant data for documentation
         str=['N = ',num2str(N),char(10),'k = ',num2str(k_avg_set),char(10),'\gamma = ',num2str(gamma),char(10),'\Phi = ',num2str(phi),char(10),'Runs = ',num2str(ii)]; %String for figure legend
@@ -56,7 +56,7 @@ for NN = [500]              %Iterate over different system sizes (number of node
         %%Run simulation
         for i=1:ii
             status = ['Run ', num2str(i),' of ', num2str(ii), ' at phi = ', num2str(phi)]       %Some status info printed to screen while simulation is running
-            [A_sp, g,t] = multi_simulation2(AA_sp, gg, N, phi);                     %Return upfolderd connections (A_adj)and opinions (g), always starting from the initial AA-adj and gg!
+            [A_sp, g,t] = simulation2(AA_sp, gg, N, phi);                     %Return upfolderd connections (A_adj)and opinions (g), always starting from the initial AA-adj and gg!
             %Fabian: I commented these for the case of averaging over larger numbers
             %csvwrite(['Data/',str2,'/AdjRun',num2str(i),'.csv'],full(A_sp));    %Write "developed," i.e. consensus, graph to file
             %csvwrite(['Data/',str2,'/OpiRun',num2str(i),'.csv'],g);             %Write "developed," i.e. consensus, graph to file
