@@ -2,19 +2,38 @@
 k_avg_set = 4;
 N = 500;
 gamma = 10;
-ii = 10;
+ii = 100;
+str=['N = ',num2str(N),char(10),'k = ',num2str(k_avg_set),char(10),'\gamma = ',num2str(gamma),char(10),'\Phi = ',num2str(phi),char(10)]; %String for figure legend
 
-phi_range = 0.1:0.1:0.9; %Explicitly define this vector outside of the for-loop such that it can be used for plotting.
+phi_range = [0.1:0.1:0.8 0.825:0.025:0.95]; %Explicitly define this vector outside of the for-loop such that it can be used for plotting.
 %op = zeros(length(phi_range));
-op = [];
+
+%% Plot first graph
+op_local = [];
 
 for phi=phi_range
     str2=['N',num2str(N),'k',num2str(k_avg_set),'gamma',num2str(gamma),'Phi',num2str(phi),'Runs',num2str(ii)];
     load(['Data/',str2,'/AllFinVar.mat']);
-    op = [op find(s_avg, 1, 'last' )/N]; %Concatenate the value of the size of the biggest cluster for a given phi. The command finds the 1 last non-zero entry of s.
+    op_local = [op_local op]; %Concatenate the value of the size of the biggest cluster for a given phi. The command finds the 1 last non-zero entry of s.
+end
+plot(phi_range, op_local, '-o') 
+hold on;
+
+%% Plot second graph
+k_avg_set = 8;
+op_local = [];
+
+for phi=phi_range
+    str2=['N',num2str(N),'k',num2str(k_avg_set),'gamma',num2str(gamma),'Phi',num2str(phi),'Runs',num2str(ii)];
+    load(['Data/',str2,'/AllFinVar.mat']);
+    op_local = [op_local op]; %Concatenate the value of the size of the biggest cluster for a given phi. The command finds the 1 last non-zero entry of s.
 end
 
-plot(phi_range, op, 'x')
+plot(phi_range, op_local, '-o', 'Color', 'green')
+legend(str,'Location','Southwest');
+hold off;
 
-
-%Change your mom
+%% Label graph
+xlabel('Reconnection probability \Phi');
+ylabel('Order parameter S');
+grid on;
