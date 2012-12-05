@@ -80,7 +80,7 @@ for NN = [500]              %Iterate over different system sizes (number of node
         %% PLOT AND SAVE RESULTS
         s_avg=s_sum/ii;                         %Calculate the average cluster size distribution vector.
         createfigure(s_avg,str,str2);           %Second argument gives input for legend. Third argument (string) gives directory for the saving the figure.
-        clear A_sp g i s_sum ss str t; %Clear all the intermediate or elsewhere-saved variables, before saving all data.
+        %clear A_sp g i s_sum ss str t; %Clear all the intermediate or elsewhere-saved variables, before saving all data.
         save(['Data/',str2,'/AllFinVar.mat']);  %Save all relevant variables into a matlab file.
 
     end
