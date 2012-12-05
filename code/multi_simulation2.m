@@ -94,11 +94,24 @@ while(abort == false)
             %Here the multi/self change takes effect: We do not have an
             %additional if statement
 
-            A_sp(i,j) = A_sp(i,j) - 1;     %Delete "old" connection"
-            A_sp(j,i) = A_sp(j,i) - 1;
+            %Analogous to the graph generator: 
+            %If i and i2 are the same (self-edge will be created) only increment the one diagonal
+            %entry. However, you have to delete both entries of the i,j
+            %pair since i and j are by definition never equal!
+            if i == i2
             
-            A_sp(i,i2) = A_sp(i,i2) + 1;    %Add new connection
-            A_sp(i2,i) = A_sp(i2,i) + 1;
+                A_sp(i,j) = A_sp(i,j) - 1;     %Delete "old" connection"
+                A_sp(j,i) = A_sp(j,i) - 1;
+                
+                A_sp(i,i2) = A_sp(i,i2) + 1;    %Add new connection
+            
+            else
+                A_sp(i,j) = A_sp(i,j) - 1;     %Delete "old" connection"
+                A_sp(j,i) = A_sp(j,i) - 1;
+
+                A_sp(i,i2) = A_sp(i,i2) + 1;    %Add new connection
+                A_sp(i2,i) = A_sp(i2,i) + 1;
+            end
 
 
         else        %If reconnection is not chosen, adjust opinions

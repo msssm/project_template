@@ -15,9 +15,18 @@ while(M_counter <= M)
     i = randi(N);
     j = randi(N);
     
-
-    A_sp(i,j) = A_sp(i,j) + 1;
-    A_sp(j,i) = A_sp(j,i) + 1;
+    %If i and j are the same (self-edges) only change the one diagonal
+    %entry
+    if i == j
+        A_sp(i,j) = A_sp(i,j) + 1;
+    
+    %Else if they are different, change both the i,j and the j,i entry,
+    %keeping the edges undirected and the matrix symmetric.
+    else
+        A_sp(i,j) = A_sp(i,j) + 1;
+        A_sp(j,i) = A_sp(j,i) + 1;
+        
+    end
     
     %Increment counter to indicate that a connection has been set.
     M_counter = M_counter + 1;
