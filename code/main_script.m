@@ -45,9 +45,7 @@ for NN = [200]              %Iterate over different system sizes (number of node
         
 
         %%Prepare simulation
-        mkdir('Data/',str2);    %Create a folder for this particular run.
-        csvwrite(['Data/',str2,'/AdjIni.csv'],full(AA_sp));       %Write inital adjacency to file
-        csvwrite(['Data/',str2,'/OpiIni.csv'],gg);                %Write inital opinions to file
+        
         s_sum=zeros(1,N);       %Initialize sum for calculating the average of s (cluster size distribution vector)
         s=cell(ii,1);           %Create cell with one matrix stored into cell element for each run. Needed for averaging.
         op=0;                   %Initialize order parameter for averaging.
@@ -57,9 +55,6 @@ for NN = [200]              %Iterate over different system sizes (number of node
         for i=1:ii
             status = ['Run ', num2str(i),' of ', num2str(ii), ' at phi = ', num2str(phi)]       %Some status info printed to screen while simulation is running
             [A_sp, g,t] = simulation2(AA_sp, gg, N, phi);                     %Return upfolderd connections (A_adj)and opinions (g), always starting from the initial AA-adj and gg!
-            %Fabian: I commented these for the case of averaging over larger numbers
-            %csvwrite(['Data/',str2,'/AdjRun',num2str(i),'.csv'],full(A_sp));    %Write "developed," i.e. consensus, graph to file
-            %csvwrite(['Data/',str2,'/OpiRun',num2str(i),'.csv'],g);             %Write "developed," i.e. consensus, graph to file
             
             %This is now the NEW clustersize_distr which takes the sparse
             %matrix, not the opinion vector!
@@ -77,9 +72,9 @@ for NN = [200]              %Iterate over different system sizes (number of node
 
         %% PLOT AND SAVE RESULTS
         s_avg=s_sum/ii;                         %Calculate the average cluster size distribution vector.
-        createfigure(s_avg,str,str2);           %Second argument gives input for legend. Third argument (string) gives directory for the saving the figure.
+        %createfigure(s_avg,str,str2);           %Second argument gives input for legend. Third argument (string) gives directory for the saving the figure.
         %clear A_sp g i s_sum ss str t; %Clear all the intermediate or elsewhere-saved variables, before saving all data.
-        save(['Data/',str2,'/AllFinVar.mat']);  %Save all relevant variables into a matlab file.
+        save(['Data/',str2,'.mat']);  %Save all relevant variables into a matlab file.
 
     end
 end
