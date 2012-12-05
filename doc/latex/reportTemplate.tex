@@ -9,8 +9,8 @@
 \usepackage{amssymb, amsmath}
 \DeclareGraphicsRule{.tif}{png}{.png}{`convert #1 `dirname #1`/`basename #1 .tif`.png}
 
-%\title{Title}
-%\author{Name 1, Name 2}
+%\title{Dynamics of Religious Views in Networks}
+%\author{Fabian Rußmann, Stefan Rustler}
 %\date{date} 
 
 \begin{document}
@@ -84,13 +84,68 @@
 
 \section{Individual contributions}
 
-\section{Introduction and Motivations}
+Section before Introduction???
 
-\section{Description of the Model}
+\section{Introduction}
+
+We want to study the mechanisms of opinion formation in a network of people. In addition, we also allow the network itself to be adaptable to the opinions existing on it, making two interdependent forces of network evolution and opinion formation measurable.
+
+The motivation for this project involves two different angles on very fundamental dynamics of our society. First of all, we would like to understand the ways in which humans become who they are under the influence of their environment. How do people form their opinions, values, and beliefs and how do their friends and acquaintances play a role in this? Secondly, we are interested in the way our networks of friends and social ties form in the first place. How and why do we choose to be friends with certain people and not with others? How do networks of people in a society form? 
+
+From an intuitive point of view (considering that we are all social beings) most people would argue that the two aspects are interdependent or even that they are two extremes of the same process: Our social environment certainly shapes what we believe and which opinions we hold, while in turn our own values and opinions influence whom we choose to connect with and make part of our social network. On the basis of this rather vague but plausible assumption, our project is an attempt to disentangle and study the effects of these two mechanisms by the means of an abstract, quantitative model. 
+
+An example of a system that one would expect to be subject to such behavior and that we would like to put a focus on is religious affiliation within a society. It could be argued that the social surroundings have an effect on (or, as an extreme, completely determine) which religion a person chooses to belong to. Also, one's religion also influences to whom we connect with socially, for example through the community in a church (the opposing extreme would be that a person's social ties are entirely composed of member's of the same religion). 
+
+
+
+\section{The Model}
+
+In this work the social network of people will be modeled by means of a graph with vertices and edges (see section "Research Methods"). In two basic update steps, we will enable each vertex, i.e. person, to follow one of the two mechanisms, re-connecting to like-minded individuals or adapting his/her opinion to the neighborhood. A tunable probability $\Phi$ of choosing either one of them will be included in the model. After a finite number of time-steps a convergent or equilibrium state is aspired, in which we can check for several dependent variables, like cluster formation or convergence speed. In this work we will be mainly concerned with how this convergent state looks like in terms of opinion size distribution. Intuitively, one can picture two extreme scenarios: one in which there is one prominent opinion, and one in which there is no such opinion but several much less prominent ones. Our model reduces opinion dynamics to two basic mechanisms mentioned above. Nevertheless, it should be well possible to elucidate how these microscopic tendencies will result in different macroscopic phenomena.
+
+As an optional task one can compare the results, i.e. the opinion size distribution, with actual data on opinions of a certain aspect, e.g. religious view. One could then think about by what factors our $\Phi$ is influenced in reality.
+
+The model will represent the network of people by a graph with $N$ vertices and $M$ edges connecting vertices. Thus "graph" in this context is a collection of edges and vertices and not to be confused with graphs of functions. Each vertex represents a single person indexed by $i$, to whom a certain opinion $g_i$, e.g. a religious view, is assigned. The number of all possible opinions $G$ is only limited by the number of people existing in the network, i.e. N, to a certain factor $\gamma = \frac{N}{G}$, where $\gamma > 1$. In this sense, it is not possible for every single individual to hold a unique opinion. The edges represent a social connection between two individuals, the number of edges leaving the vertex the degree $k_i$.
+The initial structure of the network will be random and uniform under the external constraints, $N$, $M$ and $\gamma$, whereby self-edges and multi-edges will be allowed. The dynamics of the network are then simulated by applying the following at each time step:
+
+\begin{enumerate}
+\item Pick a random vertex $i$ with opinion $g_i$. 
+\item If $k_i=0$, do nothing. 
+\item Otherwise, with probability $\Phi$ randomly select one of the edges $j$ of $i$ and connect it to another vertex randomly chosen, having the same opinion $g_j$.
+\item Otherwise, with probability $1-\Phi$ randomly select one of the neighboring vertices $j$ and change $g_i$ to $g_j$.
+\end{enumerate}
+
+
+Here the third step corresponds to the mechanism in the network of an individual reconnecting to like-minded individuals, whereas the fourth step to that of an individual adapting his/her opinion to his/her neighborhood. 
+
+This is iteratively done until a convergent state is achieved, which is then used for further investigation of the quantities mentioned in the section "The  Model."
+
+For the optional comparison with empirical data, we would, depending on what the data looks like, intend to use common methods of statistical analysis, e.g. OLS regression, fitting functions on linear and/or logarithmic scales and comparing the values of their coefficients with the fitted distribution functions obtained by our simulations.
+
+
 
 \section{Implementation}
 
-\section{Simulation Results and Discussion}
+\subsection{Main Script}
+
+\subsection{Simulation Script}
+
+\subsection{Data Plotting}
+
+\section{Results and Discussion}
+
+\subsection{Cluster Size Distribution}
+
+Explain plotting and graphs in detail.
+
+Qualitative difference below and above critical $\Phi$
+
+\subsection{Renormalization and Critical Exponent}
+
+Determine $\Phi_c$ from graphs of different $N$. Renormalize them such that critical exponent can be extracted. Discuss similarity
+
+\subsection{Comparison with Empirical Data}
+
+Find meaningful distributions of religious views.
 
 \section{Summary and Outlook}
 
