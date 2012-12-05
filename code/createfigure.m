@@ -31,6 +31,6 @@ legend(str);
 %Save figure as bmp and/or post-script (eps) or matlab figure (fig) 
 %Fabian: Using BMP gave me an error, .fig works better and is also reopenable in matlab
 %saveas(figure1,['Data/',str2,'/ClustSizeDistr.bmp'],'bmp');
-saveas(figure1,['Data/',str2,'/ClustSizeDistr.jpg'],'jpg');
-saveas(figure1,['Data/',str2,'/ClustSizeDistr.fig'],'fig');
+%saveas(figure1,['Data/',str2,'/ClustSizeDistr.jpg'],'jpg');
+%saveas(figure1,['Data/',str2,'/ClustSizeDistr.fig'],'fig');
 
