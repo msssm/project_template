@@ -59,7 +59,7 @@ for NN = [200]              %Iterate over different system sizes (number of node
         s_avg=s_sum/ii;
         
         %% SAVE RESULTS FOR BRUTUS
-        clear i s_sum ss phi; %Check this here!
+        %clear i s_sum ss phi; %Check this here!
         save([str2,'.mat']);
     end
 end
