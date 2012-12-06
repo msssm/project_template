@@ -9,15 +9,8 @@ legcell=cell(1,length(N_range));%Create string cell for legend in graph
 filelisting = dir(fullfile('Data', '*.mat'));   %Create list of .mat files in directory
 
 for N2read = N_range             %Choose curves to be compared
-    %k_avg_set = k_range 
-    %Make sure to comment the variable that is varied in the loop. These
-    %variables are merely necessary for reading the proper data and not
-    %used for caculations.
-    
-    %N = 500;
-    k_avg_set = 4;
-    gamma = 10;
-    ii = 100;
+    %k2read= k_range 
+    ii2read=100;
     
     op_local = [];
     phi_local = [];
@@ -25,17 +18,16 @@ for N2read = N_range             %Choose curves to be compared
     %This loop extracts the order parameter op from each data set and puts
     %it into op_local. Also extracts phi correspondingly
 
-    for file_idx = 1:length(filelisting)    %Create index running up until the number of files in the directory
- 
-        load(['Data/' filelisting(file_idx).name]);        %Load data of file at this index
-        if N == N2read                                     %If N is the N we are reading right now, add phi and op to local vectors
-            phi_local = [phi_local phi];
-            op_local = [op_local op]; %Concatenate the value of the size of the biggest cluster for a given phi. The command finds the 1 last non-zero entry of s.
+    for file_idx = 1:length(filelisting)             %Create index running up until the number of files in the directory
+        load(['Data/' filelisting(file_idx).name]);  %Load data of file at this index
+        if N == N2read  && ii ==ii2read              %If N is the N we are reading right now, add phi and op to local vectors. Add additional identifiers for a run, e.g. ii or k.
+            phi_local = [phi_local phi];             %Concatenate the value of the current value for phi to the last.
+            op_local = [op_local op];                %Concatenate the value of the current value for op to the last.
         end
     end
     
     %Plot curves into graph that is held open.
-    plot(phi_local, (N2read^0.61)*op_local, 'o','color',col(j,:)) 
+    plot(phi_local, (N2read^0)*op_local, 'o','color',col(j,:)) %The exponent of N2read is the crit. expo. a of the paper.
     legcell{j}=['N = ',num2str(N2read)]; %Create cell for data range (e.g. N_range or k_range)
     j=j+1;      %Manually increment loop counter. This is just for getting different colors in the plot.
     hold on;
