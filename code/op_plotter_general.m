@@ -28,7 +28,7 @@ for N2read = N_range             %Choose curves to be compared
     for file_idx = 1:length(filelisting)    %Create index running up until the number of files in the directory
  
         load(['Data/' filelisting(file_idx).name]);        %Load data of file at this index
-        if N == N2read                                     %If N is the N we are reading right now, add phi and op to local vectors
+        if N == N2read && ii = 200                                    %If N is the N we are reading right now, add phi and op to local vectors
             phi_local = [phi_local phi];
             op_local = [op_local op]; %Concatenate the value of the size of the biggest cluster for a given phi. The command finds the 1 last non-zero entry of s.
         end
