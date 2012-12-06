@@ -53,7 +53,7 @@ for NN = [200]              %Iterate over different system sizes (number of node
 
         %%Run simulation
         for i=1:ii
-            status = ['Run ', num2str(i),' of ', num2str(ii), ' at phi = ', num2str(phi)]       %Some status info printed to screen while simulation is running
+            status = ['Run ', num2str(i),' of ', num2str(ii), ' at phi = ', num2str(phi), ' and N = ', num2str(N)]       %Some status info printed to screen while simulation is running
             [A_sp, g,t] = simulation2(AA_sp, gg, N, phi);                     %Return upfolderd connections (A_adj)and opinions (g), always starting from the initial AA-adj and gg!
             
             %This is now the NEW clustersize_distr which takes the sparse
