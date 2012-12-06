@@ -9,7 +9,7 @@
 \usepackage{amssymb, amsmath}
 \DeclareGraphicsRule{.tif}{png}{.png}{`convert #1 `dirname #1`/`basename #1 .tif`.png}
 
-%\title{Dynamics of Religious Views in Networks}
+%\title{Coevolution of Non-spectral Opinions in Random Networks}
 %\author{Fabian Rußmann, Stefan Rustler}
 %\date{date} 
 
@@ -84,9 +84,13 @@
 
 \section{Individual contributions}
 
-Section before Introduction???
+The majority of the report was created in a cooperative manner.
 
 \section{Introduction}
+
+\textit{Start with general questions that this work could help to answer
+Explain and extend notion of opinion, opinion holder, network and interaction.
+Introduce specific example that this work compares its results to.}
 
 We want to study the mechanisms of opinion formation in a network of people. In addition, we also allow the network itself to be adaptable to the opinions existing on it, making two interdependent forces of network evolution and opinion formation measurable.
 
@@ -100,11 +104,23 @@ An example of a system that one would expect to be subject to such behavior and 
 
 \section{The Model}
 
-In this work the social network of people will be modeled by means of a graph with vertices and edges (see section "Research Methods"). In two basic update steps, we will enable each vertex, i.e. person, to follow one of the two mechanisms, re-connecting to like-minded individuals or adapting his/her opinion to the neighborhood. A tunable probability $\Phi$ of choosing either one of them will be included in the model. After a finite number of time-steps a convergent or equilibrium state is aspired, in which we can check for several dependent variables, like cluster formation or convergence speed. In this work we will be mainly concerned with how this convergent state looks like in terms of opinion size distribution. Intuitively, one can picture two extreme scenarios: one in which there is one prominent opinion, and one in which there is no such opinion but several much less prominent ones. Our model reduces opinion dynamics to two basic mechanisms mentioned above. Nevertheless, it should be well possible to elucidate how these microscopic tendencies will result in different macroscopic phenomena.
+In this work the network of opinion holders will be modeled by means of a graph with $N$ nodes and $M$ edges connecting the nodes. Thus "graph" in this context is a collection of edges and nodes and not to be confused with graphs of functions. 
+
+Each node represents an opinion holder, e.g. a  single person, indexed by $i$, to whom a certain opinion $g_i$ is randomly assigned. The number of all possible opinions $G$ is only limited by the number of nodes existing in the network, i.e. $N$, to a certain factor $\gamma = \frac{N}{G}$, where $\gamma > 1$. In this sense, it is not possible for every single individual to hold a unique opinion. In this model we are externally setting $\gamma$, i.e. the initial average number of nodes with the same opinion, as opposed to the number of existing opinions. 
+
+It is important to point out the nature of opinions this model assumes. Though different opinions will be denoted by a set of subsequent numbers given by $G$, this is not to be mistaken with a spectrum of opinions with two extremes. That is no opinion is more similar to another than yet another. Each opinion is equally likely to be adopted by an opinion holder. This will have important implications on the type of empirical data the results of this model can be compared to.
+
+The edges that connect two nodes represent a bridge of interaction of two nodes, i.e. direct interaction can only occur between two connected nodes. Per definition each edge is directed, which means that information can only be carried from one node to another along its direction. The number of edges leaving the node $i$ is given by the degree $k_i$. The average degree of the graph is therefore given by $M=\frac{kN}{2}$. With externally setting $N$ and $k$, edges are distributed in a random and uniform fashion: each pair of nodes is equally likely to be connected by an edge. This random graph generation was first proposed by Paul Erdős and Alfréd Rényi.\cite{Erdos} There are many other types of graphs but due its simplicity and wide applicability, this work is constricted to random graphs of different sizes. In our model, each connection will be undirected, i.e. two nodes can influence \textit{each other}. This manifests itself in the fact that only antiparallel double-edges can occur. Furthermore, we have forbidden self-edges and multi-edges to occur. In this sense a node as such is already to connected to itself and can also not connect with certain nodes more strongly than with others. 
+
+
+
+The above-mentioned setup of nodes, edges and opinions is now subject to time-evolution. Specifically, nodes are allowed to interact such that a \textit{co}evolution of edges and opinions occurs: 
+
+In two basic update steps, we will enable each vertex, i.e. person, to follow one of the two mechanisms, re-connecting to like-minded individuals or adapting his/her opinion to the neighborhood. A tunable probability $\Phi$ of choosing either one of them will be included in the model. After a finite number of time-steps a convergent or equilibrium state is aspired, in which we can check for several dependent variables, like cluster formation or convergence speed. In this work we will be mainly concerned with how this convergent state looks like in terms of opinion size distribution. Intuitively, one can picture two extreme scenarios: one in which there is one prominent opinion, and one in which there is no such opinion but several much less prominent ones. Our model reduces opinion dynamics to two basic mechanisms mentioned above. Nevertheless, it should be well possible to elucidate how these microscopic tendencies will result in different macroscopic phenomena.
 
 As an optional task one can compare the results, i.e. the opinion size distribution, with actual data on opinions of a certain aspect, e.g. religious view. One could then think about by what factors our $\Phi$ is influenced in reality.
 
-The model will represent the network of people by a graph with $N$ vertices and $M$ edges connecting vertices. Thus "graph" in this context is a collection of edges and vertices and not to be confused with graphs of functions. Each vertex represents a single person indexed by $i$, to whom a certain opinion $g_i$, e.g. a religious view, is assigned. The number of all possible opinions $G$ is only limited by the number of people existing in the network, i.e. N, to a certain factor $\gamma = \frac{N}{G}$, where $\gamma > 1$. In this sense, it is not possible for every single individual to hold a unique opinion. The edges represent a social connection between two individuals, the number of edges leaving the vertex the degree $k_i$.
+
 The initial structure of the network will be random and uniform under the external constraints, $N$, $M$ and $\gamma$, whereby self-edges and multi-edges will be allowed. The dynamics of the network are then simulated by applying the following at each time step:
 
 \begin{enumerate}
@@ -119,6 +135,10 @@ Here the third step corresponds to the mechanism in the network of an individual
 
 This is iteratively done until a convergent state is achieved, which is then used for further investigation of the quantities mentioned in the section "The  Model."
 
+Though easy to visualize, again it is important to constrict the notion of connected and interacting nodes to people interaction in a social network.
+
+Indirect interaction between two unconnected nodes: seek like-minded
+
 For the optional comparison with empirical data, we would, depending on what the data looks like, intend to use common methods of statistical analysis, e.g. OLS regression, fitting functions on linear and/or logarithmic scales and comparing the values of their coefficients with the fitted distribution functions obtained by our simulations.
 
 
@@ -127,29 +147,58 @@ For the optional comparison with empirical data, we would, depending on what the
 
 \subsection{Main Script}
 
+Add pseudo code
+
 \subsection{Simulation Script}
+
+Add pseudo code
 
 \subsection{Data Plotting}
 
 \section{Results and Discussion}
 
+In the following $k = 4$ 
+100 runs
+high-perfomance cluster of ETH Zürich, $Brutus$,
+
+
 \subsection{Cluster Size Distribution}
 
-Explain plotting and graphs in detail.
-
 Qualitative difference below and above critical $\Phi$
+
+Explain plotting and graphs in detail.
 
 \subsection{Renormalization and Critical Exponent}
 
 Determine $\Phi_c$ from graphs of different $N$. Renormalize them such that critical exponent can be extracted. Discuss similarity
 
+\begin{equation}
+S(\varphi) = N^{-a}\cdot F(N^b  \varphi)
+\end{equation}
+
+\begin{equation}
+S(\varphi) ~ |\varphi|^\alpha
+\end{equation}
+
 \subsection{Comparison with Empirical Data}
+
+
 
 Find meaningful distributions of religious views.
 
 \section{Summary and Outlook}
 
-\section{References}
+\section{Appendix}
+
+\subsection{References}
+\bibliography{reportTemplate}
+Erdős, Paul; A. Rényi (1960). "On the evolution of random graphs". Publications of the Mathematical Institute of the Hungarian Academy of Sciences 5: 17–61.
+
+\subsection{List of Figures}
+
+\subsection{List of Tables}
+
+\subsection{Source Code}
 
 
 

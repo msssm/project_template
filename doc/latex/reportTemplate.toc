@@ -5,10 +5,14 @@
 \contentsline {section}{\numberline {5}Implementation}{6}
 \contentsline {subsection}{\numberline {5.1}Main Script}{6}
 \contentsline {subsection}{\numberline {5.2}Simulation Script}{6}
-\contentsline {subsection}{\numberline {5.3}Data Plotting}{6}
-\contentsline {section}{\numberline {6}Results and Discussion}{6}
-\contentsline {subsection}{\numberline {6.1}Cluster Size Distribution}{6}
-\contentsline {subsection}{\numberline {6.2}Renormalization and Critical Exponent}{6}
-\contentsline {subsection}{\numberline {6.3}Comparison with Empirical Data}{6}
-\contentsline {section}{\numberline {7}Summary and Outlook}{6}
-\contentsline {section}{\numberline {8}References}{6}
+\contentsline {subsection}{\numberline {5.3}Data Plotting}{7}
+\contentsline {section}{\numberline {6}Results and Discussion}{7}
+\contentsline {subsection}{\numberline {6.1}Cluster Size Distribution}{7}
+\contentsline {subsection}{\numberline {6.2}Renormalization and Critical Exponent}{7}
+\contentsline {subsection}{\numberline {6.3}Comparison with Empirical Data}{7}
+\contentsline {section}{\numberline {7}Summary and Outlook}{7}
+\contentsline {section}{\numberline {8}Appendix}{7}
+\contentsline {subsection}{\numberline {8.1}References}{7}
+\contentsline {subsection}{\numberline {8.2}List of Figures}{7}
+\contentsline {subsection}{\numberline {8.3}List of Tables}{7}
+\contentsline {subsection}{\numberline {8.4}Source Code}{7}

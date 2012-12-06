@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (MiKTeX 2.8) (preloaded format=pdflatex 2012.12.5)  5 DEC 2012 01:49
+This is pdfTeX, Version 3.1415926-1.40.10 (MiKTeX 2.8) (preloaded format=pdflatex 2012.12.5)  6 DEC 2012 18:19
 entering extended mode
 **reportTemplate.tex
 
@@ -297,27 +297,49 @@ Overfull \hbox (5.3226pt too wide) in paragraph at lines 42--60
 (C:\Users\Stefan\Documents\GitHub\opinion_formation_in_networks\doc\latex\repor
 tTemplate.toc)
 \tf@toc=\write3
- [3] [4] [5] [6]
+ [3] [4]
+Missing character: There is no Å in font cmr12!
+Missing character: There is no ‘ in font cmr12!
+Missing character: There is no Ã in font cmr12!
+Missing character: There is no © in font cmr12!
+Missing character: There is no Ã in font cmr12!
+Missing character: There is no © in font cmr12!
+
+
+Package natbib Warning: Citation `Erdos' on page 5 undefined on input line 113.
+
+
+[5]
+Missing character: There is no Ã in font cmr12!
+Missing character: There is no ¼ in font cmr12!
+ [6]
+No file reportTemplate.bbl.
+
+Package natbib Warning: There were undefined citations.
+
+[7]
 (C:\Users\Stefan\Documents\GitHub\opinion_formation_in_networks\doc\latex\repor
 tTemplate.aux) ) 
 Here is how much of TeX's memory you used:
- 3008 strings out of 495285
- 40320 string characters out of 3179824
+ 3012 strings out of 495285
+ 40352 string characters out of 3179824
  102093 words of memory out of 3000000
- 6165 multiletter control sequences out of 15000+200000
- 12110 words of font info for 47 fonts, out of 3000000 for 9000
+ 6167 multiletter control sequences out of 15000+200000
+ 12457 words of font info for 48 fonts, out of 3000000 for 9000
  14 hyphenation exceptions out of 8191
- 41i,10n,24p,1135b,254s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 41i,10n,24p,999b,254s stack positions out of 5000i,500n,10000p,200000b,50000s
 <C:/Program Files (x86)/MiKTeX 2.8/fonts/type1/public/amsfonts/
 cm/cmbx12.pfb><C:/Program Files (x86)/MiKTeX 2.8/fonts/type1/public/amsfonts/cm
 /cmmi12.pfb><C:/Program Files (x86)/MiKTeX 2.8/fonts/type1/public/amsfonts/cm/c
 mmi8.pfb><C:/Program Files (x86)/MiKTeX 2.8/fonts/type1/public/amsfonts/cm/cmr1
 0.pfb><C:/Program Files (x86)/MiKTeX 2.8/fonts/type1/public/amsfonts/cm/cmr12.p
 fb><C:/Program Files (x86)/MiKTeX 2.8/fonts/type1/public/amsfonts/cm/cmr17.pfb>
-<C:/Program Files (x86)/MiKTeX 2.8/fonts/type1/public/amsfonts/cm/cmsy10.pfb>
-Output written on reportTemplate.pdf (6 pages, 115693 bytes).
+<C:/Program Files (x86)/MiKTeX 2.8/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C
+:/Program Files (x86)/MiKTeX 2.8/fonts/type1/public/amsfonts/cm/cmsy8.pfb><C:/P
+rogram Files (x86)/MiKTeX 2.8/fonts/type1/public/amsfonts/cm/cmti12.pfb>
+Output written on reportTemplate.pdf (7 pages, 144419 bytes).
 PDF statistics:
- 52 PDF objects out of 1000 (max. 8388607)
+ 65 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
  6 words of extra memory for PDF output out of 10000 (max. 10000000)
 
