@@ -36,7 +36,7 @@ for NN = [200]              %Iterate over different system sizes (number of node
 %given by AA_sp.
         
 
-    for phi = [0.55:0.05:0.7 0.8 0.9]
+    for phi = [0.75 0.85 0.95]
     %for phi=[0.0:0.05:0.3 0.31:0.01:0.5 0.55:0.05:0.7 0.8 0.9]  %Iterate of different probabilities of reconnection
         
         %Write strings with relevant data for documentation
