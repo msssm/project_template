@@ -2,14 +2,14 @@
 
 clear;
 
-for NN = [100]              %Iterate over different system sizes (number of nodes)
+for NN = [200]              %Iterate over different system sizes (number of nodes)
     %% INITIAL PARAMETERS
     
     %External parameters (use for phase diagram later)
     k_avg_set = 4;  %wanted average degree
     gamma = 10;     %wanted average number of people per opinion
     N=NN;
-    ii = 100;         %Number of iterations used for the averaging loop
+    ii = 200;         %Number of iterations used for the averaging loop
     
     %Calculate other parameters based on this
     M = k_avg_set*N/2;  %number of edges
@@ -36,7 +36,7 @@ for NN = [100]              %Iterate over different system sizes (number of node
 %given by AA_sp.
         
 
-    for phi = [0.46:0.01:0.49]
+    for phi = [0.55:0.05:0.7 0.8 0.9]
     %for phi=[0.0:0.05:0.3 0.31:0.01:0.5 0.55:0.05:0.7 0.8 0.9]  %Iterate of different probabilities of reconnection
         
         %Write strings with relevant data for documentation
@@ -53,7 +53,7 @@ for NN = [100]              %Iterate over different system sizes (number of node
 
         %%Run simulation
         for i=1:ii
-            status = ['Run ', num2str(i),' of ', num2str(ii), ' at phi = ', num2str(phi)]       %Some status info printed to screen while simulation is running
+            status = ['Run ', num2str(i),' of ', num2str(ii), ' at phi = ', num2str(phi), ' and N = ', num2str(N)]       %Some status info printed to screen while simulation is running
             [A_sp, g,t] = simulation2(AA_sp, gg, N, phi);                     %Return upfolderd connections (A_adj)and opinions (g), always starting from the initial AA-adj and gg!
             
             %This is now the NEW clustersize_distr which takes the sparse
