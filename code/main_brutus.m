@@ -9,17 +9,20 @@ ii = 200;         %Number of iterations used for the averaging loop
 k_avg_set = 4;  %wanted average degree
 gamma = 10;     %wanted average number of people per opinion
 
-v = cell(length(N_input)*length(phi_input), 1);     %create cell array in which all combinations of parameters will be stored
-counter = 1; 
+% v = cell(length(N_input)*length(phi_input), 1);     %create cell array in which all combinations of parameters will be stored
+% counter = 1; 
+% 
+% for N = N_input                     %iterate over N and phi and write a vector [N phi] in each entry of cell array
+%     for phi = phi_input
+%         v{counter} = [N phi];
+%         counter = counter + 1;
+%     end
+% end
+
 
 jobindex=str2double(getenv('LSB_JOBINDEX'));        %get jobindex from brutus environment
+load('inputcell.mat')
 
-for N = N_input                     %iterate over N and phi and write a vector [N phi] in each entry of cell array
-    for phi = phi_input
-        v{counter} = [N phi];
-        counter = counter + 1;
-    end
-end
 
 
 for NN = v{jobindex}(1)       %load the jobindex-th cell entry and the first vector entry as NN
