@@ -110,38 +110,69 @@ Each node represents an opinion holder, e.g. a  single person, indexed by $i$, t
 
 It is important to point out the nature of opinions this model assumes. Though different opinions will be denoted by a set of subsequent numbers given by $G$, this is not to be mistaken with a spectrum of opinions with two extremes. That is no opinion is more similar to another than yet another. Each opinion is equally likely to be adopted by an opinion holder. This will have important implications on the type of empirical data the results of this model can be compared to.
 
-The edges that connect two nodes represent a bridge of interaction of two nodes, i.e. direct interaction can only occur between two connected nodes. Per definition each edge is directed, which means that information can only be carried from one node to another along its direction. The number of edges leaving the node $i$ is given by the degree $k_i$. The average degree of the graph is therefore given by $M=\frac{kN}{2}$. With externally setting $N$ and $k$, edges are distributed in a random and uniform fashion: each pair of nodes is equally likely to be connected by an edge. This random graph generation was first proposed by Paul Erdős and Alfréd Rényi.\cite{Erdos} There are many other types of graphs but due its simplicity and wide applicability, this work is constricted to random graphs of different sizes. In our model, each connection will be undirected, i.e. two nodes can influence \textit{each other}. This manifests itself in the fact that only antiparallel double-edges can occur. Furthermore, we have forbidden self-edges and multi-edges to occur. In this sense a node as such is already to connected to itself and can also not connect with certain nodes more strongly than with others. 
+The edges that connect two nodes represent a bridge of interaction of two nodes, i.e. direct interaction can only occur between two connected nodes. Per definition an individual edge is directed, which means that information can only be carried from one node to another along its direction. In our model each connection will be undirected, i.e. two nodes can influence \textit{each other}. This manifests itself in the fact that only antiparallel \textit{double}-edges can occur. Furthermore, we have forbidden self-edges and multi-edges to occur. In this sense a node as such is already connected to itself and can also not connect with certain nodes more strongly than with others via more edges. The number of edges leaving a node $i$ is given by the degree $k_i$. The average degree of the graph is therefore given by $M=\frac{kN}{2}$. By externally setting $N$ and $k$, edges are distributed in a random and uniform fashion: each pair of nodes is equally likely to be connected by an edge. This random graph generation was first proposed by Paul Erdős and Alfréd Rényi.\cite{Erdos} There are many other types of graphs but due its simplicity and wide applicability, this work focusses on random graphs of different sizes. 
 
-
+Even though we are using the interpretation of nodes and edges as people with opinions and social connections for reasons of intuition, it is important to not restrict the notion of connected and interacting nodes to such a specific context. The concept of nodes holding and influencing each other's opinion is much broader as mentioned in the introduction.
 
 The above-mentioned setup of nodes, edges and opinions is now subject to time-evolution. Specifically, nodes are allowed to interact such that a \textit{co}evolution of edges and opinions occurs: 
 
-In two basic update steps, we will enable each vertex, i.e. person, to follow one of the two mechanisms, re-connecting to like-minded individuals or adapting his/her opinion to the neighborhood. A tunable probability $\Phi$ of choosing either one of them will be included in the model. After a finite number of time-steps a convergent or equilibrium state is aspired, in which we can check for several dependent variables, like cluster formation or convergence speed. In this work we will be mainly concerned with how this convergent state looks like in terms of opinion size distribution. Intuitively, one can picture two extreme scenarios: one in which there is one prominent opinion, and one in which there is no such opinion but several much less prominent ones. Our model reduces opinion dynamics to two basic mechanisms mentioned above. Nevertheless, it should be well possible to elucidate how these microscopic tendencies will result in different macroscopic phenomena.
-
-As an optional task one can compare the results, i.e. the opinion size distribution, with actual data on opinions of a certain aspect, e.g. religious view. One could then think about by what factors our $\Phi$ is influenced in reality.
-
-
-The initial structure of the network will be random and uniform under the external constraints, $N$, $M$ and $\gamma$, whereby self-edges and multi-edges will be allowed. The dynamics of the network are then simulated by applying the following at each time step:
+In two basic update steps, we will enable each node to follow one of the two mechanisms, reconnecting to a node of equal opinion \textit{or} adapting his/her opinion to the neighborhood. A tunable probability $\Phi$ of choosing either one of them will be included in the model. In this work this probability will be referred to as \textit{reconnection probability}. In more detail, at each time step the following will be done:
 
 \begin{enumerate}
-\item Pick a random vertex $i$ with opinion $g_i$. 
+\item Pick a random node $i$ with opinion $g_i$. 
 \item If $k_i=0$, do nothing. 
-\item Otherwise, with probability $\Phi$ randomly select one of the edges $j$ of $i$ and connect it to another vertex randomly chosen, having the same opinion $g_j$.
+\item Otherwise, with probability $\Phi$ randomly select one of the nodes $j$ that $i$ is connected to.
+
+a. If $g_j \neq g_i$ choose a different $ij$-pair, i.e. start over at step 1.
+
+b. Otherwise, connect to $j$ of same opinion, i.e. $g_j = g_i$.
+
 \item Otherwise, with probability $1-\Phi$ randomly select one of the neighboring vertices $j$ and change $g_i$ to $g_j$.
 \end{enumerate}
 
-
 Here the third step corresponds to the mechanism in the network of an individual reconnecting to like-minded individuals, whereas the fourth step to that of an individual adapting his/her opinion to his/her neighborhood. 
 
-This is iteratively done until a convergent state is achieved, which is then used for further investigation of the quantities mentioned in the section "The  Model."
+Steps 1. to 4. are iteratively performed until a convergent or equilibrium state is achieved. The attentive reader might have noticed in the steps above that step 3a could result in an infinite loop as soon as every node is only connected to nodes of equal opinion. This is exactly the definition of the convergent state and will be referred to as the \textit{consensus state}. We will be mainly concerned with how this convergent state looks like. Separated clusters of differen opinions will have formed, whose size distribution in dependence of several external parameters, namely $\Phi$, $N$ and $k$, this work is mainly concerned with.
 
-Though easy to visualize, again it is important to constrict the notion of connected and interacting nodes to people interaction in a social network.
+Intuitively, one can picture two extreme scenarios: one in which there is one prominent opinion, and one in which there is no such opinion but several much less prominent ones. In other words, an emergent phenomenon of different manifestation is to expected as macrocopic outcome from the microscopic steps desecribed above.
 
-Indirect interaction between two unconnected nodes: seek like-minded
+\section{Theory of Critical Phenomena}
 
-For the optional comparison with empirical data, we would, depending on what the data looks like, intend to use common methods of statistical analysis, e.g. OLS regression, fitting functions on linear and/or logarithmic scales and comparing the values of their coefficients with the fitted distribution functions obtained by our simulations.
+Several analogies can be drawn from the system of interacting nodes to systems in solid state physics. Therefore some formulas and concepts of this field will be applied in this work, all of which will be derived and explained in this section. As indicated in the previous section, two extreme scenarios are possible. Speaking in physics terms, two phases that can transition into each other are expected to occur. An individual phase is characterized by a several internal parameters, most importantly the so-called \textit{order parameter}. If this parameter at some point changes drastically upon slight variation of another external parameter, one can speak of a \textit{phase transition}. This point of drastic change is called the \textit{critical point}. A simple example is the freezing of water. Upon slight variation of the (external) temperature near the freezing point, a drastic change of (internal) density is observed. In this work the external variable will be the reconnenction probability $\Phi$, whereas the internal order parameter will be the size of the biggest opinion cluster, denoted by $S$. The critical point at which a phase transition occurs will be denoted by $\Phi_c$.
 
+Behavior near the critical point. Critical exponents, reduced
 
+\begin{equation}
+\varphi = \Phi - \Phi_c
+\end{equation}
+
+\begin{equation}
+S(\varphi) \sim  |\varphi|^\alpha
+\end{equation}
+
+Scaling law
+
+generalized homogeneous function of the free energy. Consensus state is state of low energy.
+
+\begin{equation}
+F(\lambda \varphi) = \lambda F(\varphi)
+\end{equation}
+
+$\lambda = N^d$
+
+\begin{equation}
+f(N^a \varphi) = N^d f(\varphi)
+\end{equation}
+
+We do not know how it looks like but we can imply that S is a derivative of it. Can we?
+
+\begin{equation}
+S(\varphi) = N^{an!-d} S(\varphi)
+\end{equation}
+
+\begin{equation}
+S(\varphi) = N^{-a}\cdot S(N^b  \varphi)
+\end{equation}
 
 \section{Implementation}
 
@@ -172,28 +203,25 @@ Explain plotting and graphs in detail.
 
 Determine $\Phi_c$ from graphs of different $N$. Renormalize them such that critical exponent can be extracted. Discuss similarity
 
-\begin{equation}
-S(\varphi) = N^{-a}\cdot F(N^b  \varphi)
-\end{equation}
 
-\begin{equation}
-S(\varphi) ~ |\varphi|^\alpha
-\end{equation}
+
+
 
 \subsection{Comparison with Empirical Data}
 
-
+As an optional task one can compare the results, i.e. the opinion size distribution, with actual data on opinions of a certain aspect, e.g. religious view. One could then think about by what factors our $\Phi$ is influenced in reality.
 
 Find meaningful distributions of religious views.
 
+For the optional comparison with empirical data, we would, depending on what the data looks like, intend to use common methods of statistical analysis, e.g. OLS regression, fitting functions on linear and/or logarithmic scales and comparing the values of their coefficients with the fitted distribution functions obtained by our simulations.
+
 \section{Summary and Outlook}
 
-\renewcommand{\bibname}{References}\begin{thebibliography}{9}\bibitem{erdos_renyi}
-Erdős, Paul; A. Rényi (1960) ;\emph{On the evolution of random graphs.} Publications of the Mathematical Institute of the Hungarian Academy of Sciences 5: 
-
-\end{thebibliography}
-
 \section{Appendix}
+
+\subsection{References}
+\bibliography{reportTemplate}
+Erdős, Paul; A. Rényi (1960). "On the evolution of random graphs". Publications of the Mathematical Institute of the Hungarian Academy of Sciences 5: 17–61.
 
 \subsection{List of Figures}
 
