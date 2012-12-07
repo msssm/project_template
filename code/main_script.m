@@ -2,14 +2,18 @@
 
 clear;
 
-for NN = [200]              %Iterate over different system sizes (number of nodes)
+%Specify inputs here
+N_input = [300 400 500];
+phi_input = [0.0:0.05:0.35 0.38:0.01:0.53 0.55:0.05:0.95];
+ii = 200;         %Number of iterations used for the averaging loop
+k_avg_set = 4;  %wanted average degree
+gamma = 10;     %wanted average number of people per opinion
+
+for NN = N_input              %Iterate over different system sizes (number of nodes)
     %% INITIAL PARAMETERS
     
     %External parameters (use for phase diagram later)
-    k_avg_set = 4;  %wanted average degree
-    gamma = 10;     %wanted average number of people per opinion
     N=NN;
-    ii = 200;         %Number of iterations used for the averaging loop
     
     %Calculate other parameters based on this
     M = k_avg_set*N/2;  %number of edges
@@ -36,8 +40,8 @@ for NN = [200]              %Iterate over different system sizes (number of node
 %given by AA_sp.
         
 
-    for phi = [0.75 0.85 0.95]
-    %for phi=[0.0:0.05:0.3 0.31:0.01:0.5 0.55:0.05:0.7 0.8 0.9]  %Iterate of different probabilities of reconnection
+
+    for phi=phi_input  %Iterate of different probabilities of reconnection
         
         %Write strings with relevant data for documentation
         str=['N = ',num2str(N),char(10),'k = ',num2str(k_avg_set),char(10),'\gamma = ',num2str(gamma),char(10),'\Phi = ',num2str(phi),char(10),'Runs = ',num2str(ii)]; %String for figure legend
