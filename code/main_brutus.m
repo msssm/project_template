@@ -12,7 +12,7 @@ gamma = 10;     %wanted average number of people per opinion
 v = cell(length(N_input)*length(phi_input), 1);     %create cell array in which all combinations of parameters will be stored
 counter = 1; 
 
-jobindex=str2double(getenv('LSB JOBINDEX'));        %get jobindex from brutus environment
+jobindex=str2double(getenv('LSB_JOBINDEX'));        %get jobindex from brutus environment
 
 for N = N_input                     %iterate over N and phi and write a vector [N phi] in each entry of cell array
     for phi = phi_input
@@ -22,7 +22,7 @@ for N = N_input                     %iterate over N and phi and write a vector [
 end
 
 
-for NN = v{jobindex}(1)       %call the jobindex-th cell entry and the first vector entry as NN
+for NN = v{jobindex}(1)       %load the jobindex-th cell entry and the first vector entry as NN
     %% INITIAL PARAMETERS
     
     %External parameters (use for phase diagram later)
@@ -54,7 +54,7 @@ for NN = v{jobindex}(1)       %call the jobindex-th cell entry and the first vec
         
 
 
-    for phi=v{jobindex}(2) %call the jobindex-th cell entry and the second vector entry as phi
+    for phi=v{jobindex}(2) %load the jobindex-th cell entry and the second vector entry as phi
         
         %Write strings with relevant data for documentation
         str=['N = ',num2str(N),char(10),'k = ',num2str(k_avg_set),char(10),'\gamma = ',num2str(gamma),char(10),'\Phi = ',num2str(phi),char(10),'Runs = ',num2str(ii)]; %String for figure legend
