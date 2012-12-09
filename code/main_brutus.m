@@ -3,7 +3,7 @@
 clear;
 
 %Specify inputs here
-N_input = [300 400 500];
+N_input = [400 500];
 phi_input = [0.0:0.05:0.35 0.38:0.01:0.53 0.55:0.05:0.95];
 ii = 200;         %Number of iterations used for the averaging loop
 k_avg_set = 4;  %wanted average degree
