@@ -5,7 +5,7 @@ clear;
 %Specify inputs here
 N_input = [300];
 %phi_input = [0.0:0.05:0.35 0.38:0.01:0.53 0.55:0.05:0.95];
-phi_input = [0.51 0.52 0.53];
+phi_input = [0.36 0.37];
 ii = 200;         %Number of iterations used for the averaging loop
 k_avg_set = 4;  %wanted average degree
 gamma = 10;     %wanted average number of people per opinion
