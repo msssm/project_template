@@ -2,7 +2,7 @@ function [s] = clustersize_distr(A_sp)
 %CLUSTERSIZE_DISTR returns an unnormalized histogram vector that contains the frequency with
 %which a cluster of certain size occurs in the network. 
 
-[~,nodes] = local_graphconncomp(A_sp);
+[~,nodes] = graphconncomp(A_sp);
 %This function returns the number (replaced by ~ because it is not used in 
 %the function) of clusters in the network defined by A_sp and nodes, which 
 %is a N-dimensional vector telling which cluster each node belongs to:
