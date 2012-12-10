@@ -1,4 +1,4 @@
-function createfigure(Y1,str,str2)
+function createfigure(Y1,str)
 %CREATEFIGURE1(Y1)
 %  Y1:  vector of y data
 
@@ -15,18 +15,22 @@ axes1 = axes('Parent',figure1,'YScale','log','YMinorTick','on',...
     'XMinorTick','on',...
     'XMinorGrid','on',...
     'XGrid','on');
+xlim(axes1,[1 300]);
+ylim(axes1,[0.0003 1]);
 box(axes1,'on');
 hold(axes1,'all');
 
 % Create loglog
-loglog(Y1/sum(Y1),'MarkerEdgeColor',[1 0 0],'MarkerSize',5,...
+loglog(Y1/sum(Y1),'MarkerFaceColor',[1 0 0],'MarkerEdgeColor',[0 0 0],...
+    'MarkerSize',6,...
     'Marker','o',...
     'LineStyle','none');
 
 % Create labels and legend
-xlabel('Cluster size');
-ylabel('Count');
+xlabel('Cluster size S');
+ylabel('Probability P(S)');
 legend(str);
+
 
 %Save figure as bmp and/or post-script (eps) or matlab figure (fig) 
 %Fabian: Using BMP gave me an error, .fig works better and is also reopenable in matlab
