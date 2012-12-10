@@ -27,7 +27,7 @@ for N2read = N_range             %Choose curves to be compared
     end
     
     %Plot curves into graph that is held open.
-    plot(phi_local, (N2read^0.61)*op_local, 'o','color',col(j,:)) 
+    plot(N^0.7*(phi_local-0.458)/0.458, (N2read^0.6)*op_local, 'o','color',col(j,:)) 
     legcell{j}=['N = ',num2str(N2read)]; %Create cell for data range (e.g. N_range or k_range)
     j=j+1;      %Manually increment loop counter. This is just for getting different colors in the plot.
     hold on;

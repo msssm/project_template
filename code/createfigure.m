@@ -1,4 +1,4 @@
-function createfigure(Y1,str,str2)
+function createfigure(Y1,str)
 %CREATEFIGURE1(Y1)
 %  Y1:  vector of y data
 
