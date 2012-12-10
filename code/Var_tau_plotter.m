@@ -29,7 +29,7 @@ for N2read = N_range             %Choose curves to be compared
         load(['Data/' filelisting(file_idx).name]);        %Load data of file at this index
         if N == N2read                                     %If N is the N we are reading right now, add phi and op to local vectors
             phi_local = [phi_local phi];
-            Var_tau = [Var_tau mean(tt)/N]; %Concatenate the value of the size of the biggest cluster for a given phi. The command finds the 1 last non-zero entry of s.
+            Var_tau = [Var_tau mean(tt)]; %Concatenate the value of the size of the biggest cluster for a given phi. The command finds the 1 last non-zero entry of s.
         end
     end
     
