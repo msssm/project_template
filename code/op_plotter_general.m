@@ -20,16 +20,17 @@ for N2read = N_range             %Choose curves to be compared
     for file_idx = 1:length(filelisting)    %Create index running up until the number of files in the directory
  
         load(['Data/' filelisting(file_idx).name]); %Load data of file at this index
-        if N == N2read && ii == 200                 %If N is the N we are reading right now, add phi and op to local vectors
+        if N == N2read                %If N is the N we are reading right now, add phi and op to local vectors
             phi_local = [phi_local phi];            %Concatenate current value of phi to previous ones.
             op_local = [op_local op];               %Concatenate current value of order parameter to previous ones.
         end
     end
     
     %Plot curves into graph that is held open.
-    a=0.6;
-    %plot(N^(a)*(phi_local-0.39)/0.39, (N2read^(1-a))*op_local, 'o','color',col(j,:)) 
-    plot(phi_local, op_local, 'o','color',col(j,:)) 
+    a=0.8;
+    plot(phi_local, (N2read^(a))*op_local, 'o','color',col(j,:)) 
+    %plot(N2read^(a)*(phi_local-0.32)/0.32, (N2read^(1-a))*op_local, 'o','color',col(j,:)) 
+    %plot(phi_local, op_local, 'o','color',col(j,:)) 
     legcell{j}=['N = ',num2str(N2read)]; %Create cell for data range (e.g. N_range or k_range)
     j=j+1;      %Manually increment loop counter. This is just for getting different colors in the plot.
     hold on;
