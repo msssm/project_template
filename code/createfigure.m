@@ -15,8 +15,9 @@ axes1 = axes('Parent',figure1,'YScale','log','YMinorTick','on',...
     'XMinorTick','on',...
     'XMinorGrid','on',...
     'XGrid','on');
-xlim(axes1,[1 300]);
-ylim(axes1,[0.0003 1]);
+%Limit axes to make individual plots more easily comparable to each other.
+xlim(axes1,[1 400]);
+ylim(axes1,[0.0002 1]);
 box(axes1,'on');
 hold(axes1,'all');
 

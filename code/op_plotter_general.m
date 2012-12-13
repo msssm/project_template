@@ -27,10 +27,10 @@ for N2read = N_range             %Choose curves to be compared
     end
     
     %Plot curves into graph that is held open.
-    a=0.05;b=1.0;
+    a=0.4;b=0.8;
     %plot(phi_local, (N2read^(a))*op_local, 'o','color',col(j,:)) 
-    %plot(N2read^(b)*(phi_local-0.32)/0.32, (N2read^(a))*op_local, 'o','color',col(j,:)) 
-    plot(phi_local, op_local, 'o','color',col(j,:)) 
+    plot(N2read^(b)*(phi_local-0.39)/0.39, (N2read^(a))*op_local, 'o','color',col(j,:)) 
+    %plot(phi_local, op_local, 'o','color',col(j,:)) 
     legcell{j}=['N = ',num2str(N2read)]; %Create cell for data range (e.g. N_range or k_range)
     j=j+1;      %Manually increment loop counter. This is just for getting different colors in the plot.
     hold on;
@@ -38,9 +38,9 @@ end
 hold off;   
 
 %%Add labels and legend to graph
-xlabel('Reconnection probability \Phi');   
-ylabel('Order parameter S');
-%xlabel('Scaled reduced reconnection probability N^b \phi');    
-%ylabel('Scaled order parameter N^a S');
+%xlabel('Reconnection probability \Phi');   
+%ylabel('Order parameter S');
+xlabel('Scaled reduced reconnection probability N^b \phi');    
+ylabel('Scaled order parameter N^a S');
 legend(legcell);
 grid on;
