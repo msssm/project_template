@@ -22,11 +22,11 @@ while(M_counter <= M)
         
     %Else set connection from i to j (both entries)
     else
-    A_sp(i,j) = 1;
-    A_sp(j,i) = 1;
-    
-    %Increment counter to indicate that a connection has been set.
-    M_counter = M_counter + 1;
+        A_sp(i,j) = 1;
+        A_sp(j,i) = 1;
+        
+        %Increment counter to indicate that a connection has been set.
+        M_counter = M_counter + 1;
     
     end
       
