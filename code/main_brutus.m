@@ -9,6 +9,8 @@ ii = 200;         %Number of iterations used for the averaging loop
 k_avg_set = 4;  %wanted average degree
 gamma = 10;     %wanted average number of people per opinion
 
+%This commented section was ran before to create a cell array v of all
+%parameter combinations that would then be opened by the script on Brutus.
 % v = cell(length(N_input)*length(phi_input), 1);     %create cell array in which all combinations of parameters will be stored
 % counter = 1; 
 % 
@@ -19,7 +21,7 @@ gamma = 10;     %wanted average number of people per opinion
 %     end
 % end
 
-
+%Load paramter combinations here
 jobindex=str2double(getenv('LSB_JOBINDEX'));        %get jobindex from brutus environment
 load('inputcell.mat')
 
