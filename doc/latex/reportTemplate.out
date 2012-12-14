@@ -1,0 +1,29 @@
+\BOOKMARK [1][-]{section.1}{Abstract}{}% 1
+\BOOKMARK [1][-]{section.2}{Introduction}{}% 2
+\BOOKMARK [1][-]{section.3}{The Model}{}% 3
+\BOOKMARK [2][-]{subsection.3.1}{Initial Setup}{section.3}% 4
+\BOOKMARK [2][-]{subsection.3.2}{Time Evolution Algorithm}{section.3}% 5
+\BOOKMARK [1][-]{section.4}{Theory of Critical Phenomena}{}% 6
+\BOOKMARK [1][-]{section.5}{Implementation}{}% 7
+\BOOKMARK [2][-]{subsection.5.1}{Main Script}{section.5}% 8
+\BOOKMARK [2][-]{subsection.5.2}{Random Graph Generation}{section.5}% 9
+\BOOKMARK [2][-]{subsection.5.3}{Simulation Script}{section.5}% 10
+\BOOKMARK [2][-]{subsection.5.4}{Optimization and Data Storage}{section.5}% 11
+\BOOKMARK [1][-]{section.6}{Results and Discussion}{}% 12
+\BOOKMARK [2][-]{subsection.6.1}{Cluster Size Distribution}{section.6}% 13
+\BOOKMARK [2][-]{subsection.6.2}{Critical Point and Rescaling}{section.6}% 14
+\BOOKMARK [2][-]{subsection.6.3}{Convergence Time}{section.6}% 15
+\BOOKMARK [2][-]{subsection.6.4}{Comparison with Empirical Data}{section.6}% 16
+\BOOKMARK [3][-]{subsubsection.6.4.1}{Religious Views}{subsection.6.4}% 17
+\BOOKMARK [3][-]{subsubsection.6.4.2}{Mobile Web Browser Market Share}{subsection.6.4}% 18
+\BOOKMARK [1][-]{section.7}{Summary and Outlook}{}% 19
+\BOOKMARK [2][-]{subsection.7.1}{Summary}{section.7}% 20
+\BOOKMARK [2][-]{subsection.7.2}{Outlook}{section.7}% 21
+\BOOKMARK [1][-]{section.8}{Appendix}{}% 22
+\BOOKMARK [2][-]{subsection.8.1}{Source Code}{section.8}% 23
+\BOOKMARK [3][-]{subsubsection.8.1.1}{Main Script}{subsection.8.1}% 24
+\BOOKMARK [3][-]{subsubsection.8.1.2}{Random Graph Generator}{subsection.8.1}% 25
+\BOOKMARK [3][-]{subsubsection.8.1.3}{Simulation}{subsection.8.1}% 26
+\BOOKMARK [3][-]{subsubsection.8.1.4}{Cluster Size Distribution}{subsection.8.1}% 27
+\BOOKMARK [3][-]{subsubsection.8.1.5}{Order Parameter Plotter}{subsection.8.1}% 28
+\BOOKMARK [3][-]{subsubsection.8.1.6}{Convergence Time Plotter}{subsection.8.1}% 29
