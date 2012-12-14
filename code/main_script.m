@@ -1,6 +1,7 @@
 %%% This is the main script from which all functions are called.
 %Functions that are called are "uniform_random_graph(N,M)",
-%"simulation2(AA_sp, gg, N, phi)" and "clustersize_distr". This script saves a matlab-file with all
+%"simulation2(AA_sp, gg, N, phi)" and "clustersize_distr(A_sp)". 
+%This script saves a matlab-file with all
 %relevant data.
 
 clear;
