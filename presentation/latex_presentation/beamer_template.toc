@@ -1,0 +1,14 @@
+\beamer@endinputifotherversion {3.10pt}
+\beamer@sectionintoc {3}{\scshape Introduction}{3}{0}{1}
+\beamer@subsectionintoc {3}{1}{Background and Motivation}{3}{0}{1}
+\beamer@sectionintoc {4}{\scshape The Model}{4}{0}{2}
+\beamer@subsectionintoc {4}{1}{Initial Setup}{4}{0}{2}
+\beamer@subsectionintoc {4}{2}{Time Evolution Algorithm}{5}{0}{2}
+\beamer@sectionintoc {5}{\scshape Results}{6}{0}{3}
+\beamer@subsectionintoc {5}{1}{Cluster Size Distribution}{6}{0}{3}
+\beamer@subsectionintoc {5}{2}{Critical Point and Rescaling}{9}{0}{3}
+\beamer@subsectionintoc {5}{3}{Convergence Time}{11}{0}{3}
+\beamer@subsectionintoc {5}{4}{Comparisons to Empirical Data}{12}{0}{3}
+\beamer@sectionintoc {6}{\scshape Conclusion}{14}{0}{4}
+\beamer@subsectionintoc {6}{1}{Summary}{14}{0}{4}
+\beamer@subsectionintoc {6}{2}{References}{15}{0}{4}
