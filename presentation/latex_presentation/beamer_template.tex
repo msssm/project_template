@@ -111,6 +111,7 @@ Opinions and Social Networks}
 \item $N$ - number of nodes
 \item $\gamma = \frac{N}{G}$ - average number of nodes per opinion
 \item $k_{avg}=\frac{2M}{N}$ - average degree
+\item $\Phi$ - reconnection probability
 \end{itemize}
 \end{itemize}
 \end{frame}
@@ -187,9 +188,9 @@ Figure: Holme and Newman, 2006 \cite{main paper}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\subsection{Critical Point and Rescaling}
+\subsection{Phase Transition and Critical Point}
 
-\begin{frame}{Critical Point}
+\begin{frame}{Phase Transition \& Critical Point}
 
 \begin{center}
 \includegraphics[scale=0.35]{Graphics/SvsPHI_combined.pdf}
@@ -197,7 +198,7 @@ Figure: Holme and Newman, 2006 \cite{main paper}
 
 \begin{itemize}
 \item Really continuous phase transition
-\item $N$ limits the range of interaction $\rightarrow$ different slopes
+\item Bigger $N \rightarrow$ more dramatic transition
 %Trend: steeper slope (more dramatic) for systems closer N-->inf (td limit)
 \item $\Phi_c = 0.32 \pm 0.02$ independent of system size $N$
 \item Weak agreement with $\Phi_c = 0.39 \pm 0.05$
@@ -206,22 +207,6 @@ Figure: Holme and Newman, 2006 \cite{main paper}
 \end{frame}
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\begin{frame}{Rescaling}
-
-\begin{itemize}
-\item $N^{a} S(\varphi) = S(N^b\varphi)$
-\item $N$-independence $around$ critical point
-\item Determination of critical exponent $S(\varphi) \sim |\varphi|^\frac{a}{b}$
-\item Possible but rather arbitrary!
-\end{itemize}
-
-\begin{center}
-\includegraphics[width=.7\linewidth]{Graphics/SvsPHI2_zoom.pdf}
-\end{center}
-
-\end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -272,8 +257,6 @@ Zanette and Manrubia, 2000 \cite{religion power law}
 
 \end{frame}
 
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{frame}{Comparisons to Empirical Data}
@@ -320,8 +303,6 @@ Quantcast Review, 2009 \cite{quantcast}
 \item $N$-independent critical value $\Phi_c = 0.32 \pm 0.02$
 \item Divergent convergence time at $\Phi_c$
 \end{itemize}
-\item Rescaling and calculation of critical exponent rather arbitrary.
-%Further analogies to solid state physics difficult.
 \end{itemize}
 
 \textbf{Outlook}
