@@ -1,0 +1,29 @@
+\contentsline {section}{\numberline {1}Abstract}{4}{section.1}
+\contentsline {section}{\numberline {2}Introduction}{4}{section.2}
+\contentsline {section}{\numberline {3}The Model}{6}{section.3}
+\contentsline {subsection}{\numberline {3.1}Initial Setup}{6}{subsection.3.1}
+\contentsline {subsection}{\numberline {3.2}Time Evolution Algorithm}{7}{subsection.3.2}
+\contentsline {section}{\numberline {4}Theory of Critical Phenomena}{8}{section.4}
+\contentsline {section}{\numberline {5}Implementation}{11}{section.5}
+\contentsline {subsection}{\numberline {5.1}Main Script}{12}{subsection.5.1}
+\contentsline {subsection}{\numberline {5.2}Random Graph Generation}{13}{subsection.5.2}
+\contentsline {subsection}{\numberline {5.3}Simulation Script}{14}{subsection.5.3}
+\contentsline {subsection}{\numberline {5.4}Optimization and Data Storage}{16}{subsection.5.4}
+\contentsline {section}{\numberline {6}Results and Discussion}{16}{section.6}
+\contentsline {subsection}{\numberline {6.1}Cluster Size Distribution}{17}{subsection.6.1}
+\contentsline {subsection}{\numberline {6.2}Critical Point and Rescaling}{21}{subsection.6.2}
+\contentsline {subsection}{\numberline {6.3}Convergence Time}{24}{subsection.6.3}
+\contentsline {subsection}{\numberline {6.4}Comparison with Empirical Data}{27}{subsection.6.4}
+\contentsline {subsubsection}{\numberline {6.4.1}Religious Views}{28}{subsubsection.6.4.1}
+\contentsline {subsubsection}{\numberline {6.4.2}Mobile Web Browser Market Share}{30}{subsubsection.6.4.2}
+\contentsline {section}{\numberline {7}Summary and Outlook}{32}{section.7}
+\contentsline {subsection}{\numberline {7.1}Summary}{32}{subsection.7.1}
+\contentsline {subsection}{\numberline {7.2}Outlook}{34}{subsection.7.2}
+\contentsline {section}{\numberline {8}Appendix}{37}{section.8}
+\contentsline {subsection}{\numberline {8.1}Source Code}{37}{subsection.8.1}
+\contentsline {subsubsection}{\numberline {8.1.1}Main Script}{37}{subsubsection.8.1.1}
+\contentsline {subsubsection}{\numberline {8.1.2}Random Graph Generator}{39}{subsubsection.8.1.2}
+\contentsline {subsubsection}{\numberline {8.1.3}Simulation}{40}{subsubsection.8.1.3}
+\contentsline {subsubsection}{\numberline {8.1.4}Cluster Size Distribution}{42}{subsubsection.8.1.4}
+\contentsline {subsubsection}{\numberline {8.1.5}Order Parameter Plotter}{43}{subsubsection.8.1.5}
+\contentsline {subsubsection}{\numberline {8.1.6}Convergence Time Plotter}{44}{subsubsection.8.1.6}
