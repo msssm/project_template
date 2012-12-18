@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.3-1.40.12 (TeX Live 2011) (format=pdflatex 2012.4.6)  18 DEC 2012 17:42
+This is pdfTeX, Version 3.1415926-2.3-1.40.12 (TeX Live 2011) (format=pdflatex 2012.4.6)  18 DEC 2012 18:01
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1098,10 +1098,10 @@ Package pdftex.def Info: Graphics/ClustersizeDistr/31.png used on input line 16
 File: Graphics/SvsPHI_combined.pdf Graphic file (type pdf)
 
 <use Graphics/SvsPHI_combined.pdf>
-Package pdftex.def Info: Graphics/SvsPHI_combined.pdf used on input line 208.
+Package pdftex.def Info: Graphics/SvsPHI_combined.pdf used on input line 209.
 (pdftex.def)             Requested size: 209.02002pt x 155.98508pt.
 
-Overfull \vbox (3.02855pt too high) detected at line 208
+Overfull \vbox (3.02855pt too high) detected at line 209
  []
 
 [9
@@ -1110,10 +1110,10 @@ Overfull \vbox (3.02855pt too high) detected at line 208
 <Graphics/tau.pdf, id=777, 562.1pt x 421.575pt>
 File: Graphics/tau.pdf Graphic file (type pdf)
  <use Graphics/tau.pdf>
-Package pdftex.def Info: Graphics/tau.pdf used on input line 228.
+Package pdftex.def Info: Graphics/tau.pdf used on input line 229.
 (pdftex.def)             Requested size: 207.97374pt x 155.9803pt.
 
-Overfull \vbox (17.38634pt too high) detected at line 228
+Overfull \vbox (17.38634pt too high) detected at line 229
  []
 
 [10
@@ -1126,11 +1126,11 @@ PDF inclusion: found PDF version <1.6>, but at most version <1.5> allowed
 File: Graphics/religion_power_law.pdf Graphic file (type pdf)
 
 <use Graphics/religion_power_law.pdf>
-Package pdftex.def Info: Graphics/religion_power_law.pdf used on input line 259
+Package pdftex.def Info: Graphics/religion_power_law.pdf used on input line 260
 .
 (pdftex.def)             Requested size: 119.69688pt x 88.07884pt.
 
-Overfull \vbox (1.51707pt too high) detected at line 259
+Overfull \vbox (1.51707pt too high) detected at line 260
  []
 
 [11
@@ -1143,7 +1143,7 @@ usion: found PDF version <1.6>, but at most version <1.5> allowed
 File: Graphics/mobile_web.pdf Graphic file (type pdf)
 
 <use Graphics/mobile_web.pdf>
-Package pdftex.def Info: Graphics/mobile_web.pdf used on input line 287.
+Package pdftex.def Info: Graphics/mobile_web.pdf used on input line 288.
 (pdftex.def)             Requested size: 215.00491pt x 105.99681pt.
  [12
 
@@ -1175,22 +1175,22 @@ Missing character: There is no “ in font pplr7t!
 \tf@snm=\write8
 \openout8 = `beamer_template.snm'.
 
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 371.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 371.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 372.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 372.
 
 (./beamer_template.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 371.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 371.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 372.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 372.
 Package rerunfilecheck Info: File `beamer_template.out' has not changed.
 (rerunfilecheck)             Checksum: A1EBCA39639EB1FA0A3517D07D02631D;811.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 371.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 372.
  ) 
 Here is how much of TeX's memory you used:
- 19344 strings out of 493633
- 372766 string characters out of 3143378
+ 19345 strings out of 493633
+ 372773 string characters out of 3143378
  482749 words of memory out of 3000000
  22069 multiletter control sequences out of 15000+200000
- 27202 words of font info for 73 fonts, out of 3000000 for 9000
+ 27858 words of font info for 74 fonts, out of 3000000 for 9000
  831 hyphenation exceptions out of 8191
  49i,19n,57p,404b,740s stack positions out of 5000i,500n,10000p,200000b,50000s
 {/usr/local/texlive/2011/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/local/t
@@ -1204,7 +1204,7 @@ ve/2011/texmf-dist/fonts/type1/public/amsfonts/symbols/msam7.pfb></usr/local/te
 xlive/2011/texmf-dist/fonts/type1/urw/palatino/uplb8a.pfb></usr/local/texlive/2
 011/texmf-dist/fonts/type1/urw/palatino/uplr8a.pfb></usr/local/texlive/2011/tex
 mf-dist/fonts/type1/urw/palatino/uplri8a.pfb>
-Output written on beamer_template.pdf (14 pages, 2784360 bytes).
+Output written on beamer_template.pdf (14 pages, 2784485 bytes).
 PDF statistics:
  1082 PDF objects out of 1200 (max. 8388607)
  866 compressed objects within 9 object streams
