@@ -24,8 +24,11 @@ for N2read = N_range            %Choose curves to be compared
         end
     end
     
+    a = 0.4;
+    b = 0.8;
     %Plot curves into graph that is held open.
-    plot(phi_local, tau, 'o','color',col(j,:)) 
+    plot(N2read^(b)*(phi_local-0.32)/0.32, (N2read^(a))*tau, 'o','color',col(j,:)) 
+    %plot(phi_local, tau, 'o','color',col(j,:)) 
     legcell{j}=['N = ',num2str(N2read)];    %Create cell for data range (e.g. N_range or k_range)
     j=j+1;                                  %Manually increment loop counter. This is just for getting different colors in the plot.
     hold on;

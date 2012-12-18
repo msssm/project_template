@@ -1,4 +1,4 @@
-\beamer@endinputifotherversion {3.24pt}
+\beamer@endinputifotherversion {3.10pt}
 \beamer@sectionintoc {3}{\scshape Introduction}{3}{0}{1}
 \beamer@subsectionintoc {3}{1}{Background and Motivation}{3}{0}{1}
 \beamer@sectionintoc {4}{\scshape The Model}{4}{0}{2}
