@@ -1,4 +1,4 @@
-# MATLAB HS12 – Research Plan (Template)
+# MATLAB HS13 – Research Plan (Template)
 (text between brackets to be removed)
 
 > * Group Name: (be creative!)
