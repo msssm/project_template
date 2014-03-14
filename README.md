@@ -2,7 +2,7 @@
 
 > * Group Name: Les Trois Mousquetaires
 > * Group participants names: Ledieu Elise, Munich Emmanuel, Wirz François
-> * Project Title: Social contagion of smoking
+> * Project Title: Social contagion of obesity
 
 ## General Introduction
 
