@@ -33,7 +33,9 @@ The SISa model will allow us to compare the social network and other predisposit
 ## References 
 
 (1) American Journal of Health - Public Estimating Deaths Attributable to Obesity in the United States, 2004
+
 (2) Hill and al. - Infectious Disease Modeling of Social Contagion in Networks, 2010
+
 (4) Christakis and Fowler - The Spread of Obesity in a Large Social Network over 32 Years, 2007
 
 ## Research Methods
