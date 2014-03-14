@@ -1,9 +1,8 @@
-# MATLAB Spring 2014 – Research Plan (Template)
-(text between brackets to be removed)
+# MATLAB Spring 2014 – Research Plan
 
-> * Group Name: (be creative!)
-> * Group participants names: (alphabetically sorted by last name)
-> * Project Title: (can be changed)
+> * Group Name: Les Trois Mousquetaires
+> * Group participants names: Ledieu Elise, Munich Emmanuel, Wirz François
+> * Project Title: Social contagion of smoking
 
 ## General Introduction
 
