@@ -17,9 +17,13 @@ The SISa model takes into account the individual potential genetic predispositio
 ## Fundamental Questions
 
 1)	We would to investigate if there is a tipping point where all the population might become and remain obese?
+
 2)	Does the social component of obesity outweigh the genetic component?
+
 3)	Is there a quantifiable secondary attribute of obesity that favors the selective formation of ties among obese persons?
+
 4)	To what extent does the social perception of obesity influence the speed and breadth of obesity diffusion?
+
 5)	Do we find predictions which come close to the existing ones as Hill et al. found for instance a long term obesity prevalence of 42% [reference] based on data of the Framingham Heart Stud
 
 ## Expected Results
