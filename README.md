@@ -3,7 +3,7 @@
 
 > * Group Name: (be creative!)
 > * Group participants names: (alphabetically sorted by last name)
-> * Project Title: (can be changed)
+> * Project Title: (can be changed later)
 
 ## General Introduction
 
