@@ -1,5 +1,5 @@
 # MATLAB Fall 2014 – Research Plan (Template)
-(text between brackets to be removed)
+(text betwee be removed)
 
 > * Group Name: (be creative!)
 > * Group participants names: (alphabetically sorted by last name)
