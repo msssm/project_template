@@ -1,0 +1,25 @@
+\ifx\undefined\BySame
+\newcommand{\BySame}{\leavevmode\rule[.5ex]{3em}{.5pt}\ }
+\fi
+\ifx\undefined\textsc
+\newcommand{\textsc}[1]{{\sc #1}}
+\newcommand{\emph}[1]{{\em #1\/}}
+\let\tmpsmall\small
+\renewcommand{\small}{\tmpsmall\sc}
+\fi
+\begin{thebibliography}{}
+
+\harvarditem[Erd\H{o}s and R\'{e}nyi]{Erd\H{o}s and R\'{e}nyi}{1959}{Erdos1959}
+\textsc{Erd\H{o}s, P.,  {\small and} A.~R\'{e}nyi}  (1959): ``On random graphs
+  I,'' \emph{Publ. Math. Debrecen}, 6, 290--297.
+
+\harvarditem[Gai and Kapadia]{Gai and Kapadia}{2010}{Gai2010}
+\textsc{Gai, P.,  {\small and} S.~Kapadia}  (2010): ``Contagion in Financial
+  Networks,'' \emph{Proceedings of the Royal Society of London A: Mathematical,
+  Physical and Engineering Sciences}, pp. 2401--2423.
+
+\harvarditem[Georg and Gabrieli]{Georg and Gabrieli}{2014}{Georg2014}
+\textsc{Georg, C.-P.,  {\small and} S.~Gabrieli}  (2014): ``A network view on
+  interbank market freezes,'' Discussion paper, Banque de France.
+
+\end{thebibliography}
