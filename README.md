@@ -1,7 +1,7 @@
 # MATLAB Fall 2015 – Research Plan 
 
 > * Group Name: destructive
-> * Group participants names: Deichmann, Marion; Kaiser, Lorenz; Schäfer, Timo
+> * Group participants names: Deichmann, Marion; Kaiser, Laurent; Schäfer, Timo
 > * Project Title: Modelling Contagion in a Core Periphery Financial Network
 
 ## General Introduction
