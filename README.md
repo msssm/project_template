@@ -1,9 +1,8 @@
-# MATLAB Fall 2014 – Research Plan (Template)
-(text between brackets to be removed)
+# MATLAB Fall 2015 – Research Plan 
 
-> * Group Name: (be creative!)
-> * Group participants names: (alphabetically sorted by last name)
-> * Project Title: (can be changed later)
+> * Group Name: destructive
+> * Group participants names: Deichmann, Marion; Kaiser, Lorenz; Schäfer, Timo
+> * Project Title: Modelling Contagion in a Core Periphery Financial Network
 
 ## General Introduction
 
