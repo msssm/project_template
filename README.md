@@ -62,8 +62,11 @@ We expect that the EV owners in the microgrid will obtain substantial economic p
 ## References
 
 [1] EPRI, EPRI-DOE Handbook of Energy Storage for Transmission and Distribution Applications, 2003.
+
 [2] Peterson et al., The economics of using plug-in hybrid electric vehicle battery packs for grid storage, Journal of Power Sources, 2010.
+
 [3] M. A. López et al., Optimal Microgrid Operation with Electric Vehicles, 2011 2nd IEEE PES International Conference and Exhibition on Innovative Smart Grid Technologies (ISGT Europe), 2011.
+
 [4] GTM Research, North American Microgrids 2014: The Evolution of Localized Energy Optimization, 2014.
 
 As explained above, our model extends these studies by considering the sharing of electricity among microgrid participants.
