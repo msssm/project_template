@@ -35,7 +35,7 @@ Our model will be a simplified, yet realistic abstraction of real-life microgrid
 
 (1) Would joining the microgrid be a rational decision to a new participant?
 
-Our model will indicate the total economic benefit that a new participant would obtain by joining the microgrid, determining if joining the network would be a rational decision to the new participant. If the microgrid currently has n members, our funcion will provide the analysis for the (n+1)th member, who need to deEEcide whether to join the network or not.
+Our model will indicate the total economic benefit that a new participant would obtain by joining the microgrid, determining if joining the network would be a rational decision to the new participant. If the microgrid currently has n members, our funcion will provide the analysis for the (n+1)th member, who needs to decide whether to join the network or not.
 
 Our MATLAB function will have a form similar to the following:
 
