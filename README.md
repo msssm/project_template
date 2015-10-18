@@ -33,7 +33,7 @@ Our model will be a simplified, yet realistic abstraction of real-life microgrid
 
 ## Fundamental Questions
 
-1. Would joining the microgrid be a rational decision to a new participant?
+(1) Would joining the microgrid be a rational decision to a new participant?
 
 Our model will indicate the total economic benefit that a new participant would obtain by joining the microgrid, determining if joining the network would be a rational decision to the new participant. If the microgrid currently has n members, our funcion will provide the analysis for the (n+1)th member, who need to decide whether to join the network or not.
 
@@ -47,7 +47,7 @@ Our MATLAB function will have a form similar to the following:
 	cap_EV: capacity of the (n+1)th EV's battery pack
 	h_driving: driving pattern of the (n+1)th driver
 
-2. What other social factors would affect the formation of the EV microgrid?
+(2) What other social factors would affect the formation of the EV microgrid?
 
 After this basic model is completed, social influences will be taken into account; we will analyze how "non-rational" factors affect individual decisions.
 
