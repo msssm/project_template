@@ -10,7 +10,7 @@ sheetname=2;  % we use TX state only
 
 convert the endtime(in XX:XX) into a decimal time (X.XX HR)
 if data(1,4)>24
-data(:,4)=mod(data(:,4),100)/60+floor(data(:,4)/100);
+data(:,4)=mod(data(:,4),100)+floor(data(:,4)/100)*60;
 end
 
 % remember to change the name here!
