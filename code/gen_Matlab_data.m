@@ -4,21 +4,19 @@
 % Author: Huiting Zhang
 % 2015.11.4
 
-filename='simplified.xlsx';   % should be in the same folder
-sheetname=2;  % we use TX state only
-[data,head,raw]=xlsread(data_filename,sheet);
+data_filename='texas_only.xlsx';   % should be in the same folder
+% be careful that the texas_only.xlsx does not contain "states" column now
+table=readtable(data_filename);
 
-convert the endtime(in XX:XX) into a decimal time (X.XX HR)
-if data(1,4)>24
-data(:,4)=mod(data(:,4),100)+floor(data(:,4)/100)*60;
-end
+%sort the data in a ascending endtime
+table=sortrows(table, 'ENDTIME'); % Memo: ENDTIME=-1 means skip, ENDTIME=-9 means unknown
 
-% remember to change the name here!
-save data_Texas data
-save head_Texas head 
-save raw_Texas raw
+%convert the endtime(in XX:XX) into minute time (XXX mins)
+%we delete the row of the ENDTIME=-1 OR -9
+toDelete = table.ENDTIME<0;
+table(toDelete,:) = [];
+table.ENDTIME = mod(table.ENDTIME,100) + floor(table.ENDTIME/100)*60 ;
 
-
-
+save TexasTable table 
 
 
