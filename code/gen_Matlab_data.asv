@@ -1,0 +1,30 @@
+% Matlab Code for Alternative Plan Generation: 0 Convert Excel Data into Mat
+% MicroGrid Project
+% Course: Modeling Social System by using Matlab
+% Author: Huiting Zhang
+% 2015.11.4
+
+data_filename='texas_only.xlsx';   % should be in the same folder
+% be careful that the texas_only.xlsx does not contain "states" column now
+table=readtable(data_filename);
+
+%change the raw cell matrix into normal matrix
+raw=cell2struct(raw, head, 1);
+
+%convert the endtime(in XX:XX) into minute time (XXX mins)
+if raw(1,4)>24
+data(:,'ENDTIME')=mod(data(:,'ENDTIME'),100)+floor(data(V)/100)*60;
+end
+
+%sort the data in a ascending endtime
+sortrows(data, 'ENDTIME')
+
+% remember to change the name here!
+% save data_Texas data
+% save head_Texas head 
+% save raw_Texas raw
+
+
+
+
+
