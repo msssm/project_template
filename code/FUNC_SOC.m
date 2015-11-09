@@ -15,7 +15,7 @@ for t=2:(24*60)
             if SOC(t-1)<100
                 %SOC(t)=SOC(t-1)+charging_profile.CHARGE*1;
                 %Here I use data of Nissan
-                SOC(t)=SOC(t-1)+100/(8*24);
+                SOC(t)=SOC(t-1)+100/(8*60);
                 if SOC(t)>100
                     SOC(t)=100;
                 end
