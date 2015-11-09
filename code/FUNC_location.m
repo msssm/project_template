@@ -3,6 +3,8 @@ function [ location ] = FUNC_location( table, houseid )
 %We define time step dt as 1 min
 %Initialization
 location=ones(1,60*24);
+%Get the speed profile
+speed=FUNC_speed(table,houseid);
 %Selcet data for the given houseid
 %only select the first person, which means PERSONID=1
 rows = table.HOUSEID==houseid & table.PERSONID==1;
@@ -13,12 +15,21 @@ for i=1:height(subtable)
         for t= subtable.ENDTIME(i)- subtable.TRVL_MIN(i): subtable.ENDTIME(i)-1;
             location(t)=-1;
         end
-        for t=t:60*24-1
+        %Starting from next minute to when a new trip start
+        %change the location
+        t=t+1;
+        while speed(t)==0 & t<=60*24-1
             if subtable.WHYTO(i)==1
                 location(t)=1;
             else
                 location(t)=0;
             end
+            t=t+1;
+        end
+        if speed(60*24)==0
+            location(60*24)=location(60*24-1);
+        else
+            location(60*24)=-1;
         end
     end
 end
