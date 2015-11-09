@@ -1,4 +1,4 @@
-function [ SOC ] = FUN_SOC( table,houseid )
+function [ SOC ] = FUNC_SOC( table,houseid )
 %State of charge is function of location, speed and charging profile
 %Get location and speed profile with given houseid using other function
 location=FUNC_location(table, houseid);
