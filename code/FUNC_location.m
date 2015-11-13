@@ -18,7 +18,7 @@ for i=1:height(subtable)
         %Starting from next minute to when a new trip start
         %change the location
         t=t+1;
-        while speed(t)==0 & t<=60*24-1
+        while speed(t)==0 && t<=60*24-1
             if subtable.WHYTO(i)==1
                 location(t)=1;
             else
