@@ -1,0 +1,12 @@
+clear
+load TexasTable tb
+load CarModel model
+
+HHpool = unique(tb(:,{'HOUSEID'}));
+SOCmatrix=zeros(length(HHpool),24*60)
+for i=1:length(HHpool)
+    SOC(i,:)=FUNC_SOC(tb,HHpool(i),model());
+
+NaN_Label
+     
+    

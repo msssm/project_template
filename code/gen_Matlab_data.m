@@ -12,8 +12,8 @@ table=readtable(data_filename);
 table=sortrows(table, 'ENDTIME'); % Memo: ENDTIME=-1 means skip, ENDTIME=-9 means unknown
 
 %convert the endtime(in XX:XX) into minute time (XXX mins)
-%we delete the row of the ENDTIME=-1 OR -9
-toDelete = table.ENDTIME<0;
+t=table2array(table(:,{'ENDTIME','TRVL_MIN','WHODROVE','WHYFROM','WHYTO','TRPMILES'}));
+toDelete = sum(t<0,2)>0;  % mark all the useless rows with a positive number
 table(toDelete,:) = [];
 table.ENDTIME = mod(table.ENDTIME,100) + floor(table.ENDTIME/100)*60 ;
 
