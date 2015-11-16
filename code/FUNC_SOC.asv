@@ -40,7 +40,7 @@ for t=2:(24*60)
 end
 
 % match the end and the beginning
-% struggling here!
+
 if SOC(end)<100
     SOC(1)=SOC(end);
     
