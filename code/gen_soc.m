@@ -1,5 +1,5 @@
 clear
-load TexasTable 
+load All_Data
 load CarModel
 
 HHpool = unique(table(:,{'HOUSEID'}));
@@ -9,5 +9,5 @@ for i=1:height(HHpool)
 end
 
 NaN_Label=isNaN(SOCmatrix(:,1));
-     
+sum(NaN_Label)
     
