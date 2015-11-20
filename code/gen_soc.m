@@ -9,9 +9,9 @@ HHpool = unique(table(:,{'HOUSEID'}));
 HHpool=HHpool(1:500,:);
 SOCmatrix=zeros(height(HHpool),24*60);
 for i=1:height(HHpool)
-    SOCmatrix(i,:)=FUNC_SOC(table,HHpool.HOUSEID(i),model(1,:)); % temporary use Nisaan Leaf as a try
+    SOCmatrix(i,:)=FUNC_SOC(table,HHpool.HOUSEID(i),model(2,:)); % temporary use Tesla as a try
     if isnan(SOCmatrix(i,1))==0
-        SOCalter=FUNC(SOCmatrix(i,:),model(1,:),FUNC_location(table,HHpool.HOUSEID(i)),3);
+        SOCalter=FUN_SOCalter(SOCmatrix(i,:),FUNC_location(table,HHpool.HOUSEID(i)));
         agentfolder=['Agent-',num2str(HHpool.HOUSEID(i)),'_Meter-','1'];
         mkdir(parentfolder, agentfolder)
         open([parentfolder,'',agentfolder,])
