@@ -64,6 +64,8 @@ function [ SOC_a1 ] =FUNC_altPlan1 ( SOC, t_leave0, t_home, t_leave, t_charge)
         %from start time start charing
         SOC_a1_2day(i)=SOC_2day(t_home+i-t_ranstart);
     end
+    
+    SOC_a1 = zeros(1,24*60);
     for i=t_leave0:24*60
         SOC_a1(i)=SOC_a1_2day(i);
     end
@@ -72,12 +74,12 @@ function [ SOC_a1 ] =FUNC_altPlan1 ( SOC, t_leave0, t_home, t_leave, t_charge)
     end
 end
 
-function [ altSOC2 ] = FUNC_altPlan2(SOC, t_leave0, t_home, t_leave, t_charge,car)
+function [ altSOC2 ] = FUNC_altPlan2(SOC, t_leave0, t_home, t_leave, t_charge, car)
 % This subfunction finds the SOC when the second alternative plan is applied
 % This plan charges a vehicle halfway as soon as the car is parked, pauses, and charges up to 100% at the end of the parking hours 
 
 
-    % Initialize altSOC2; only the elements during charging will be replaced
+    % Initialize altSOC2_2day; only the first half of the vector will be used at the end
     SOC_2day=[SOC SOC];
     altSOC2_2day = SOC_2day;
     
@@ -113,12 +115,19 @@ function [ altSOC2 ] = FUNC_altPlan2(SOC, t_leave0, t_home, t_leave, t_charge,ca
     for i = (t_leave - 59):t_leave
         altSOC2_2day(i) = 100;
     end
+    
+    % Initialize altSOC2, which will be the final output
+    altSOC2 = zeros(1,24*60);
+    
+    % Find altSOC2 from altSOC2_2day
     for i=t_leave0:24*60
         altSOC2(i)=altSOC2_2day(i);
     end
+    
     for i=1:t_leave0
         altSOC2(i)=altSOC2_2day(i+24*60);
     end
+    
 end
 
 function [ altSOC3 ] = FUNC_altPlan3(SOC, t_leave0, t_home, t_leave, t_charge, car)
@@ -126,7 +135,7 @@ function [ altSOC3 ] = FUNC_altPlan3(SOC, t_leave0, t_home, t_leave, t_charge, c
 % This plan charges a vehicle halfway as soon as the car is parked, takes a break of random length, and charges up to 100% 
 
 
-    % Initialize altSOC3; only the elements during charging will be replaced
+    % Initialize altSOC3_2day; only the first half will be used as the final output
     SOC_2day=[SOC SOC];
     altSOC3_2day = SOC_2day;
     
@@ -162,12 +171,19 @@ function [ altSOC3 ] = FUNC_altPlan3(SOC, t_leave0, t_home, t_leave, t_charge, c
     for i = (t_leave - 59):t_leave
         altSOC3_2day(i) = 100;
     end
+    
+    % Initialize altSOC3, which will be the final output
+    altSOC3 = zeros(1,24*60);
+    
+    % Find altSOC3 from altSOC3_2day
     for i=t_leave0:24*60
         altSOC3(i)=altSOC3_2day(i);
     end
+    
     for i=1:t_leave0
         altSOC3(i)=altSOC3_2day(i+24*60);
     end
+    
 end
 
 function [ altSOC4 ] = FUNC_altPlan4(SOC, t_leave0, t_home, t_leave, t_charge, car)
@@ -175,7 +191,7 @@ function [ altSOC4 ] = FUNC_altPlan4(SOC, t_leave0, t_home, t_leave, t_charge, c
 % This plan charges a vehicle in three discrete steps that are evenly spaced
 
 
-    % Initialize altSOC4; only the elements during charging will be replaced
+    % Initialize altSOC4_2day; only the first half will be used as the final output
     SOC_2day=[SOC SOC];
     altSOC4_2day = SOC_2day;
     
@@ -224,19 +240,26 @@ function [ altSOC4 ] = FUNC_altPlan4(SOC, t_leave0, t_home, t_leave, t_charge, c
     for i = (t_leave - 59):t_leave
         altSOC4_2day(i) = 100;
     end
+    
+    % Initialize altSOC4, which will be the final output
+    altSOC4 = zeros(1,24*60);
+    
+    % Find altSOC4 from altSOC4_2day
     for i=t_leave0:24*60
         altSOC4(i)=altSOC4_2day(i);
     end
+    
     for i=1:t_leave0
         altSOC4(i)=altSOC4_2day(i+24*60);
     end
+    
 end
 
 function [ altSOC5 ] = FUNC_altPlan5(SOC,t_leave0, t_home, t_leave, t_charge, car)
 % This subfunction finds the SOC when the fourth alternative plan is applied
 % This plan charges a vehicle in three discrete steps; breaks among the charging steps are randomly determined 
 
-    % Initialize altSOC5; only the elements during charging will be replaced
+    % Initialize altSOC5_2day; only the first half will be used as the final output
     SOC_2day=[SOC SOC];
     altSOC5_2day = SOC_2day;
     
@@ -291,9 +314,15 @@ function [ altSOC5 ] = FUNC_altPlan5(SOC,t_leave0, t_home, t_leave, t_charge, ca
     for i = (t_charge_step3 + 1):t_leave
         altSOC5_2day(i) = 100;
     end
+    
+    % Initialize altSOC5, which will be the final output
+    altSOC5 = zeros(1,24*60);
+    
+    % Find altSOC4 from altSOC5_2day
     for i=t_leave0:24*60
         altSOC5(i)=altSOC5_2day(i);
     end
+    
     for i=1:t_leave0
         altSOC5(i)=altSOC5_2day(i+24*60);
     end
