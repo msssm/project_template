@@ -1,4 +1,4 @@
-function [SOC_alter] =FUN_SOCalter (SOC,location,car)
+function [SOC_alter] =FUN_SOCalter (SOC,location,car,pattern)
 t=1;
 SOC_alter=zeros(7,24*60);
 while t<=24*60
@@ -30,23 +30,49 @@ while t<=24*60
             t_leave1=t;
             if t_leave1-t_home>=60+t_charge
                 %apply alternative plans
-                SOC_alter(1,:)=FUNC_altPlan1(SOC,t_leave0,t_home,t_leave1,t_charge, car);
-                SOC_alter(2,:)=FUNC_altPlan2(SOC,t_leave0,t_home,t_leave1,t_charge, car);
-                SOC_alter(3,:)=FUNC_altPlan3(SOC,t_leave0,t_home,t_leave1,t_charge, car);
-                SOC_alter(4,:)=FUNC_altPlan4(SOC,t_leave0,t_home,t_leave1,t_charge, car);
-                SOC_alter(5,:)=FUNC_altPlan5(SOC,t_leave0,t_home,t_leave1,t_charge, car);
-                SOC_alter(6,:)=FUNC_altPlan6(SOC,t_leave0,t_home,t_leave1,t_charge, car);
-                SOC_alter(7,:)=FUNC_altPlan7(SOC,t_leave0,t_home,t_leave1,t_charge, car);
+                for j = 1:length(pattern)
+                    switch pattern(j)
+                        case 0
+                            SOC_alter(j,:)=SOC;
+                        case 1
+                            SOC_alter(j,:)=FUNC_altPlan1(SOC,t_leave0,t_home,t_leave1,t_charge, car);
+                        case 2
+                            SOC_alter(j,:)=FUNC_altPlan2(SOC,t_leave0,t_home,t_leave1,t_charge, car);
+                        case 3
+                            SOC_alter(j,:)=FUNC_altPlan3(SOC,t_leave0,t_home,t_leave1,t_charge, car);
+                        case 4
+                            SOC_alter(j,:)=FUNC_altPlan4(SOC,t_leave0,t_home,t_leave1,t_charge, car);
+                        case 5
+                            SOC_alter(j,:)=FUNC_altPlan5(SOC,t_leave0,t_home,t_leave1,t_charge, car);
+                        case 6
+                            SOC_alter(j,:)=FUNC_altPlan6(SOC,t_leave0,t_home,t_leave1,t_charge, car);
+                        case 7
+                            SOC_alter(j,:)=FUNC_altPlan7(SOC,t_leave0,t_home,t_leave1,t_charge, car);
+                    end
+                end
             end
         elseif t_leave0+24*60-t_home>=60+t_charge
             %apply alternative plans
-            SOC_alter(1,:)=FUNC_altPlan1(SOC,t_leave0,t_home,t_leave0+24*60,t_charge, car);
-            SOC_alter(2,:)=FUNC_altPlan2(SOC,t_leave0,t_home,t_leave0+24*60,t_charge, car);
-            SOC_alter(3,:)=FUNC_altPlan3(SOC,t_leave0,t_home,t_leave0+24*60,t_charge, car);
-            SOC_alter(4,:)=FUNC_altPlan4(SOC,t_leave0,t_home,t_leave0+24*60,t_charge, car);
-            SOC_alter(5,:)=FUNC_altPlan5(SOC,t_leave0,t_home,t_leave0+24*60,t_charge, car);
-            SOC_alter(6,:)=FUNC_altPlan6(SOC,t_leave0,t_home,t_leave0+24*60,t_charge, car);
-            SOC_alter(7,:)=FUNC_altPlan7(SOC,t_leave0,t_home,t_leave0+24*60,t_charge, car);
+            for j = 1:length(pattern)
+                    switch pattern(j)
+                        case 0
+                            SOC_alter(j,:)=SOC;
+                        case 1
+                            SOC_alter(j,:)=FUNC_altPlan1(SOC,t_leave0,t_home,t_leave0+24*60,t_charge, car);
+                        case 2
+                            SOC_alter(j,:)=FUNC_altPlan2(SOC,t_leave0,t_home,t_leave0+24*60,t_charge, car);
+                        case 3
+                            SOC_alter(j,:)=FUNC_altPlan3(SOC,t_leave0,t_home,t_leave0+24*60,t_charge, car);
+                        case 4
+                            SOC_alter(j,:)=FUNC_altPlan4(SOC,t_leave0,t_home,t_leave0+24*60,t_charge, car);
+                        case 5
+                            SOC_alter(j,:)=FUNC_altPlan5(SOC,t_leave0,t_home,t_leave0+24*60,t_charge, car);
+                        case 6
+                            SOC_alter(j,:)=FUNC_altPlan6(SOC,t_leave0,t_home,t_leave0+24*60,t_charge, car);
+                        case 7
+                            SOC_alter(j,:)=FUNC_altPlan7(SOC,t_leave0,t_home,t_leave0+24*60,t_charge, car);
+                    end
+            end
         end
     else
         t=t+1;
