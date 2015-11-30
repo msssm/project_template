@@ -30,7 +30,7 @@ while t<=24*60
             t_leave1=t;
             if t_leave1-t_home>=60+t_charge
                 %apply alternative plans
-                SOC_alter(1,:)=FUNC_altPlan1(SOC,t_leave0,t_home,t_leave1,t_charge);
+                SOC_alter(1,:)=FUNC_altPlan1(SOC,t_leave0,t_home,t_leave1,t_charge, car);
                 SOC_alter(2,:)=FUNC_altPlan2(SOC,t_leave0,t_home,t_leave1,t_charge, car);
                 SOC_alter(3,:)=FUNC_altPlan3(SOC,t_leave0,t_home,t_leave1,t_charge, car);
                 SOC_alter(4,:)=FUNC_altPlan4(SOC,t_leave0,t_home,t_leave1,t_charge, car);

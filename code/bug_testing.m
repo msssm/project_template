@@ -18,43 +18,22 @@ plan_number=5;
 %initialization
 count=1;
 i=1;
+test=zeros(sample_number,plan_number);
 % generate "1 original + 4 same-pattern" alter plan
 while count<=sample_number
     SOCori=FUNC_SOC(subtable,HHpool.HOUSEID(i),model(car_index,:));
     altMatrix=zeros(plan_number, 24*60);
     if isnan(SOCori(1,1))==0
         altMatrix(1,:)=SOCori;
-        agentfolder=['Agent-',num2str(HHpool.HOUSEID(i)),'_Meter-','1'];
-        mkdir(parentfolder, agentfolder)
-        filename=[parentfolder,'/',agentfolder,'/','2015-01-01.plans'];
         for j=2:plan_number
         alter=FUN_SOCalter(SOCori,FUNC_location(table,HHpool.HOUSEID(i)),model(car_index,:));
         altMatrix(j,:)=alter(alt_pattern,:);
         end
         
         for j=1:plan_number
-        fileID = fopen(filename,'a');
-        fprintf(fileID,'1.0:');
-        fclose(fileID);
-        dlmwrite(filename,FUNC_electricity(altMatrix(j,:),model(car_index,:)),'-append','delimiter',',')
+        test(count,j)=sum(FUNC_electricity(altMatrix(j,:),model(car_index,:)));
         end
         count=count+1;
     end
     i=i+1;
 end
-        
-        
-% 
-%         
-%         
-%         open([parentfolder,'',agentfolder,])
-        
-    
-    
-%end
-
-
-
-
-
-    
