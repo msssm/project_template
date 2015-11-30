@@ -19,7 +19,6 @@ plan_number=5;
 count=1;
 i=1;
 test=zeros(sample_number,plan_number);
-num_error=0;
 % generate "1 original + 4 same-pattern" alter plan
 % 
 % % while i<=sample_number
@@ -44,13 +43,11 @@ while count<=sample_number
         for j=1:plan_number
         test(count,j)=sum(FUNC_electricity(altMatrix(j,:),model(car_index,:)));
         end
-        if (max(test(count,:)) - min(test(count,:)))~=0
-        
+        if 
         num_error=num_error+1;
-        fprintf('find1!!!%d',num_error);
         end
         count=count+1;
-        
+        fprintf('%d',count);
     end
     i=i+1;
 end

@@ -11,7 +11,7 @@ rows = table.HOUSEID==houseid & table.PERSONID==1;
 subtable= table(rows, {'ENDTIME','AWAYHOME', 'TRVL_MIN', 'WHYTO' });
 %1: at home, -1: on road, 0: other location 
 for i=1:height(subtable)
-    if subtable.AWAYHOME(i)==-1 && (subtable.ENDTIME(i)- subtable.TRVL_MIN(i))>0 && subtable.TRVL_MIN(i)>0
+    if (subtable.ENDTIME(i)- subtable.TRVL_MIN(i))>0 && subtable.TRVL_MIN(i)>0
         period= subtable.ENDTIME(i)- subtable.TRVL_MIN(i): subtable.ENDTIME(i)-1;
         for t=period(period>0)
             location(t)=-1;
