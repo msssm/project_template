@@ -38,7 +38,7 @@ while t<=24*60
             end
         elseif t_leave0+24*60-t_home>=60+t_charge
             %apply alternative plans
-            SOC_alter(1,:)=FUNC_altPlan1(SOC,t_leave0,t_home,t_leave0+24*60,t_charge);
+            SOC_alter(1,:)=FUNC_altPlan1(SOC,t_leave0,t_home,t_leave0+24*60,t_charge, car);
             SOC_alter(2,:)=FUNC_altPlan2(SOC,t_leave0,t_home,t_leave0+24*60,t_charge, car);
             SOC_alter(3,:)=FUNC_altPlan3(SOC,t_leave0,t_home,t_leave0+24*60,t_charge, car);
             SOC_alter(4,:)=FUNC_altPlan4(SOC,t_leave0,t_home,t_leave0+24*60,t_charge, car);
@@ -51,27 +51,54 @@ end
 
 end
 
-function [ SOC_a1 ] =FUNC_altPlan1 ( SOC, t_leave0, t_home, t_leave, t_charge)
-    %alternative plan 1
+function [ altSOC1 ] = FUNC_altPlan1(SOC, t_leave0, t_home, t_leave, t_charge, car)
+% This subfunction finds the SOC when the first alternative plan is applied
+% This plan charges a vehicle fully in one randomly determined charging step
+
+    % Initialize altSOC2_2day; only the first half of the vector will be used at the end
     SOC_2day=[SOC SOC];
-    SOC_a1_2day=SOC_2day;
-    t_ranstart=t_home+round(rand(1,1)*(t_leave-t_home-60));
-    for i=t_home:t_ranstart-1
-        %before start time SOC stay the same as the car is just home
-        SOC_a1_2day(i)=SOC_2day(t_home);
-    end
-    for i=t_ranstart:t_ranstart+t_charge
-        %from start time start charing
-        SOC_a1_2day(i)=SOC_2day(t_home+i-t_ranstart);
+    altSOC1_2day = SOC_2day;
+    
+    % pause is the duration of the break before the first charging step [in minutes]
+    pause = round(rand(t_leave - t_home - t_charge - 60));
+    
+    % For the first "pause" minutes, SOC remains at the initial level
+    for i = (t_home + 1):(t_home + pause)
+       altSOC1_2day(i) = altSOC1_2day(t_home);
     end
     
-    SOC_a1 = zeros(1,24*60);
+    % t_charge_full is the time when the vehicle charges fully
+    t_charge_full = round(t_home + pause + t_charge);
+    
+    % In this loop, the vehicle is charged fully
+    for i = (t_home + pause + 1):(t_charge_full)
+        % SOC increases by (car.ChargeKW/car.CapacityKWh)*(100/60) every minute
+        altSOC1_2day(i) = altSOC1_2day(t_home + pause) + (car.ChargeKW/car.CapacityKWh)*(100/60)*(i-(t_home + pause));
+        
+        % Set the upper bound for SOC in case SOC goes above 100
+        if altSOC1_2day(i) > 100
+            altSOC1_2day(i) = 100;
+        end
+        
+    end
+    
+    % SOC stays at 100% until t_leave
+    for i = (t_charge_full + 1):t_leave
+        altSOC1_2day(i) = 100;
+    end
+    
+    % Initialize altSOC1, which will be the final output
+    altSOC1 = zeros(1,24*60);
+    
+    % Find altSOC1 from altSOC1_2day
     for i=t_leave0:24*60
-        SOC_a1(i)=SOC_a1_2day(i);
+        altSOC1(i)=altSOC1_2day(i);
     end
+    
     for i=1:t_leave0
-        SOC_a1(i)=SOC_a1_2day(i+24*60);
+        altSOC1(i)=altSOC1_2day(i+24*60);
     end
+
 end
 
 function [ altSOC2 ] = FUNC_altPlan2(SOC, t_leave0, t_home, t_leave, t_charge, car)
@@ -256,7 +283,7 @@ function [ altSOC4 ] = FUNC_altPlan4(SOC, t_leave0, t_home, t_leave, t_charge, c
 end
 
 function [ altSOC5 ] = FUNC_altPlan5(SOC,t_leave0, t_home, t_leave, t_charge, car)
-% This subfunction finds the SOC when the fourth alternative plan is applied
+% This subfunction finds the SOC when the fifth alternative plan is applied
 % This plan charges a vehicle in three discrete steps; breaks among the charging steps are randomly determined 
 
     % Initialize altSOC5_2day; only the first half will be used as the final output
