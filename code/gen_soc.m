@@ -1,17 +1,18 @@
 clear
 
-load All_Data
+% only use data of texas
+load TexasTable
 load CarModel
 
 %define parent folder of alternative plan
-parentfolder='../151123_pattern1_5plan'; % this is in the same level as "code" file
+parentfolder='../151127_pattern5_5plan'; % this is in the same level as "code" file
 
-% only use data of texas
-row= table.Smoker=='TX';
+row= (table.TRAVDAY<=5); % only consider weekdays
+subtable=table(row,:);
 HHpool = unique(subtable(:,{'HOUSEID'}));
 car_index=2; %index means which car we use 1-nissan, 2-tesla
-sample_number=500; % how many output sample we need
-alt_pattern=1;
+sample_number=1000; % how many output sample we need
+alt_pattern=5;
 plan_number=5;
 
 HHpool=HHpool(1:sample_number,:);
@@ -26,15 +27,15 @@ for i=1:height(HHpool)
         mkdir(parentfolder, agentfolder)
         filename=[parentfolder,'/',agentfolder,'/','2015-01-01.plans'];
         for j=2:plan_number
+        alter=FUN_SOCalter(SOCori,FUNC_location(table,HHpool.HOUSEID(i)),model(car_index,:));
+        altMatrix(j,:)=alter(alt_pattern,:);
+        end
+        
+        for j=1:plan_number
         fileID = fopen(filename,'a');
         fprintf(fileID,'1.0:');
         fclose(fileID);
-        alter=FUN_SOCalter(SOCori,FUNC_location(table,HHpool.HOUSEID(i)),model(car_index,:));
-        altMatrix(j,:)=alter(alt_pattern,:);
-        dlmwrite(filename,altMatrix(j,:),'-append','delimiter',',')
-        fileID = fopen(filename,'a');
-        fprintf(fileID,'\n');
-        fclose(fileID);
+        dlmwrite(filename,FUNC_electricity(altMatrix(j,:),model(car_index,:)),'-append','delimiter',',')
         end
     end
 end
