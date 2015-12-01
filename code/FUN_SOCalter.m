@@ -516,7 +516,7 @@ function [ altSOC7 ] = FUNC_altPlan7(SOC, t_leave0, t_home, t_leave, t_charge, c
     
     % This for loop represents the third charging step
     for i = (t_step2 + pause3 + 1):(t_step3)
-        altSOC7_2day(i) = altSOC7_2day(t_step2 + pause2) + (car.ChargeKW/car.CapacityKWh)*(100/60)*(i - (t_step2 + pause3));
+        altSOC7_2day(i) = altSOC7_2day(t_step2 + pause3) + (car.ChargeKW/car.CapacityKWh)*(100/60)*(i - (t_step2 + pause3));
         
         % Set the upper bound for SOC in case SOC goes above 100
         if altSOC7_2day(i) > 100
