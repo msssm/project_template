@@ -535,7 +535,7 @@ function [ altSOC7 ] = FUNC_altPlan7(SOC, t_leave0, t_home, t_leave, t_charge, c
     
     % Find altSOC7 from altSOC7_2day
     for i=t_leave0:24*60
-        altSOC7(i)=altSOC4_2day(i);
+        altSOC7(i)=altSOC7_2day(i);
     end
     
     for i=1:t_leave0
