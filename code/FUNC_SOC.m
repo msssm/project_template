@@ -12,6 +12,9 @@ SOCperMile_Highway=100/(car.MiPerKWhHighway*car.CapacityKWh);
 %Initialize SOC
 SOC=100*ones(1,24*60);
 %Calculate SOC
+if location(end)~=location(1)
+    SOC=NaN;
+else
 for t=2:(24*60)
     switch location(t)
         case 1
@@ -78,9 +81,8 @@ SOC(1)=SOC(end);
   SOC=NaN;
   end
 
+end 
 end
-
-    
 end
     
 
