@@ -265,7 +265,7 @@ function [ altSOC4 ] = FUNC_altPlan4(SOC, t_leave0, t_home, t_leave, t_charge, c
     
     % SOC stays at the same level before the first charging step
     for i = (t_home + 1):(t_home + pause1)
-       altSOC4_2day(i) = altSOC4_2day(t_home); 
+       altSOC4_2day(i) = altSOC4_2day(t_home);
     end
     
     % t_half is the time when the vehicle gets charged halfway
