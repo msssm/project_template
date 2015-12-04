@@ -1,6 +1,6 @@
 function [SOC_alter] =FUN_SOCalter (SOC,location,car,pattern)
 t=1;
-SOC_alter=zeros(length(pattern),24*60);
+SOC_alter=zeros(7,24*60);
 while t<=24*60
     %momerize the start time of this round
     t_start=t;
@@ -265,7 +265,7 @@ function [ altSOC4 ] = FUNC_altPlan4(SOC, t_leave0, t_home, t_leave, t_charge, c
     
     % SOC stays at the same level before the first charging step
     for i = (t_home + 1):(t_home + pause1)
-       altSOC4_2day(i) = altSOC4_2day(t_home); 
+       altSOC4_2day(i) = altSOC4_2day(t_home);
     end
     
     % t_half is the time when the vehicle gets charged halfway
@@ -274,7 +274,7 @@ function [ altSOC4 ] = FUNC_altPlan4(SOC, t_leave0, t_home, t_leave, t_charge, c
     % This for loop represents the first charging step that charges the vehicle halfway
     for i = (t_home + pause1 + 1):t_half
         % SOC increases by (car.ChargeKW/car.CapacityKWh)*(100/60) every minute
-        altSOC4_2day(i) = altSOC4_2day(t_home) + (car.ChargeKW/car.CapacityKWh)*(100/60)*(i-t_home);
+        altSOC4_2day(i) = altSOC4_2day(t_home + pause1) + (car.ChargeKW/car.CapacityKWh)*(100/60)*(i-(t_home+ pause1));
     end
     
     % SOC stays at the same level during the break

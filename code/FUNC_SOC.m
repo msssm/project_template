@@ -31,7 +31,7 @@ for t=2:(24*60)
             %on road, being discharged
             %SOC(t)=SOC(t-1)-charging_profile.DISCHARGE*speed(t);
             if speed(t)>60  % highway
-            SOC(t)=SOC(t-1)-speed(t)*SOCperMile_Highway;    %¡¡speed(t) is in mile/min
+            SOC(t)=SOC(t-1)-speed(t)*SOCperMile_Highway;    %??speed(t) is in mile/min
             else            % city
             SOC(t)=SOC(t-1)-speed(t)*SOCperMile_City;
             end
@@ -66,7 +66,7 @@ SOC(1)=SOC(end);
                 %on road, being discharged
                 %SOC(t)=SOC(t-1)-charging_profile.DISCHARGE*speed(t);
                 if speed(t)>60  % highway
-                SOC(t)=SOC(t-1)-speed(t)*SOCperMile_Highway;    %¡¡speed(t) is in mile/min
+                SOC(t)=SOC(t-1)-speed(t)*SOCperMile_Highway;    %??speed(t) is in mile/min
                 else            % city
                 SOC(t)=SOC(t-1)-speed(t)*SOCperMile_City;
                 end
