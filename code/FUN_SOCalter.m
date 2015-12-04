@@ -274,7 +274,7 @@ function [ altSOC4 ] = FUNC_altPlan4(SOC, t_leave0, t_home, t_leave, t_charge, c
     % This for loop represents the first charging step that charges the vehicle halfway
     for i = (t_home + pause1 + 1):t_half
         % SOC increases by (car.ChargeKW/car.CapacityKWh)*(100/60) every minute
-        altSOC4_2day(i) = altSOC4_2day(t_home + pause1) + (car.ChargeKW/car.CapacityKWh)*(100/60)*(i-(t_home+ pause1));
+        altSOC4_2day(i) = altSOC4_2day(t_home + pause1) + (car.ChargeKW/car.CapacityKWh)*(100/60)*(i-(t_home + pause1));
     end
     
     % SOC stays at the same level during the break
