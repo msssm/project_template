@@ -1,10 +1,10 @@
-function [ altSOC6 ] = altPlan6(SOC,t_leave0, t_home, t_leave, t_charge, car)
-% This subfunction finds the SOC when the sixth alternative plan is applied
+function [ altSOC4 ] = altPlan4test(SOC,t_leave0, t_home, t_leave, t_charge, car)
+% This subfunction finds the SOC when the alternative plan 4 is applied
 % This plan charges a vehicle in three discrete steps;the first step starts immediately; breaks among the charging steps are randomly determined 
 
-    % Initialize altSOC6_2day; only the first half will be used as the final output
+    % Initialize altSOC4_2day; only the first half will be used as the final output
     SOC_2day=[SOC SOC];
-    altSOC6_2day = SOC_2day;
+    altSOC4_2day = SOC_2day;
     
     % pauseTotal is the sum of all pauses between charging steps [in minutes]
     pauseTotal = t_leave - t_home - t_charge - 60;
@@ -20,12 +20,12 @@ function [ altSOC6 ] = altPlan6(SOC,t_leave0, t_home, t_leave, t_charge, car)
     % This for loop represents the first charging step
     for i = (t_home + 1):t_step1
         % SOC increases by (car.ChargeKW/car.CapacityKWh)*(100/60) every minute
-        altSOC6_2day(i) = altSOC6_2day(t_home) + (car.ChargeKW/car.CapacityKWh)*(100/60)*(i-t_home);
+        altSOC4_2day(i) = altSOC4_2day(t_home) + (car.ChargeKW/car.CapacityKWh)*(100/60)*(i-t_home);
     end
     
     % SOC stays at the same level during the first break
     for i = (t_step1 + 1):(t_step1 + pause1);
-        altSOC6_2day(i) = altSOC6_2day(t_step1);
+        altSOC4_2day(i) = altSOC4_2day(t_step1);
     end
     
     % t_step2 is the time when the second charging step ends
@@ -33,12 +33,12 @@ function [ altSOC6 ] = altPlan6(SOC,t_leave0, t_home, t_leave, t_charge, car)
     
     % This for loop represents the second charging step
     for i = (t_step1 + pause1 + 1):(t_step2)
-        altSOC6_2day(i) = altSOC6_2day(t_step1 + pause1) + (car.ChargeKW/car.CapacityKWh)*(100/60)*(i - (t_step1 + pause1));
+        altSOC4_2day(i) = altSOC4_2day(t_step1 + pause1) + (car.ChargeKW/car.CapacityKWh)*(100/60)*(i - (t_step1 + pause1));
     end
     
     % SOC stays at the same level during the second break
     for i = (t_step2 + 1):(t_step2 + pause2);
-        altSOC6_2day(i) = altSOC6_2day(t_step2);
+        altSOC4_2day(i) = altSOC4_2day(t_step2);
     end
     
     % t_step3 is the time when the third charging step ends
@@ -46,30 +46,30 @@ function [ altSOC6 ] = altPlan6(SOC,t_leave0, t_home, t_leave, t_charge, car)
     
     % This for loop represents the third charging step
     for i = (t_step2 + pause2 + 1):(t_step3)
-        altSOC6_2day(i) = altSOC6_2day(t_step2 + pause2) + (car.ChargeKW/car.CapacityKWh)*(100/60)*(i - (t_step2 + pause2));
+        altSOC4_2day(i) = altSOC4_2day(t_step2 + pause2) + (car.ChargeKW/car.CapacityKWh)*(100/60)*(i - (t_step2 + pause2));
         
         % Set the upper bound for SOC in case SOC goes above 100
-        if altSOC6_2day(i) > 100
-            altSOC6_2day(i) = 100;
+        if altSOC4_2day(i) > 100
+            altSOC4_2day(i) = 100;
         end
         
     end
     
     % SOC stays at 100% for the remaining time
     for i = (t_step3 + 1):t_leave
-        altSOC6_2day(i) = 100;
+        altSOC4_2day(i) = 100;
     end
     
-    % Initialize altSOC6, which will be the final output
-    altSOC6 = zeros(1,24*60);
+    % Initialize altSOC4, which will be the final output
+    altSOC4 = zeros(1,24*60);
     
-    % Find altSOC6 from altSOC6_2day
+    % Find altSOC4 from altSOC4_2day
     for i=t_leave0:24*60
-        altSOC6(i)=altSOC6_2day(i);
+        altSOC4(i)=altSOC4_2day(i);
     end
     
     for i=1:t_leave0
-        altSOC6(i)=altSOC6_2day(i+24*60);
+        altSOC4(i)=altSOC4_2day(i+24*60);
     end
     
 end

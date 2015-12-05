@@ -1,4 +1,4 @@
-function [ altSOC1 ] = altPlan1(SOC, t_leave0, t_home, t_leave, t_charge, car)
+function [ altSOC1 ] = altPlan1test(SOC, t_leave0, t_home, t_leave, t_charge, car)
 % This subfunction finds the SOC when the first alternative plan is applied
 % This plan charges a vehicle fully in one randomly determined charging step
 
