@@ -9,7 +9,7 @@ function [ altSOC5 ] = altPlan5test(SOC, t_leave0, t_home, t_leave, t_charge, ca
     
     % pauseTotal is the sum of all pauses between charging steps [in minutes]
     pauseTotal = t_leave - t_home - t_charge - 60;
-    
+
     % In this alternative plan, there will be four pauses
     R = rand(1,4);
     pause1 = round((R(1)/sum(R))*pauseTotal);
