@@ -9,15 +9,16 @@ speed=FUNC_speed(table,houseid);
 %only select the first person, which means PERSONID=1
 rows = table.HOUSEID==houseid & table.PERSONID==1;
 subtable= table(rows, {'ENDTIME','AWAYHOME', 'TRVL_MIN', 'WHYTO' });
-%1: at home, -1: on road, 0: other location 
+
+    % 1: at home, -1: on road, 0: other locations 
 for i=1:height(subtable)
     if (subtable.ENDTIME(i)- subtable.TRVL_MIN(i))>0 && subtable.TRVL_MIN(i)>0
         period= subtable.ENDTIME(i)- subtable.TRVL_MIN(i): subtable.ENDTIME(i)-1;
         for t=period(period>0)
             location(t)=-1;
         end
-        %Starting from next minute to when a new trip start
-        %change the location
+        % consider the cases when the vehicle is not moving
+        % change the location
         t=t+1;
         if t<1
             t=t+1;

@@ -2,15 +2,17 @@ function [SOC_alter] =FUN_SOCalter (SOC,location,car,pattern)
 t=1;
 SOC_alter=zeros(7,24*60);
 while t<=24*60
-    %momerize the start time of this round
+    % memorize the start time of this round
     t_start=t;
-    %start timing till the car leave
+    
+    % time count increases until the car leaves home
     while location(t)==1 && t<24*60
         t=t+1;
     end
-    %move forward if the time is not the end of the day
+    
+    % move forward if the time is not the end of the day
     if t~=24*60
-        %get the leave time
+        % get the leave time
         if t_start==1;
             t_leave0=t;
         end
