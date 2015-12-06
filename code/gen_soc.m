@@ -21,7 +21,7 @@ plan_number=length(pattern);
 count=1;
 i=1;
 
-% generate "1 original + 4 same-pattern" alter plan
+% generate alternative plan
 while count<=EV_number
     SOCori=FUNC_SOC(subtable,HHpool.HOUSEID(i),model(car_index,:));
     if isnan(SOCori(1,1))==0 && range(SOCori)~=0

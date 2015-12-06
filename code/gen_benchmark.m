@@ -11,7 +11,7 @@ row= (table.TRAVDAY<=5); % only consider weekdays
 subtable=table(row,:);
 HHpool = unique(subtable(:,{'HOUSEID'}));
 car_index=2; %index means which car we use 1-nissan, 2-tesla
-EV_number=1000; % how many output sample we need
+EV_number=500; % how many output sample we need
 
 count=1;
 i=1;
