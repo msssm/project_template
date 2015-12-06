@@ -16,73 +16,49 @@ SOC=100*ones(1,24*60);
 if location(end)~=location(1)
    SOC=NaN;
 else
-    for t=2:(24*60)
-        switch location(t)
+    SOC_2day=[SOC SOC];
+    speed_2day=[speed speed];
+    location_2day=[location location];
+    for t=2:(24*60*2)
+        switch location_2day(t)
             case 1
                 %at home, can be charged
-                if SOC(t-1)<100
+                if SOC_2day(t-1)<100
                     %SOC(t)=SOC(t-1)+charging_profile.CHARGE*1;
                     %Here I use data of Nissan
-                    SOC(t)=SOC(t-1)+100/(fullchagtime*60);
-                    if SOC(t)>100
-                        SOC(t)=100;
+                    SOC_2day(t)=SOC_2day(t-1)+100/(fullchagtime*60);
+                    if SOC_2day(t)>100
+                        SOC_2day(t)=100;
                     end
                 end
             case -1
                 %on road, being discharged
                 %SOC(t)=SOC(t-1)-charging_profile.DISCHARGE*speed(t);
-                if speed(t)>60  % highway
-                SOC(t)=SOC(t-1)-speed(t)*SOCperMile_Highway;    %??speed(t) is in mile/min
+                if speed_2day(t)>60  % highway
+                SOC_2day(t)=SOC_2day(t-1)-speed_2day(t)*SOCperMile_Highway;    %??speed(t) is in mile/min
                 else            % city
-                SOC(t)=SOC(t-1)-speed(t)*SOCperMile_City;
+                SOC_2day(t)=SOC_2day(t-1)-speed_2day(t)*SOCperMile_City;
                 end
 
             case 0
                 %at other place no charging/discharging
-                SOC(t)=SOC(t-1);
+                SOC_2day(t)=SOC_2day(t-1);
         end
     end
-
-%find the SOC with negative element
-%if so output a zeros array(can be detected easily)
-if any(SOC<0)
-SOC=NaN;
-% match the end and the beginning
-elseif SOC(end)<100
-SOC(1)=SOC(end);
-    % run the new profile again based on the new starting point
-    for t=2:(24*60)
-        switch location(t)
-            case 1
-                %at home, can be charged
-                if SOC(t-1)<100
-                %SOC(t)=SOC(t-1)+charging_profile.CHARGE*1;
-                %Here I use data of Nissan
-                    SOC(t)=SOC(t-1)+100/(fullchagtime*60);
-                    if SOC(t)>100
-                        SOC(t)=100;
-                    end
-                end
-            case -1
-                %on road, being discharged
-                %SOC(t)=SOC(t-1)-charging_profile.DISCHARGE*speed(t);
-                if speed(t)>60  % highway
-                SOC(t)=SOC(t-1)-speed(t)*SOCperMile_Highway;    %??speed(t) is in mile/min
-                else            % city
-                SOC(t)=SOC(t-1)-speed(t)*SOCperMile_City;
-                end
-               
-            case 0
-            %at other place no charging/discharging
-            SOC(t)=SOC(t-1);
-        end
+    for i=1:1440
+        SOC(i)=SOC_2day(i+1440);
     end
-  % check if the new profile is stable(start=end || non negative), if not, return NaN
-  if (SOC(1)~=SOC(end)) || any(SOC<0)
-  SOC=NaN;
-  end
+    %find the SOC that cannot sustain a cycling way
+    if SOC_2day(1440)~=SOC_2day(2880)
+    SOC=NaN;
+    end
+    %find the SOC with negative element
+    %if so output a zeros array(can be detected easily)
+    if any(SOC<0)
+        SOC=NaN;
+    end
 
-end 
+ 
 end
 end
     
