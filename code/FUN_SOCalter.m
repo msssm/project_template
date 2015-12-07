@@ -1,6 +1,6 @@
 function [SOC_alter] =FUN_SOCalter (SOC,location,car,pattern)
 t=1;
-SOC_alter=zeros(7,24*60);
+SOC_alter=zeros(length(pattern),24*60);
 while t<=24*60
     % memorize the start time of this round
     t_start=t;

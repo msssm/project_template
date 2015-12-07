@@ -3,7 +3,7 @@ clear
 % only use data of texas
 load TexasTable
 load CarModel
-ex=readtable('experiment.xlsx');
+ex=readtable('experiment151207.xlsx');
 
 row= (table.TRAVDAY<=5); % only consider weekdays
 subtable=table(row,:);
