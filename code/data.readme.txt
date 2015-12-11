@@ -1,0 +1,3 @@
+country dummy | total assets | interbank assets | equity | interbank liabilities |
+
+all values in $billion, data end 2014
