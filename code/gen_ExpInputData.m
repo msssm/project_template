@@ -1,3 +1,5 @@
+% this script generates the experimental input data file and folders for the EPOS optimization
+% engine
 clear
 
 % only use data of texas
