@@ -1,5 +1,4 @@
-# MATLAB Fall 2014 – Research Plan (Template)
-(text between brackets to be removed)
+# MATLAB Fall 2016 – Research Plan
 
 > * Group Name: töfftöff
 > * Group participants names: Colin Berner, Luzian Hug
