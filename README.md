@@ -12,7 +12,7 @@
 (Put the problem into a historical context, from what does it originate? Are there already some proposed solutions?)
 
 ## The Model
-
+asdfasdfasdfasdfasdf
 (Define dependent and independent variables you want to study. Say how you want to measure them.) (Why is your model a good abtraction of the problem you want to study?) (Are you capturing all the relevant aspects of the problem?)
 
 
