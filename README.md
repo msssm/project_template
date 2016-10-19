@@ -29,6 +29,7 @@ ajklafödfjöaskdfl
 
 ## References 
 http://www.akesting.de/download/HDM.pdf
+http://physics.ucsd.edu/students/courses/spring2009/physics221a/REFERENCES/bando.pdf
 (Add the bibliographic references you intend to use)
 (Explain possible extension to the above models)
 (Code / Projects Reports of the previous year)
