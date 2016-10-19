@@ -28,10 +28,9 @@ ajklafödfjöaskdfl
 
 
 ## References 
-http://www.akesting.de/download/HDM.pdf
-http://physics.ucsd.edu/students/courses/spring2009/physics221a/REFERENCES/bando.pdf
 [1] M. Treiber, A. Kesting, D. Helbing, Delays, inaccuracies and anticipation in
-microscopic traffic models (2005
+microscopic traffic models (2005)
+
 [2]  M. Treiber, A. Hennecke, D. Helbing, Congested traffic states in empirical observations and
 microscopic simulations (2000)
 
