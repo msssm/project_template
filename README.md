@@ -6,9 +6,9 @@
 
 ## General Introduction
 
-With the trend of libralization of energy market, the integration of energy systems become a more and more important topic. Understanding the resilience of interdependent power grids is thus needed for designing the construction. 
+With the trend of liberalization of energy market, the integration of energy systems become a more and more important topic. Understanding the resilience of interdependent power grids is thus needed for designing the construction. 
 
-We are going to generate and analynize the cascading failure and its solution for abstract interdependent networks, and use the empirical data of historical blackout for implementing our methods. We would also use the SFINA package as reference to simulate the result for real power grids.
+We are going to generate and analyze the cascading failure and its solution for abstract interdependent networks, and use the empirical data of historical blackout for implementing our methods. We would also use the SFINA package as reference to simulate the result for real power grids.
 
 In reference [2], the authors study two fully interconnected subnetworks. By shutting down nodes as few as possible, they try to maximize the "autonomous" (i.e., independent on the other subnetwork) nodes to decrease the degree of coupling. The resilience of real coupled power grids in Italy is significantly improved by applying their strategy.
 
