@@ -2,18 +2,22 @@
 
 > * Group Name: (be creative!)
 > * Group participants names: Thierry Backes, Sichen Li, Peng Zhou
-> * Project Title: (can be changed later)
+> * Project Title: Analysing resilience of interdependent power grids
 
 ## General Introduction
-
 (States your motivation clearly: why is it important / interesting to solve this problem?)
+
+With the trend of libralization of energy market, the integration of energy systems become a more and more important topic. Understanding the resilience of interdependent power grids is thus needed for designing the construction. 
+
+We are going to generate and analynise the cascading failure and its solution for abstract interdependent networks, and use the empirical data of historical blackout for implementing our methods. We would also use the SFINA package as reference to simulate the result for real power grids.
+
 (Add real-world examples, if any)
 (Put the problem into a historical context, from what does it originate? Are there already some proposed solutions?)
 
 ## The Model
 
+We refer our project to a network-based model, which basically abstract the power grid as nodes and lines, and we generate different methods to shut down nodes or lines to represent the blackout and study the cascading failure afterwards.
 (Define dependent and independent variables you want to study. Say how you want to measure them.) (Why is your model a good abtraction of the problem you want to study?) (Are you capturing all the relevant aspects of the problem?)
-
 
 ## Fundamental Questions
 
