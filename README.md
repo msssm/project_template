@@ -2,7 +2,7 @@
 
 > * Group Name: (be creative!) TEST
 > * Group participants names: Thierry Backes, Sichen Li, Peng Zhou
-> * Project Title: Analysing network resilience of interdependent power grids
+> * Project Title: Analysing resilience of interdependent networks
 
 ## General Introduction
 (States your motivation clearly: why is it important / interesting to solve this problem?)
