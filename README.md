@@ -1,5 +1,4 @@
-# MATLAB Fall 2016 – Research Plan (Template)
-(text between brackets to be removed)
+# MATLAB Fall 2016 – Research Plan
 
 > * Group Name: (be creative!)
 > * Group participants names: Thierry Backes, Sichen Li, Peng Zhou
@@ -20,6 +19,10 @@
 
 (At the end of the project you want to find the answer to these questions)
 (Formulate a few, clear questions. Articulate them in sub-questions, from the more general to the more specific. )
+
+1. How to understand the robustness of our current infrastructure network.
+2. What causes the cascading failure of power grids. 
+3. How can we improve the stabilitity and functionality of power grids under partial failure. 
 
 
 ## Expected Results
