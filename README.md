@@ -41,7 +41,9 @@ We refer our project to a network-based model, which basically abstract the powe
 (Code / Projects Reports of the previous year)
 
 [1] Albert, Réka, Hawoong Jeong, and Albert-László Barabási. "Error and attack tolerance of complex networks." nature 406.6794 (2000): 378-382.
+
 [2] Schneider, Christian M., et al. "Mitigation of malicious attacks on networks." Proceedings of the National Academy of Sciences 108.10 (2011): 3838-3841.
+
 [3] Brummitt, Charles D., Raissa M. D’Souza, and E. A. Leicht. "Suppressing cascades of load in interdependent networks." Proceedings of the National Academy of Sciences 109.12 (2012): E680-E689.
 
 
