@@ -42,6 +42,10 @@ A scale free network is a network inside which most nodes only have very few con
 
 [4] Brummitt, Charles D., Raissa M. D’Souza, and E. A. Leicht. "Suppressing cascades of load in interdependent networks." Proceedings of the National Academy of Sciences 109.12 (2012): E680-E689.
 
+[5] Buldyrev, Sergey V., et al. "Catastrophic cascade of failures in interdependent networks." Nature 464.7291 (2010): 1025-1028.
+
+[6] Bashan, Amir, et al. "The extreme vulnerability of interdependent spatially embedded networks." Nature Physics 9.10 (2013): 667-672.
+
 ## Research Methods
 
 (Cellular Automata, Agent-Based Model, Continuous Modeling...) (If you are not sure here: 1. Consult your colleagues, 2. ask the teachers, 3. remember that you can change it afterwards)
