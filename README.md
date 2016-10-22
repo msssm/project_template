@@ -1,6 +1,6 @@
 # MATLAB Fall 2016 – Research Plan
 
-> * Group Name: (be creative!) TEST
+> * Group Name: Blackout
 > * Group participants names: Thierry Backes, Sichen Li, Peng Zhou
 > * Project Title: Analyzing resilience of interdependent networks
 
