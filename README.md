@@ -27,6 +27,7 @@ A scale free network is a network inside which most nodes only have very few con
 ## Expected Results
 
 (What are the answers to the above questions that you expect to find before starting your research?)
+
 1. By randomly shutting down different nodes or lines and observe the feedback.
 2. Failures of critical nodes which connect to a large portion of the network.
 3. Finding a way which has the smallest degree of coupling and in the same time setting up enough protection for critical nodes.
