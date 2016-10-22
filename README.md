@@ -54,7 +54,7 @@ I haven't found any references yet. All written above comes from my own experien
 
 ## Research Methods
 
-I guess it is going to be continuous modeling, but I am not sure yet. Cellular atomata might also be interesting to show a learning effect.
+I don't know yet what kind of model I am going to use but I guess cellular atomata might be interesting to show a learning effect.
 
 
 ## Other
