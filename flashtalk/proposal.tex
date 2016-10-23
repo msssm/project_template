@@ -1,0 +1,61 @@
+% ----------------------------------------------------------------
+% Project Proposal
+% Group Name: Blackout
+% Group participants names: Thierry Backes, Sichen Li, Peng Zhou
+% ----------------------------------------------------------------
+
+%\documentclass[
+%journal=ancac3, % for ACS Nano
+%journal=acbcct, % for ACS Chem. Biol.
+%journal=jacsat, % for undefined journal
+%manuscript=article]{achemso}
+
+\documentclass[11pt, a4paper]{article}
+
+\usepackage{hyperref}
+\usepackage{cite}
+
+\begin{document}
+\title{Analyzing resilience of interdependent networks}
+\author{Thierry Backes, Sichen Li, Peng Zhou}
+\date{}
+\maketitle
+
+\section{Introduction}
+
+With the trend of liberalization of energy market, the integration of energy systems become a more and more important topic. Understanding the resilience of interdependent power grids is thus needed for designing the construction.
+
+We are going to generate and analyze the cascading failure and its solution for abstract interdependent networks, and use the empirical data of historical blackout for implementing our methods. We would also use the SFINA package\footnote{Available at \url{https://github.com/SFINA}} as reference to simulate the result for real power grids.
+
+In reference~\cite{schneider2013towards}, the authors study two fully interconnected subnetworks. By shutting down nodes as few as possible, they try to maximize the "autonomous" (i.e., independent on the other subnetwork) nodes to decrease the degree of coupling. The resilience of real coupled power grids in Italy is significantly improved by applying their strategy.
+
+\section{The Model}
+
+We refer our project to a network-based model which basically abstracts the power grid as a scale free network where the nodes are generators, transformers, and substations and the links are power transmission lines. We generate different methods to shut down nodes and thus the connected lines to represent failures of the power grid such as blackout, and study the subsequent cascading failure afterwards.
+
+A scale free network is a network inside which most nodes only have very few connections, but there are several critical nodes which connect to a large number of nodes. The power grid resembles this type of network a lot since there are distinguished energy hubs and rural areas.
+
+\section{Fundamental Questions}
+\begin{enumerate}
+\item How to understand the robustness of the current infrastructure network?
+\item What causes the cascading failure of power grids?
+\item How can we improve the stabilitity and functionality of power grids under partial failure?
+\end{enumerate}
+
+\section{Expected Results}
+\begin{enumerate}
+\item By randomly shutting down different nodes or lines and observe the feedback.
+\item Failures of critical nodes which connect to a large portion of the network.
+\item Finding a way which has the smallest degree of coupling and in the same time setting up enough protection for critical nodes.
+\end{enumerate}
+
+
+\nocite{*}
+\bibliographystyle{unsrt}
+\bibliography{reference}
+
+\section*{Acknowledgement}
+We would like to give our special thanks to Dr Evangelos Pournaras and Dr Olivia Woolley Meza for their support.
+
+
+\end{document}
