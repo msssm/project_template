@@ -2,7 +2,7 @@
 (text between brackets to be removed)
 
 > * Group Name: Royal Flush
-> * Group participants names: Weber Tim
+> * Group participants names: Weber Tim, Lionel Gulich, Jan Speckien
 > * Project Title: How is Texas hold'em played most efficiently ( working title)
 
 ## General Introduction
