@@ -3,6 +3,9 @@
 % Author: Backes Thierry
 % Scale-Free Network by Barbasi Albert Algorithm
 function barabasi_albert(N, m_0, m, a)
+    % N: Total number of nodes
+    % m_0: Initial number of nodes
+    % m (<= m_0): connectivity of the new added node
 G = graph;
 G = addnode(G,m_0);
 %connect m_0 seed nodes
