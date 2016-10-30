@@ -18,4 +18,5 @@ class Grid(nx.Graph):
     def robustness (self):
         """
         R = Sum_{Q=1}^{N} S(Q) / N
+        Ref: Schneider et al. 10.1073/pnas.1009440108
         """
