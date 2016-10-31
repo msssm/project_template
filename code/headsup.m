@@ -59,12 +59,12 @@ if PlayP1(2) == 1 && PlayP2(2) == 1;    %Beide wollen Speilen
     if PlayP2(1) >= Player_2;             % Raise bzw. Call P2
         PlayP2(2) = PlayP2(2)+1;
     end;
-    
 end;
 %% T U R N
 %	3. W E T T R U N D E
     % 1 neue Karte
-if PlayP1(2) == 2 && PlayP2(2) == 2;    %Beide wollen Speilen
+    %if PlayP1(2) == 2 && PlayP2(2) == 2 %%%%%!!!!!!!!
+if PlayP1(2) == PlayP2(2);    %Beide wollen Speilen
      NP1 = ((rand + PlayP1(1)*4)/5);    %Neue Karten P1 nach Turn Normiert
      NP2 = ((rand + PlayP2(1)*4)/5);    %Neue Karten P2 nach Turn Normiert
 
@@ -88,7 +88,7 @@ end;
 % 4. W E T T R U N D E ------------------%
     % 1 neue Karte
     
-if PlayP1(2) == 3 && PlayP2(2) == 3;    %Beide wollen Speilen
+if PlayP1(2) == PlayP2(2);    %Beide wollen Speilen
      NPP1 = ((rand + PlayP1(1)*5)/6);    %Neue Karten P1 nach River Normiert
      NPP2 = ((rand + PlayP2(1)*5)/6);    %Neue Karten P2 nach River Normiert
 
@@ -133,7 +133,7 @@ if PlayP1(2) < PlayP2(2);           %P1 Bietet nicht mehr
     EndCreditP2 = EndCreditP2+Pot;
 end;
 
-if PlayP1(2) == PlayP2(2) && PlayP1(2) > 3;  %beide Spielen ALLE Runden
+if PlayP1(2) == PlayP2(2);  %beide Spielen ALLE Runden
     disp('SHOWDOWN')
     if  PlayP1(1) > PlayP2(1);
         disp('Player 1 Wins: ');
@@ -141,8 +141,8 @@ if PlayP1(2) == PlayP2(2) && PlayP1(2) > 3;  %beide Spielen ALLE Runden
         EndCreditP1 = EndCreditP1+Pot;
     elseif PlayP1(1) == PlayP2(1);
         disp('Draw');
-        EndCreditP1 == EndCreditP1+PlayP1(2);
-        EndCreditP2 == EndCreditP2+PlayP2(2);
+        EndCreditP1 = EndCreditP1+PlayP1(2);
+        EndCreditP2 = EndCreditP2+PlayP2(2);
     elseif PlayP2(1) > PlayP1(1);
         disp('Player 2 Wins:');
         disp(Pot - PlayP2(2));
