@@ -1,1 +1,1 @@
-#Java folder for SIFNA package
+#Java folder for SFINA package
