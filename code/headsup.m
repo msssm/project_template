@@ -9,6 +9,7 @@ Player_1 = RiskP1;     %Risikobereitschaft P1
 Player_2 = RiskP2;     %Risikobereitschaft P2
 
 BetValue = 1;       %Einsatz
+Blind = 1;          %Blind-einsatz
 
 CreditP1 = CP1;
 CreditP2 = CP2;
@@ -24,6 +25,9 @@ PlayP2(1) = rand;   %Einstigskarte P2
 
 Pot = 0;            % Geld im Pot
 x = 0;              % Anzahl Runden
+
+
+
 %%  P R E F L O P
 %   1. W E T T R U N D E
 
@@ -40,10 +44,10 @@ end;
 
     % 3 neue Karten
 if PlayP1(2) == 1 && PlayP2(2) == 1;    %Beide wollen Speilen
-    ChanceP1 = ((rand + rand + rand + PlayP1(1))/4);
-                    %Neue Karten P1 Nach Flop Normiert
-    ChanceP2 = ((rand + rand + rand + PlayP2(1))/4);
-                    %Neue Karten P1 Nach Flop Normiert
+    
+    ChanceP1 = adjustRandValue(PlayP1(1),1); %Handkarten aktualisiert nach altem Kartenwert           
+    ChanceP2 = adjustRandValue(PlayP2(1),1);%Handkarten aktualisiert nach altem Kartenwert
+                    
     PlayP1(1) = ChanceP1;
     PlayP2(1) = ChanceP2;
     
@@ -65,8 +69,8 @@ end;
     % 1 neue Karte
     %if PlayP1(2) == 2 && PlayP2(2) == 2 %%%%%!!!!!!!!
 if PlayP1(2) == PlayP2(2);    %Beide wollen Speilen
-     NP1 = ((rand + PlayP1(1)*4)/5);    %Neue Karten P1 nach Turn Normiert
-     NP2 = ((rand + PlayP2(1)*4)/5);    %Neue Karten P2 nach Turn Normiert
+     NP1 = adjustRandValue(PlayP1(1),0.5);    %Handkarten aktualisiert nach altem Kartenwert
+     NP2 = adjustRandValue(PlayP2(1),0.5);    %Handkarten aktualisiert nach altem Kartenwert
 
     PlayP1(1) = NP1;
     PlayP2(1) = NP2;
@@ -89,8 +93,8 @@ end;
     % 1 neue Karte
     
 if PlayP1(2) == PlayP2(2);    %Beide wollen Speilen
-     NPP1 = ((rand + PlayP1(1)*5)/6);    %Neue Karten P1 nach River Normiert
-     NPP2 = ((rand + PlayP2(1)*5)/6);    %Neue Karten P2 nach River Normiert
+     NPP1 = adjustRandValue(PlayP1(1),0.25);   %Handkarten aktualisiert nach altem Kartenwert
+     NPP2 = adjustRandValue(PlayP2(1),0.25);    %Handkarten aktualisiert nach altem Kartenwert
 
     PlayP1(1) = NPP1;
     PlayP2(1) = NPP2;

@@ -15,9 +15,8 @@ LaufP1= 1;
 LaufP2 = 1;
 Counter = 0;
 Geldverlauf = [];
-Startkapital=20;    %Konstante Startkapitalvariable
-CP1=Startkapital;
-CP2=Startkapital;
+CP1=20;
+CP2=20;
 %Jeder durchlauf der while-Schleife entspricht einer gespielten Runde
 %Abbruchbedingung: Ein Spieler hat kein Kapital mehr <-> LaufP1 oder LaufP2
 %ist 0
@@ -41,12 +40,5 @@ end;
 
 
 %%  Endstatistics
-
-%   Plotten des Geldverlaufes von Spieler 1
 Q=1:Counter;
-subplot(2,1,1)
 plot (Q, Geldverlauf)
-title('Geldverlauf Spieler 1')
-subplot(2,1,2)
-plot(Q, 2*Startkapital-Geldverlauf)
-title('Geldverlauf Spieler 2')
