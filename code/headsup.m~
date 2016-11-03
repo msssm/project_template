@@ -62,12 +62,9 @@ if PlayP1(2) > 0 && PlayP2(2) > 0    %Beide wollen Spielen
     if PlayP1(1) >= Player_1             %Raise bzw. Call P1
         if CreditP1-PlayP1(2)>0
         PlayP1(2) = PlayP1(2)+1;          %Achtung Bet ist immernoch 1
-        end
     end;
     if PlayP2(1) >= Player_2             % Raise bzw. Call P2
-        if CreditP2-PlayP2(2)>0
         PlayP2(2) = PlayP2(2)+1;
-        end
     end;
 end;
 %% T U R N
@@ -87,14 +84,10 @@ if PlayP1(2) == PlayP2(2)    %Beide wollen Spielen
     
     
     if PlayP1(1) >= Player_1             % Raise bzw. Call P1
-        if CreditP1-PlayP1(2)>0
         PlayP1(2) = PlayP1(2)+1;
-        end
     end;
     if PlayP2(1) >= Player_2             % Raise bzw. Call P2
-        if CreditP2-PlayP2(2)>0
         PlayP2(2) = PlayP2(2)+1;
-        end
     end;
     
 end;
@@ -103,24 +96,22 @@ end;
     % 1 neue Karte
     
 if PlayP1(2) == PlayP2(2)    %Beide wollen Speilen
-     PlayP1(1) = adjustRandValue(PlayP1(1),0.25);        %Handkarten aktualisiert nach altem Kartenwert
-     PlayP2(1) = adjustRandValue(PlayP2(1),0.25);        %Handkarten aktualisiert nach altem Kartenwert
+     NPP1 = adjustRandValue(PlayP1(1),0.25);      %Handkarten aktualisiert nach altem Kartenwert
+     NPP2 = adjustRandValue(PlayP2(1),0.25);    %Handkarten aktualisiert nach altem Kartenwert
+
+    PlayP1(1) = NPP1;
+    PlayP2(1) = NPP2;
     
-     
     x= x +1;        % Anzahl Runden
     
     %          E I N S A T Z  A U F  R I V E R
     
     
     if PlayP1(1) >= Player_1             %Raise bzw. Call P1
-        if CreditP1-PlayP1(2)>0
         PlayP1(2) = PlayP1(2)+1;
-        end
     end;
     if PlayP2(1) >= Player_2             % Raise bzw. Call P2
-        if CreditP2-PlayP2(2)>0
         PlayP2(2) = PlayP2(2)+1;
-        end
     end;
 end;
 %%  R A N D O M
