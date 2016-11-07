@@ -10,7 +10,7 @@ close all;
 %nimmt ein Spieler
 RiskP1 = 0.8;
 RiskP2 = 0.2;
-Startkapital=2000;   %Konstante Startkapitalvariable
+Startkapital=20000;   %Konstante Startkapitalvariable
  
 %%  Outputvariablen fuer die Statistik
 

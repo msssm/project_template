@@ -137,7 +137,7 @@ EndCreditP2 = CreditP2-PlayP2(2);   %EndCreditP2
 %%  S H O W D O W N
 
 if PlayP1(2) == Blind && PlayP2(2) == Blind  %Kein Spiel
-    disp('Draw: ');
+    %disp('Draw: ');
     %disp(Pot - PlayP1(2));
 end;
 
