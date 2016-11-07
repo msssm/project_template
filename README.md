@@ -18,7 +18,7 @@ The guide cars are modelled so that they hold a moderate pace without sudden bra
 * How many cars would have to act as guide cars in order to acheive a significant improvement in traffic flow during and after a disruption (e.g. an accident) occurs?
 
 ## Expected Results
-We expect that a small portion of guide cars can make a comparatively large impact on traffic congestions.
+We expect that a small portion of guide cars can make a comparatively large positive impact on traffic congestions.
 
 ## References 
 [1] M. Treiber, A. Kesting, D. Helbing, Delays, inaccuracies and anticipation in
