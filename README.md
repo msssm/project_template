@@ -7,19 +7,18 @@
 ## General Introduction
 Traffic jams are a growing problem in everyday life. Increasing road surface is not a sustainable solution to the problem as we are already reaching our limits in this respect. Also, building broader and broader roads is not compatible with environmental efforts. Therefore, we must try to increase the throughput using the existing infrastructure.
 
-There are solutions proposed involving autonomous cars or external traffic management. We believe that the capacity can also be substatially increased by changing the individual behaviour of drivers without artificial help.
+After a suggestion by Dr. Sanders we want to introduce a percentage of cars that act as guides. In practice these could be realized as self-driving cars which can communicate with each other.
 
 ## The Model
-We want to model a section of a congested road using the "Intelligent Driver Model". This model takes into account the velocity of an individual car, the velocity of the car in front as well as the distance between both cars.
+We want to model the human drivers using the "Intelligent Driver Model". This model takes into account the velocity of an individual car, the velocity of the car in front as well as the distance between both cars.
 
-We then want to commit changes to this model in order to implement different driving strategies, such as observing both the car in front and behind the observed vehicle or also taking into account the braking of the leading cars.
+The guide cars are modelled so that they hold a moderate pace without sudden brakes. This can be accomplished by communication between the guide cars to allow early reaction to a perturbation.
 
 ## Fundamental Questions
-* Which strategies that are both humanly possible and practically realizable can be used by the individual driver in order to increase traffic flow on a congested road?
-* How much of a difference does such a strategy make compared to typical driving behaviour? What happens if only a portion of drivers follow a strategy?
+* How many cars would have to act as guide cars in order to acheive a significant improvement in traffic flow during and after a disruption (e.g. an accident) occurs?
 
 ## Expected Results
-We expect that it is in fact possible to improve traffic flow and prevent traffic jams originating from smaller disruptions. It is likely that in order to achieve noticable improvement, the majority of drivers must follow such a strategy.
+We expect that a small portion of guide cars can make a comparatively large impact on traffic congestions.
 
 ## References 
 [1] M. Treiber, A. Kesting, D. Helbing, Delays, inaccuracies and anticipation in
