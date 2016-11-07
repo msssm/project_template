@@ -4,15 +4,15 @@ close all;
 %%  This File should run the function until one player wins.
 
 
-%%  Konstante Startvariablen
+%%  Konstante Startvariablen (=Input)
 
 %Risikobereitschaft der Spieler. Umso tiefer die Zahl, umso mehr Risiko
 %nimmt ein Spieler
-RiskP1 = 0.5;
+RiskP1 = 0.8;
 RiskP2 = 0.2;
-Startkapital=20;   %Konstante Startkapitalvariable
+Startkapital=2000;   %Konstante Startkapitalvariable
  
-%%  Outputvariablen f?r die Statistik
+%%  Outputvariablen fuer die Statistik
 
 GeldverlaufP1 = [];     %Geld-Zeit-Verlauf des Spielers 1
 GeldverlaufP2 = [];     %Geld-Zeit-Verlauf des Spielers 2

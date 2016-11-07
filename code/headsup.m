@@ -28,17 +28,23 @@ x = 0;              % Anzahl Runden
 
 
 
+%%  Blind
+
+ PlayP1(2) = Blind;
+ PlayP2(2) = Blind;
+
+
 %%  P R E F L O P
 %   1. W E T T R U N D E
 
 if PlayP1(1) >= Player_1            % Raise bzw. Call P1
     if CreditP1-PlayP1(2)>0
-    PlayP1(2) = BetValue;          % Gewetteter Betrag P1
+    PlayP1(2) = PlayP1(2)+BetValue;          % Gewetteter Betrag P1
     end
 end;
 if PlayP2(1) >= Player_2           % Raise bzw. Call P2
     if CreditP2-PlayP2(2)>0
-    PlayP2(2) = BetValue;           % Gewetteter Betrag P2
+    PlayP2(2) = PlayP2(2)+BetValue;           % Gewetteter Betrag P2
     end
 end;
 
@@ -49,8 +55,8 @@ end;
     % 3 neue Karten
 if PlayP1(2) > 0 && PlayP2(2) > 0    %Beide wollen Spielen
     
-    PlayP1(1) = adjustRandValue(PlayP1(1),1); %Handkarten aktualisiert nach altem Kartenwert           
-    PlayP2(1) = adjustRandValue(PlayP2(1),1); %Handkarten aktualisiert nach altem Kartenwert
+    PlayP1(1) = adjustRandValue(PlayP1(1),.4); %Handkarten aktualisiert nach altem Kartenwert           
+    PlayP2(1) = adjustRandValue(PlayP2(1),.4); %Handkarten aktualisiert nach altem Kartenwert
                     
     
     x= x +1;        % Anzahl Runden
@@ -77,8 +83,8 @@ end;
     
 if PlayP1(2) == PlayP2(2)    %Beide wollen Spielen
     
-    PlayP1(1) = adjustRandValue(PlayP1(1),0.5);    %Handkarten aktualisiert nach altem Kartenwert
-    PlayP2(1) = adjustRandValue(PlayP2(1),0.5);    %Handkarten aktualisiert nach altem Kartenwert
+    PlayP1(1) = adjustRandValue(PlayP1(1),0.2);    %Handkarten aktualisiert nach altem Kartenwert
+    PlayP2(1) = adjustRandValue(PlayP2(1),0.2);    %Handkarten aktualisiert nach altem Kartenwert
 
     
     x= x +1;        % Anzahl Runden
@@ -103,8 +109,8 @@ end;
     % 1 neue Karte
     
 if PlayP1(2) == PlayP2(2)    %Beide wollen Speilen
-     PlayP1(1) = adjustRandValue(PlayP1(1),0.25);        %Handkarten aktualisiert nach altem Kartenwert
-     PlayP2(1) = adjustRandValue(PlayP2(1),0.25);        %Handkarten aktualisiert nach altem Kartenwert
+     PlayP1(1) = adjustRandValue(PlayP1(1),0.1);        %Handkarten aktualisiert nach altem Kartenwert
+     PlayP2(1) = adjustRandValue(PlayP2(1),0.1);        %Handkarten aktualisiert nach altem Kartenwert
     
      
     x= x +1;        % Anzahl Runden
@@ -130,11 +136,9 @@ EndCreditP1 = CreditP1-PlayP1(2);   %EndCreditP1
 EndCreditP2 = CreditP2-PlayP2(2);   %EndCreditP2
 %%  S H O W D O W N
 
-if PlayP1(2) == 0 && PlayP2(2)==0  %Kein Spiel
-    %disp('Draw: ');
+if PlayP1(2) == Blind && PlayP2(2) == Blind  %Kein Spiel
+    disp('Draw: ');
     %disp(Pot - PlayP1(2));
-    EndCreditP1 = EndCreditP1;
-    EndCreditP2 = EndCreditP2;
 end;
 
 if PlayP1(2) > PlayP2(2)           %P2 Bietet nicht mehr
