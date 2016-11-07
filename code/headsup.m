@@ -9,6 +9,7 @@ Player_1 = RiskP1;     %Risikobereitschaft P1
 Player_2 = RiskP2;     %Risikobereitschaft P2
 
 BetValue = 1;       %Einsatz
+Blind = 1;          %Blind-einsatz
 
 CreditP1 = CP1;
 CreditP2 = CP2;
@@ -24,14 +25,27 @@ PlayP2(1) = rand;   %Einstigskarte P2
 
 Pot = 0;            % Geld im Pot
 x = 0;              % Anzahl Runden
+
+
+
+%%  Blind
+
+ PlayP1(2) = Blind;
+ PlayP2(2) = Blind;
+
+
 %%  P R E F L O P
 %   1. W E T T R U N D E
 
-if PlayP1(1) >= Player_1;           % Raise bzw. Call P1
-    PlayP1(2) = BetValue;           % Gewetteter Betrag P1
+if PlayP1(1) >= Player_1            % Raise bzw. Call P1
+    if CreditP1-PlayP1(2)>0
+    PlayP1(2) = PlayP1(2)+BetValue;          % Gewetteter Betrag P1
+    end
 end;
-if PlayP2(1) >= Player_2;           % Raise bzw. Call P2
-    PlayP2(2) = BetValue;           % Gewetteter Betrag P2
+if PlayP2(1) >= Player_2           % Raise bzw. Call P2
+    if CreditP2-PlayP2(2)>0
+    PlayP2(2) = PlayP2(2)+BetValue;           % Gewetteter Betrag P2
+    end
 end;
 
 
@@ -39,13 +53,11 @@ end;
 %	2. W E T T R U N D E
 
     % 3 neue Karten
-if PlayP1(2) == 1 && PlayP2(2) == 1;    %Beide wollen Speilen
-    ChanceP1 = ((rand + rand + rand + PlayP1(1))/4);
-                    %Neue Karten P1 Nach Flop Normiert
-    ChanceP2 = ((rand + rand + rand + PlayP2(1))/4);
-                    %Neue Karten P1 Nach Flop Normiert
-    PlayP1(1) = ChanceP1;
-    PlayP2(1) = ChanceP2;
+if PlayP1(2) > 0 && PlayP2(2) > 0    %Beide wollen Spielen
+    
+    PlayP1(1) = adjustRandValue(PlayP1(1),.4); %Handkarten aktualisiert nach altem Kartenwert           
+    PlayP2(1) = adjustRandValue(PlayP2(1),.4); %Handkarten aktualisiert nach altem Kartenwert
+                    
     
     x= x +1;        % Anzahl Runden
     
@@ -53,34 +65,42 @@ if PlayP1(2) == 1 && PlayP2(2) == 1;    %Beide wollen Speilen
     
     % Obwohl schon Geld investiert wurde Gilt die Gleiche Grenze!
     
-    if PlayP1(1) >= Player_1;             %Raise bzw. Call P1
+    if PlayP1(1) >= Player_1             %Raise bzw. Call P1
+        if CreditP1-PlayP1(2)>0
         PlayP1(2) = PlayP1(2)+1;          %Achtung Bet ist immernoch 1
+        end
     end;
-    if PlayP2(1) >= Player_2;             % Raise bzw. Call P2
+    if PlayP2(1) >= Player_2             % Raise bzw. Call P2
+        if CreditP2-PlayP2(2)>0
         PlayP2(2) = PlayP2(2)+1;
+        end
     end;
 end;
 %% T U R N
 %	3. W E T T R U N D E
     % 1 neue Karte
     %if PlayP1(2) == 2 && PlayP2(2) == 2 %%%%%!!!!!!!!
-if PlayP1(2) == PlayP2(2);    %Beide wollen Speilen
-     NP1 = ((rand + PlayP1(1)*4)/5);    %Neue Karten P1 nach Turn Normiert
-     NP2 = ((rand + PlayP2(1)*4)/5);    %Neue Karten P2 nach Turn Normiert
+    
+if PlayP1(2) == PlayP2(2)    %Beide wollen Spielen
+    
+    PlayP1(1) = adjustRandValue(PlayP1(1),0.2);    %Handkarten aktualisiert nach altem Kartenwert
+    PlayP2(1) = adjustRandValue(PlayP2(1),0.2);    %Handkarten aktualisiert nach altem Kartenwert
 
-    PlayP1(1) = NP1;
-    PlayP2(1) = NP2;
     
     x= x +1;        % Anzahl Runden
     
     %          E I N S A T Z  A U F  T U R N
     
     
-    if PlayP1(1) >= Player_1;             %Raise bzw. Call P1
+    if PlayP1(1) >= Player_1             % Raise bzw. Call P1
+        if CreditP1-PlayP1(2)>0
         PlayP1(2) = PlayP1(2)+1;
+        end
     end;
-    if PlayP2(1) >= Player_2;             % Raise bzw. Call P2
+    if PlayP2(1) >= Player_2             % Raise bzw. Call P2
+        if CreditP2-PlayP2(2)>0
         PlayP2(2) = PlayP2(2)+1;
+        end
     end;
     
 end;
@@ -88,64 +108,64 @@ end;
 % 4. W E T T R U N D E ------------------%
     % 1 neue Karte
     
-if PlayP1(2) == PlayP2(2);    %Beide wollen Speilen
-     NPP1 = ((rand + PlayP1(1)*5)/6);    %Neue Karten P1 nach River Normiert
-     NPP2 = ((rand + PlayP2(1)*5)/6);    %Neue Karten P2 nach River Normiert
-
-    PlayP1(1) = NPP1;
-    PlayP2(1) = NPP2;
+if PlayP1(2) == PlayP2(2)    %Beide wollen Speilen
+     PlayP1(1) = adjustRandValue(PlayP1(1),0.1);        %Handkarten aktualisiert nach altem Kartenwert
+     PlayP2(1) = adjustRandValue(PlayP2(1),0.1);        %Handkarten aktualisiert nach altem Kartenwert
     
+     
     x= x +1;        % Anzahl Runden
     
     %          E I N S A T Z  A U F  R I V E R
     
     
-    if PlayP1(1) >= Player_1;             %Raise bzw. Call P1
+    if PlayP1(1) >= Player_1             %Raise bzw. Call P1
+        if CreditP1-PlayP1(2)>0
         PlayP1(2) = PlayP1(2)+1;
+        end
     end;
-    if PlayP2(1) >= Player_2;             % Raise bzw. Call P2
+    if PlayP2(1) >= Player_2             % Raise bzw. Call P2
+        if CreditP2-PlayP2(2)>0
         PlayP2(2) = PlayP2(2)+1;
+        end
     end;
 end;
 %%  R A N D O M
 
-Pot = PlayP1(2) + PlayP2(2)         %Pot 
+Pot = PlayP1(2) + PlayP2(2);         %Pot 
 EndCreditP1 = CreditP1-PlayP1(2);   %EndCreditP1
 EndCreditP2 = CreditP2-PlayP2(2);   %EndCreditP2
 %%  S H O W D O W N
 
-if PlayP1(2) == 0 && PlayP2(2)==0;  %Kein Spiel
-    disp('Draw: ');
-    disp(Pot - PlayP1(2));
-    EndCreditP1 == EndCreditP1+PlayP1(2);
-    EndCreditP2 == EndCreditP2+PlayP2(2);
+if PlayP1(2) == Blind && PlayP2(2) == Blind  %Kein Spiel
+    %disp('Draw: ');
+    %disp(Pot - PlayP1(2));
 end;
 
-if PlayP1(2) > PlayP2(2);           %P2 Bietet nicht mehr
-    disp('Player 1 Wins: ');
-    disp(Pot - PlayP1(2));
+if PlayP1(2) > PlayP2(2)           %P2 Bietet nicht mehr
+    %disp('Player 1 Wins: ');
+    %disp(Pot - PlayP1(2));
     EndCreditP1 = EndCreditP1+Pot;
 end;
     
-if PlayP1(2) < PlayP2(2);           %P1 Bietet nicht mehr
-    disp('Player 2 Wins:');
-    disp(Pot - PlayP2(2));
+if PlayP1(2) < PlayP2(2)           %P1 Bietet nicht mehr
+    %disp('Player 2 Wins:');
+    %disp(Pot - PlayP2(2));
     EndCreditP2 = EndCreditP2+Pot;
 end;
 
-if PlayP1(2) == PlayP2(2);  %beide Spielen ALLE Runden
-    disp('SHOWDOWN')
-    if  PlayP1(1) > PlayP2(1);
-        disp('Player 1 Wins: ');
-        disp(Pot - PlayP1(2));
+if PlayP1(2) == PlayP2(2)  %beide Spielen ALLE Runden
+    %disp('SHOWDOWN')
+    if  PlayP1(1) > PlayP2(1)
+        %disp('Player 1 Wins: ');
+        %disp(Pot - PlayP1(2));
         EndCreditP1 = EndCreditP1+Pot;
-    elseif PlayP1(1) == PlayP2(1);
-        disp('Draw');
+    elseif PlayP1(1) == PlayP2(1)
+        %disp('Draw');
         EndCreditP1 = EndCreditP1+PlayP1(2);
         EndCreditP2 = EndCreditP2+PlayP2(2);
-    elseif PlayP2(1) > PlayP1(1);
-        disp('Player 2 Wins:');
-        disp(Pot - PlayP2(2));
+    elseif PlayP2(1) > PlayP1(1)
+        %disp('Player 2 Wins:');
+        %disp(Pot - PlayP2(2));
         EndCreditP2 = EndCreditP2+Pot;
     end;
 end;
