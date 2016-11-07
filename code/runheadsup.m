@@ -1,21 +1,6 @@
-clear all;
-close all;
 
-%%  This File should run the function until one player wins.
+%%  UEBERGABEVARIABLEN
 
-
-%%  Konstante Startvariablen (=Input)
-
-%Risikobereitschaft der Spieler. Umso tiefer die Zahl, umso mehr Risiko
-%nimmt ein Spieler
-RiskP1 = 0.8;
-RiskP2 = 0.2;
-Startkapital=20000;   %Konstante Startkapitalvariable
- 
-%%  Outputvariablen fuer die Statistik
-
-GeldverlaufP1 = [];     %Geld-Zeit-Verlauf des Spielers 1
-GeldverlaufP2 = [];     %Geld-Zeit-Verlauf des Spielers 2
 Counter = 0;            %z?hlt Anzahl Runden bis Ruin eines Spielers
 Winner = 0;             %speichert den Gewinner des Spiels
 
@@ -35,24 +20,19 @@ CP2=Startkapital;
 %ist 0
 
 
-while LaufP1 > 0 && LaufP2 > 0;
+while player1(2) > 0 && player2(2) > 0; %Kapital gr?sser als 0
     Counter = Counter + 1;
-    [EndCreditP1,EndCreditP2,Tempx,TempPot] = headsup(CP1,CP2,RiskP2,RiskP2); %Simulation einer einzelnen Runde
-    CP1=EndCreditP1;
-    CP2=EndCreditP2;
-     
+    headsup; %Simulation einer einzelnen Runde
     
-    LaufP1 = EndCreditP1;
-    LaufP2 = EndCreditP2;
     
-    GeldverlaufP1(Counter) = EndCreditP1;
-    GeldverlaufP2(Counter) = EndCreditP2;
+    statisticsMatrix(1,counter)=player1;
+    statisticsMatrix(2,counter)=player2;
+    
 
- 
 
 end;
 
-if LaufP1 == 0
+if player1(2) == 0
     Winner = 2;
 end
 if LaufP2 == 0
