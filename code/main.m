@@ -8,15 +8,14 @@ clc
 n = 1000; % Anzahl simulierter Spiele
 
 %Playervalues
-riskFactorP1 = 0.3;
-riskFactorP2 = 0.4;
-startCapitalP1 = 20;
-startCapitalP2 = 20;
+riskFactorP1 = 0.2;
+riskFactorP2 = 0.2;
+startCapital = 50;  %Startkapital
+startCapitalP1 = startCapital;
+startCapitalP2 = startCapital;
 
 %Gamevalues
-global betValue;
 betValue = 1;
-
 blindOn = true;
 blindValue = 1;
 
@@ -28,23 +27,21 @@ blindValue = 1;
 
 winsP1=0;   % Anzahl Siege Player 1
 winsP2=0;   % Anzahl Siege Player 2
-rounds=zeros;   % Gespielte Runden pro Spiel
-totalRounds=0;
+rounds=[];   % Gespielte Runden pro Spiel
+totalRounds=0; % Heads up's (Hands played)
+
 statisticsMatrix=zeros;
 
 
 %%  Setzen der Spielmatrizen
 
-%   Aufbau der Spieler matrix: [riskFactor, capital, cardValue, CurrentBet, Losses]
+%   Aufbau der Spieler matrix: [riskFactor, capital, cardValue, currentBet, Losses]
 
 
-global playerP1;
-global playerP2;
-playerP1=[riskFactorP1 startCapitalP1 -1 -1 -1];
-playerP2=[riskFactorP2 startCapitalP2 -1 -1 -1];
+playerP1=[riskFactorP1 startCapitalP1 -1 0 -1];
+playerP2=[riskFactorP2 startCapitalP2 -1 0 -1];
 
 %   Aufbau der Game matrix: [betValue, blindOn blindValue]
-global gameValues;
 gameValues=[betValue blindOn blindValue];
 
 %%  Schleife fuer Games
@@ -62,7 +59,7 @@ for i=1:n
         disp(winner)
         disp('Error with return value of game')
     end
-    rounds(n)=counter;
+    % rounds(i)=counter;
     totalRounds=totalRounds+counter;
 end
 
@@ -74,10 +71,10 @@ end
 
 %%  Statistik und Auswertung
 
-winsP1=winsP1/n*100;
-winsP2=winsP2/n*100;
-rounds=rounds/n;
+%winsP1=winsP1/n*100;  %umwandeln in Prozent
+%winsP2=winsP2/n*100;  %umwandeln in Prozent
+totalRounds=totalRounds/n;
 
-sprintf('Wins Player 1: %d %', WinsP1)
-sprintf('Wins Player 2: %d %', WinsP2)
-sprintf('Average Rounds played: %d', Rounds)
+sprintf('Wins Player 1: %d %', winsP1)
+sprintf('Wins Player 2: %d %', winsP2)
+sprintf('Average Rounds played: %d', totalRounds)

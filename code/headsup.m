@@ -13,7 +13,6 @@ playerP2(3) = rand;
 %   1. W E T T R U N D E
 
 if playerP1(3) >= playerP1(1)   % Raise bzw. Call P1
-    playerP1(2)>= betValue && betValue<=playerP2(2)
     if playerP1(2)>= betValue && betValue<=playerP2(2)       % ?berpr?fen ob eigenes Kapital gr?sser als Einsatz und Einsatz kleiner als Kapital vom Gegner
         playerP1(4) = playerP1(4)+betValue;    % Einsatz anpassen
         playerP1(2) = playerP1(2)-betValue;    % Kapital anpassen
@@ -22,9 +21,9 @@ end;
 
 
 if playerP2(3) >= playerP2(1)   % Raise bzw. Call P2
-    if playerP2(2)>=0+betValue && betValue<=playerP1(2)       % ?berpr?fen ob eigenes Kapital gr?sser als Einsatz und Einsatz kleiner als Kapital vom Gegner
-    playerP2(4) = playerP2(4)+betValue;    % Einsatz anpassen
-    playerP2(2) = playerP2(2)-betValue;    % Kapital anpassen
+    if playerP2(2)>=betValue && betValue<=playerP1(2)       % ?berpr?fen ob eigenes Kapital gr?sser als Einsatz und Einsatz kleiner als Kapital vom Gegner
+        playerP2(4) = playerP2(4)+betValue;    % Einsatz anpassen
+        playerP2(2) = playerP2(2)-betValue;    % Kapital anpassen
     end
 end;
 
@@ -35,8 +34,8 @@ end;
     % 3 neue Karten
 if playerP1(4) > 0 && playerP2(4) > 0    %Beide wollen Spielen
     
-    adjustCardValueP1(.4, playerP1(3)); %Handkarten aktualisiert nach altem Kartenwert           
-    adjustRandValueP2(.4, playerP2(3)); %Handkarten aktualisiert nach altem Kartenwert
+    playerP1(3)=adjustCardValue(.4, playerP1(3)); %Handkarten aktualisiert nach altem Kartenwert           
+    playerP2(3)=adjustCardValue(.4, playerP2(3)); %Handkarten aktualisiert nach altem Kartenwert
                     
     betRounds= betRounds +1;        % Anzahl Runden
     
@@ -47,16 +46,16 @@ if playerP1(4) > 0 && playerP2(4) > 0    %Beide wollen Spielen
     
     if playerP1(3) >= playerP1(1)   % Raise bzw. Call P1
         if playerP1(2)>=0+betValue && betValue<=playerP2(2)       % ?berpr?fen ob eigenes Kapital gr?sser als Einsatz und Einsatz kleiner als Kapital vom Gegner
-        playerP1(4) = playerP1(4)+betValue;    % Einsatz anpassen
-        playerP1(2) = playerP1(2)-betValue;    % Kapital anpassen
+            playerP1(4) = playerP1(4)+betValue;    % Einsatz anpassen
+            playerP1(2) = playerP1(2)-betValue;    % Kapital anpassen
         end
     end;
 
 
     if playerP2(3) >= playerP2(1)   % Raise bzw. Call P2
-        if playerP2(2)>=0+betValue && betValue<=playerP1(2)       % ?berpr?fen ob eigenes Kapital gr?sser als Einsatz und Einsatz kleiner als Kapital vom Gegner
-        playerP2(4) = playerP2(4)+betValue;    % Einsatz anpassen
-        playerP2(2) = playerP2(2)-betValue;    % Kapital anpassen
+        if playerP2(2)>=0+betValue && betValue<=playerP1(2)+playerP1(4)       % ueberpruefen ob eigenes Kapital groesser als Einsatz und Einsatz kleiner als Kapital+Einsatz vom Gegner, sprich keine All-in situation
+            playerP2(4) = playerP2(4)+betValue;    % Einsatz anpassen
+            playerP2(2) = playerP2(2)-betValue;    % Kapital anpassen
         end
     end;
 end;
@@ -67,8 +66,8 @@ end;
     
 if playerP1(4) == playerP2(4)    %Beide wollen Spielen
     
-    adjustCardValueP1(.2, playerP1(3)); %Handkarten aktualisiert nach altem Kartenwert           
-    adjustRandValueP2(.2, playerP2(3)); %Handkarten aktualisiert nach altem Kartenwert
+    playerP1(3)=adjustCardValue(.2, playerP1(3)); %Handkarten aktualisiert nach altem Kartenwert           
+    playerP2(3)=adjustCardValue(.2, playerP2(3)); %Handkarten aktualisiert nach altem Kartenwert
                     
     betRounds= betRounds +1;        % Anzahl Runden
     
@@ -84,9 +83,9 @@ if playerP1(4) == playerP2(4)    %Beide wollen Spielen
 
 
     if playerP2(3) >= playerP2(1)   % Raise bzw. Call P2
-        if playerP2(2)>=0+betValue && betValue<=playerP1(2)       % ?berpr?fen ob eigenes Kapital gr?sser als Einsatz und Einsatz kleiner als Kapital vom Gegner
-        playerP2(4) = playerP2(4)+betValue;    % Einsatz anpassen
-        playerP2(2) = playerP2(2)-betValue;    % Kapital anpassen
+        if playerP2(2)>=0+betValue && betValue<=playerP1(2)+playerP1(4)       % ?berpr?fen ob eigenes Kapital gr?sser als Einsatz und Einsatz kleiner als Kapital vom Gegner
+            playerP2(4) = playerP2(4)+betValue;    % Einsatz anpassen
+            playerP2(2) = playerP2(2)-betValue;    % Kapital anpassen
         end
     end;
     
@@ -97,8 +96,8 @@ end;
     
 if playerP1(4) == playerP2(4)    %Beide wollen Spielen
     
-    adjustCardValueP1(.2); %Handkarten aktualisiert nach altem Kartenwert           
-    adjustRandValueP2(.2); %Handkarten aktualisiert nach altem Kartenwert
+    playerP1(3)=adjustCardValue(.1, playerP1(3)); %Handkarten aktualisiert nach altem Kartenwert           
+    playerP2(3)=adjustCardValue(.1, playerP2(3)); %Handkarten aktualisiert nach altem Kartenwert
                     
     betRounds= betRounds +1;        % Anzahl Runden
     
@@ -108,16 +107,16 @@ if playerP1(4) == playerP2(4)    %Beide wollen Spielen
     
     if playerP1(3) >= playerP1(1)   % Raise bzw. Call P1
         if playerP1(2)>=0+betValue && betValue<=playerP2(2)       % ?berpr?fen ob eigenes Kapital gr?sser als Einsatz und Einsatz kleiner als Kapital vom Gegner
-        playerP1(4) = playerP1(4)+betValue;    % Einsatz anpassen
-        playerP1(2) = playerP1(2)-betValue;    % Kapital anpassen
+            playerP1(4) = playerP1(4)+betValue;    % Einsatz anpassen
+            playerP1(2) = playerP1(2)-betValue;    % Kapital anpassen
         end
     end;
 
 
     if playerP2(3) >= playerP2(1)   % Raise bzw. Call P2
-        if playerP2(2)>=0+betValue && betValue<=playerP1(2)       % ?berpr?fen ob eigenes Kapital gr?sser als Einsatz und Einsatz kleiner als Kapital vom Gegner
-        playerP2(4) = playerP2(4)+betValue;    % Einsatz anpassen
-        playerP2(2) = playerP2(2)-betValue;    % Kapital anpassen
+        if playerP2(2)>=0+betValue && betValue<=playerP1(2)+playerP1(4)     % ?berpr?fen ob eigenes Kapital gr?sser als Einsatz und Einsatz kleiner als Kapital vom Gegner
+            playerP2(4) = playerP2(4)+betValue;    % Einsatz anpassen
+            playerP2(2) = playerP2(2)-betValue;    % Kapital anpassen
         end
     end;
 end;
@@ -127,11 +126,6 @@ end;
 %%  S H O W D O W N
 
 pot = playerP1(4) + playerP2(4);         %Pot aktualisieren
-
-if playerP1(3) == playerP2(3)           %Draw
-    playerP1(2) = playerP1(2)+pot/2;
-    playerP2(2) = playerP2(2)+pot/2;
-end;
 
 if playerP1(4) > playerP2(4)           %P2 Bietet nicht mehr, P1 gewinnt
     %disp('Player 1 Wins: ');

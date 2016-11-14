@@ -4,6 +4,9 @@
 counter = 0;            %z?hlt Anzahl Runden bis Ruin eines Spielers
 winner = 0;             %speichert den Gewinner des Spiels
 
+playerP1(2)=startCapitalP1;
+playerP2(2)=startCapitalP2;
+
 % %%  Zwischenspeichervariablen
 % %Variablen zum zwischenspeichern der Kapitale von jedem Spieler nach einer
 % %gespielten Runde. Dienen als Laufvariable der while-Schleife
@@ -27,18 +30,18 @@ while playerP1(2) > 0 && playerP2(2) > 0; %Kapital gr?sser als 0
     
     %statisticsMatrix(1,counter)=playerP1;
     %statisticsMatrix(2,counter)=playerP2;
-    
-
 
 end;
 
-if player1(2) == 0
+
+if playerP1(2) == 0
     winner = 2;
-elseif player2(2) == 0
+elseif playerP2(2) == 0
     winner = 1;
 else
     disp('Error with headsup')
 end
+
 
 % %%  Endstatistics
 % 
