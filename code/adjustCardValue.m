@@ -1,4 +1,4 @@
-function [ newRandValue ] = adjustRandValue( randValue, sigma )
+function [newRandValue] = adjustCardValueP1(sigma, randValue)
 
     newRandValue=-1;
     
