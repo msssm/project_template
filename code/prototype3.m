@@ -1,8 +1,8 @@
 %Simulation Parameters
 dt = 0.5; %Time Step
 L = 2000; %Length of the highway in m
-Ttot = 1000; %Total simultaion time
-Ncars = 20;
+Ttot = 500; %Total simultaion time
+Ncars = 100;
 
 %Model Parameters
 v0 = 30; %desired speed in free traffic
@@ -16,22 +16,22 @@ sStar = @(va,dva) s0 + va*T + va*dva/2/sqrt(a*b); %influence of the following ca
 %initial condition and times at which cars are injected into the highway
 %x1,x2,x3,...,v1,v2,...
 x0 = zeros(2*Ncars,1);
-startTimes = zeros(Ncars,1);
+%startTimes = zeros(Ncars,1);
 for ii = 1:Ncars
-   x0(ii) = 0; %Starting Position [m]
-   x0(ii+Ncars) = 20; %Starting Velocity [m/s]
-   startTimes(ii) = 100*Ncars - 100*(ii-1); %Start Time
+   x0(ii) = 8*(Ncars-ii); %Starting Position [m]
+   x0(ii+Ncars) = 10 + rand(1)*19; %Starting Velocity [m/s]
+ %  startTimes(ii) = 1.7*ii; %Start Time
 end
 
-f = @(t,x) idm(t,x,startTimes,x0);
+f = @(t,x) idm(t,x);
 
 
 [TOUT,YOUT] = ode15s(f,[0 Ttot],x0);
 subplot(1,2,1);
+plot(TOUT,YOUT(:,1:Ncars));
 title('position')
-plot(TOUT,YOUT(:,1:20));
 subplot(1,2,2);
-plot(TOUT,YOUT(:,21:40));
+plot(TOUT,YOUT(:,Ncars+1:2*Ncars));
 title('velocity')
 %plot(t,xa(1,:),t,xa(2,:));
 %legend('x','v');

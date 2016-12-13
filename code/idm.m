@@ -1,14 +1,10 @@
 function result = idm(t,x)
-%idm returns evaluation of intelligent driver model ODE
+%IDM function used in prototypes 1,2, and 3
 %Simulation Parameters
-dt = 0.5; %Time Step
-speedLimit = 30; %Speed Limit in m/s
 L = 2000; %Length of the highway in m
-lcar = 1;
-Ttot = 1000; %Total simultaion time
-Ncars = 20;
+lcar = 0; %Length of the cars in m
 %Model Parameters
-v0 = speedLimit; %desired speed in free traffic
+v0 = 30; %desired speed in free traffic
 s0 = 2; %minimum distance to next car
 T = 1.5; %desired time headway to vehicle in front
 a = 0.3; %maximum acceleration of a car
@@ -19,15 +15,33 @@ sStar = @(va,dva) s0 + va*T + va*dva/2/sqrt(a*b); %influence of the following ca
 result = zeros(length(x),1);
 Ncars = floor(length(x)/2);
 for ii = 1:Ncars
-    if ii < Ncars
-        dva = x(ii+Ncars) - x(ii+Ncars+1);
-        sa = x(ii+1) - x(ii) - lcar;
-    else
+    follow = getFollowingIndex(x,ii);
+    if ii > 1 %All but first car
+        dva = x(ii+Ncars) - x(follow + Ncars);
+        sa = x(follow) - x(ii) - lcar;
+ %      if sa < s0
+ %          sa = s0;
+ %      end
+    else %First car
         dva = x(ii+Ncars);
         sa = L - x(ii);
+%         if x(ii) > 803.5
+%             sa = L - x(ii);
+%         elseif x(ii) > 800
+%             sa = 2.001;
+%         end
     end
-    result(ii) = x(ii+Ncars);
-    result(ii+Ncars) = a*(1 - (x(ii+Ncars)/v0)^delta - (sStar(x(ii+Ncars),dva)/sa)^2);
+    %State Space Equation
+    %if startTimes(ii) <= t %&& sa > s0 + 0.001
+        result(ii) = x(ii+Ncars);
+        result(ii+Ncars) = a*(1 - (x(ii+Ncars)/v0)^delta - (sStar(x(ii+Ncars),dva)/sa)^2);
+%     else
+%         result(ii) = 0;
+%         result(ii+Ncars) = 0;
+%     end
+    if result(ii)<0
+        result(ii) = 0;
+    end
 end
 
 end

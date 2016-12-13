@@ -1,6 +1,7 @@
 function result = idm4(t,x,plebmap,iq,dis)
 disturbance = dis;
-%idm returns evaluation of intelligent driver model ODE
+%IDM function used in prototype4.m
+
 %Simulation Parameters
 L = 100000; %Length of the highway in m
 lcar = 0; %Length of the cars in m

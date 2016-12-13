@@ -65,7 +65,9 @@ for ii = 1:Ncars
     end
     %Introducing a disturbance
     if ii == 5 && dis
-
+        if guideMap(ii)
+            error('disturbance car is guide car - please repeat')
+        end
         v02 = @(x) max(30 - (x-15000)*25/200,5);
         if x(ii) > 15000 && x(ii) < 15500           
             result(ii+Ncars) = min(a*(1 - (x(ii+Ncars)/v02(x(ii)))^delta - (sStar(x(ii+Ncars),dva,dva1)/sa)^2),a);

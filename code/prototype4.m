@@ -1,3 +1,4 @@
+%Prototype 4 introduces the guide cars at regular intervals
 function [res1,res2] = prototype4(iq,dis)
 
 %Simulation Parameters

@@ -21,9 +21,11 @@ plebmap = zeros(Ncars,1);
 for ii = 1:Ncars
    x0(ii) = 8*(Ncars-ii); %Starting Position [m]
    x0(ii+Ncars) = 10 + rand(1)*19; %Starting Velocity [m/s]
-   plebmap(ii) = mod(ii,10) == 0;
+   plebmap(ii) = mod(ii,1) == 0;
  %  startTimes(ii) = 1.7*ii; %Start Time
 end
+plebmap(1) = 0;
+plebmap(Ncars) = 0;
 
 f = @(t,x) idm4(t,x,plebmap);
 

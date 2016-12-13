@@ -29,18 +29,14 @@ end
 
 guideMap = (rand(Ncars,1) < freq); %randomly introduce guide cars
 
-
-% if dis %The car that causes the disturbance cannot be a guide car
-%     fprintf('!! Car 5 is now not a guide car; it causes the disturbance !!')
-%     guideMap(5) = 0;
-% end
-
-if isequal(guideMap,zeros(Ncars,1)) || isequal(guideMap,ones(Ncars,1))
-    f = @(t,x) idm4(t,x,guideMap,min(floor(1/freq),300),dis);
-else
-    f = @(t,x) idm_final(t,x,guideMap,dis); %map which of the cars are guide cars
+if dis %The car that causes the disturbance cannot be a guide car
+        print('!! Car 5 is now not a guide car; it causes the disturbance')
+    guideMap(5) = 0;
 end
-find(guideMap)
+
+    f = @(t,x) idm_final(t,x,guideMap,dis); %map which of the cars are guide cars
+
+
 [TOUT,YOUT] = ode45(f,[0 Ttot],x0);
 %subplot(1,2,1);
 [ycol, yrow] = size(YOUT);

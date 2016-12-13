@@ -35,7 +35,7 @@ end
 % ends
 
 %f = @(t,x) [x;a*(1 - (x(2)/v0)^delta - (sStar(x(2),v0-x(2))/(L-x(1)))^2)];
-f = @(t,x) idm(t,x);
+f = @(t,x) idm(t,x,zeros(Ncars,1));
 
 
 [TOUT,YOUT] = ode45(f,[0 Ttot],x0);
