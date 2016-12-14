@@ -1,8 +1,8 @@
-function result = idm_final(t,x,guideMap,dis)
+function result = idm_final(t,x,guideMap,dis,pDis)
 %IDM function used in simulate.m
 
 %Simulation Parameters
-L = 100000; %Length of the highway in m
+L = 1000000; %Length of the highway in m
 lcar = 0; %Length of the cars in m
 %Model Parameters
 %desired speed in free traffic
@@ -12,7 +12,7 @@ a = 0.3; %maximum acceleration of a car
 b = 3; %comfortable braking deceleration
 delta = 4; %exponent used in equation
 sStar = @(va,dva,dva1) s0 + va*T + va*dva/2/sqrt(a*b); %influence of the following car
-sStar2 = @(va,dva,dva1) s0 + va*2*T + va*dva/2/sqrt(a*b); %influence of the following car
+sStar2 = @(va,dva,dva1) s0 + va*T + va*dva/2/sqrt(a*b); %influence of the following car
 v0=30; %Max. speed
 
 result = zeros(length(x),1);
@@ -64,10 +64,13 @@ for ii = 1:Ncars
         
     end
     %Introducing a disturbance
-    if ii == 5 && dis
-
-        v02 = @(x) max(30 - (x-15000)*25/200,5);
-        if x(ii) > 15000 && x(ii) < 15500           
+    if rand(1,1)<pDis && dis
+        disLoc = 40000 + rand(1)*80000; %random from 40k to 120k
+        disLength = 100 + rand(1)*1000; 
+        disV = 5 + rand(1)*15;
+        v02 = @(x) max(30 - (x-disLoc)*25/400,5);
+        if x(ii) > 40000 && x(ii) < 41000      
+            result(ii) = x(ii+Ncars);
             result(ii+Ncars) = min(a*(1 - (x(ii+Ncars)/v02(x(ii)))^delta - (sStar(x(ii+Ncars),dva,dva1)/sa)^2),a);
         end
         

@@ -6,16 +6,8 @@ function [res1,res2] = simulate(freq,dis)
 %PRE: 0<=freq<=1
 
 %Simulation Parameters
-L = 100000; %Length of the highway in m
-Ttot = 1000; %Total simultaion time
-Ncars = 103; %may be prime
-
-%Model Parameters
-v0 = 30; %desired speed in free traffic
-s0 = 0.5; %minimum distance to next car
-T = 1; %desired time headway to vehicle in front
-a = 0.3; %maximum acceleration of a car
-b = 3; %comfortable braking deceleration
+Ttot = 4000; %Total simultaion time
+Ncars = 1013;
 
 x0 = zeros(2*Ncars,1);
 %startTimes = zeros(Ncars,1);
@@ -35,12 +27,12 @@ guideMap = (rand(Ncars,1) < freq); %randomly introduce guide cars
 %     guideMap(5) = 0;
 % end
 
-if isequal(guideMap,zeros(Ncars,1)) || isequal(guideMap,ones(Ncars,1))
+%if isequal(guideMap,zeros(Ncars,1)) || isequal(guideMap,ones(Ncars,1))
     f = @(t,x) idm4(t,x,guideMap,min(floor(1/freq),300),dis);
-else
+%else
     f = @(t,x) idm_final(t,x,guideMap,dis); %map which of the cars are guide cars
-end
-find(guideMap)
+%end
+%find(guideMap)
 [TOUT,YOUT] = ode45(f,[0 Ttot],x0);
 %subplot(1,2,1);
 [ycol, yrow] = size(YOUT);
@@ -82,7 +74,7 @@ for ii = 1:ycol
          measurement(2,3) = TOUT(ii);
          taken(2,3) = 1;
      end
-     if YOUT(ii,103) > 20000 && taken(3,3) == 0
+     if YOUT(ii,1013) > 60000 && taken(3,3) == 0
          measurement(3,3) = TOUT(ii);
          taken(3,3) = 1;
      end
