@@ -1,12 +1,12 @@
 %Runs the simulation with a certain guide car frequency, randomly
 %distributed.
-function [res1,res2] = simulate(freq,dis)
+function [res1,res2] = simulate(freq,disMatrix)
 %@param freq The chance of a car being a guide car
 %@param dis 1:With disturbance 0:Without disturbance
 %PRE: 0<=freq<=1
 
 %Simulation Parameters
-Ttot = 4000; %Total simultaion time
+Ttot = 10000; %Total simultaion time
 Ncars = 1013;
 
 x0 = zeros(2*Ncars,1);
@@ -27,11 +27,9 @@ guideMap = (rand(Ncars,1) < freq); %randomly introduce guide cars
 %     guideMap(5) = 0;
 % end
 
-%if isequal(guideMap,zeros(Ncars,1)) || isequal(guideMap,ones(Ncars,1))
-    f = @(t,x) idm4(t,x,guideMap,min(floor(1/freq),300),dis);
-%else
-    f = @(t,x) idm_final(t,x,guideMap,dis); %map which of the cars are guide cars
-%end
+    %disMatrix = generateDis(pDis,Ncars);
+    f = @(t,x) idm_final(t,x,guideMap,disMatrix); %map which of the cars are guide cars
+
 %find(guideMap)
 [TOUT,YOUT] = ode45(f,[0 Ttot],x0);
 %subplot(1,2,1);

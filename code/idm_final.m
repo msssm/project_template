@@ -1,4 +1,4 @@
-function result = idm_final(t,x,guideMap,dis,pDis)
+function result = idm_final(t,x,guideMap,disMatrix)
 %IDM function used in simulate.m
 
 %Simulation Parameters
@@ -64,12 +64,12 @@ for ii = 1:Ncars
         
     end
     %Introducing a disturbance
-    if rand(1,1)<pDis && dis
-        disLoc = 40000 + rand(1)*80000; %random from 40k to 120k
-        disLength = 100 + rand(1)*1000; 
-        disV = 5 + rand(1)*15;
-        v02 = @(x) max(30 - (x-disLoc)*25/400,5);
-        if x(ii) > 40000 && x(ii) < 41000      
+    if disMatrix(ii,1) ~= 0
+        disLoc = disMatrix(ii,1);
+        disLength = disMatrix(ii,2); 
+        disV = disMatrix(ii,3);
+        v02 = @(x) max(v0 - (x-disLoc)*(v0-disV)/400,disV);
+        if x(ii) > disLoc && x(ii) < disLoc + disLength      
             result(ii) = x(ii+Ncars);
             result(ii+Ncars) = min(a*(1 - (x(ii+Ncars)/v02(x(ii)))^delta - (sStar(x(ii+Ncars),dva,dva1)/sa)^2),a);
         end
