@@ -72,7 +72,7 @@ for ii = 1:ycol
          measurement(2,3) = TOUT(ii);
          taken(2,3) = 1;
      end
-     if YOUT(ii,1013) > 60000 && taken(3,3) == 0
+     if YOUT(ii,1013) > 1.6e5 && taken(3,3) == 0
          measurement(3,3) = TOUT(ii);
          taken(3,3) = 1;
      end
@@ -87,8 +87,9 @@ end
 
 res1 = measurement(3,3);
 res2 = measurement(2,3);
+ColorMap = [guideMap zeros(Ncars,1) ~guideMap]; %color guide cars red, normal cars blue
 
-%Plot all cars' positions vs. time
+set(gca, 'ColorOrder', ColorMap, 'NextPlot', 'replacechildren');
 plot(TOUT,YOUT(:,1:Ncars));
 title('position')
 end
