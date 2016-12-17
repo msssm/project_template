@@ -1,4 +1,4 @@
-function result = idm_final(t,x,guideMap,disMatrix)
+function result = idm_final(t,x,guideMap,disMatrix,triggerDis)
 %IDM function used in simulate.m
 
 %Simulation Parameters
@@ -58,7 +58,7 @@ for ii = 1:Ncars
         if k <= 0 %if it is the first guide car
             result(ii+Ncars) = min(a*(1 - (x(ii+Ncars)/v0)^delta - (sStar2(x(ii+Ncars),dva,dva1)/sa)^2),a);
         else
-            result(ii+Ncars) = min(a*(1 - (x(ii+Ncars)/v0)^delta - (sStar2(x(ii+Ncars),dva,dva1)/sa)^2 - (sa<100)*(x(ii+Ncars)-x(k+Ncars))),a);%(x(ii+Ncars)>x(k+Ncars))*
+            result(ii+Ncars) = min(a*(1 - (x(ii+Ncars)/v0)^delta - (sStar2(x(ii+Ncars),dva,dva1)/sa)^2 - (sa<triggerDis)*(x(ii+Ncars)-x(k+Ncars))),a);%(x(ii+Ncars)>x(k+Ncars))*
         end
         %result(ii+Ncars) = -10000*(x(ii) - (x(ii+1)+x(ii-1))/2);
         
