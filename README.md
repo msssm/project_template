@@ -1,44 +1,31 @@
-# MATLAB Fall 2014 – Research Plan (Template)
-(text between brackets to be removed)
+# MATLAB Fall 2016 – Research Plan
 
-> * Group Name: (be creative!)
-> * Group participants names: (alphabetically sorted by last name)
-> * Project Title: (can be changed later)
+> * Group Name: töfftöff
+> * Group participants names: Colin Berner, Luzian Hug
+> * Project Title: Smart Driving Strategies
 
 ## General Introduction
+Traffic jams are a growing problem in everyday life. Increasing road surface is not a sustainable solution to the problem as we are already reaching our limits in this respect. Also, building broader and broader roads is not compatible with environmental efforts. Therefore, we must try to increase the throughput using the existing infrastructure.
 
-(States your motivation clearly: why is it important / interesting to solve this problem?)
-(Add real-world examples, if any)
-(Put the problem into a historical context, from what does it originate? Are there already some proposed solutions?)
+After a suggestion by Dr. Sanders we want to introduce a percentage of cars that act as guides. In practice these could be realized as self-driving cars which can communicate with each other.
 
 ## The Model
+We want to model the human drivers using the "Intelligent Driver Model". This model takes into account the velocity of an individual car, the velocity of the car in front as well as the distance between both cars.
 
-(Define dependent and independent variables you want to study. Say how you want to measure them.) (Why is your model a good abtraction of the problem you want to study?) (Are you capturing all the relevant aspects of the problem?)
-
+The guide cars are modelled so that they hold a moderate pace without sudden brakes. This can be accomplished by communication between the guide cars to allow early reaction to a perturbation.
 
 ## Fundamental Questions
-
-(At the end of the project you want to find the answer to these questions)
-(Formulate a few, clear questions. Articulate them in sub-questions, from the more general to the more specific. )
-
+* How many cars would have to act as guide cars in order to acheive a significant improvement in traffic flow during and after a disruption (e.g. an accident) occurs?
 
 ## Expected Results
-
-(What are the answers to the above questions that you expect to find before starting your research?)
-
+We expect that a small portion of guide cars can make a comparatively large positive impact on traffic congestions.
 
 ## References 
+[1] M. Treiber, A. Kesting, D. Helbing, Delays, inaccuracies and anticipation in
+microscopic traffic models (2005)
 
-(Add the bibliographic references you intend to use)
-(Explain possible extension to the above models)
-(Code / Projects Reports of the previous year)
-
+[2]  M. Treiber, A. Hennecke, D. Helbing, Congested traffic states in empirical observations and
+microscopic simulations (2000)
 
 ## Research Methods
-
-(Cellular Automata, Agent-Based Model, Continuous Modeling...) (If you are not sure here: 1. Consult your colleagues, 2. ask the teachers, 3. remember that you can change it afterwards)
-
-
-## Other
-
-(mention datasets you are going to use)
+Continuous Modeling by using a dynamical state space model to abstract the individual driver's behaviour.
