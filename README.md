@@ -1,44 +1,18 @@
-# MATLAB Fall 2014 – Research Plan (Template)
-(text between brackets to be removed)
+# MATLAB Fall 2015 – Research Plan 
 
-> * Group Name: (be creative!)
-> * Group participants names: (alphabetically sorted by last name)
-> * Project Title: (can be changed later)
+> * Group Name: destructive
+> * Group participants names: Deichmann Marion; Kaiser Laurenz; Schäfer Timo
+> * Project Title: Modelling Contagion in a Core-Periphery Financial Network
 
 ## General Introduction
 
-(States your motivation clearly: why is it important / interesting to solve this problem?)
-(Add real-world examples, if any)
-(Put the problem into a historical context, from what does it originate? Are there already some proposed solutions?)
+Especially after the collapse of Lehman in 2008 researchers and policy
+makers have shifted their focus towards the interconnectedness of
+financial intermediaries regarding interbank lending. It has been shown that the default of a bank
+can trigger other banks' failure via the network structure. Since then global discussions regarding
+capital requirements and banking regulations have emerged, i.e. Basel III, Volcker Rule, Liikanen
+report, UK Whitebook. All these measures aim to decrease the
+probability of default of banks and hence, to reduce contagion
+w.r.t. financial distress.
 
-## The Model
-
-(Define dependent and independent variables you want to study. Say how you want to measure them.) (Why is your model a good abtraction of the problem you want to study?) (Are you capturing all the relevant aspects of the problem?)
-
-
-## Fundamental Questions
-
-(At the end of the project you want to find the answer to these questions)
-(Formulate a few, clear questions. Articulate them in sub-questions, from the more general to the more specific. )
-
-
-## Expected Results
-
-(What are the answers to the above questions that you expect to find before starting your research?)
-
-
-## References 
-
-(Add the bibliographic references you intend to use)
-(Explain possible extension to the above models)
-(Code / Projects Reports of the previous year)
-
-
-## Research Methods
-
-(Cellular Automata, Agent-Based Model, Continuous Modeling...) (If you are not sure here: 1. Consult your colleagues, 2. ask the teachers, 3. remember that you can change it afterwards)
-
-
-## Other
-
-(mention datasets you are going to use)
+see proposal_css.pdf

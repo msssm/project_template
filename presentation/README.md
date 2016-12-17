@@ -1,3 +1,1 @@
-# Presentation Folder 
-
-Add your presentation here...but first finish the code and the report!
+current presentation file for Tue 15 Dec, 2015
