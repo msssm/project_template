@@ -22,11 +22,6 @@ end
 guideMap = (rand(Ncars,1) < freq); %randomly introduce guide cars
 
 
-% if dis %The car that causes the disturbance cannot be a guide car
-%     fprintf('!! Car 5 is now not a guide car; it causes the disturbance !!')
-%     guideMap(5) = 0;
-% end
-
     %disMatrix = generateDis(pDis,Ncars);
     f = @(t,x) idm_final(t,x,guideMap,disMatrix); %map which of the cars are guide cars
 
@@ -87,12 +82,11 @@ end
 
 res1 = measurement(3,3);
 res2 = measurement(2,3);
-%res1 = measurement(3,3)-measurement(2,3);
 %Plot all cars' positions vs. time
-%ColorMap = [guideMap zeros(Ncars,1) ~guideMap]; %color guide cars red, normal cars blue
+ColorMap = [guideMap zeros(Ncars,1) ~guideMap]; %color guide cars red, normal cars blue
 
-%set(gca, 'ColorOrder', ColorMap, 'NextPlot', 'replacechildren');
+set(gca, 'ColorOrder', ColorMap, 'NextPlot', 'replacechildren');
 
-%plot(TOUT,YOUT(:,1:Ncars));
-%title('position')
+plot(TOUT,YOUT(:,1:Ncars));
+
 end
