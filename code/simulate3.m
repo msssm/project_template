@@ -7,7 +7,7 @@ function [res1,res2] = simulate(freq,disMatrix)
 
 %Simulation Parameters
 Ttot = 4000; %Total simultaion time
-Ncars = 103;
+Ncars = 105;
 
 x0 = zeros(2*Ncars,1);
 %startTimes = zeros(Ncars,1);
@@ -60,7 +60,7 @@ for ii = 1:ycol
          measurement(2,2) = TOUT(ii);
          taken(2,2) = 1;
      end
-     if YOUT(ii,103) > 13000 && taken(3,2) == 0
+     if YOUT(ii,105) > 13000 && taken(3,2) == 0
          measurement(3,2) = TOUT(ii);
          taken(3,2) = 1;
      end
@@ -72,7 +72,7 @@ for ii = 1:ycol
          measurement(2,3) = TOUT(ii);
          taken(2,3) = 1;
      end
-     if YOUT(ii,103) > 10000 && taken(3,3) == 0
+     if YOUT(ii,105) > 10000 && taken(3,3) == 0
          measurement(3,3) = TOUT(ii);
          taken(3,3) = 1;
      end
