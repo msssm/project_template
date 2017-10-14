@@ -1,8 +1,7 @@
-# MATLAB Fall 2014 – Research Plan (Template)
-(text between brackets to be removed)
+# MATLAB Fall 2017 – Research Plan
 
 > * Group Name: (be creative!)
-> * Group participants names: (alphabetically sorted by last name)
+> * Group participants names: Lefkopoulos Vasileios, Qi Shuaixin, Signer Matteo
 > * Project Title: (can be changed later)
 
 ## General Introduction
