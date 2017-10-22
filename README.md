@@ -1,4 +1,4 @@
-# MATLAB Fall 2014 – Research Plan (Template)
+# MATLAB Fall 2017 – Research Plan (Template)
 (text between brackets to be removed)
 
 > * Group Name: (be creative!)
