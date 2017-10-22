@@ -19,7 +19,7 @@ On one hand, cryptocurrency differs a lot from the current financial world. For 
 
 On the other hand, since there exist several exchanges where it is possible to trade cryptocurrencies with other fiat currencies, cryptocurrencies also have a lot in common with the aforementioned fiat money.
 
-Historically, most widespread cryptocurrencies have had very strong price fluctuations. In the case of Bitcoin some of these fluctuations are probably caused external events like the shutdown of the MTGOX exchange site and reports regarding a ban in China[2]. Another well-known phenomenon are lost cryptocurrency wallets (e.g. caused by loosing or corrupting the drive they were stored on). In this case the cryptocurrency cannot be restored, contrary to conventional bank accounts.
+Historically, most widespread cryptocurrencies have had very strong price fluctuations. In the case of Bitcoin some of these fluctuations were probably caused by external events like the shutdown of the MTGOX exchange site and reports regarding a ban in China[2]. Another well-known phenomenon are lost cryptocurrency wallets (e.g. caused by loosing or corrupting the drive they were stored on). In this case the cryptocurrency cannot be restored, contrary to conventional bank accounts.
 
 ## The Model
 <!--
