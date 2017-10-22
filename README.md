@@ -33,7 +33,7 @@ Using this model we should be able to successfully simulate the key points in an
 
 2) We expect to see clustering of general opinions before the extreme opinions take any effect (no disturbance).
 
-3) Difference in clustering patterns
+3) Difference in clustering patterns and speeds
 
 
 ## References
