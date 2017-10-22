@@ -11,9 +11,14 @@
 -->
 
 Cryptocurrencies such as Bitcoin have seen a strong increase in popularity over the last couple of years. They are becoming more and more accepted as a payment method, not only online, but also in retail locations. One can, say, buy Bitcoin at SBB ticket machines and a Swiss municipality (Chiasso) has recently announced that it will accept Bitcoin as an experimental payment method for fees up to the equivalent of 250 Swiss Francs starting from January 2018.
+
 <!-- source: http://www.cdt.ch/ticino/mendrisiotto/182329/a-chiasso-una-parte-delle-imposte-si-pagherà-in-bitcoin -->
 Like in the ore and metal industry, mining exists in the world of cryptocurrencies, where difficult mathematical problems must be solved to obtain a set amount of a certain cryptocurrency. 
-On one hand, cryptocurrency differs a lot from the current financial world. For instance, unlike fiat money, which can be printed  effortlessly, mining nautrally caps the amount of money which can be injected into the market. On the other hand, since there exist several exchanges where it is possible to trade cryptocurrencies with other fiat currencies, cryptocurrencies also have a lot in common with the aforementioned fiat money.
+
+On one hand, cryptocurrency differs a lot from the current financial world. For instance, unlike fiat money, which can be printed  effortlessly, mining nautrally caps the amount of money which can be injected into the market. 
+
+On the other hand, since there exist several exchanges where it is possible to trade cryptocurrencies with other fiat currencies, cryptocurrencies also have a lot in common with the aforementioned fiat money.
+
 Historically, most widespread cryptocurrencies have had very strong price fluctuations. In the case of Bitcoin some of these fluctuations are probably caused external events like the shutdown of the MTGOX exchange site and reports regarding a ban in China[2]. Another well-known phenomenon are lost cryptocurrency wallets (e.g. caused by loosing or corrupting the drive they were stored on). In this case the cryptocurrency cannot be restored, contrary to conventional bank accounts.
 
 ## The Model
