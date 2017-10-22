@@ -1,8 +1,8 @@
-# MATLAB Fall 2017 – Research Plan / Proposal
+# MATLAB Fall 2017 – Research Plan
 
 > * Group Name: The Opinionators
 > * Group participants names: Alexander Stein, Niklas Tidbury, Elisa Wall
-> * Project Title: Opinion Formation: Impacts of convincing extreme individuals onto a society that typically converges to one opinion 
+> * Project Title: Opinion Formation: Impacts of convincing extreme individuals onto a society that typically converges to one opinion
 
 ## General Introduction
 
@@ -13,7 +13,8 @@ We would like to examine how extreme opinions of individuals impacts such a soci
 
 ## The Model
 
-We want to base our work on an agent-based model, the agents being single beings with an opinion of an interval **[0,1]**. In addition, each agent possesses a parameter **µ**, which is the weight the agent gives to foreign opinions. Agents of the society will interact with each other, "exchanging" their opinions and deciding on common ground. This "common ground" both agents share is defined if within the interval **u**: if their opinions are similar enough (within **u**), they will converge and become the same. If not, extreme differences will stay as-is.
+We want to base our work on an agent-based model, the agents being single beings with an opinion of an interval **[0,1]**. In addition, each agent possesses a parameter **µ**, which is the weight the agent gives to foreign opinions. Agents of the society will interact with each other, "exchanging" their opinions and deciding on common ground. This "common ground" both agents share is defined if within the interval **u**: if their opinions are similar enough (within **u**), they will converge and become the same. If not, extreme differences will stay as-is. The final level of abstraction is added with the probability of convincing another individual of their own opinion is defined by **κ**, as some individuals possess higher levels of charisma and are more able to manipulate the crowd than others.
+Using this model we should be able to successfully simulate the key points in an abstract way: the weight of foreign opinions, the similarities of two opinions and the probability of convincing others.
 
 
 ## Fundamental Questions
@@ -61,6 +62,8 @@ The procedure can be interpreted as follows:
 At each time step **t** two randomly chosen agents meet. By building a threshold **u** into the structure, the agents only interact with similar-thinking agents, as people generally interact with the like-minded. If the difference in their opinion is within the communicating interval **u**, the agents with the opinions **x** and **x'** adapt their opinion by the weight **µ**, which characterises the convergence of the opinions.
 Using this model, close opinions come even closer and opinions further away from other opinions do not change. "Close" and "far-away" are characterised in **u**.
 If we take reasonable values for **u** and **µ**, this typically follows to a convergence of a unique opinion around x = 0.5.
+
+Within this situation we add n extreme individuals in the beginning with a non-changing opinion in the outer parts of the Gaussian curve. We assume that the agents are charismatic and have good rhetorics in order to convince **p** other agents by a probability of success of **κ** (Kappa). This can be interpreted as the influence of certain individuals can be higher, such as social media stars or politicians with extreme opinions.
 
 
 ## Other
