@@ -10,11 +10,11 @@
 (Put the problem into a historical context, from what does it originate? Are there already some proposed solutions?)
 -->
 
-
-Cryptocurrencies such as Bitcoin have seen a strong increase in popiularity over the last couple of years. They are becoming more and more accepted as a payment method not only online, but also in retail locations. One can, for example buy Bitcoin at SBB ticket machines and a Swiss municipality (Chiasso) has recently announced that it will accept Bitcoin as an experimental payment method for fees up to the equivalent of 250 Swiss Francs starting from January 2018.
+Cryptocurrencies such as Bitcoin have seen a strong increase in popularity over the last couple of years. They are becoming more and more accepted as a payment method, not only online, but also in retail locations. One can, say, buy Bitcoin at SBB ticket machines and a Swiss municipality (Chiasso) has recently announced that it will accept Bitcoin as an experimental payment method for fees up to the equivalent of 250 Swiss Francs starting from January 2018.
 <!-- source: http://www.cdt.ch/ticino/mendrisiotto/182329/a-chiasso-una-parte-delle-imposte-si-pagherà-in-bitcoin -->
-Historically most widespread cryptocurrencies have had very strong price fluctuations. In the case of Bitcoin some of these fluctuations are probably caused external events like the shutdown of the MTGOX exchange site and reports regarding a ban in China[2]. 
-Just like in the traditional financial world there is mining of cryptocurrencies (comparable to gold mining) and there exist several exchanges where it is possible to trade cryptocurrencies with other fiat (conventional) currencies. However, cryptocurrencies are not consumed in any way (unlike gold which is used in industrial applications). An other novel phenomenon are lost cryptocurrency wallets (e.g. caused by loosing or corrupting the drive they were stored on). In this case the cryptocurrency cannot be restored, contrary to conventional bank accounts.
+Like in the ore and metal industry, mining exists in the world of cryptocurrencies, where difficult mathematical problems must be solved to obtain a set amount of a certain cryptocurrency. 
+On one hand, cryptocurrency differs a lot from the current financial world. For instance, unlike fiat money, which can be printed  effortlessly, mining nautrally caps the amount of money which can be injected into the market. On the other hand, since there exist several exchanges where it is possible to trade cryptocurrencies with other fiat currencies, cryptocurrencies also have a lot in common with the aforementioned fiat money.
+Historically, most widespread cryptocurrencies have had very strong price fluctuations. In the case of Bitcoin some of these fluctuations are probably caused external events like the shutdown of the MTGOX exchange site and reports regarding a ban in China[2]. Another well-known phenomenon are lost cryptocurrency wallets (e.g. caused by loosing or corrupting the drive they were stored on). In this case the cryptocurrency cannot be restored, contrary to conventional bank accounts.
 
 ## The Model
 <!--
@@ -22,7 +22,7 @@ Just like in the traditional financial world there is mining of cryptocurrencies
 (Define dependent and independent variables you want to study. Say how you want to measure them.) (Why is your model a good abtraction of the problem you want to study?) (Are you capturing all the relevant aspects of the problem?)
 -->
 The model we want to study is an agent based model largely based on the one proposed by [2,1]. 
-It consists of three different kinds of agents: Miners, Random traders and Chartists. There are buy and sell orders organized in a central order book and new agents entering the market over time. Miners belong to mining pools (i.e. they are modelled to mine at a continous rate). Some of the relevant variables are volatility, market activity and the number of transactions in a given timeframe.
+It consists of three different kinds of agents: Miners, Random traders and Chartists. There are buy and sell orders organized in a central order book and new agents entering the market over time. Miners belong to mining pools (i.e. they are modelled to mine at a continuous rate). Some of the relevant variables are volatility, market activity and the number of transactions in a given timeframe.
 Our aim is to extend this model by incorporating additional parameters (such as a wallet loss probability) and adding additional competing cryptocurrencies similar to [3].
 
 
@@ -31,11 +31,11 @@ Our aim is to extend this model by incorporating additional parameters (such as 
 (At the end of the project you want to find the answer to these questions)
 (Formulate a few, clear questions. Articulate them in sub-questions, from the more general to the more specific. )
 -->
-- Is it possible to reproduce the cryptocurrency market behaviour using a relatively simple agent based model ?
--  Under which conditions can crashes arise ?
-    -  What happens after a crash ?
--  Which factors are responsible for the marketshare of competing cryptocurrencies ?
--  What happens when all Bitcoins are mined ?
+- Is it possible to reproduce the cryptocurrency market behaviour using a relatively simple agent based model?
+-  Under which conditions can crashes arise?
+    -  What happens after a crash?
+-  Which factors are responsible for the market share of competing cryptocurrencies?
+-  What happens when all Bitcoins are mined?
 
 ## References 
 
