@@ -4,6 +4,11 @@
 > * Group participants names: Alexander Stein, Niklas Tidbury, Elisa Wall
 > * Project Title: Opinion Formation: Impacts of convincing extreme individuals onto a society that typically converges to one opinion
 
+## TO DO
+- rethink questions
+- concrete goal
+- discuss implementation of kappa and p
+
 ## General Introduction
 
 For millennia, society has consisted of many opinions and points of view. In some cases, these opinions have been oppressed, other opinions have been forced onto societies, others brainwashed.
