@@ -1,5 +1,6 @@
 classdef SocietyAgent
     properties
+        % all properties in [0,1]
         opinion
         u
         mu
@@ -8,6 +9,7 @@ classdef SocietyAgent
     end
     methods
         function obj = SocietyAgent(dist)
+            % set distribution of random number
             if STRCMP(dist, 'Normal')
                 u = randn
                 mu = randn

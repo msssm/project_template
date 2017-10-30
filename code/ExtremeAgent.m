@@ -1,5 +1,6 @@
 classdef ExtremeAgent
     properties
+         % all properties in [0,1]
         opinion
         u
         mu
@@ -8,8 +9,10 @@ classdef ExtremeAgent
     end
     methods
         function obj = ExtremeAgent(dist)
+            % fix properties to constants
             u = 0
             mu = 0
+             % set distribution of random number
             if STRCMP(dist, 'Normal')
                 kappa = randn
                 opinion = randn

@@ -1,3 +1,13 @@
-# Code Folder 
+# CODE
 
-Your code goes here. You could also replace the content of this file with something more meaningful
+> * MATLAB
+
+## CODE STRUCTURE
+
+### CLASSES
+Agents have 5 properties: opinion, u, mu, kappa, p
+
+- ExtremeAgent.m // agent with extremist character
+- SocietyAgent.m // normal agent
+
+### MAIN
