@@ -1,5 +1,5 @@
 from mesa import Agent
-from cryptocurrencymodel.Order import Order #todo fix this import
+from sccm.market import Order
 
 class CryptoCurrencyAgent(Agent):
     """An agent"""

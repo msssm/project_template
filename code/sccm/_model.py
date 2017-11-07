@@ -1,7 +1,7 @@
 from mesa import Model
 from mesa.time import RandomActivation
-from cryptocurrencymodel.Agents import *
-from cryptocurrencymodel.Exchange import Exchange #todo fix this import
+from sccm.agents import *
+from sccm.market import Exchange
 
 class CryptoCurrencyModel(Model):
     """A model with some number of agents."""

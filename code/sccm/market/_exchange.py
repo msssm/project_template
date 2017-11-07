@@ -1,4 +1,4 @@
-from cryptocurrencymodel.Order import Order #todo fix this import
+from ._order import Order
 
 class Exchange: #TODO maybe move orderbook to its own class
     def __init__(self, model):

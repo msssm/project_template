@@ -1,4 +1,4 @@
-import Agent
+from ._agent import CryptoCurrencyAgent
 
 class Miner(CryptoCurrencyAgent):
     """A Miner"""
