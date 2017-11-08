@@ -1,8 +1,13 @@
 
 
-function [matrix] = initializeMatrix(resolution)
-%UNTITLED Summary of this function goes here
-%   Detailed explanation goes here
+function [matrix] = initializeMatrix(resolution, numberOfPeople)
+%INITIALIZEMATRIX Initializes the position matrix used by the simulation.
+%   The matrix is a low-resolution representation of the people at the
+%   concert and is divided into "sectors". Each sector can contain several
+%   people (whose position is defined by their x and y coordinates). The
+%   matrix initially contains numberOfPeople people. Each sector is a
+%   reference to a java.util.ArrayList which contains a list of the people
+%   currently in that sector.
 
     % Initialize a matrix of the proper size
     width = resolution(1);
