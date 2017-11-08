@@ -7,9 +7,9 @@ function runSimulation()
     INDIVIDUAL_SIZE = 5;
     
     % Initialize the initial conditions of the simulation
-    matrix = initializeMatrix([100, 100]);
+    matrix = initializeMatrix([10, 10]);
     
-
+    disp(matrix);
 
 end
 
