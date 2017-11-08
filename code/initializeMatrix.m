@@ -16,7 +16,7 @@ function [matrix] = initializeMatrix(resolution, numberOfPeople)
 
     for i = 1:width
         for j = 1:height
-            matrix(i, j) = javaObject('java.util.ArrayList');
+            matrix(i, j) = javaObject('java.util.ArrayList', numberOfPeople/(width * height));
         end
     end
     
@@ -26,7 +26,7 @@ function [matrix] = initializeMatrix(resolution, numberOfPeople)
             % - Add random number of people per sector
             % - Initialize positions and speeds of people
             % - Decide which people are participating
-            matrix(i, j).add(createIndividual(0, 0, 0, 0, FALSE));
+            matrix(i, j).add(createIndividual(0, 0, 0, 0, false));
         end
     end
     
