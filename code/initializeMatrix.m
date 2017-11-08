@@ -14,13 +14,13 @@ function [matrix] = initializeMatrix(resolution, numberOfPeople)
     height = resolution(2);
     matrix = javaArray('java.util.ArrayList', width, height);
 
-    for i = 1:width
+    parfor i = 1:width
         for j = 1:height
             matrix(i, j) = javaObject('java.util.ArrayList', numberOfPeople/(width * height));
         end
     end
     
-    for i = 1:width
+    parfor i = 1:width
         for j = 1:height
             % TODO:
             % - Add random number of people per sector
