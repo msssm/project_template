@@ -1,3 +1,24 @@
+%{
+GENERAL NOTES
+=============
+
+Each function should be defined in a separate file according
+to MATLAB requirements.
+When iterating over the matrix, if possible, parallelize the
+accesses using parfor to increase efficiency. To iterate over
+the people inside of one sector, use the following piece of
+code:
+
+itr = matrix(i, j).iterator();
+
+while itr.hasNext()
+    person = itr.next();
+    % Do something with that person
+end
+
+=============
+%}
+
 % Definition of individual
 
 %{
@@ -9,6 +30,13 @@ An individual is a vector with
 - isParticipating in moshpit
 %}
 
+%{
+Initializes the position matrix. The ground covered by the people
+attending the concert is divided into sectors. The people in
+each sector are represented with a java.util.ArrayList.
+The coordinates of each person are given as absolute coordinates,
+i.e. not relative to the sector, but to the entire matrix.
+%}
 function [matrix] = initializeMatrix()
 end
 
@@ -55,7 +83,6 @@ Main loop that iterates through the individuals and updates all their
 positions, returning the modified main matrix.
 %}
 function runOneTimestep(matrix)
-matrix = 
 end
 
 % TODO
