@@ -3,7 +3,8 @@ GENERAL NOTES
 =============
 
 Each function should be defined in a separate file according
-to MATLAB requirements.
+to MATLAB requirements. Upload these files to the code folder
+in the repository.
 When iterating over the matrix, if possible, parallelize the
 accesses using parfor to increase efficiency. To iterate over
 the people inside of one sector, use the following piece of
