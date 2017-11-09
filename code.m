@@ -34,7 +34,7 @@ An individual is a vector with
 %{
 Initializes the position matrix. The ground covered by the people
 attending the concert is divided into sectors. The people in
-each sector are represented with a java.util.ArrayList.
+each sector are represented with a java.util.LinkedList.
 The coordinates of each person are given as absolute coordinates,
 i.e. not relative to the sector, but to the entire matrix.
 %}
