@@ -27,6 +27,9 @@ function runSimulation()
     matrix = initializeMatrix([MATRIX_SIZE, MATRIX_SIZE], 50);
     
     % TEST
+    
+    runOneTimestep();
+    
     for i = 1:matrix.length
         for j = 1:matrix(i).length
             disp('Position: ');
@@ -39,6 +42,7 @@ function runSimulation()
             end
         end
     end
+    
 
 end
 
