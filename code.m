@@ -17,6 +17,16 @@ while itr.hasNext()
     % Do something with that person
 end
 
+Inside the matrix, the position of the individual is represented in
+absolute terms (i.e. relative to the entire matrix, not the sector). For
+precision reasons, the coordinates range from 0 to 10 * resolution (for
+now, we can always make it finer-grained by changing the SECTOR_SIZE
+global).
+
+To convert coordinates to a sector, use the function
+sectorForCoords(individual). You can also pass pure coordinates to this
+function.
+
 =============
 %}
 
