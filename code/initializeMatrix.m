@@ -29,8 +29,9 @@ function [matrix] = initializeMatrix(resolution, numberOfPeople)
         coords(1) = rand() * width * SECTOR_SIZE;
         coords(2) = rand() * height * SECTOR_SIZE;
         
-        % TODO: Generate random(?) velocity
-        velocity = [0, 0];
+        % Generate random velocity
+        % TODO: Generate more sensible velocity
+        velocity = [rand() * 5, rand() * 5];
         
         % TODO: Decide whether individual is participating
         isParticipating = false;
