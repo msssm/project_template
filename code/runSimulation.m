@@ -6,11 +6,25 @@ function runSimulation()
     global INDIVIDUAL_SIZE;
     INDIVIDUAL_SIZE = 5;
     
+    % Size of the matrix
+    global MATRIX_SIZE;
+    MATRIX_SIZE = 2;
+    
+    % Coordinate space of one sector of the position matrix
     global SECTOR_SIZE;
     SECTOR_SIZE = 10;
     
+    % The radius in which to search for neighbors
+    global NEIGHBOR_SEARCH_RADIUS;
+    NEIGHBOR_SEARCH_RADIUS = 5;
+    
+    % The size of one individual
+    global INDIVIDUAL_RADIUS;
+    INDIVIDUAL_RADIUS = 1;
+    
     % Initialize the initial conditions of the simulation
-    matrix = initializeMatrix([2, 2], 50);
+    global matrix;
+    matrix = initializeMatrix([MATRIX_SIZE, MATRIX_SIZE], 50);
     
     % TEST
     for i = 1:matrix.length

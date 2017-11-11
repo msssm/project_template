@@ -27,6 +27,9 @@ To convert coordinates to a sector, use the function
 sectorForCoords(individual). You can also pass pure coordinates to this
 function.
 
+Define all globals in the runSimulation.m file. This way, the parameters of
+the simulation are easy to find and change.
+
 =============
 %}
 
