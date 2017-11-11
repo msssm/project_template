@@ -23,6 +23,7 @@ function runSimulation()
     INDIVIDUAL_RADIUS = 1;
     
     % Initialize the initial conditions of the simulation
+    % We make the matrix a global variable to simulate pass-by-reference
     global matrix;
     matrix = initializeMatrix([MATRIX_SIZE, MATRIX_SIZE], 50);
     
