@@ -11,8 +11,6 @@ class CryptoCurrencyAgent(Agent):
         self.cash_orders = 0.  # fiat cash
         self.bitcoin_orders = 0.  # cryptocurrency
         self.te = 0.  # entry time
-        self.bitcoin_in_sell_orders = 0.
-        self.cash_in_buy_orders = 0.
         self.exchange = model.exchange
         self._model = model
 
