@@ -54,6 +54,22 @@ i.e. not relative to the sector, but to the entire matrix.
 function initializeMatrix()
 end
 
+% Gets the position of the given individual
+function [position] = getPosition(individual)
+end
+
+% Gets the velocity of the given individual
+function [velocity] = getVelocity(individual)
+end
+
+% Returns true if the given individual is participating in the circle pit
+function [isParticipating] = isParticipating(individual)
+end
+
+% Returns the distance between two individuals
+function [distance] = distance(individual1, individual2)
+end
+
 %{
 Returns the neighbors of the given individual as a matrix where each column
 is an individual.
