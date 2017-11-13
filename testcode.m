@@ -49,13 +49,13 @@ for t = 1:T
   end
 	% The extremists are also doing their job
 	for i = 1:n/2
-	  r = random.rand();
+	  r = rand;
 	  for j = 1:p           % fuck, p und anzahl agenten ist das selbe...
 	    if r < k
-	      op(k) = ex1 or ex0  % to be continue just a little bit
+	      op(k) = op1 	  % to be continue just a little bit
+	    else
+	      op(k) = op0
 	    end
     end
   end
 end
-  
-%gagaga, sollen wir schon wieder diskreten random benutzen für    das "or"? bisschen effizienter wäre vielleicht das if aufzuteilen in r in [0, k/2] und [k/2, k]
