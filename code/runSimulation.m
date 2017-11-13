@@ -14,13 +14,24 @@ function runSimulation()
     global SECTOR_SIZE;
     SECTOR_SIZE = 10;
     
-    % The radius in which to search for neighbors
-    global NEIGHBOR_SEARCH_RADIUS;
-    NEIGHBOR_SEARCH_RADIUS = 5;
-    
     % The size of one individual
     global INDIVIDUAL_RADIUS;
     INDIVIDUAL_RADIUS = 1;
+    
+    % The radius in which to search for neighbors
+    global FLOCK_RADIUS;
+    FLOCK_RADIUS = 10;
+    
+    % ===================== PARAMETERS FROM THE PAPER =====================
+    % TODO: Set these variables
+    global EPSILON;
+    EPSILON = 1;
+    
+    global MU;
+    MU = 1;
+    
+    global ALPHA;
+    ALPHA = 1;
     
     % Initialize the initial conditions of the simulation
     % We make the matrix a global variable to simulate pass-by-reference
