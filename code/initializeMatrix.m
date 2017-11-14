@@ -31,7 +31,7 @@ function [matrix] = initializeMatrix(resolution, numberOfPeople)
         
         % Generate random velocity
         % TODO: Generate more sensible velocity
-        velocity = [rand() * 5, rand() * 5];
+        velocity = [rand() - 0.5, rand() - 0.5];
         
         % TODO: Decide whether individual is participating
         isParticipating = false;

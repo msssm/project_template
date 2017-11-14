@@ -83,6 +83,9 @@ function runOneTimestep()
 %                 individual(1:2) = position + dt*v_temp;
 %                 individual(3:4) = v_temp + h*rhs(positionUpdated)/2;
                 
+                % TEST
+                individual(1:2) = individual(1:2) + individual(3:4);
+
                 % We need to add the individual to the appropriate sector
                 % Check if the sector has changed
                 newSector = sectorForCoords(individual);

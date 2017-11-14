@@ -18,6 +18,10 @@ function runSimulation()
     global INDIVIDUAL_RADIUS;
     INDIVIDUAL_RADIUS = 1;
     
+    % The number of people at the concert
+    global NUMBER_OF_PEOPLE;
+    NUMBER_OF_PEOPLE = 50;
+    
     % The radius in which to search for neighbors
     global FLOCK_RADIUS;
     FLOCK_RADIUS = 10;
@@ -36,24 +40,48 @@ function runSimulation()
     % Initialize the initial conditions of the simulation
     % We make the matrix a global variable to simulate pass-by-reference
     global matrix;
-    matrix = initializeMatrix([MATRIX_SIZE, MATRIX_SIZE], 50);
+    matrix = initializeMatrix([MATRIX_SIZE, MATRIX_SIZE], NUMBER_OF_PEOPLE);
+
+    % =============================== TEST ===============================
     
-    % TEST
+    % This is a temporary way to plot the data
     
-    runOneTimestep();
+    [X, Y] = getXY();
     
-    for i = 1:matrix.length
-        for j = 1:matrix(i).length
-            disp('Position: ');
-            disp([i, j]);
-            list = matrix(i, j);
-            itr = list.iterator();
-            while itr.hasNext()
-                individual = itr.next();
-                disp(individual');
-            end
-        end
+    disp(size(X));
+    disp(size(Y));
+    
+    p = scatter(X, Y);
+    axis([0, SECTOR_SIZE * MATRIX_SIZE, 0, SECTOR_SIZE * MATRIX_SIZE]);
+
+    axis off;
+    
+    % We run the simulation endlessly
+    while true
+        runOneTimestep();
+        [X, Y] = getXY();
+        set(p, 'XData', X, 'YData', Y);
+        drawnow;
     end
+    
+    % ====================================================================
+    
+    % TEST (old)
+    
+%     runOneTimestep();
+%     
+%     for i = 1:matrix.length
+%         for j = 1:matrix(i).length
+%             disp('Position: ');
+%             disp([i, j]);
+%             list = matrix(i, j);
+%             itr = list.iterator();
+%             while itr.hasNext()
+%                 individual = itr.next();
+%                 disp(individual');
+%             end
+%         end
+%     end
     
 
 end
