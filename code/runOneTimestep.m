@@ -90,7 +90,7 @@ function runOneTimestep()
                 % Check if the sector has changed
                 newSector = sectorForCoords(individual);
                 % If it has, add the individual to the new sector
-                if ~isequal([i, j], newSector)
+                if ~isequal([i; j], newSector)
                     matrix(newSector(1), newSector(2)).add(individual);
                 % Else, just add it back to the same sector
                 else

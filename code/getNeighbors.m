@@ -13,56 +13,57 @@ function [individuals] = getNeighbors(individual, radius)
     sector = sectorForCoords(coords);
     
     % Get the sectors where we need to search
-    sectorsToSearch = [sector];
-    northSector = sectorForCoords(coords - [0, radius]);
+    sectorsToSearch = sector;
+    northSector = sectorForCoords(coords - [0; radius]);
     if ~isequal(northSector, sector)
         sectorsToSearch = [sectorsToSearch, northSector];
     end
     
-    southSector = sectorForCoords(coords + [0, radius]);
+    southSector = sectorForCoords(coords + [0; radius]);
     if ~isequal(southSector, sector)
         sectorsToSearch = [sectorsToSearch, southSector];
     end
     
-    westSector = sectorForCoords(coords - [radius, 0]);
+    westSector = sectorForCoords(coords - [radius; 0]);
     if ~isequal(westSector, sector)
         sectorsToSearch = [sectorsToSearch, westSector];
     end
     
-    eastSector = sectorForCoords(coords + [radius, 0]);
+    eastSector = sectorForCoords(coords + [radius; 0]);
     if ~isequal(eastSector, sector)
         sectorsToSearch = [sectorsToSearch, eastSector];
     end
     
-    northEastSector = sectorForCoords(coords + [radius, -radius]);
+    northEastSector = sectorForCoords(coords + [radius; -radius]);
     if ~isequal(northEastSector, sector)
         sectorsToSearch = [sectorsToSearch, northEastSector];
     end
     
-    northWestSector = sectorForCoords(coords + [-radius, -radius]);
+    northWestSector = sectorForCoords(coords + [-radius; -radius]);
     if ~isequal(northWestSector, sector)
         sectorsToSearch = [sectorsToSearch, northWestSector];
     end
     
-    southEastSector = sectorForCoords(coords + [radius, radius]);
+    southEastSector = sectorForCoords(coords + [radius; radius]);
     if ~isequal(southEastSector, sector)
         sectorsToSearch = [sectorsToSearch, southEastSector];
     end
     
-    southWestSector = sectorForCoords(coords + [-radius, radius]);
+    southWestSector = sectorForCoords(coords + [-radius; radius]);
     if ~isequal(southWestSector, sector)
         sectorsToSearch = [sectorsToSearch, southWestSector];
     end
             
     % Search over those vectors
-    for k = 1:2:size(sectorsToSearch, 2)
-        i = sectorsToSearch(k);
-        j = sectorsToSearch(k+1);
+    disp(size(sectorsToSearch, 2));
+    for k = 1:size(sectorsToSearch, 2)
+        i = sectorsToSearch(1, k);
+        j = sectorsToSearch(2, k);
         itr = matrix(i, j).iterator();
         while itr.hasNext()
             person = itr.next();
             if distance(individual, person) < radius
-                individuals = [individuals, person];
+                individuals = [individuals; person];
             end
         end
     end

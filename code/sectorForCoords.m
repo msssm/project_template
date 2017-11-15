@@ -19,7 +19,7 @@ function [sector] = sectorForCoords(individual)
         y = MATRIX_SIZE - 1;
     end
     
-    sector = floor([x, y]);
-    sector = sector + [1, 1];
+    sector = floor([x; y]);
+    sector = sector + [1; 1];
 end
 
