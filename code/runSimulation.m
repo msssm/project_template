@@ -16,7 +16,7 @@ function runSimulation()
     
     % The size of one individual
     global INDIVIDUAL_RADIUS;
-    INDIVIDUAL_RADIUS = 1;
+    INDIVIDUAL_RADIUS = 2;
     
     % The number of people at the concert
     global NUMBER_OF_PEOPLE;
@@ -29,7 +29,7 @@ function runSimulation()
     % ===================== PARAMETERS FROM THE PAPER =====================
     % TODO: Set these variables
     global EPSILON;
-    EPSILON = 1;
+    EPSILON = 5;
     
     global MU;
     MU = 1;
@@ -58,7 +58,7 @@ function runSimulation()
         runOneTimestep();
         [X, Y] = getXY();
         set(p, 'XData', X, 'YData', Y);
-        % TODO: Find a better way of drawing the matrix. This is too slow.
+        % TODO: Find a better way of drawing the matrix
         drawnow;
     end
     

@@ -32,7 +32,7 @@ function runOneTimestep()
                 position = getPosition(individual);
                 velocity = getVelocity(individual);
                 r0 = INDIVIDUAL_RADIUS;
-                dt = 1;
+                dt = 0.1;
                 
                 % ****** definition of the forces ******
                 % ================ CALCULATING THE FORCES ================
@@ -42,11 +42,11 @@ function runOneTimestep()
                     velocityNeighbour = getVelocity(neighbour);
                     
                     distance1 = distance(individual, neighbour);
-                    
+
                     % Repulsive Force
                     % We only use neighbors within a radius of 2 * r0
                     if distance1 < 2 * r0
-                        F = F + EPSILON * (1 - distance1 / (2*r0))^(5/2) * (positionNeighbour - position) / distance1;
+                        F = F + EPSILON * (1 - distance1 / (2*r0))^(5/2) * (position - positionNeighbour) / distance1;
                     end
                     
                     % Velocity summation
@@ -60,35 +60,31 @@ function runOneTimestep()
 %                 F = F + MU * dot(velocity - velocityNeighbour, velocityNeighbour / length(velocityNeighbour));
                     
                 % Flocking
-                F = F + ALPHA * sumOverVelocities / norm(sumOverVelocities);
+                if ~isequal(sumOverVelocities, [0; 0])
+                    F = F + ALPHA * sumOverVelocities / norm(sumOverVelocities);
+                end
                 % Add noise
                 F = F + 0;
-                
-                % TODO: I'm not sure what is meant here. Since this is
-                % invalid MATLAB syntax, I have commented it out to be able
-                % to continue testing other parts of the code.
                 
                 % ****** calculate timestep ******
                 % using the leap-frog method to integrate the differential
                 % equation
                 % differential equation d^2y/dt^2=rhs(y)
-%                 function [righthandside] = rhs(F)
-%                     righthandside = F;
-%                 return;
-%                 
-%                 % shifted initial velocity for leap-frog
-%                 v_temp = velocity + 0.5*dt*rhs(position);
-%                 % timestep
+                
+                % shifted initial velocity for leap-frog
+                v_temp = velocity + 0.5*dt*F;
+                % timestep
 %                          
-%                 individual(1:2) = position + dt*v_temp;
-%                 individual(3:4) = v_temp + h*rhs(positionUpdated)/2;
+                individual(1:2) = position + dt*v_temp;
+                individual(3:4) = v_temp + dt*F/2;
                 
                 % TEST
-                individual(1:2) = individual(1:2) + individual(3:4);
+%                 individual(1:2) = individual(1:2) + individual(3:4);
 
                 % We need to add the individual to the appropriate sector
                 % Check if the sector has changed
                 newSector = sectorForCoords(individual);
+%                 disp(newSector);
                 % If it has, add the individual to the new sector
                 if ~isequal([i; j], newSector)
                     matrix(newSector(1), newSector(2)).add(individual);

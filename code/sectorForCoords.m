@@ -3,7 +3,7 @@ function [sector] = sectorForCoords(individual)
 
     global SECTOR_SIZE;
     global MATRIX_SIZE;
-    
+
     x = individual(1) / SECTOR_SIZE;
     y = individual(2) / SECTOR_SIZE;
     
