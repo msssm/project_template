@@ -55,7 +55,6 @@ function [individuals] = getNeighbors(individual, radius)
     end
             
     % Search over those vectors
-    disp(size(sectorsToSearch, 2));
     for k = 1:size(sectorsToSearch, 2)
         i = sectorsToSearch(1, k);
         j = sectorsToSearch(2, k);

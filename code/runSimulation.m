@@ -48,9 +48,6 @@ function runSimulation()
     
     [X, Y] = getXY();
     
-    disp(size(X));
-    disp(size(Y));
-    
     p = scatter(X, Y);
     axis([0, SECTOR_SIZE * MATRIX_SIZE, 0, SECTOR_SIZE * MATRIX_SIZE]);
 
@@ -61,6 +58,7 @@ function runSimulation()
         runOneTimestep();
         [X, Y] = getXY();
         set(p, 'XData', X, 'YData', Y);
+        % TODO: Find a better way of drawing the matrix. This is too slow.
         drawnow;
     end
     
