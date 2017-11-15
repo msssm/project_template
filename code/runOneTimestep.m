@@ -41,12 +41,12 @@ function runOneTimestep()
                     positionNeighbour = getPosition(neighbour);
                     velocityNeighbour = getVelocity(neighbour);
                     
-                    distance1 = distance(individual,neighbour);
+                    distance1 = distance(individual, neighbour);
                     
                     % Repulsive Force
                     % We only use neighbors within a radius of 2 * r0
                     if distance1 < 2 * r0
-                        F = F + EPSILON * (1-distance1/(2*r0))^(5/2) * (positionNeighbour-position)/distance1;
+                        F = F + EPSILON * (1 - distance1 / (2*r0))^(5/2) * (positionNeighbour - position) / distance1;
                     end
                     
                     % Velocity summation
