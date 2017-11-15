@@ -63,7 +63,7 @@ function [individuals] = getNeighbors(individual, radius)
         while itr.hasNext()
             person = itr.next();
             if distance(individual, person) < radius
-                individuals = [individuals; person];
+                individuals = [individuals, person];
             end
         end
     end
