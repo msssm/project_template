@@ -16,7 +16,7 @@ public class Simulation {
         initializeMatrix();
     }
 
-    public void initializeMatrix() {
+    private void initializeMatrix() {
         // TODO: Calculate optimal matrix size and sector size
         // for now: create some bogus values
         int tempMatrixSize = 2;
@@ -42,5 +42,13 @@ public class Simulation {
             // Add individual to appropriate sector
             matrix.add(individual);
         }
+    }
+
+    public void runSimulation() {
+        // TODO: implement runSimulation
+    }
+
+    private void runOneTimestep() {
+        // TODO: implement runOneTimestep
     }
 }
