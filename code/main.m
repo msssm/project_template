@@ -1,33 +1,66 @@
-%first try of our opinion formation program in MATLAB
-%author: Alexander
+%% Project on Opinion Formation for the course
+%% "Modelling and Simulating of Social Systems with MATLAB"
+%% author: The Opinionators (Elisa Wall, Alexander Stein, Niklas Tidbury)
 
-% Creating the society
 
-% N opinions in [0,1] randomly (gaussian) distributed opinions
+%% Creating the society
+
+% A society of N SocietyAgents with opinions op in [0,1] 
+% that are randomly normal distributed
 N = 1000;
 op = randn(N,1);
 
-% Defining the properties of the society
-function mu = muf(op1, op2)           % how much should the opinion change?
-mu = 0.2/(op1-op2)                    % this is only taken as example and need to be changed later
+% number of time steps
+T = 100;
+
+% We want to guarantee that all opinions are in [0,1]
+for i = 1:N
+    while (op(i) > 1 || op(i)< -1)
+        op(i) = rand;
+    end
 end
 
-u = 0.4;						% threshold: when should the opinion change
+%% Properties of the SocietyAgents
 
-% Defining the influence of a single SocietyAgent during one timestep t
-% Input: op0 - one single agent, op - the society, mu and u as described above
-% Output: change of opinions of op0 and a randomly chosen op1 from the society op
-function [op0,op1, pos_op1] = SingleAgentf(op0, op, u)
-% op0 meets a random guy in op, called op1
-k = randi([0,N], 0, N-1);
-op1 = op[k];
-if abs(op1-op0) < u
-  op0 += mu(op0, op1);
-  op1 += mu(op1, op0)
+% The threshold u defines when two agents speak with each other
+u = 0.4;
+
+% Mu defines the change of opinion when two agents speak with each other
+% TASK: How should this function look like?
+function mu = mu(op1, op2)  
+mu = 0.2/(op1-op2);
+end
+
+
+%% Defining the influence of a single SocietyAgent during one timestep t
+% Input: op0 = opinion of a single agent, op = opinion of the society, 
+%       mu and u as described above
+% Output: new opinion of op0 (opnew0), 
+%       new opinion of a randomly chosen op1 (opnew1) that interacted with
+%       op0 and the position of op1 (pos)
+function [opnew0, opnew1, pos] = SingleAgent(op0, op, u)
+% op0 meets a randomly chosen agent in the society op, called op1
+pos = randi(N);
+op1 = op(pos);
+if abs(op1 - op0) < u
+    opnew0 = op0 + mu(op0, op1);
+    opnew1 = op1 + mu(op1, op0);
 end
 end
 
-% Creating the extremists
+%% A world without extrimists
+% We raise up the time steps to T
+% In every time step t, every agent has the chance to speak with another
+for t = 1:T
+    for i = 1:N
+        op0, op1, k = SingleAgent(op(i), op, u);
+        op(i) = op0;
+        op(k) = op1;
+    end
+end
+
+%% Creating the extremists
+%{
 n = 10;      % number of extremists with opinion 0 and 1 splitted symmetrically and must be even therefore!
 ex0 = 0;
 nex0 = n/2;
@@ -37,8 +70,9 @@ nex1 = n/2;
 % Defining the properties of the extremists
 p = 5;           % number of people the extremists can influence
 kappa = 0.2;     % the probability "to get the opinion" for the extremist
-
-% Now we raise up the time steps
+%}
+%% Now we raise up the time steps
+%{
 T = 100;    % number time steps
 for t = 1:T
     % Every SocietyAgent is doing his job
@@ -59,3 +93,5 @@ for t = 1:T
     end
   end
 end
+
+%}
