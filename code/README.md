@@ -6,7 +6,7 @@
 Debug the program
 
 ## To-Do:
-(1) Think about sensible functions for mu
+(1) Think about sensible functions for mu \\
 (2) Eliminate the bugs
 (3) Create bins and plot a histogram
 
