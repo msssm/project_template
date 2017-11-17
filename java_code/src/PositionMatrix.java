@@ -9,18 +9,21 @@ public class PositionMatrix {
 
     // The actual matrix
     private LinkedList<Individual>[][] matrix;
+
+    // A List containing all the individuals, makes iterating over them easier
+    private ArrayList<Individual> individuals;
     /**
      * The width of the matrix
      */
-    public int width;
+    public final int width;
     /**
      * The height of the matrix
      */
-    public int height;
+    public final int height;
     /**
      * The size of one sector
      */
-    public int sectorSize;
+    public final int sectorSize;
 
     /**
      * An inner class that represents one sector at a particular location in the matrix.
@@ -55,6 +58,8 @@ public class PositionMatrix {
                 matrix[i][j] = new LinkedList<>();
             }
         }
+
+        individuals = new ArrayList<>();
     }
 
     /**
@@ -63,7 +68,7 @@ public class PositionMatrix {
      * @param j The column of the individual
      * @return The individual at (i, j)
      */
-    public LinkedList<Individual> get(int i, int j) {
+    public List<Individual> get(int i, int j) {
         return matrix[i][j];
     }
 
@@ -72,8 +77,16 @@ public class PositionMatrix {
      * @param sector The sector that the individual is in.
      * @return The individual at the given sector.
      */
-    public LinkedList<Individual> get(Sector sector) {
+    public List<Individual> get(Sector sector) {
         return matrix[sector.row][sector.col];
+    }
+
+    /**
+     * Gets a list of all the individuals.
+     * @return The list of the individuals.
+     */
+    public List<Individual> getIndividuals() {
+        return individuals;
     }
 
     /**
@@ -83,6 +96,7 @@ public class PositionMatrix {
     public void add(Individual individual) {
         Sector sector = getSectorForCoords(individual);
         matrix[sector.row][sector.col].add(individual);
+        individuals.add(individual);
     }
 
     /**

@@ -34,4 +34,9 @@ public class Individual {
 
         return Math.sqrt(dx * dx + dy * dy);
     }
+
+    @Override
+    public String toString() {
+        return "Individual: position = (" + x + ", " + y + "), velocity = (" + vx + ", " + vy + "), isParticipating = " + isParticipating;
+    }
 }
