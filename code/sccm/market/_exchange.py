@@ -14,6 +14,7 @@ class Exchange:  # TODO maybe move orderbook to its own class
         return self._model.schedule.time
 
     def p(self, t):  # current price
+        t = max(0,t)  # make sure time is not negative, can be when chartists start at the beginning
         try:
             res = self.price[t]
         except KeyError:
