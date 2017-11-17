@@ -10,9 +10,6 @@
 N = 1000;
 op = randn(N,1);
 
-% number of time steps
-T = 100;
-
 % We want to guarantee that all opinions are in [0,1]
 for i = 1:N
     while (op(i) > 1 || op(i)< -1)
@@ -26,19 +23,108 @@ end
 u = 0.4;
 
 % Mu defines the change of opinion when two agents speak with each other
-% TASK: How should this function look like?
-function mu = mu(op1, op2)  
+%       --> see function mu
+
+%% A world without extrimists
+%{
+% The influence of a single agent in a singlte timestep t is defined in the
+% funtion SocietyAgent. We raise up the time steps to T. 
+% In every time step t, every agent has the chance to speak with another.
+
+% Number of time steps T
+T = 100;
+
+for t = 1:T
+    for i = 1:N
+        [op0, op1, k] = SingleAgent(op(i), op, u, mu, N);
+        op(i) = op0;
+        op(k) = op1;
+    end
+end
+%}
+
+%% Creating the extremists with opinion 0
+% number of extremists
+n0 = 15;
+ex0 = 0;
+% number of agents one extremists can reach
+p0 = 5;
+% All agents have the same behavior, so we can sum up the influence of all
+%       agents in the number of people that get influenced
+neff0 = p0 * n0;
+
+% An extremist convince an agent with probability kappa
+kappa0 = 0.2;
+
+%% Creating the extremists with opinion 0
+n1 = 15;
+% Opinion of the extremists: Since they have all the same opinion, we do
+%       not need an array.
+ex1 = 1;
+% number of agents one extremists can reach
+p1 = 5;
+% All agents have the same behavior, so we can sum up the influence of all
+%       agents in the number of people that get influenced
+neff1 = p1 * n1;
+
+% An extremist convince an agent with probability kappa
+kappa1 = 0.2;
+
+%%% We have the possibility to define n, p or kappa asymetrically
+
+
+%% A world with extremists
+% Number of time steps T
+T = 100;
+
+for t = 1:T
+    % For timestep t; the SoicietyAgents play their game
+    for i = 1:N
+        [op0, op1, k] = SingleAgent(op(i), op, u, mu, N);
+        op(i) = op0;
+        op(k) = op1;
+    end
+    % For timestep t; the extremists with opinion 0 play their game
+    for i = 1:neff0
+        r = rand;
+        k = randi(N);
+        % extremists with opinion 0 only reach agents with similar opinion
+        while op(k) < 0.4
+            k = randi(N);
+        end
+        if r < kappa0
+            op(k) = 0;
+        end
+    end
+    % For timestep t; the extremists with opinion 1 play their game
+    for i = 1:neff1
+        r = rand;
+        k = randi(N);
+        % extremists with opinion 1 only reach agents with similar opinion
+        while op(k) > 0.6
+            k = randi(N);
+        end
+        if r < kappa1
+            op(k) = 1;
+        end
+    end
+end
+
+%%functions
+
+%%% TASK: How should this function look like?
+%%%         In the paper they give a reference: Look up there!
+function mu = mu(op1, op2)
 mu = 0.2/(op1-op2);
 end
 
-
 %% Defining the influence of a single SocietyAgent during one timestep t
-% Input: op0 = opinion of a single agent, op = opinion of the society, 
+% Input: op0 = opinion of a single agent, op = opinion of the society,
 %       mu and u as described above
 % Output: new opinion of op0 (opnew0), 
 %       new opinion of a randomly chosen op1 (opnew1) that interacted with
 %       op0 and the position of op1 (pos)
-function [opnew0, opnew1, pos] = SingleAgent(op0, op, u)
+function [opnew0, opnew1, pos] = SingleAgent(op0, op, u, N)
 % op0 meets a randomly chosen agent in the society op, called op1
 pos = randi(N);
 op1 = op(pos);
@@ -47,51 +133,3 @@ if abs(op1 - op0) < u
     opnew1 = op1 + mu(op1, op0);
 end
 end
-
-%% A world without extrimists
-% We raise up the time steps to T
-% In every time step t, every agent has the chance to speak with another
-for t = 1:T
-    for i = 1:N
-        op0, op1, k = SingleAgent(op(i), op, u);
-        op(i) = op0;
-        op(k) = op1;
-    end
-end
-
-%% Creating the extremists
-%{
-n = 10;      % number of extremists with opinion 0 and 1 splitted symmetrically and must be even therefore!
-ex0 = 0;
-nex0 = n/2;
-ex1 = 1;
-nex1 = n/2;
-
-% Defining the properties of the extremists
-p = 5;           % number of people the extremists can influence
-kappa = 0.2;     % the probability "to get the opinion" for the extremist
-%}
-%% Now we raise up the time steps
-%{
-T = 100;    % number time steps
-for t = 1:T
-    % Every SocietyAgent is doing his job
-  for i = 1:N
-	  op0, op1, k = SingleAgent(op(i), op, u);
-	  op(i) = op0;
-	  op(k) = op1
-  end
-	% The extremists are also doing their job
-	for i = 1:n/2
-	  r = rand;
-	  for j = 1:p           % fuck, p und anzahl agenten ist das selbe...
-	    if r < k
-	      op(k) = op1 	  % to be continue just a little bit
-	    else
-	      op(k) = op0
-	    end
-    end
-  end
-end
-
-%}
