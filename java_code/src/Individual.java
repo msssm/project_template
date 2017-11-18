@@ -7,6 +7,7 @@ public class Individual {
     public double vx;
     public double vy;
     public boolean isParticipating;
+    public double radius = 2;
 
     public Individual(double x, double y, double vx, double vy, boolean isParticipating) {
         this.x = x;
@@ -33,6 +34,10 @@ public class Individual {
         double dy = Math.abs(y - other.y);
 
         return Math.sqrt(dx * dx + dy * dy);
+    }
+
+    public double[] getCenter() {
+        return new double[] {x + radius / 2, y + radius / 2};
     }
 
     @Override

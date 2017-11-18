@@ -99,6 +99,11 @@ public class PositionMatrix {
         individuals.add(individual);
     }
 
+    public void removeAndAdd(Individual individual, Sector oldSector, Sector newSector) {
+        matrix[oldSector.row][oldSector.col].remove(individual);
+        matrix[newSector.row][newSector.col].add(individual);
+    }
+
     /**
      * Gets the neighbors of an individual.
      * @param individual The individual for whom to search for neighbors
