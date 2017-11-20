@@ -8,7 +8,7 @@
 % A society of N SocietyAgents with opinions op in [0,1] 
 % that are randomly normal distributed
 N = 1000;
-op = randn(N,1);
+op = randn(N,1); %Elisa: Maybe also equal distri.
 
 % We want to guarantee that all opinions are in [0,1]
 for i = 1:N
@@ -20,16 +20,16 @@ end
 
 %% Properties of the SocietyAgents
 
-% The threshold u defines when two agents speak with each other
+% The threshold u defines when two agents speak/interact with each other
 u = 0.4;
 
 % Mu defines the change of opinion when two agents speak with each other
 %       --> see function mu
 
-%% A world without extremists
+%% A world without extrimists
 %{
 % The influence of a single agent in a singlte timestep t is defined in the
-% function SocietyAgent. We raise up the time steps to T. 
+% funtion SocietyAgent. We raise up the time steps to T. 
 % In every time step t, every agent has the chance to speak with another.
 
 % Number of time steps T
@@ -54,7 +54,7 @@ p0 = 5;
 %       agents in the number of people that get influenced
 neff0 = p0 * n0;
 
-% An extremist convince an agent with probability kappa
+% An extremist convinces an agent with probability kappa
 kappa0 = 0.2;
 
 %% Creating the extremists with opinion 0
@@ -71,7 +71,7 @@ neff1 = p1 * n1;
 % An extremist convince an agent with probability kappa
 kappa1 = 0.2;
 
-%%% We have the possibility to define n, p or kappa asymetrically
+%%% We have the possibility to define n, p or kappa asymmetrically
 
 
 %% A world with extremists
@@ -81,7 +81,7 @@ T = 100;
 for t = 1:T
     % For timestep t; the SoicietyAgents play their game
     for i = 1:N
-        [op0, op1, k] = SingleAgent(op(i), op, u, N);
+        [op0, op1, k] = SingleAgent(op(i), op, u, mu, N);
         op(i) = op0;
         op(k) = op1;
     end
@@ -132,10 +132,7 @@ function [opnew0, opnew1, pos] = SingleAgent(op0, op, u, N)
 pos = randi(N);
 op1 = op(pos);
 if abs(op1 - op0) < u
-    opnew0 = op0 + fmu(op0, op1);
-    opnew1 = op1 + fmu(op1, op0);
-else 
-    opnew0 = op0;
-    opnew1 = op1;
+    opnew0 = op0 + mu(op0, op1);
+    opnew1 = op1 + mu(op1, op0);
 end
 end
