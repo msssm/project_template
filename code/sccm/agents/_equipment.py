@@ -1,32 +1,26 @@
+from math import exp
+
+
 class Equipment():
-    def __init__(self, t, invest):
-        self.bought = t #time at which the equipment is bought
-        self.hash_rate = invest * R(t) #GH/s
-        self.power_consumption = self.hash_rate * P(t) #Watt
+    def __init__(self, time_bought=0, hash_rate=0, power_comsumption=0):
+        self.time_bought = time_bought #time at which the equipment is bought
+        self.hash_rate = hash_rate
+        self.power_consumption = power_comsumption #Watt
 
-    def price(self, t):
-        return self.hash_rate/R(t)
+    @classmethod
+    def buy(cls, t, cash):
+        h = cls.hashrate_available_per_dollar(t) * cash
+        p = h * cls.power_consumption_per_hashrate_available(t) #Watt
+        return cls(t, h, p)
 
+    @staticmethod
+    def hashrate_available_per_dollar(t):
+        a = 8.635e4
+        b = 0.006318
+        return a * exp(b*t)
 
-
-
-
-
-
-
-
-
-
-# for test
-def R(t):
-    return 10
-def P(t):
-    return 10
-
-def main():
-    t = 1
-    test_equip = Equipment(t, 10)
-    print(test_equip.hash_rate)
-
-if __name__ == '__main__':
-    main()
+    @staticmethod
+    def power_consumption_per_hashrate_available(t):
+        a = 4.649e-7
+        b = -0.004055
+        return a * exp(b*t)

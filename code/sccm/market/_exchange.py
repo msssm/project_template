@@ -48,11 +48,11 @@ class Exchange:  # TODO maybe move orderbook to its own class
     def process(self, buy, sell):
         # determine price of transaction pT in $ per btc
         if buy.limit_price > 0. and sell.limit_price == 0.:
-            pT = min(buy.limit_price, self.exchange.self.p(t))
+            pT = min(buy.limit_price, self.p(self.clock))
         elif sell.limit_price > 0. and buy.limit_price == 0.:
-            pT = max(sell.limit_price, self.exchange.self.p(t))
+            pT = max(sell.limit_price, self.p(self.clock))
         elif sell.limit_price == 0. and buy.limit_price == 0.:
-            pT = self.exchange.self.p(t)
+            pT = self.p(self.clock)
         else:  # buy.limit_price > 0 and sell.limit_price > 0
             pT = 0.5 * (buy.limit_price + sell.limit_price)
 
