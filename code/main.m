@@ -12,7 +12,7 @@ op = randn(N,1);
 
 % We want to guarantee that all opinions are in [0,1]
 for i = 1:N
-    while (op(i) > 1 || op(i)< -1)
+    while (op(i) > 1 || op(i) < 0)
         op(i) = rand;
     end
 end
