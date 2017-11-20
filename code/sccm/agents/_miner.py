@@ -18,8 +18,7 @@ class Miner(CryptoCurrencyAgent):
         self.equipment = []  # equipment owned by the miner
         if self.clock == 0:
             self.time_when_to_buy_again = np.random.choice(range(61))  # take decision to buy in the first 60 days uniform distr
-            Corei5 = Equipment(self.clock, 0.00173)
-            Corei5.power_comsumption = 75 # todo: is there a better way?
+            Corei5 = Equipment(self.clock, 0.00173, 75)
             # todo: move corei5 to initial simulation parameters
             self.equipment.append(Corei5)  # initial hardware
         else:
@@ -61,7 +60,7 @@ class Miner(CryptoCurrencyAgent):
         self.equipment.append(new_hardware)
 
     def divest_old_hardware(self, age=365):
-        self.equipment = [equip for equip in self.equipment if self.clock - equip.time_bought > age]
+        self.equipment = [equip for equip in self.equipment if (equip.time_bought > self.clock - age)]
         # todo: should we sell old hardware for profit?
 
     def sell_bitcoin_to_buy_hardware(self):

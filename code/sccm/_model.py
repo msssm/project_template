@@ -16,13 +16,15 @@ class CryptoCurrencyModel(Model):
         self.exchange = Exchange(self)
         self.parameters = Parameters()
         self.global_pool = MiningPool()
+        self.next_available_id = 0.
         # todo: put this in a separate function ?
         for i in range(self.num_agents):
             agentType = np.random.choice((RandomTrader, Chartist, Miner))
-            a = agentType(i, self)
+            a = agentType(self.next_available_id, self)
+            self.next_available_id += 1
             # todo: distribute initial cash/btc according to correct law
             a.cash_available = 5.
-            a.bitcoin_available = 10.
+            #a.bitcoin_available = 10.
             self.schedule.add(a)
         # todo: generate all traders at beginning, but only a few are active
         # distribute initial cash according to zipf law
@@ -39,5 +41,10 @@ class CryptoCurrencyModel(Model):
         self.exchange.clear()
         self.exchange.remove_old_orders()
 
-
+    def add_agent(self, agentType, cash, n=1):
+        for i in range(n):
+            a = agentType(self.next_available_id, self)
+            self.next_available_id += 1
+            a.cash_available = cash
+            self.schedule.add(a)
     # todo: enter agents into the market over time
