@@ -6,8 +6,8 @@ class CryptoCurrencyAgent(Agent):
     """An agent"""
     def __init__(self, unique_id, model):
         super().__init__(unique_id, model)
-        self.cash_available = 5.  # fiat cash
-        self.bitcoin_available = 10.  # cryptocurrency
+        self.cash_available = 0.  # fiat cash
+        self.bitcoin_available = 0.  # cryptocurrency
         self.cash_orders = 0.  # fiat cash
         self.bitcoin_orders = 0.  # cryptocurrency
         self.te = 0.  # entry time
