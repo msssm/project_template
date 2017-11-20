@@ -28,12 +28,11 @@ public class SimulationPanel extends JPanel {
     public void paintComponent(Graphics g) {
         Graphics2D graphics2D = (Graphics2D) g.create();
         graphics2D.fillRect(0, 0, 10, 10);
-        graphics2D.setColor(Color.BLACK);
         for (Individual individual : individuals) {
-//            System.out.println(individual);
             double[] coords = individual.getCenter();
             coords[0] *= xScalingFactor;
             coords[1] *= yScalingFactor;
+            graphics2D.setColor(individual.isParticipating ? Color.RED : Color.BLACK);
             graphics2D.fill(new Ellipse2D.Double(coords[0], coords[1], individual.radius * xScalingFactor, individual.radius * yScalingFactor));
         }
 

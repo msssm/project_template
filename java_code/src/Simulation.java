@@ -67,6 +67,7 @@ public class Simulation {
 
         // Create a window for the simulation
         JFrame window = new JFrame("Moshpit Simulation");
+        window.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         window.setLayout(new BorderLayout());
         SimulationPanel panel = new SimulationPanel(500, 500, matrix.getIndividuals(), matrix.width * matrix.sectorSize, matrix.height * matrix.sectorSize);
         window.add(panel, BorderLayout.CENTER);
@@ -158,8 +159,8 @@ public class Simulation {
             // Normalize velocity
             newVx /= norm(newV);
             newVy /= norm(newV);
-            newVx *= 50;
-            newVy *= 50;
+            newVx *= 30;
+            newVy *= 30;
 
             // Make sure individuals rebound off the edges of the space
             if (newX < 0 || newX > maxX) {
