@@ -71,13 +71,16 @@ class Exchange:  # TODO maybe move orderbook to its own class
         # update price:
         self.price[self.clock] = pT
 
-        if (sell.residual < buy.residual / pT):  # avoid testing for ==0. with float
-            toremove = sell
+        if (sell.residual*pT < buy.residual):  # avoid testing for ==0. with float
+            toremove = [sell]
+        if (sell.residual*pT > buy.residual):
+            toremove = [buy]
         else:
-            toremove = buy
+            toremove = [buy, sell]
         buy.residual -= amount * pT
         sell.residual -= amount
-        self.remove_order(toremove)
+        for o in toremove:
+            self.remove_order(o)
 
     def remove_order(self, order):
         if order.kind == Order.Kind.SELL:  # sell bitcoin
