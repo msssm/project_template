@@ -2,6 +2,7 @@ import numpy as np
 
 from mesa import Model
 from mesa.time import RandomActivation
+from mesa.datacollection import DataCollector
 from sccm.agents import *
 from sccm.market import Exchange
 
@@ -9,6 +10,7 @@ from sccm.market import Exchange
 class CryptoCurrencyModel(Model):
     """A model with some number of agents."""
     def __init__(self, N):
+        self.running = True
         self.num_agents = N
         self.schedule = RandomActivation(self)
         self.exchange = Exchange(self)
@@ -22,6 +24,8 @@ class CryptoCurrencyModel(Model):
             self.schedule.add(a)
         # todo: generate all traders at beginning, but only a few are active
         # distribute initial cash according to zipf law
+        #tried to extract the price after each iteration (not successful)
+        #self.datacollector = DataCollector(model_reporters={'price': lambda model: model.exchange.p})
 
     def step(self):
         '''Advance the model by one step.'''
