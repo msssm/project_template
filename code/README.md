@@ -14,5 +14,5 @@ Debug the program
 (1) Answer question 1 \
 (2) Implement nice visualizations \
 (3) Answer question 2 (optional) \
-(4) Answer question 3 (optional)
+(4) Answer question 3 (optional) \
 (5) Eliminate the bugs
