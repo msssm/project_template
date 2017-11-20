@@ -6,7 +6,7 @@ class Exchange:  # TODO maybe move orderbook to its own class
         self.orderbook = {}
         self.orderbook[Order.Kind.SELL] = []
         self.orderbook[Order.Kind.BUY] = []
-        self.price = {0: 0.0649}
+        self.price = [0.0649]
         self._model = model
 
     @property
@@ -18,12 +18,17 @@ class Exchange:  # TODO maybe move orderbook to its own class
         return self.p(self.clock)
 
     def p(self, t): # price at time t, needed for chartists, todo: implement properly
-        t = max(0,t)  # make sure time is not negative, can be when chartists start at the beginning
         try:
-            res = self.price[t]
-        except KeyError:
-            res = self.p(t-1)
-        return res
+            return self.price[t]
+        except IndexError:
+            self.price.append(self.p(t-1))  # recursion
+            return self.p(t) #try again, if implementation correct no infinite loops should happen
+
+    def update_price(self, p):
+        try:
+            self.price[self.clock] = p
+        except IndexError:
+            self.price.append(p)
 
     def match(self, buy, sell):  # todo: move to order class
         # sj <= bi
@@ -69,7 +74,7 @@ class Exchange:  # TODO maybe move orderbook to its own class
         sell.agent.cash_available += amount * pT
         buy.agent.cash_orders -= amount * pT
         # update price:
-        self.price[self.clock] = pT
+        self.update_price(pT)
 
         if (sell.residual*pT < buy.residual):  # avoid testing for ==0. with float
             toremove = [sell]
