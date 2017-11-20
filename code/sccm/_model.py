@@ -5,7 +5,7 @@ from mesa.time import RandomActivation
 from mesa.datacollection import DataCollector
 from sccm.agents import *
 from sccm.market import Exchange
-
+from ._parameters import Parameters
 
 class CryptoCurrencyModel(Model):
     """A model with some number of agents."""
@@ -14,9 +14,11 @@ class CryptoCurrencyModel(Model):
         self.num_agents = N
         self.schedule = RandomActivation(self)
         self.exchange = Exchange(self)
+        self.parameters = Parameters()
+        self.global_pool = MiningPool()
         # todo: put this in a separate function ?
         for i in range(self.num_agents):
-            agentType = np.random.choice((RandomTrader, Chartist))  # random type
+            agentType = np.random.choice((RandomTrader, Chartist, Miner))
             a = agentType(i, self)
             # todo: distribute initial cash/btc according to correct law
             a.cash_available = 5.
@@ -24,6 +26,9 @@ class CryptoCurrencyModel(Model):
             self.schedule.add(a)
         # todo: generate all traders at beginning, but only a few are active
         # distribute initial cash according to zipf law
+        #tried to extract the price after each iteration (not successful)
+        #self.datacollector = DataCollector(model_reporters={'price': lambda model: model.exchange.p})
+
         #tried to extract the price after each iteration (not successful)
         #self.datacollector = DataCollector(model_reporters={'price': lambda model: model.exchange.p})
 
