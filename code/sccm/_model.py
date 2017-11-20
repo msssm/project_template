@@ -32,10 +32,11 @@ class CryptoCurrencyModel(Model):
         #self.datacollector = DataCollector(model_reporters={'price': lambda model: model.exchange.p})
 
         #tried to extract the price after each iteration (not successful)
-        #self.datacollector = DataCollector(model_reporters={'price': lambda model: model.exchange.p})
+        self.datacollector = DataCollector(model_reporters={'price': lambda model: model.exchange.current_price})
 
     def step(self):
         '''Advance the model by one step.'''
+        self.datacollector.collect(self)
         self.schedule.step()
         # todo should we do orders as they come in or once a day
         self.exchange.clear()
