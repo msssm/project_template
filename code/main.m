@@ -81,7 +81,7 @@ T = 100;
 for t = 1:T
     % For timestep t; the SoicietyAgents play their game
     for i = 1:N
-        [op0, op1, k] = SingleAgent(op(i), op, u, mu, N);
+        [op0, op1, k] = SingleAgent(op(i), op, u, N);
         op(i) = op0;
         op(k) = op1;
     end
@@ -111,7 +111,11 @@ for t = 1:T
     end
 end
 
-%%functions
+%% Plot in histogram
+nbin = 50;
+histogram(op, nbin);
+
+%% functions
 
 % - function returns the weighted difference of opinions
 % - implemented as function to enable further development if needed
@@ -121,7 +125,7 @@ function [mu] = fmu(op1, op2)
 mu = 0.1*(op2-op1);
 end
 
-%% Defining the influence of a single SocietyAgent during one timestep t
+% Defining the influence of a single SocietyAgent during one timestep t
 % Input: op0 = opinion of a single agent, op = opinion of the society,
 %       mu and u as described above
 % Output: new opinion of op0 (opnew0), 
@@ -132,7 +136,10 @@ function [opnew0, opnew1, pos] = SingleAgent(op0, op, u, N)
 pos = randi(N);
 op1 = op(pos);
 if abs(op1 - op0) < u
-    opnew0 = op0 + mu(op0, op1);
-    opnew1 = op1 + mu(op1, op0);
+    opnew0 = op0 + fmu(op0, op1);
+    opnew1 = op1 + fmu(op1, op0);
+else
+    opnew0 = op0;
+    opnew1 = op1;
 end
 end
