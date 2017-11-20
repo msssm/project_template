@@ -3,7 +3,7 @@
 > * MATLAB
 
 ## Next goal:
-Debug the program
+Debug the program.
 
 ## To-Do:
 (1) Think about sensible functions for mu \
