@@ -112,10 +112,12 @@ end
 
 %%functions
 
-%%% TASK: How should this function look like?
-%%%         In the paper they give a reference: Look up there!
+% - function returns the weighted difference of opinions
+% - implemented as function to enable further development if needed
+% - mu has to be between 0 and 1 to ensure that all opinions are also
+% between 0 and 1
 function [mu] = fmu(op1, op2)
-mu = 0.2/(op1-op2);
+mu = 0.1*(op1-op2);
 end
 
 %% Defining the influence of a single SocietyAgent during one timestep t
