@@ -13,8 +13,9 @@ op = randn(N,1);
 % We want to guarantee that all opinions are in [0,1]
 for i = 1:N
     while (op(i) > 1 || op(i) < 0)
-        op(i) = rand;
+        op(i) = randn;
     end
+    disp(op(i));
 end
 
 %% Properties of the SocietyAgents
@@ -117,7 +118,7 @@ end
 % - mu has to be between 0 and 1 to ensure that all opinions are also
 % between 0 and 1
 function [mu] = fmu(op1, op2)
-mu = 0.1*(op1-op2);
+mu = 0.1*(op2-op1);
 end
 
 %% Defining the influence of a single SocietyAgent during one timestep t
