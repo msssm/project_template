@@ -21,30 +21,36 @@ end
 %% Properties of the SocietyAgents
 
 % The threshold u defines when two agents speak/interact with each other
-u = 0.4;
+u = 0.5;
 
 % Mu defines the change of opinion when two agents speak with each other
 %       --> see function mu
 
 %% A world without extrimists
-%{
+
 % The influence of a single agent in a singlte timestep t is defined in the
 % funtion SocietyAgent. We raise up the time steps to T. 
 % In every time step t, every agent has the chance to speak with another.
 
 % Number of time steps T
 T = 100;
-
+timeGap = 0.01;
 for t = 1:T
     for i = 1:N
-        [op0, op1, k] = SingleAgent(op(i), op, u, mu, N);
+        [op0, op1, k] = SingleAgent(op(i), op, u, N);
         op(i) = op0;
         op(k) = op1;
     end
+    edges = [0 0.1:0.1 0.2:0.2 0.3:0.3 0.4:0.4 0.5:0.5 0.6:0.6 0.7:0.7 0.8:0.8 0.9:0.9 1];
+    nbin = 50;
+    histogram(op, nbin);
+    pause(timeGap)
+    drawnow;
 end
-%}
+
 
 %% Creating the extremists with opinion 0
+%{
 % number of extremists
 n0 = 15;
 ex0 = 0;
@@ -111,9 +117,9 @@ for t = 1:T
     end
 end
 
+%}
 %% Plot in histogram
-nbin = 50;
-histogram(op, nbin);
+
 
 %% functions
 
