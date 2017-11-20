@@ -25,10 +25,10 @@ u = 0.4;
 % Mu defines the change of opinion when two agents speak with each other
 %       --> see function mu
 
-%% A world without extrimists
+%% A world without extremists
 %{
 % The influence of a single agent in a singlte timestep t is defined in the
-% funtion SocietyAgent. We raise up the time steps to T. 
+% function SocietyAgent. We raise up the time steps to T. 
 % In every time step t, every agent has the chance to speak with another.
 
 % Number of time steps T
@@ -80,7 +80,7 @@ T = 100;
 for t = 1:T
     % For timestep t; the SoicietyAgents play their game
     for i = 1:N
-        [op0, op1, k] = SingleAgent(op(i), op, u, mu, N);
+        [op0, op1, k] = SingleAgent(op(i), op, u, N);
         op(i) = op0;
         op(k) = op1;
     end
@@ -114,7 +114,7 @@ end
 
 %%% TASK: How should this function look like?
 %%%         In the paper they give a reference: Look up there!
-function mu = mu(op1, op2)
+function [mu] = fmu(op1, op2)
 mu = 0.2/(op1-op2);
 end
 
@@ -129,7 +129,10 @@ function [opnew0, opnew1, pos] = SingleAgent(op0, op, u, N)
 pos = randi(N);
 op1 = op(pos);
 if abs(op1 - op0) < u
-    opnew0 = op0 + mu(op0, op1);
-    opnew1 = op1 + mu(op1, op0);
+    opnew0 = op0 + fmu(op0, op1);
+    opnew1 = op1 + fmu(op1, op0);
+else 
+    opnew0 = op0;
+    opnew1 = op1;
 end
 end
