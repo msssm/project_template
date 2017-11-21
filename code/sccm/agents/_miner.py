@@ -9,6 +9,8 @@ class Miner(CryptoCurrencyAgent):
     """A Miner"""
     def __init__(self, unique_id, model, miningpool=None):
         super().__init__(unique_id, model)
+        self.hashing_capability = 0.
+        self.power_consumption = 0.
         if miningpool is not None:
             self.pool = miningpool
         else:
@@ -16,14 +18,13 @@ class Miner(CryptoCurrencyAgent):
         self.pool.join(self)  # add myself to pool
         self.update_fraction_cash_to_buy_hardware();
         self.equipment = []  # equipment owned by the miner
-        self.hashing_capability = 0.
-        self.power_consumption = 0.
         if self.clock == 0:
             self.time_when_to_buy_again = np.random.choice(range(61))  # take decision to buy in the first 60 days uniform distr
             Corei5 = Equipment(self.clock, 0.00173, 75)
             # todo: move corei5 to initial simulation parameters
             self.equipment.append(Corei5)  # initial hardware
             self.hashing_capability = Corei5.hash_rate
+            self.pool.hashing_capability += Corei5.hash_rate
             self.power_consumption = Corei5.power_consumption
 
         else:
@@ -59,6 +60,7 @@ class Miner(CryptoCurrencyAgent):
         self.cash_available -= cash_going_to_spend
         new_hardware = Equipment.buy(self.clock, cash_going_to_spend)
         self.hashing_capability += new_hardware.hash_rate
+        self.pool.hashing_capability += new_hardware.hash_rate
         self.power_consumption += new_hardware.power_consumption
         self.equipment.append(new_hardware)
 
@@ -67,6 +69,7 @@ class Miner(CryptoCurrencyAgent):
         for equip in self.equipment:
             if (equip.time_bought < self.clock - age):
                 self.hashing_capability -= equip.hash_rate
+                self.pool.hashing_capability -= equip.hash_rate
                 self.power_consumption -= equip.power_consumption
                 i+=1
             else:
