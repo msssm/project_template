@@ -16,6 +16,7 @@ class Miner(CryptoCurrencyAgent):
         self.pool.join(self)  # add myself to pool
         self.update_fraction_cash_to_buy_hardware();
         self.equipment = []  # equipment owned by the miner
+        self.hashing_capability = 0.
         if self.clock == 0:
             self.time_when_to_buy_again = np.random.choice(range(61))  # take decision to buy in the first 60 days uniform distr
             Corei5 = Equipment(self.clock, 0.00173, 75)
@@ -38,10 +39,6 @@ class Miner(CryptoCurrencyAgent):
         return 0.5 * self.fraction_cash_to_buy_hardware
 
     @property
-    def hashing_capability(self):  # r: hashing capability
-        return sum(equip.hash_rate for equip in self.equipment)
-
-    @property
     def electricity_cost(self):  # total electricity cost in usd
         return self.model.parameters.electricity_cost(self.clock) * 24 * sum(equip.power_consumption for equip in self.equipment)
 
@@ -57,10 +54,17 @@ class Miner(CryptoCurrencyAgent):
         cash_going_to_spend = self.fraction_cash_to_buy_hardware * self.cash_available
         self.cash_available -= cash_going_to_spend
         new_hardware = Equipment.buy(self.clock, cash_going_to_spend)
+        self.hashing_capability += new_hardware.hash_rate
         self.equipment.append(new_hardware)
 
     def divest_old_hardware(self, age=365):
-        self.equipment = [equip for equip in self.equipment if (equip.time_bought > self.clock - age)]
+        equipment_keep = []
+        for equip in self.equipment:
+            if (equip.time_bought > self.clock - age):
+                equipment_keep.append(equip)
+            else:
+                self.hashing_capability -= equip.hash_rate
+        self.equipment = equipment_keep
         # todo: should we sell old hardware for profit?
 
     def sell_bitcoin_to_buy_hardware(self):
