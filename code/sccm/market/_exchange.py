@@ -43,7 +43,7 @@ class Exchange:  # TODO maybe move orderbook to its own class
         if end-start < 2:
             return 0.,0.
         def calc_rpv(start, end):
-            pricelist = [self.price[i] for i in range(start, end)]
+            pricelist = self.price[start:end]
             var = np.var(pricelist)
             mean = np.mean(pricelist)
             return var/mean
