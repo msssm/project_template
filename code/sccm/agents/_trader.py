@@ -35,7 +35,7 @@ class RandomTrader(Trader):
         self.tradeprobability = 0.1
 
     def decide_on_kind_of_order(self):
-        return np.random.choice(list(Order.Kind))
+        return np.random.choice((Order.Kind.SELL, Order.Kind.BUY))
 
     @property
     def expiration_time(self):
