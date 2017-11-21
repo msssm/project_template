@@ -12,12 +12,12 @@ class Trader(CryptoCurrencyAgent):
 
     def step(self):
         if (np.random.rand() < self.tradeprobability):
-            beta = min(1., np.random.lognormal(mean=0.25, sigma=0.2))
-            mu, sigma = 1, 0.05  # TODO correct values
-            N = np.random.normal(mu, sigma)
             kind  = self.decide_on_kind_of_order()
             if kind is None:
                 return
+            beta = min(1., np.random.lognormal(mean=0.25, sigma=0.2))
+            mu, sigma = 1, 0.05  # TODO correct values
+            N = np.random.normal(mu, sigma)
             if kind == Order.Kind.BUY:
                 amount = self.cash_available * beta  # ba
                 limit = self.exchange.p(self.clock) * N
