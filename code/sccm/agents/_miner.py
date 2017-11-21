@@ -58,13 +58,14 @@ class Miner(CryptoCurrencyAgent):
         self.equipment.append(new_hardware)
 
     def divest_old_hardware(self, age=365):
-        equipment_keep = []
+        i=0
         for equip in self.equipment:
-            if (equip.time_bought > self.clock - age):
-                equipment_keep.append(equip)
-            else:
+            if (equip.time_bought < self.clock - age):
                 self.hashing_capability -= equip.hash_rate
-        self.equipment = equipment_keep
+                i+=1
+            else:
+                break
+        self.equipment = self.equipment[i:]
         # todo: should we sell old hardware for profit?
 
     def sell_bitcoin_to_buy_hardware(self):
