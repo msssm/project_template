@@ -52,14 +52,10 @@ class Chartist(Trader):
         self.expiration_time = 0  # same day
 
     def decide_on_kind_of_order(self):
-        pricelist = self.exchange.price[min(0, self.clock-self.given_time_window):self.clock]
-        if len(pricelist) > 0:
-            rel_price_var = np.var(pricelist)/np.mean(pricelist);  # todo: check this is correct
-        else:
-            rel_price_var = 0.
-        if (rel_price_var < 0.01):  # price stayed more or less the same
+        rpv, diff = self.exchange.rel_price_var(self.clock-self.given_time_window, self.clock)
+        if (rpv < 0.01):  # price stayed more or less the same
             return None
-        elif pricelist[-1] - pricelist[0] > 0:  # price increased significantly
+        elif diff > 0:  # price increased significantly
             return Order.Kind.BUY
         else:  # price dropped significantly
             return Order.Kind.SELL

@@ -1,3 +1,5 @@
+import numpy as np
+
 from ._order import Order
 
 
@@ -8,7 +10,7 @@ class Exchange:  # TODO maybe move orderbook to its own class
         self.orderbook[Order.Kind.BUY] = []
         self.price = [0.0649]
         self._model = model
-
+        self._rel_price_var = {}
     @property
     def clock(self):
         return self._model.schedule.time
@@ -29,6 +31,20 @@ class Exchange:  # TODO maybe move orderbook to its own class
             self.price[self.clock] = p
         except IndexError:
             self.price.append(p)
+
+    def rel_price_var(self, a, b):
+        assert(b<=self.clock)
+        try:
+            return self._rel_price_var[(a,b)]
+        except KeyError:
+            pricelist = self.price[min(0, a):b]
+            rpv = 0.
+            diff = 0.
+            if len(pricelist) > 0:
+                rpv = np.var(pricelist)/np.mean(pricelist)  # todo: check this is correct
+                diff = pricelist[-1] - pricelist[0]
+            self._rel_price_var[(a,b)] = (rpv, diff)
+            return rpv, diff
 
     def match(self, buy, sell):  # todo: move to order class
         # sj <= bi
