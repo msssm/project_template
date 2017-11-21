@@ -3,11 +3,6 @@ import numpy as np
 from heapq import heappush, heappop
 from ._order import Order
 
-def subtract_safe(a, x):
-    a -= x
-    if a <0:
-        return 0;
-    return a;
 
 class Exchange:  # TODO maybe move orderbook to its own class
     def __init__(self, model):
@@ -115,17 +110,17 @@ class Exchange:  # TODO maybe move orderbook to its own class
         # determine amount of transaction
         amount = min(sell.residual, buy.residual/pT)  # amount that is actually traded
         # exchange currency
-        sell.agent.bitcoin_orders = subtract_safe(sell.agent.bitcoin_orders , amount)
+        sell.agent.bitcoin_orders -= amount
         buy.agent.bitcoin_available += amount
         sell.agent.cash_available += amount * pT
-        buy.agent.cash_orders = subtract_safe(buy.agent.cash_orders, amount * pT)
+        buy.agent.cash_orders -= amount * pT
         # update price:
         self.update_price(pT)
         if (sell.residual*pT < buy.residual):  # avoid testing for ==0. with float
-            buy.residual = subtract_safe(buy.residual, amount * pT)
+            buy.residual -= amount * pT
             heappop(self.orderbook[sell.kind])
         elif (sell.residual*pT > buy.residual):
-            sell.residual = subtract_safe(sell.residual, amount)
+            sell.residual -= amount
             heappop(self.orderbook[buy.kind])
         else: #remove both
             heappop(self.orderbook[sell.kind])
@@ -140,8 +135,8 @@ class Exchange:  # TODO maybe move orderbook to its own class
                 if self.clock - order.time > order.t_expiration:
                     if order.kind == Order.Kind.SELL:  # sell bitcoin
                         order.agent.bitcoin_available += order.residual
-                        order.agent.bitcoin_orders = subtract_safe(order.agent.bitcoin_orders, order.residual)
+                        order.agent.bitcoin_orders -= order.residual
                     else:  # buy bitcoin
                         order.agent.cash_available += order.residual
-                        order.agent.cash_orders = subtract_safe(order.agent.bitcoin_orders, order.residual)
+                        order.agent.cash_orders -= order.residual
                     book.remove(order_tuple)

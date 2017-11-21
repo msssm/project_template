@@ -5,12 +5,6 @@ from sccm.market import Order
 from ._agent import CryptoCurrencyAgent
 from ._equipment import Equipment
 
-def subtract_safe(a, x):
-    a -= x
-    if a <0:
-        return 0;
-    return a;
-
 class Miner(CryptoCurrencyAgent):
     """A Miner"""
     def __init__(self, unique_id, model, miningpool=None):
@@ -63,7 +57,7 @@ class Miner(CryptoCurrencyAgent):
 
     def buy_hardware(self):
         cash_going_to_spend = self.fraction_cash_to_buy_hardware * self.cash_available
-        self.cash_available = subtract_safe(self.cash_available, cash_going_to_spend)
+        self.cash_available -= cash_going_to_spend
         new_hardware = Equipment.buy(self.clock, cash_going_to_spend)
         self.hashing_capability += new_hardware.hash_rate
         self.pool.hashing_capability += new_hardware.hash_rate
@@ -74,9 +68,9 @@ class Miner(CryptoCurrencyAgent):
         i=0
         for equip in self.equipment:
             if (equip.time_bought < self.clock - age):
-                self.hashing_capability = subtract_safe(self.hashing_capability, equip.hash_rate)
-                self.pool.hashing_capability =subtract_safe(self.pool.hashing_capability ,equip.hash_rate)
-                self.power_consumption =subtract_safe( self.power_consumption,equip.power_consumption)
+                self.hashing_capability -= equip.hash_rate
+                self.pool.hashing_capability -= equip.hash_rate
+                self.power_consumption -= equip.power_consumption
                 i+=1
             else:
                 break

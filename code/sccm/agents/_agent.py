@@ -1,11 +1,6 @@
 from mesa import Agent
 from sccm.market import Order
 
-def subtract_safe(a, x):
-    a -= x
-    if a <0:
-        return 0;
-    return a;
 
 class CryptoCurrencyAgent(Agent):
     """An agent"""
@@ -40,8 +35,8 @@ class CryptoCurrencyAgent(Agent):
         if order.amount != 0.: #dont place 0 orders todo: should we prevent this elsewhere?
             if order.kind in (Order.Kind.SELL, Order.Kind.SELLINF):  # sell bitcoin
                 self.bitcoin_orders += order.amount
-                self.bitcoin_available = subtract_safe(self.bitcoin_available, order.amount)
+                self.bitcoin_available -= order.amount
             else:  # buy bitcoin
                 self.cash_orders += order.amount
-                self.cash_available = subtract_safe(self.cash_available, order.amount)
+                self.cash_available -= order.amount
             self.exchange.place(order)
