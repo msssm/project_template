@@ -1,3 +1,5 @@
+import numpy as np
+
 from ._order import Order
 
 
@@ -6,9 +8,9 @@ class Exchange:  # TODO maybe move orderbook to its own class
         self.orderbook = {}
         self.orderbook[Order.Kind.SELL] = []
         self.orderbook[Order.Kind.BUY] = []
-        self.price = {0: 0.0649}
+        self.price = [0.0649]
         self._model = model
-
+        self._rel_price_var = {}
     @property
     def clock(self):
         return self._model.schedule.time
@@ -18,12 +20,35 @@ class Exchange:  # TODO maybe move orderbook to its own class
         return self.p(self.clock)
 
     def p(self, t): # price at time t, needed for chartists, todo: implement properly
-        t = max(0,t)  # make sure time is not negative, can be when chartists start at the beginning
         try:
-            res = self.price[t]
+            return self.price[t]
+        except IndexError:
+            self.price.append(self.p(t-1))  # recursion
+            return self.p(t) #try again, if implementation correct no infinite loops should happen
+
+    def update_price(self, p):
+        try:
+            self.price[self.clock] = p
+        except IndexError:
+            self.price.append(p)
+
+    def rel_price_var(self, a, b):
+        assert(b<=self.clock)
+        def calc_rpv(X):
+            mean = sum(X)/len(X)
+            var = sum(x-mean for x in X)/(len(X)-1)
+            return var/mean
+        try:
+            return self._rel_price_var[(a,b)]
         except KeyError:
-            res = self.p(t-1)
-        return res
+            pricelist = self.price[min(0, a):b]
+            rpv = 0.
+            diff = 0.
+            if len(pricelist) > 1:
+                rpv = calc_rpv(pricelist)  # todo: check this is correct
+                diff = pricelist[-1] - pricelist[0]
+            self._rel_price_var[(a,b)] = (rpv, diff)
+            return rpv, diff
 
     def match(self, buy, sell):  # todo: move to order class
         # sj <= bi
@@ -69,7 +94,7 @@ class Exchange:  # TODO maybe move orderbook to its own class
         sell.agent.cash_available += amount * pT
         buy.agent.cash_orders -= amount * pT
         # update price:
-        self.price[self.clock] = pT
+        self.update_price(pT)
 
         if (sell.residual*pT < buy.residual):  # avoid testing for ==0. with float
             toremove = [sell]

@@ -9,6 +9,8 @@ class Miner(CryptoCurrencyAgent):
     """A Miner"""
     def __init__(self, unique_id, model, miningpool=None):
         super().__init__(unique_id, model)
+        self.hashing_capability = 0.
+        self.power_consumption = 0.
         if miningpool is not None:
             self.pool = miningpool
         else:
@@ -21,6 +23,10 @@ class Miner(CryptoCurrencyAgent):
             Corei5 = Equipment(self.clock, 0.00173, 75)
             # todo: move corei5 to initial simulation parameters
             self.equipment.append(Corei5)  # initial hardware
+            self.hashing_capability = Corei5.hash_rate
+            self.pool.hashing_capability += Corei5.hash_rate
+            self.power_consumption = Corei5.power_consumption
+
         else:
             self.buy_hardware() #buy new hardware immediately
             self.update_time_when_to_buy_again()  # update time when to buy new mining hardware
@@ -38,12 +44,8 @@ class Miner(CryptoCurrencyAgent):
         return 0.5 * self.fraction_cash_to_buy_hardware
 
     @property
-    def hashing_capability(self):  # r: hashing capability
-        return sum(equip.hash_rate for equip in self.equipment)
-
-    @property
     def electricity_cost(self):  # total electricity cost in usd
-        return self.model.parameters.electricity_cost(self.clock) * 24 * sum(equip.power_consumption for equip in self.equipment)
+        return self.model.parameters.electricity_cost(self.clock) * 24 * self.power_consumption
 
     def mine(self):
         if (self.hashing_capability > 0. and self.cash_available >= self.electricity_cost):
@@ -57,10 +59,22 @@ class Miner(CryptoCurrencyAgent):
         cash_going_to_spend = self.fraction_cash_to_buy_hardware * self.cash_available
         self.cash_available -= cash_going_to_spend
         new_hardware = Equipment.buy(self.clock, cash_going_to_spend)
+        self.hashing_capability += new_hardware.hash_rate
+        self.pool.hashing_capability += new_hardware.hash_rate
+        self.power_consumption += new_hardware.power_consumption
         self.equipment.append(new_hardware)
 
     def divest_old_hardware(self, age=365):
-        self.equipment = [equip for equip in self.equipment if (equip.time_bought > self.clock - age)]
+        i=0
+        for equip in self.equipment:
+            if (equip.time_bought < self.clock - age):
+                self.hashing_capability -= equip.hash_rate
+                self.pool.hashing_capability -= equip.hash_rate
+                self.power_consumption -= equip.power_consumption
+                i+=1
+            else:
+                break
+        self.equipment = self.equipment[i:]
         # todo: should we sell old hardware for profit?
 
     def sell_bitcoin_to_buy_hardware(self):
@@ -68,7 +82,8 @@ class Miner(CryptoCurrencyAgent):
         amount = self.fraction_bitcoin_to_be_sold_for_hardware * self.bitcoin_available
         limit = 0.
         expiration_time = infinity_int
-        self.placeorder(Order(kind, amount, limit, self.clock, expiration_time, self))
+        order = Order(kind, amount, limit, self.clock, expiration_time, self)
+        self.placeorder(order)
 
     def step(self):
         self.mine()

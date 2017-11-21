@@ -32,12 +32,11 @@ class CryptoCurrencyAgent(Agent):
         return self.bitcoin_available + self.bitcoin_orders
 
     def placeorder(self, order):
-        if order.kind == Order.Kind.SELL:  # sell bitcoin
-            self.bitcoin_orders += order.amount
-            self.bitcoin_available -= order.amount
-
-        else:  # buy bitcoin
-            self.cash_orders += order.amount
-            self.cash_available -= order.amount
-
-        self.exchange.place(order)
+        if order.amount != 0.: #dont place 0 orders todo: should we prevent this elsewhere?
+            if order.kind == Order.Kind.SELL:  # sell bitcoin
+                self.bitcoin_orders += order.amount
+                self.bitcoin_available -= order.amount
+            else:  # buy bitcoin
+                self.cash_orders += order.amount
+                self.cash_available -= order.amount
+            self.exchange.place(order)
