@@ -42,10 +42,11 @@ class CryptoCurrencyModel(Model):
         self.exchange.clear()
         self.exchange.remove_old_orders()
 
-    def add_agent(self, agentType, cash, n=1):
+    def add_agent(self, agentType, cash, n=1, bitcoin=0.):
         for i in range(n):
             a = agentType(self.next_available_id, self)
             self.next_available_id += 1
             a.cash_available = cash
+            a.bitcoin_available = bitcoin
             self.schedule.add(a)
     # todo: enter agents into the market over time
