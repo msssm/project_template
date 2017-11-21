@@ -1,5 +1,6 @@
 import numpy as np
 
+from heapq import heappush, heappop
 from ._order import Order
 
 
@@ -8,6 +9,7 @@ class Exchange:  # TODO maybe move orderbook to its own class
         self.orderbook = {}
         self.orderbook[Order.Kind.SELL] = []
         self.orderbook[Order.Kind.BUY] = []
+        self.orderbook[Order.Kind.SELLINF] = []
         self.price = [0.0649]
         self._model = model
         self._rel_price_var = {}
@@ -56,26 +58,45 @@ class Exchange:  # TODO maybe move orderbook to its own class
 
     def place(self, order):
         # print("order placed: {}".format(order))
-        self.orderbook[order.kind].append(order)
+        if order.kind == Order.Kind.SELL:
+            key = order.limit_price
+        else:
+            key = -order.limit_price
+        heappush(self.orderbook[order.kind], (key, order))
         # self.clear()
 
     def clear(self):  # process all available orders
         # first sort orders
-        self.orderbook[Order.Kind.SELL].sort(key=lambda o: o.limit_price)  # sort should be stable, so asc time conserved
-        self.orderbook[Order.Kind.BUY].sort(key=lambda o: o.limit_price, reverse=True)
+        #self.orderbook[Order.Kind.SELL].sort(key=lambda o: o.limit_price)  # sort should be stable, so asc time conserved
+        #self.orderbook[Order.Kind.BUY].sort(key=lambda o: o.limit_price, reverse=True)
 
         # iterate through and match orders:
-        matching = True
-        while matching and len(self.orderbook[Order.Kind.SELL]) and len(self.orderbook[Order.Kind.BUY]):  # while there are orders
-            buy = self.orderbook[Order.Kind.BUY][0]
-            sell = self.orderbook[Order.Kind.SELL][0]
-
-            if self.match(buy, sell):  # see if they match
-                self.process(buy, sell)
+        while 1:  # while there are orders
+            A = len(self.orderbook[Order.Kind.SELL]) > 0
+            B = len(self.orderbook[Order.Kind.SELLINF]) > 0
+            C = len(self.orderbook[Order.Kind.BUY]) > 0
+            if C:
+                buytuple = self.orderbook[Order.Kind.BUY][0]
             else:
-                matching = False  # no more matching orders
+                break
+            if A and B:
+                a = self.orderbook[Order.Kind.SELL][0]
+                b = self.orderbook[Order.Kind.SELLINF][0]
+                selltuple = min(a,b)
+            elif A:
+                selltuple = self.orderbook[Order.Kind.SELL][0]
+            elif B:
+                selltuple = self.orderbook[Order.Kind.SELLINF][0]
+            else:
+                break
+            if self.match(buytuple[1], selltuple[1]):  # see if they match
+                self.process(buytuple, selltuple)
+            else:
+                break  # no more matching orders
 
-    def process(self, buy, sell):
+    def process(self, buytuple, selltuple):
+        _, buy = buytuple
+        _, sell = selltuple
         # determine price of transaction pT in $ per btc
         if buy.limit_price > 0. and sell.limit_price == 0.:
             pT = min(buy.limit_price, self.p(self.clock))
@@ -95,32 +116,27 @@ class Exchange:  # TODO maybe move orderbook to its own class
         buy.agent.cash_orders -= amount * pT
         # update price:
         self.update_price(pT)
-
         if (sell.residual*pT < buy.residual):  # avoid testing for ==0. with float
-            toremove = [sell]
-        if (sell.residual*pT > buy.residual):
-            toremove = [buy]
-        else:
-            toremove = [buy, sell]
-        buy.residual -= amount * pT
-        sell.residual -= amount
-        for o in toremove:
-            self.remove_order(o)
-
-    def remove_order(self, order):
-        if order.kind == Order.Kind.SELL:  # sell bitcoin
-            order.agent.bitcoin_available += order.residual
-            order.agent.bitcoin_orders -= order.residual
-        else:  # buy bitcoin
-            order.agent.cash_available += order.residual
-            order.agent.cash_orders -= order.residual
-
-        self.orderbook[order.kind].remove(order)
-        # print("order removed: {}".format(order))
+            buy.residual -= amount * pT
+            heappop(self.orderbook[sell.kind])
+        elif (sell.residual*pT > buy.residual):
+            sell.residual -= amount
+            heappop(self.orderbook[buy.kind])
+        else: #remove both
+            heappop(self.orderbook[sell.kind])
+            heappop(self.orderbook[buy.kind])
 
     def remove_old_orders(self):
-        for kind in list(Order.Kind):
+        for kind in (Order.Kind.SELL, Order.Kind.BUY):
             book = self.orderbook[kind]
-            for order in book:  # todo do this in one nice line :D
-                if self.clock - order.time > order.t_expiration:  # todo check if correct
-                    self.remove_order(order)
+            keep = []
+            for order_tuple in book:  # todo do this in one nice line :D
+                _, order = order_tuple
+                if self.clock - order.time > order.t_expiration:
+                    if order.kind == Order.Kind.SELL:  # sell bitcoin
+                        order.agent.bitcoin_available += order.residual
+                        order.agent.bitcoin_orders -= order.residual
+                    else:  # buy bitcoin
+                        order.agent.cash_available += order.residual
+                        order.agent.cash_orders -= order.residual
+                    book.remove(order_tuple)

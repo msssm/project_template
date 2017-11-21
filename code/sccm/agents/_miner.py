@@ -78,7 +78,7 @@ class Miner(CryptoCurrencyAgent):
         # todo: should we sell old hardware for profit?
 
     def sell_bitcoin_to_buy_hardware(self):
-        kind = Order.Kind.SELL
+        kind = Order.Kind.SELLINF
         amount = self.fraction_bitcoin_to_be_sold_for_hardware * self.bitcoin_available
         limit = 0.
         expiration_time = infinity_int

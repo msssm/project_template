@@ -5,6 +5,7 @@ class Order:
     class Kind(Enum):
         BUY = 1
         SELL = 2
+        SELLINF = 3
 
     def __init__(self, kind, amount, limit_price, time,  t_expiration, agent):
         self.agent = agent
@@ -14,6 +15,9 @@ class Order:
         self.t_expiration = t_expiration
         self.time = time
         self.limit_price = limit_price  # $ per btc
+
+    def __lt__(self, other):
+        return self.time < other.time
 
     def __repr__(self):
         return "BTC {} order of {} with residual {} and limit {}".format(self.kind, self.amount, self.residual, self.limit_price)
