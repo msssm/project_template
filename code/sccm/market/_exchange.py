@@ -68,7 +68,7 @@ class Exchange:  # TODO maybe move orderbook to its own class
         else:
             key = -order.limit_price
         heappush(self.orderbook[order.kind], (key, order))
-        # self.clear()
+        self.clear()
 
     def clear(self):  # process all available orders
         # first sort orders
