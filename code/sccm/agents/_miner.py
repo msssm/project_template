@@ -22,6 +22,7 @@ class Miner(CryptoCurrencyAgent):
             Corei5 = Equipment(self.clock, 0.00173, 75)
             # todo: move corei5 to initial simulation parameters
             self.equipment.append(Corei5)  # initial hardware
+            self.hashing_capability = Corei5.hash_rate
         else:
             self.buy_hardware() #buy new hardware immediately
             self.update_time_when_to_buy_again()  # update time when to buy new mining hardware
@@ -73,7 +74,8 @@ class Miner(CryptoCurrencyAgent):
         amount = self.fraction_bitcoin_to_be_sold_for_hardware * self.bitcoin_available
         limit = 0.
         expiration_time = infinity_int
-        self.placeorder(Order(kind, amount, limit, self.clock, expiration_time, self))
+        order = Order(kind, amount, limit, self.clock, expiration_time, self)
+        self.placeorder(order)
 
     def step(self):
         self.mine()
