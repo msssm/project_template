@@ -34,14 +34,18 @@ class Exchange:  # TODO maybe move orderbook to its own class
 
     def rel_price_var(self, a, b):
         assert(b<=self.clock)
+        def calc_rpv(X):
+            mean = sum(X)/len(X)
+            var = sum(x-mean for x in X)/(len(X)-1)
+            return var/mean
         try:
             return self._rel_price_var[(a,b)]
         except KeyError:
             pricelist = self.price[min(0, a):b]
             rpv = 0.
             diff = 0.
-            if len(pricelist) > 0:
-                rpv = np.var(pricelist)/np.mean(pricelist)  # todo: check this is correct
+            if len(pricelist) > 1:
+                rpv = calc_rpv(pricelist)  # todo: check this is correct
                 diff = pricelist[-1] - pricelist[0]
             self._rel_price_var[(a,b)] = (rpv, diff)
             return rpv, diff
