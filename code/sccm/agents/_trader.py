@@ -52,7 +52,7 @@ class Chartist(Trader):
         self.expiration_time = 0  # same day
 
     def decide_on_kind_of_order(self):
-        rpv, diff = self.exchange.rel_price_var(self.clock-self.given_time_window, self.clock)
+        rpv, diff = self.exchange.rel_price_var(self.given_time_window)
         if (rpv < 0.01):  # price stayed more or less the same
             return None
         elif diff > 0:  # price increased significantly

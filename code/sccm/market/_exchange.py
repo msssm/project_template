@@ -34,22 +34,27 @@ class Exchange:  # TODO maybe move orderbook to its own class
         except IndexError:
             self.price.append(p)
 
-    def rel_price_var(self, a, b):
-        assert(b<=self.clock)
-        def calc_rpv(X):
-            mean = sum(X)/len(X)
-            var = sum(x-mean for x in X)/(len(X)-1)
+    def clear_rel_price_var(self):
+        self._rel_price_var = {}
+
+    def rel_price_var(self, window):
+        end = self.clock-1
+        start = max(end-window, 0)
+        if end-start < 2:
+            return 0.,0.
+        def calc_rpv(start, end):
+            pricelist = [self.price[i] for i in range(start, end)]
+            var = np.var(pricelist)
+            mean = np.mean(pricelist)
             return var/mean
         try:
-            return self._rel_price_var[(a,b)]
+            return self._rel_price_var[window]
         except KeyError:
-            pricelist = self.price[min(0, a):b]
             rpv = 0.
-            diff = 0.
-            if len(pricelist) > 1:
-                rpv = calc_rpv(pricelist)  # todo: check this is correct
-                diff = pricelist[-1] - pricelist[0]
-            self._rel_price_var[(a,b)] = (rpv, diff)
+            diff = self.p(self.clock) #make sure we access current price
+            diff -= self.price[start]
+            rpv = calc_rpv(start, end)  # todo: check this is correct
+            self._rel_price_var[window] = (rpv, diff)
             return rpv, diff
 
     def match(self, buy, sell):  # todo: move to order class

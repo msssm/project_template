@@ -40,6 +40,7 @@ class CryptoCurrencyModel(Model):
         self.schedule.step()
         # todo should we do orders as they come in or once a day
         #self.exchange.clear()
+        self.exchange.clear_rel_price_var()
         self.exchange.remove_old_orders()
 
     def add_agent(self, agentType, cash, n=1, bitcoin=0.):
