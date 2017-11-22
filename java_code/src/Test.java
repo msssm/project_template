@@ -10,7 +10,7 @@ public class Test {
                 for (Individual individual : simulation.matrix.get(i, j)) {
                     System.out.println(individual);
                 }
-                System.out.println();
+                System.out.println("");
             }
         }
 
