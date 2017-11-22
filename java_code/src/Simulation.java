@@ -78,7 +78,7 @@ public class Simulation {
             @Override
             public void actionPerformed(ActionEvent e) {
                 runOneTimestep();
-                panel.repaint();
+                window.repaint();
             }
         }).start();
 
