@@ -129,8 +129,8 @@ public class Simulation {
 
             // Propulsion
             double vi = individual.preferredSpeed;
-            F[0] += mu*(norm(velocity)-vi)*velocity[0]/norm(velocity);
-            F[1] += mu*(norm(velocity)-vi)*velocity[1]/norm(velocity);
+            F[0] += -mu*(norm(velocity)-vi)*velocity[0]/norm(velocity);
+            F[1] += -mu*(norm(velocity)-vi)*velocity[1]/norm(velocity);
             // Flocking
             if (!(sumOverVelocities[0] == 0 && sumOverVelocities[1] == 0)) {
                 double norm = norm(sumOverVelocities);
