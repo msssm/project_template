@@ -128,8 +128,9 @@ public class Simulation {
             }
 
             // Propulsion
-            // TODO: v0 is the "preferred speed", vi is the "instantaneous speed"
-
+            double vi = individual.preferredSpeed;
+            F[0] += mu*(norm(velocity)-vi)*velocity[0]/norm(velocity);
+            F[1] += mu*(norm(velocity)-vi)*velocity[1]/norm(velocity);
             // Flocking
             if (!(sumOverVelocities[0] == 0 && sumOverVelocities[1] == 0)) {
                 double norm = norm(sumOverVelocities);
