@@ -1,23 +1,10 @@
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import java.text.NumberFormat;
 import java.util.List;
 
-import javax.swing.JButton;
-import javax.swing.JFormattedTextField;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
 import javax.swing.Timer;
-import javax.swing.WindowConstants;
 
-public class Simulation implements PropertyChangeListener{
+public class Simulation {
 
 	public double epsilon;
 	public final double mu;
@@ -25,21 +12,13 @@ public class Simulation implements PropertyChangeListener{
 	public final double numberOfPeople;
 	public final double flockRadius;
 	public final double dt;
+	public static final int SECTOR_SIZE = 10;
 
 	private double maxX;
 	private double maxY;
 	private Timer timer;
 
-	private JButton startButton, pauseButton;
-	private JLabel labelEpsilon, labelAlpha, attribute3; // maybe 5 attributes
-	private JFormattedTextField field1, field2;
-	
-    //Formats to format and parse numbers
-    private NumberFormat format1,format2;
-
-	   
-
-	public PositionMatrix matrix;
+	private PositionMatrix matrix;
 
 	public Simulation(double epsilon, double mu, double alpha, double numberOfPeople, double flockRadius, double dt) {
 		this.epsilon = epsilon;
@@ -56,19 +35,18 @@ public class Simulation implements PropertyChangeListener{
 		// TODO: Calculate optimal matrix size and sector size
 		// for now: create some bogus values
 		int tempMatrixSize = 10;
-		int tempSectorSize = 10;
 
 		// The maximum x and y values that an individual can have
-		maxX = tempMatrixSize * tempSectorSize;
-		maxY = tempMatrixSize * tempSectorSize;
+		maxX = tempMatrixSize * SECTOR_SIZE;
+		maxY = tempMatrixSize * SECTOR_SIZE;
 
-		matrix = new PositionMatrix(tempMatrixSize, tempMatrixSize, tempSectorSize);
+		matrix = new PositionMatrix(tempMatrixSize, tempMatrixSize, SECTOR_SIZE);
 
 		for (int i = 0; i < numberOfPeople; i++) {
 			// Generate random coordinates
 			double[] coords = new double[2];
-			coords[0] = Math.random() * tempSectorSize * tempMatrixSize;
-			coords[1] = Math.random() * tempSectorSize * tempMatrixSize;
+			coords[0] = Math.random() * SECTOR_SIZE * tempMatrixSize;
+			coords[1] = Math.random() * SECTOR_SIZE * tempMatrixSize;
 
 			// Generate random velocity
 			// TODO: Generate more sensible velocity
@@ -86,84 +64,16 @@ public class Simulation implements PropertyChangeListener{
 	}
 
 	public void runSimulation() {
-		// TODO: Implement runSimulation properly
+        SimulationGUI window = new SimulationGUI(this);
 
-		// Create a window for the simulation
-		JFrame window = new JFrame("Moshpit Simulation");
-		window.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-		window.setLayout(new BorderLayout());
-		SimulationPanel panel = new SimulationPanel(500, 500, matrix.getIndividuals(), matrix.width * matrix.sectorSize,
-				matrix.height * matrix.sectorSize);
-		JPanel buttonPanel = new JPanel();
-
-		window.add(panel, BorderLayout.CENTER);
-
-		buttonPanel.setSize(new Dimension(500, 300));
-		buttonPanel.setPreferredSize(new Dimension(500, 300));
-		buttonPanel.setMinimumSize(new Dimension(500, 300));
-		buttonPanel.setBackground(Color.WHITE);
-		
-		buttonPanel.setLayout(new GridLayout(3,2));
-
-		startButton = new JButton("start");
-		pauseButton = new JButton("pause");
-		buttonPanel.add(startButton);
-		buttonPanel.add(pauseButton);
-		
-		
-        //Create the text fields and set them up.
-		labelEpsilon = new JLabel("epsilon");
-		buttonPanel.add(labelEpsilon);
-		
-		
-        field1 = new JFormattedTextField();
-        field1.setValue(new Double(100));
-        field1.setColumns(10);
-        field1.addPropertyChangeListener("value", this);  
-        buttonPanel.add(field1);
-        
-
-        labelAlpha = new JLabel("alpha");
-		buttonPanel.add(labelAlpha);
-		
-        field2 = new JFormattedTextField();
-        field2.setValue(new Double(100));
-        field2.setColumns(10);
-        field2.addPropertyChangeListener("value", this);
-        buttonPanel.add(field2);
-
-       
-		
-		
-		buttonPanel.setVisible(true);
-
-		window.add(buttonPanel, BorderLayout.SOUTH);
-
-		window.pack();
-
-		startButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				timer.start();
-				timer.restart();
-			}
-		});
-
-		pauseButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				timer.stop();
-			}
-		});
-
-		// Run a new frame every 50 milliseconds
-		timer = new Timer(50, new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				runOneTimestep();
-				window.repaint();
-			}
-		});
+        // Run a new frame every 50 milliseconds
+        timer = new Timer(50, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                runOneTimestep();
+                window.repaint();
+            }
+        });
 
 		window.setVisible(true);
 	}
@@ -188,8 +98,7 @@ public class Simulation implements PropertyChangeListener{
 			double[] velocity = individual.getVelocity();
 			double r0 = individual.radius;
 
-			// =========================== CALCULATION OF THE FORCES
-			// =================================
+			// =========================== CALCULATION OF THE FORCES =================================
 			for (Individual neighbor : neighbors) {
 				// Make sure we are not using the individual him/herself
 				if (neighbor == individual) {
@@ -213,9 +122,8 @@ public class Simulation implements PropertyChangeListener{
 				sumOverVelocities[1] += velocityNeighbor[1];
 			}
 
-			// Propulsion
-			// TODO: v0 is the "preferred speed", vi is the "instantaneous
-			// speed"
+			// TODO: Propulsion
+			// v0 is the "preferred speed", vi is the "instantaneous speed"
 
 			// Flocking
 			if (!(sumOverVelocities[0] == 0 && sumOverVelocities[1] == 0)) {
@@ -227,8 +135,7 @@ public class Simulation implements PropertyChangeListener{
 			// Add noise
 			// TODO: Generate noise
 
-			// ======================= CALCULATE TIMESTEP
-			// ========================
+			// ======================= CALCULATE TIMESTEP ========================
 			// Using the leap-frog method to integrate the differential equation
 			// d^2y/dt^2 = rhs(y)
 
@@ -282,14 +189,11 @@ public class Simulation implements PropertyChangeListener{
 		return Math.sqrt(vector[0] * vector[0] + vector[1] * vector[1]);
 	}
 
-	   /** Called when a field's "value" property changes. */
-    public void propertyChange(PropertyChangeEvent e) {
-        Object source = e.getSource();
-        if (source == field1) {
-            epsilon = ((Number)field1.getValue()).doubleValue();
-        } else if (source == field2) {
-            alpha = ((Number)field2.getValue()).doubleValue();
-        } 
- 
+	public PositionMatrix getMatrix() {
+	    return matrix;
+    }
+
+    public Timer getSimulationTimer() {
+	    return timer;
     }
 }

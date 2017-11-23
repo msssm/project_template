@@ -1,12 +1,12 @@
 public class Test {
     public static void main(String[] args) {
-        Simulation simulation = new Simulation(50000, 1, 100000, 500, 20, 0.01);
+        Simulation simulation = new Simulation(50000, 1, 100000, 100, 20, 0.01);
 
         // Testing the initialization
-        for (int i = 0; i < simulation.matrix.width; i++) {
-            for (int j = 0; j < simulation.matrix.height; j++) {
+        for (int i = 0; i < simulation.getMatrix().width; i++) {
+            for (int j = 0; j < simulation.getMatrix().height; j++) {
                 System.out.println("=================== Sector: (" + i + ", " + j + ") =====================");
-                for (Individual individual : simulation.matrix.get(i, j)) {
+                for (Individual individual : simulation.getMatrix().get(i, j)) {
                     System.out.println(individual);
                 }
                 System.out.println("");
