@@ -7,14 +7,10 @@ import java.awt.geom.Ellipse2D;
  */
 public class SimulationPanel extends JPanel {
 
-    private final int WIDTH;
-    private final int HEIGHT;
     private java.util.List<Individual> individuals;
     private double xScalingFactor, yScalingFactor;
 
     public SimulationPanel(int width, int height, java.util.List<Individual> individuals, int matrixWidth, int matrixHeight) {
-        WIDTH = width;
-        HEIGHT = height;
         this.individuals = individuals;
         xScalingFactor = width / matrixWidth;
         yScalingFactor = height / matrixHeight;
@@ -23,6 +19,13 @@ public class SimulationPanel extends JPanel {
         this.setMinimumSize(new Dimension(width, height));
         this.setBackground(Color.WHITE);
         setFocusable(false);
+    }
+
+    /**
+     * Sets the individuals list to the given parameter.
+     */
+    public void setIndividuals(java.util.List<Individual> individuals) {
+        this.individuals = individuals;
     }
 
     private void increaseRenderingQuality(Graphics2D g2d) {

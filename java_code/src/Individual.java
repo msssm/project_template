@@ -37,6 +37,13 @@ public class Individual {
         return Math.sqrt(dx * dx + dy * dy);
     }
 
+    public double distanceTo(double[] point) {
+        double dx = Math.abs(x - point[0]);
+        double dy = Math.abs(y - point[1]);
+
+        return Math.sqrt(dx * dx + dy * dy);
+    }
+
     public double[] getCenter() {
         return new double[] {x + radius / 2, y + radius / 2};
     }

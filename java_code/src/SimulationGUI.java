@@ -12,10 +12,12 @@ public class SimulationGUI extends JFrame {
         setTitle("Moshpit Simulation");
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
+        setResizable(false);
 
         initComponents();
         addComponents();
         pack();
+        setLocationRelativeTo(null);
     }
 
     private void initComponents() {
@@ -28,6 +30,13 @@ public class SimulationGUI extends JFrame {
 
     private void addComponents() {
         add(simulationPanel, BorderLayout.CENTER);
-        add(controlPanel, BorderLayout.SOUTH);
+        add(controlPanel, BorderLayout.EAST);
+    }
+
+    /**
+     * Resets the simulation panel.
+     */
+    public void resetSimulationPanel() {
+        simulationPanel.setIndividuals(simulation.getMatrix().getIndividuals());
     }
 }

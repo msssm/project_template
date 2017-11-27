@@ -23,6 +23,11 @@ public class Simulation {
     public double alpha;
 
     /**
+     * Strength of the centripetal force
+     */
+    public double gamma;
+
+    /**
      * Number of people in the simulation
      */
     public final double numberOfPeople;
@@ -62,16 +67,27 @@ public class Simulation {
      */
     public int minParticipatingNeighbors;  // how many to start participate
 
-	private double maxX;  // Right-hand border of the terrain
+    /**
+     * Center of the matrix
+     */
+    public double[] center;
+
+    /**
+     * Window with the simulation
+     */
+    public SimulationGUI window;
+
+    private double maxX;  // Right-hand border of the terrain
 	private double maxY;  // Bottom border of the terrain
 	private Timer timer;
 
 	private PositionMatrix matrix;
 
-	public Simulation(double epsilon, double mu, double alpha, double numberOfPeople, double flockRadius, double dt, double percentParticipating, double rParticipating, int minCirclePitSize, int minParticipatingNeighbors) {
+	public Simulation(double epsilon, double mu, double alpha, double gamma, double numberOfPeople, double flockRadius, double dt, double percentParticipating, double rParticipating, int minCirclePitSize, int minParticipatingNeighbors) {
 		this.epsilon = epsilon;
 		this.mu = mu;
 		this.alpha = alpha;
+		this.gamma = gamma;
 		this.numberOfPeople = numberOfPeople;
 		this.flockRadius = flockRadius;
 		this.dt = dt;
@@ -90,6 +106,8 @@ public class Simulation {
 		// The maximum x and y values that an individual can have
 		maxX = tempMatrixSize * SECTOR_SIZE;
 		maxY = tempMatrixSize * SECTOR_SIZE;
+
+		center = new double[] {maxX / 2, maxY / 2};
 
 		matrix = new PositionMatrix(tempMatrixSize, tempMatrixSize, SECTOR_SIZE);
 
@@ -112,13 +130,20 @@ public class Simulation {
 		}
 	}
 
+	public void resetMatrix() {
+	    timer.stop();
+	    initializeMatrix();
+	    window.resetSimulationPanel();
+	    window.repaint();
+    }
+
 	// Checks if the given neighbor at the given distance is participating
 	private boolean isNeighborParticipating(Individual neighbor, double distance) {
 		return neighbor.isParticipating && distance < rParticipating;
 	}
 
 	public void runSimulation() {
-        SimulationGUI window = new SimulationGUI(this);
+        window = new SimulationGUI(this);
 
         // Run a new frame every 50 milliseconds
         timer = new Timer(50, new ActionListener() {
@@ -152,7 +177,7 @@ public class Simulation {
 			// Position and velocity of individual
 			double[] position = individual.getPosition();
 			double[] velocity = individual.getVelocity();
-			double r0 = individual.radius;
+			double r0 = 2 * individual.radius;
 
 			// =========================== CALCULATION OF THE FORCES =================================
 			for (Individual neighbor : neighbors) {
@@ -169,12 +194,18 @@ public class Simulation {
 
 				// Repulsive force
 				// We only use neighbors within a radius of 2 * r0
-				if (distance < 2 * r0) {
-					F[0] += epsilon * Math.pow((1 - distance / (2 * r0)), 5 / 2) * (position[0] - positionNeighbor[0])
-							/ distance;
-					F[1] += epsilon * Math.pow((1 - distance / (2 * r0)), 5 / 2) * (position[1] - positionNeighbor[1])
-							/ distance;
-				}
+
+				if (distance < 2 * individual.radius) {
+				    F[0] += epsilon * 500 * (individual.x - neighbor.x) / distance;
+				    F[1] += epsilon * 500 * (individual.y - neighbor.y) / distance;
+                } else if (distance < 2 * r0) {
+//					F[0] += epsilon * Math.pow((1 - distance / (2 * r0)), 5 / 2) * (position[0] - positionNeighbor[0])
+//							/ distance;
+//					F[1] += epsilon * Math.pow((1 - distance / (2 * r0)), 5 / 2) * (position[1] - positionNeighbor[1])
+//							/ distance;
+                    F[0] += -epsilon * ((1 / (distance - 2 * r0)) * (position[0] - positionNeighbor[0])) / distance;
+                    F[1] += -epsilon * ((1 / (distance - 2 * r0)) * (position[1] - positionNeighbor[1])) / distance;
+                }
 
 				sumOverVelocities[0] += velocityNeighbor[0];
 				sumOverVelocities[1] += velocityNeighbor[1];
@@ -201,8 +232,28 @@ public class Simulation {
 				F[1] += alpha * sumOverVelocities[1] / norm;
 			}
 
+
+			// Centripetal Force
+			double distanceToCenter = individual.distanceTo(center);
+
+			// Normalized vector from center to individual
+			double[] r = new double[] {center[0] - individual.x, center[1] - individual.y};
+			r[0] /= distanceToCenter;
+			r[1] /= distanceToCenter;
+
+			F[0] += gamma * r[0];
+			F[1] += gamma * r[1];
+
 			// Add noise
 			// TODO: Generate noise
+
+            // Make sure that F does not become too large to fit into a double
+            double normOfF = norm(F);
+
+            if (normOfF > Long.MAX_VALUE) {
+                F[0] /= normOfF * Long.MAX_VALUE;
+                F[1] /= normOfF * Long.MAX_VALUE;
+            }
 
 			// ======================= CALCULATE TIMESTEP ========================
 			// Using the leap-frog method to integrate the differential equation
