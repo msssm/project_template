@@ -32,7 +32,7 @@ class CryptoCurrencyAgent(Agent):
         return self.bitcoin_available + self.bitcoin_orders
 
     def placeorder(self, order):
-        if order.amount != 0.: #dont place 0 orders todo: should we prevent this elsewhere?
+        if order.amount != 0.:  # dont place 0 orders todo: should we prevent this elsewhere?
             if order.kind in (Order.Kind.SELL, Order.Kind.SELLINF):  # sell bitcoin
                 self.bitcoin_orders += order.amount
                 self.bitcoin_available -= order.amount

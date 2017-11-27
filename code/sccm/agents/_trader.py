@@ -12,7 +12,7 @@ class Trader(CryptoCurrencyAgent):
 
     def step(self):
         if (np.random.rand() < self.tradeprobability):
-            kind  = self.decide_on_kind_of_order()
+            kind = self.decide_on_kind_of_order()
             if kind is None:
                 return
             beta = min(1., np.random.lognormal(mean=0.25, sigma=0.2))

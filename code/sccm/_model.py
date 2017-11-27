@@ -7,6 +7,7 @@ from sccm.agents import *
 from sccm.market import Exchange
 from ._parameters import Parameters
 
+
 class CryptoCurrencyModel(Model):
     """A model with some number of agents."""
     def __init__(self, N):
@@ -24,14 +25,10 @@ class CryptoCurrencyModel(Model):
             self.next_available_id += 1
             # todo: distribute initial cash/btc according to correct law
             a.cash_available = 5.
-            #a.bitcoin_available = 10.
+            # a.bitcoin_available = 10.
             self.schedule.add(a)
-        # todo: generate all traders at beginning, but only a few are active
-        # distribute initial cash according to zipf law
-        #tried to extract the price after each iteration (not successful)
-        #self.datacollector = DataCollector(model_reporters={'price': lambda model: model.exchange.p})
-
-        #tried to extract the price after each iteration (not successful)
+        # todo: should we generate all traders at beginning? only a few are active
+        # todo: distribute initial cash according to zipf law
         self.datacollector = DataCollector(model_reporters={'price': lambda model: model.exchange.current_price})
 
     def step(self):
@@ -39,7 +36,7 @@ class CryptoCurrencyModel(Model):
         self.datacollector.collect(self)
         self.schedule.step()
         # todo should we do orders as they come in or once a day
-        #self.exchange.clear()
+        # self.exchange.clear()
         self.exchange.clear_rel_price_var()
         self.exchange.remove_old_orders()
 

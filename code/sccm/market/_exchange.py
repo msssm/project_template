@@ -13,20 +13,21 @@ class Exchange:  # TODO maybe move orderbook to its own class
         self.price = [0.0649]
         self._model = model
         self._rel_price_var = {}
+
     @property
     def clock(self):
         return self._model.schedule.time
 
     @property
-    def current_price(self): # current price
+    def current_price(self):  # current price
         return self.p(self.clock)
 
-    def p(self, t): # price at time t, needed for chartists, todo: implement properly
+    def p(self, t):  # price at time t, needed for chartists, todo: implement properly
         try:
             return self.price[t]
         except IndexError:
             self.price.append(self.p(t-1))  # recursion
-            return self.p(t) #try again, if implementation correct no infinite loops should happen
+            return self.p(t)  # try again, if implementation correct no infinite loops should happen
 
     def update_price(self, p):
         try:
@@ -41,7 +42,8 @@ class Exchange:  # TODO maybe move orderbook to its own class
         end = self.clock-1
         start = max(end-window, 0)
         if end-start < 2:
-            return 0.,0.
+            return 0., 0.
+
         def calc_rpv(start, end):
             pricelist = self.price[start:end]
             var = np.var(pricelist)
@@ -51,7 +53,7 @@ class Exchange:  # TODO maybe move orderbook to its own class
             return self._rel_price_var[window]
         except KeyError:
             rpv = 0.
-            diff = self.p(self.clock) #make sure we access current price
+            diff = self.p(self.clock)  # make sure we access current price
             diff -= self.price[start]
             rpv = calc_rpv(start, end)  # todo: check this is correct
             self._rel_price_var[window] = (rpv, diff)
@@ -72,8 +74,8 @@ class Exchange:  # TODO maybe move orderbook to its own class
 
     def clear(self):  # process all available orders
         # first sort orders
-        #self.orderbook[Order.Kind.SELL].sort(key=lambda o: o.limit_price)  # sort should be stable, so asc time conserved
-        #self.orderbook[Order.Kind.BUY].sort(key=lambda o: o.limit_price, reverse=True)
+        # self.orderbook[Order.Kind.SELL].sort(key=lambda o: o.limit_price)  # sort should be stable, so asc time conserved
+        # self.orderbook[Order.Kind.BUY].sort(key=lambda o: o.limit_price, reverse=True)
 
         # iterate through and match orders:
         while 1:  # while there are orders
@@ -87,7 +89,7 @@ class Exchange:  # TODO maybe move orderbook to its own class
             if A and B:
                 a = self.orderbook[Order.Kind.SELL][0]
                 b = self.orderbook[Order.Kind.SELLINF][0]
-                selltuple = min(a,b)
+                selltuple = min(a, b)
             elif A:
                 selltuple = self.orderbook[Order.Kind.SELL][0]
             elif B:
@@ -127,7 +129,7 @@ class Exchange:  # TODO maybe move orderbook to its own class
         elif (sell.residual*pT > buy.residual):
             sell.residual -= amount
             heappop(self.orderbook[buy.kind])
-        else: #remove both
+        else:  # remove both
             heappop(self.orderbook[sell.kind])
             heappop(self.orderbook[buy.kind])
 
