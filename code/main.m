@@ -2,18 +2,18 @@
 %% "Modelling and Simulating of Social Systems with MATLAB"
 %% author: The Opinionators (Elisa Wall, Alexander Stein, Niklas Tidbury)
 
-
+function [op] = main(T)
 %% Creating the society
 
 % A society of N SocietyAgents with opinions op in [0,1] 
 % that are randomly normal distributed
 N = 1000;
-op = randn(N,1); %Elisa: Maybe also equal distri.
+op = normrnd(0.5, 1, N, 1); %Elisa: Maybe also equal distri.
 
 % We want to guarantee that all opinions are in [0,1]
 for i = 1:N
     while (op(i) > 1 || op(i) < 0)
-        op(i) = randn;
+        op(i) = normrnd(0.5, 1);
     end
     disp(op(i));
 end
@@ -21,13 +21,13 @@ end
 %% Properties of the SocietyAgents
 
 % The threshold u defines when two agents speak/interact with each other
-u = 0.5;
+u = 0.4;
 
 % Mu defines the change of opinion when two agents speak with each other
 %       --> see function mu
 
 %% A world without extrimists
-
+%{
 % The influence of a single agent in a singlte timestep t is defined in the
 % funtion SocietyAgent. We raise up the time steps to T. 
 % In every time step t, every agent has the chance to speak with another.
@@ -35,22 +35,23 @@ u = 0.5;
 % Number of time steps T
 T = 100;
 timeGap = 0.01;
+
 for t = 1:T
     for i = 1:N
         [op0, op1, k] = SingleAgent(op(i), op, u, N);
         op(i) = op0;
         op(k) = op1;
     end
-    edges = [0 0.1:0.1 0.2:0.2 0.3:0.3 0.4:0.4 0.5:0.5 0.6:0.6 0.7:0.7 0.8:0.8 0.9:0.9 1];
+    edges = [0 0.1:0.1 0.2:0.2 0.3:0.3 0.4:0.4 0.475:0.475 0.525:0.525 0.6:0.6 0.7:0.7 0.8:0.8 0.9:0.9 1];
     nbin = 50;
-    histogram(op, nbin);
+    histogram(op, edges);
     pause(timeGap)
     drawnow;
 end
-
+%}
 
 %% Creating the extremists with opinion 0
-%{
+
 % number of extremists
 n0 = 15;
 ex0 = 0;
@@ -61,7 +62,7 @@ p0 = 5;
 neff0 = p0 * n0;
 
 % An extremist convinces an agent with probability kappa
-kappa0 = 0.2;
+kappa0 = 0.3;
 
 %% Creating the extremists with opinion 0
 n1 = 15;
@@ -75,14 +76,13 @@ p1 = 5;
 neff1 = p1 * n1;
 
 % An extremist convince an agent with probability kappa
-kappa1 = 0.2;
+kappa1 = 0.3;
 
 %%% We have the possibility to define n, p or kappa asymmetrically
 
 
 %% A world with extremists
 % Number of time steps T
-T = 100;
 
 for t = 1:T
     % For timestep t; the SoicietyAgents play their game
@@ -115,12 +115,15 @@ for t = 1:T
             op(k) = 1;
         end
     end
+    %{
+    edges = [0 0.1:0.1 0.2:0.2 0.3:0.3 0.4:0.4 0.475:0.475 0.525:0.525 0.6:0.6 0.7:0.7 0.8:0.8 0.9:0.9 1];
+    nbin = 50;
+    histogram(op, nbin);
+    pause(timeGap)
+    drawnow; 
+    %}
 end
-
-%}
-%% Plot in histogram
-
-
+end
 %% functions
 
 % - function returns the weighted difference of opinions
