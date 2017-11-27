@@ -8,7 +8,7 @@ public class Individual {
     public double vy;
     public boolean isParticipating;
     public double radius = 2;
-    public double preferredSpeed = 5;
+    public double preferredSpeed = 30;
 
     public Individual(double x, double y, double vx, double vy, boolean isParticipating) {
         this.x = x;

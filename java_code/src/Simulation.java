@@ -4,31 +4,82 @@ import java.util.List;
 
 import javax.swing.Timer;
 
+// TODO: Find a way to restart the simulation
 public class Simulation {
 
-	public double epsilon;
-	public final double mu;
-	public double alpha;
-	public final double numberOfPeople;
-	public final double flockRadius;
-	public final double dt;
-	public static final int SECTOR_SIZE = 10;
+    /**
+     * Strength of repulsive force
+     */
+    public double epsilon;
 
-	private double maxX;
-	private double maxY;
+    /**
+     * Strength of propulsion
+     */
+    public double mu;
+
+    /**
+     * Strength of flocking force
+     */
+    public double alpha;
+
+    /**
+     * Number of people in the simulation
+     */
+    public final double numberOfPeople;
+
+    /**
+     * Radius within which velocity of neighbors has an effect on the flocking force
+     */
+    public final double flockRadius;
+
+    /**
+     * Timestep of the simulation
+     */
+    public final double dt;
+
+    /**
+     * Size of one sector of the matrix
+     */
+    public static final int SECTOR_SIZE = 10;
+
+    /**
+     * Percentage of people initially participating in the circle pit
+     */
+	public double percentParticipating;
+
+    /**
+     * Radius within which the 'isParticipating' of neighbors affects the individual
+     */
+	public double rParticipating;
+
+    /**
+     * Minimum amount of people necessary to constitute a circle pit
+     */
+	public int minCirclePitSize;  // how many people around max not to participate
+
+    /**
+     * Necessary number of neighbors participating to start participating
+     */
+    public int minParticipatingNeighbors;  // how many to start participate
+
+	private double maxX;  // Right-hand border of the terrain
+	private double maxY;  // Bottom border of the terrain
 	private Timer timer;
 
 	private PositionMatrix matrix;
 
-	public Simulation(double epsilon, double mu, double alpha, double numberOfPeople, double flockRadius, double dt) {
+	public Simulation(double epsilon, double mu, double alpha, double numberOfPeople, double flockRadius, double dt, double percentParticipating, double rParticipating, int minCirclePitSize, int minParticipatingNeighbors) {
 		this.epsilon = epsilon;
 		this.mu = mu;
 		this.alpha = alpha;
 		this.numberOfPeople = numberOfPeople;
 		this.flockRadius = flockRadius;
 		this.dt = dt;
+		this.percentParticipating = percentParticipating;
+		this.rParticipating = rParticipating;
+		this.minCirclePitSize = minCirclePitSize;
+		this.minParticipatingNeighbors = minParticipatingNeighbors;
 		initializeMatrix();
-
 	}
 
 	private void initializeMatrix() {
@@ -49,18 +100,21 @@ public class Simulation {
 			coords[1] = Math.random() * SECTOR_SIZE * tempMatrixSize;
 
 			// Generate random velocity
-			// TODO: Generate more sensible velocity
 			double[] velocity = new double[] { Math.random() - 0.5, Math.random() - 0.5 };
-			// double[] velocity = new double[] {1, 1};
 
-			// TODO: Decide whether individual is participating
-			boolean isParticipating = false;
+			// Decide whether individual is initially participating
+			boolean isParticipating = Math.random() < percentParticipating;
 
 			Individual individual = new Individual(coords, velocity, isParticipating);
 
 			// Add individual to appropriate sector
 			matrix.add(individual);
 		}
+	}
+
+	// Checks if the given neighbor at the given distance is participating
+	private boolean isNeighborParticipating(Individual neighbor, double distance) {
+		return neighbor.isParticipating && distance < rParticipating;
 	}
 
 	public void runSimulation() {
@@ -78,7 +132,7 @@ public class Simulation {
 		window.setVisible(true);
 	}
 
-	/* private */ void runOneTimestep() {
+	private void runOneTimestep() {
 
 		// List of al the individuals in the matrix
 		List<Individual> individuals = matrix.getIndividuals();
@@ -87,6 +141,8 @@ public class Simulation {
 		for (Individual individual : individuals) {
 			// Sector where the individual is before updating position
 			PositionMatrix.Sector initialSector = matrix.getSectorForCoords(individual);
+			// Amount of neighbors participating with the radius rParticipating
+			int sumParticipating = 0;
 			// Forces acting upon individual
 			double[] F = { 0.0, 0.0 };
 			// Sum of the neighbor velocities
@@ -108,6 +164,8 @@ public class Simulation {
 				double[] velocityNeighbor = neighbor.getVelocity();
 
 				double distance = individual.distanceTo(neighbor);
+				
+                sumParticipating += isNeighborParticipating(neighbor, distance) ? 1 : 0;
 
 				// Repulsive force
 				// We only use neighbors within a radius of 2 * r0
@@ -122,8 +180,19 @@ public class Simulation {
 				sumOverVelocities[1] += velocityNeighbor[1];
 			}
 
-			// TODO: Propulsion
-			// v0 is the "preferred speed", vi is the "instantaneous speed"
+			if (sumParticipating >= minParticipatingNeighbors) {
+				individual.isParticipating = true;
+			}
+
+			if (sumParticipating < minCirclePitSize) {
+				individual.isParticipating = false;
+			}
+
+			// Propulsion
+			// Makes the individual want to travel at their preferred speed
+            double vi = individual.preferredSpeed;
+            F[0] += -mu*(norm(velocity)-vi)*velocity[0]/norm(velocity);
+            F[1] += -mu*(norm(velocity)-vi)*velocity[1]/norm(velocity);
 
 			// Flocking
 			if (!(sumOverVelocities[0] == 0 && sumOverVelocities[1] == 0)) {
@@ -151,14 +220,9 @@ public class Simulation {
 			// New velocity of the individual
 			double newVx = v_temp[0] + dt * F[0] / 2;
 			double newVy = v_temp[1] + dt * F[1] / 2;
-			double[] newV = { newVx, newVy };
-			// Normalize velocity
-			newVx /= norm(newV);
-			newVy /= norm(newV);
-			newVx *= 30;
-			newVy *= 30;
 
 			// Make sure individuals rebound off the edges of the space
+            // TODO: Find a better way of avoiding individuals going out-of-bounds
 			if (newX < 0 || newX > maxX) {
 				newVx = -newVx;
 				F[0] = -F[0];

@@ -10,16 +10,14 @@ public class ControlPanel extends JPanel implements PropertyChangeListener {
     private Simulation simulation;
     private JButton startButton;
     private JButton pauseButton;
-    private JLabel epsilonLabel, alphaLabel;
-    private JFormattedTextField field1, field2;
+    private JLabel epsilonLabel, muLabel, alphaLabel, percLabel, rPartLabel, sizeLabel, minNeighborsLabel;
+    private JFormattedTextField epsilonField, muField, alphaField, percField, rPartField, sizeField, minNeighborsField;
 
     public ControlPanel(Simulation simulation) {
         this.simulation = simulation;
-        setSize(new Dimension(500, 300));
-        setPreferredSize(new Dimension(500, 100));
-        setMinimumSize(new Dimension(500, 300));
+        setPreferredSize(new Dimension(500, 200));
         setBackground(Color.WHITE);
-        setLayout(new GridLayout(3,2));
+        setLayout(new GridLayout(8,2));
 
         initComponents();
         addListeners();
@@ -30,17 +28,48 @@ public class ControlPanel extends JPanel implements PropertyChangeListener {
         startButton = new JButton("Start");
         pauseButton = new JButton("Pause");
 
-        epsilonLabel = new JLabel("Repulsion (ε)");
+        epsilonLabel = new JLabel("Repulsion Strength (ε)");
 
-        field1 = new JFormattedTextField();
-        field1.setValue(50000d);
-        field1.setColumns(10);
+        epsilonField = new JFormattedTextField();
+        epsilonField.setValue(simulation.epsilon);
+        epsilonField.setColumns(10);
 
-        alphaLabel = new JLabel("Flocking Force (α)");
+        muLabel = new JLabel("Propulsion Strength (µ)");
 
-        field2 = new JFormattedTextField();
-        field2.setValue(100000d);
-        field2.setColumns(10);
+        muField = new JFormattedTextField();
+        muField.setValue(simulation.mu);
+        muField.setColumns(10);
+
+        alphaLabel = new JLabel("Flocking Force Strength (α)");
+
+        alphaField = new JFormattedTextField();
+        alphaField.setValue(simulation.alpha);
+        alphaField.setColumns(10);
+
+        percLabel = new JLabel("Percentage of Initial Participants");
+
+        percField = new JFormattedTextField();
+        percField.setValue(simulation.percentParticipating);
+        percField.setColumns(10);
+
+        rPartLabel = new JLabel("Search Radius for Part. Neighbors");
+
+        rPartField = new JFormattedTextField();
+        rPartField.setValue(simulation.rParticipating);
+        rPartField.setColumns(10);
+
+        sizeLabel = new JLabel("Minimum Circle Pit Size");
+
+        sizeField = new JFormattedTextField();
+        sizeField.setValue(simulation.minCirclePitSize);
+        sizeField.setColumns(10);
+
+	    minNeighborsLabel = new JLabel("Neighbors Needed to Join in Circle Pit");
+
+        minNeighborsField = new JFormattedTextField();
+        minNeighborsField.setValue(simulation.minParticipatingNeighbors);
+        minNeighborsField.setColumns(10);
+
     }
 
     private void addListeners() {
@@ -58,18 +87,34 @@ public class ControlPanel extends JPanel implements PropertyChangeListener {
             }
         });
 
-        field1.addPropertyChangeListener("value", this);
-        field2.addPropertyChangeListener("value", this);
+        epsilonField.addPropertyChangeListener("value", this);
+        alphaField.addPropertyChangeListener("value", this);
+        muField.addPropertyChangeListener("value", this);
 
+        percField.addPropertyChangeListener("value", this);
+        rPartField.addPropertyChangeListener("value", this);
+        sizeField.addPropertyChangeListener("value", this);
+        minNeighborsField.addPropertyChangeListener("value", this);
     }
 
     private void addComponents() {
         add(startButton);
         add(pauseButton);
         add(epsilonLabel);
-        add(field1);
+        add(epsilonField);
+        add(muLabel);
+        add(muField);
         add(alphaLabel);
-        add(field2);
+        add(alphaField);
+	    add(percLabel);
+        add(percField);
+	    add(rPartLabel);
+        add(rPartField);
+	    add(sizeLabel);
+        add(sizeField);
+	    add(minNeighborsLabel);
+        add(minNeighborsField);
+
         setVisible(true);
     }
 
@@ -79,11 +124,21 @@ public class ControlPanel extends JPanel implements PropertyChangeListener {
     @Override
     public void propertyChange(PropertyChangeEvent e) {
         Object source = e.getSource();
-        if (source == field1) {
-            simulation.epsilon = ((Number)field1.getValue()).doubleValue();
-        } else if (source == field2) {
-            simulation.alpha = ((Number)field2.getValue()).doubleValue();
-        }
-
-    }
+        if (source == epsilonField) {
+            simulation.epsilon = ((Number) epsilonField.getValue()).doubleValue();
+        } else if (source == muField) {
+            simulation.mu = ((Number) muField.getValue()).doubleValue();
+        } else if (source == alphaField) {
+            simulation.alpha = ((Number) alphaField.getValue()).doubleValue();
+        } else if (source == percField) {
+            simulation.percentParticipating = ((Number) percField.getValue()).doubleValue();
+	   // simulation.initializeMatrix();    --> should restart but I didn't find out how to do it
+        } else if (source == rPartField) {
+            simulation.rParticipating = ((Number) rPartField.getValue()).doubleValue();
+	    } else if (source == sizeField) {
+            simulation.minCirclePitSize = ((Number) sizeField.getValue()).intValue();
+	    } else if (source == minNeighborsField) {
+            simulation.minParticipatingNeighbors = ((Number) minNeighborsField.getValue()).intValue();
+    	}
+}
 }

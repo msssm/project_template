@@ -178,4 +178,5 @@ public class PositionMatrix {
     public Sector getSectorForCoords(double[] position) {
         return getSectorForCoords(position[0], position[1]);
     }
+
 }
