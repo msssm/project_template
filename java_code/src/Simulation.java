@@ -30,12 +30,12 @@ public class Simulation {
     /**
      * Number of people in the simulation
      */
-    public final double numberOfPeople;
+    public double numberOfPeople;
 
     /**
      * Radius within which velocity of neighbors has an effect on the flocking force
      */
-    public final double flockRadius;
+    public double flockRadius;
 
     /**
      * Timestep of the simulation
