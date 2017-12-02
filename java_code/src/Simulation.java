@@ -1,8 +1,5 @@
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.FileNotFoundException;
-import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 import javax.swing.Timer;
@@ -83,31 +80,45 @@ public class Simulation {
     /**
      * Safe density level
      */
-    public int safeDensity = 5;
+    public int safeDensity = 8;
 
     /**
      * Density danger level 1
      */
-    public int density1 = 7;
+    public int density1 = 10;
 
     /**
      * Density danger level 2
      */
-    public int density2 = 9;
+    public int density2 = 15;
 
     /**
      * Density danger level 3
      */
-    public int density3 = 13;
+    public int density3 = 40;
+    
+
     
     /**
-     * Density danger level 4
+     * safe Force danger level 
      */
-    public int density4 = 20;
-
-    public boolean shouldStoreData = false;
+    public int safeForce = 10;
+    /**
+     * Force danger level 1
+     */
+    public int force1 = 20;
+    /**
+     * Density danger level 2
+     */
+    public int force2 = 30;
+    /**
+     * Density danger level 3
+     */
+    public int force3 = 40;
     
-    protected PrintWriter writer;
+    public boolean enableForce=true;
+    public boolean enableDensity=true;
+    
 
     private double maxX;  // Right-hand border of the terrain
 	private double maxY;  // Bottom border of the terrain
@@ -131,12 +142,7 @@ public class Simulation {
 		this.rParticipating = rParticipating;
 		this.minCirclePitSize = minCirclePitSize;
 		this.minParticipatingNeighbors = minParticipatingNeighbors;
-        try {
-            writer = new PrintWriter("out.txt", "UTF-8");
-        } catch (FileNotFoundException | UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
-        initializeMatrix(0);
+		initializeMatrix(0);
 	}
 
 	protected void initializeMatrix(int type) {
@@ -206,7 +212,7 @@ public class Simulation {
 		window.setVisible(true);
 	}
 
-	/*private*/ void runOneTimestep() {
+	private void runOneTimestep() {
 
 		// List of al the individuals in the matrix
 		List<Individual> individuals = matrix.getIndividuals();
@@ -232,19 +238,21 @@ public class Simulation {
 			// Calculate the danger level
 			int numNeighbors = neighbors.size();
 
-			// We use the number of people in the neighbor list to represent density
-			if(numNeighbors < safeDensity)
-				individual.dangerLevel = 0;
-			if(numNeighbors > safeDensity)
-				individual.dangerLevel = 1;
-			if(numNeighbors > density1)
-				individual.dangerLevel = 2;
-			if(numNeighbors > density2)
-				individual.dangerLevel = 3;
-			if(numNeighbors > density3)
-				individual.dangerLevel = 4;
-			if(numNeighbors > density4)
-				individual.dangerLevel = 5;
+//			// We use the number of people in the neighbor list to represent density
+			if (enableDensity==true) {
+				if(numNeighbors < safeDensity)
+					individual.dangerLevel = 0;
+				if(numNeighbors > safeDensity)
+					individual.dangerLevel = 1;
+				if(numNeighbors > density1)
+					individual.dangerLevel = 2;
+				if(numNeighbors > density2)
+					individual.dangerLevel = 3;
+			}
+				
+			
+
+			
 
 			// =========================== CALCULATION OF THE FORCES =================================
 			for (Individual neighbor : neighbors) {
@@ -282,9 +290,19 @@ public class Simulation {
 			double jointForce = norm(F);
 		
 			//TODO need to set different levels for jointForce
-			if(jointForce > 10000)
-				individual.dangerLevel = 6;
-			
+			if(enableForce) {
+				if(jointForce < safeForce)
+					individual.dangerLevel += 0;
+				if(jointForce > safeForce)
+					individual.dangerLevel +=1;
+				if(jointForce > force1)
+					individual.dangerLevel +=2;
+				if(jointForce > force2)
+					individual.dangerLevel +=3;
+			}
+			if(!enableForce || !enableDensity) {
+				individual.dangerLevel*=2;
+			}
 
 			if (sumParticipating >= minParticipatingNeighbors) {
 				individual.isParticipating = true;
@@ -379,41 +397,6 @@ public class Simulation {
 				matrix.removeAndAdd(individual, initialSector, newSector);
 			}
 		}
-
-		if (shouldStoreData) {
-		    writer.print("x = array([");
-		    boolean firstTime = true;
-		    for (Individual individual : matrix.getIndividuals()) {
-		        if (firstTime) writer.print(individual.x);
-		        else writer.print(", " + individual.x);
-		        firstTime = false;
-            }
-            writer.print("\b\b");
-		    writer.println("])");
-		    writer.flush();
-
-            writer.print("y = array([");
-            firstTime = true;
-            for (Individual individual : matrix.getIndividuals()) {
-                if (firstTime) writer.print(individual.y);
-                else writer.print(", " + individual.y);
-                firstTime = false;
-            }
-            writer.print("\b\b");
-            writer.println("])");
-            writer.flush();
-
-            writer.print("dangerLevel = array([");
-            firstTime = true;
-            for (Individual individual : matrix.getIndividuals()) {
-                if (firstTime) writer.print(individual.dangerLevel);
-                else writer.print(", " + individual.dangerLevel);
-                firstTime = false;
-            }
-            writer.print("\b\b");
-            writer.println("])");
-            writer.flush();
-        }
 	}
 
 	private double norm(double[] vector) {
@@ -431,4 +414,5 @@ public class Simulation {
     public void performAdditionalCalculations(Individual individual) {
 
     }
+  
 }
