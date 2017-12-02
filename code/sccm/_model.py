@@ -86,8 +86,11 @@ class CryptoCurrencyModel(Model):
         if number_to_enter > 0:
             to_enter = self.later_traders[-number_to_enter:]
             self.later_traders = self.later_traders[:-number_to_enter]
-            for a in to_enter:
-                self.number_of_agents[type(a)] += 1
+            for i, kind, c, b in to_enter:
+                a = kind(i, self)
+                a.cash_available = c
+                a.bitcoin_available = b
+                self.number_of_agents[kind] += 1
                 self.schedule.add(a)
         self.datacollector.collect(self)
         self.schedule.step()
@@ -109,13 +112,23 @@ class CryptoCurrencyModel(Model):
     def PaperModel():
         m = CryptoCurrencyModel(0)
         m.t_end = 365 * 5
-        number_of_initial_traders = Parameters.number_of_traders(0)  # 160
-        number_of_final_traders = Parameters.number_of_traders(m.t_end)  # ~36000
+        number_of_initial_traders = Parameters.number_of_traders(0)  # 160 * 100 / Parameters.scaling_factor
+        number_of_final_traders = Parameters.number_of_traders(m.t_end)  # ~36000 * 100 / Parameters.scaling_factor
         begin_price = 0.0649  # usd per btc
-        begin_cash_richest_trader = 20587
-        begin_bitcoin_value_in_cash_richest_trader = 4117  # in usd
-        begin_bitcoin_richest_trader = begin_bitcoin_value_in_cash_richest_trader/begin_price
-        # total_initial_crypto_cash = 23274
+
+        def convert_richest_value_to_factor(richest_100, power=1.):
+            parts_100 = sum(1/((i+1)**power) for i in range(Parameters.number_of_traders(0,100)))
+            total_100 = parts_100 * richest_100
+            total_1 = total_100 * 100
+            total = total_1 / Parameters.scaling_factor
+            parts = sum(1/((i+1)**power) for i in range(Parameters.number_of_traders(0)))  # for Parameters.scaling_factor
+            richest = total / parts
+            return richest
+
+        begin_cash_richest_trader = convert_richest_value_to_factor(20587.)
+        begin_bitcoin_value_in_cash_richest_trader = convert_richest_value_to_factor(4117.) # in usd
+        begin_bitcoin_richest_trader = begin_bitcoin_value_in_cash_richest_trader / begin_price
+        # total_initial_crypto_cash = 23274 * 100 / Parameters.scaling_factor
         for i in range(number_of_initial_traders):
             kind = Parameters.random_agent_kind(0)
             a = kind(i, m)
@@ -123,14 +136,14 @@ class CryptoCurrencyModel(Model):
             a.bitcoin_available = begin_bitcoin_richest_trader/(i+1)
             m.number_of_agents[type(a)] += 1
             m.schedule.add(a)
-        initial_cash_traders_afterwards_zipf_const = 200000
+        initial_cash_traders_afterwards_zipf_const = convert_richest_value_to_factor(200000., power = 0.6)
         later_traders = []
         for i in range(number_of_initial_traders, number_of_final_traders):
             kind = Parameters.random_agent_kind(m.t_end)
-            a = kind(i, m)
-            a.cash_available = initial_cash_traders_afterwards_zipf_const/(i**0.6)
-            a.bitcoin_available = 0.
-            later_traders.append(a)
+            #a = kind(i, m)
+            cash_available = initial_cash_traders_afterwards_zipf_const/(i**0.6)
+            bitcoin_available = 0.
+            later_traders.append((i, kind, cash_available, bitcoin_available))
         np.random.shuffle(later_traders)  # order list randomly
         m.later_traders = later_traders
         m.update_stats()

@@ -6,30 +6,35 @@ from sccm.agents import *
 
 class Parameters():
 
+    scaling_factor = 1000  # factor by which we make the model smaller than the real world
+
     order_threshold = 1e-10 #throw away orders with amounts less than this
 
     @staticmethod
     def electricity_cost(t):  # epsilon
         return 1.4e-4
 
-    @staticmethod
-    def bitcoins_mined_per_day(t):  # B(t)
+    @classmethod
+    def bitcoins_mined_per_day(cls, t):  # B(t)
         # todo:  should we count mined bitcoins instead?
         if t < 853:
-            return 72.
+            return 72 * 100./cls.scaling_factor
         else:
-            return 36.
+            return 36 * 100./cls.scaling_factor
 
-    @staticmethod
-    def number_of_traders(t):  # N_t
+    @classmethod
+    def number_of_traders(cls,t, scaling = None):  # N_t
+        if scaling is None:
+            scaling = cls.scaling_factor
         a = 2624.
         b = 0.002971
-        return round(a * exp(b * (t + 608))/100)  # todo: make factor /100 variable
+        c = 608 + 1  # our time starts at 0
+        return round(a * exp(b * (t + c ))/scaling)
 
     @staticmethod
     def probability_to_be_a_miner(t):  # N_t
         a = 0.9425
-        # TODO: next line has experimental value because of inconsistencies in paper; 
+        # TODO: next line has experimental value because of inconsistencies in paper;
         # write nminers should be 1000 at end, but fitting curve only gives 400
         # -0.00182 was calculated fitting the exp curve to one of the monte carlo runs from the files in the appendix of the paper
         b = -0.00182  # -0.002654
