@@ -5,6 +5,9 @@ from sccm.agents import *
 
 
 class Parameters():
+
+    order_threshold = 1e-10 #throw away orders with amounts less than this
+
     @staticmethod
     def electricity_cost(t):  # epsilon
         return 1.4e-4

@@ -11,12 +11,12 @@ class Exchange:  # TODO maybe move orderbook to its own class
         self.orderbook[Order.Kind.BUY] = []
         self.orderbook[Order.Kind.SELLINF] = []
         self.price = [0.0649]
-        self._model = model
+        self.model = model
         self._rel_price_var = {}
 
     @property
     def clock(self):
-        return self._model.schedule.time
+        return self.model.schedule.time
 
     @property
     def current_price(self):  # current price
@@ -123,10 +123,10 @@ class Exchange:  # TODO maybe move orderbook to its own class
         buy.agent.cash_orders -= amount * pT
         # update price:
         self.update_price(pT)
-        if (sell.residual*pT < buy.residual):  # avoid testing for ==0. with float
+        if (sell.residual*pT < buy.residual and sell.residual > self.model.parameters.order_threshold):  # avoid testing for ==0. with float
             buy.residual -= amount * pT
             heappop(self.orderbook[sell.kind])
-        elif (sell.residual*pT > buy.residual):
+        elif (sell.residual*pT > buy.residual and buy.residual > self.model.parameters.order_threshold):
             sell.residual -= amount
             heappop(self.orderbook[buy.kind])
         else:  # remove both
