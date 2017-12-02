@@ -48,14 +48,15 @@ class Exchange:  # TODO maybe move orderbook to its own class
             pricelist = self.price[start:end]
             var = np.var(pricelist)
             mean = np.mean(pricelist)
-            return var/mean
+            diff, _ = np.polyfit(x=range(len(pricelist)), y=pricelist, deg=1)
+            return var/mean, diff
         try:
             return self._rel_price_var[window]
         except KeyError:
             rpv = 0.
             diff = self.p(self.clock)  # make sure we access current price
-            diff -= self.price[start]
-            rpv = calc_rpv(start, end)  # todo: check this is correct
+            #diff -= self.price[start]
+            rpv, diff = calc_rpv(start, end)  # todo: check this is correct
             self._rel_price_var[window] = (rpv, diff)
             return rpv, diff
 
