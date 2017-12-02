@@ -40,7 +40,7 @@ public class Simulation {
     /**
      * Timestep of the simulation
      */
-    public final double dt;
+    public double dt;
 
     /**
      * Size of one sector of the matrix
@@ -107,7 +107,11 @@ public class Simulation {
 	private double maxY;  // Bottom border of the terrain
 	private Timer timer;
 
-	private PositionMatrix matrix;
+	protected PositionMatrix matrix;
+
+	public Simulation() {
+
+    }
 
 	public Simulation(double epsilon, double mu, double alpha, double gamma, double numberOfPeople, double flockRadius, double dt, double percentParticipating, double rParticipating, int minCirclePitSize, int minParticipatingNeighbors) {
 		this.epsilon = epsilon;
@@ -121,10 +125,10 @@ public class Simulation {
 		this.rParticipating = rParticipating;
 		this.minCirclePitSize = minCirclePitSize;
 		this.minParticipatingNeighbors = minParticipatingNeighbors;
-		initializeMatrix();
+		initializeMatrix(0);
 	}
 
-	private void initializeMatrix() {
+	protected void initializeMatrix(int type) {
 		// TODO: Calculate optimal matrix size and sector size
 		// for now: create some bogus values
 		int tempMatrixSize = 10;
@@ -135,7 +139,11 @@ public class Simulation {
 
 		center = new double[] {maxX / 2, maxY / 2};
 
-		matrix = new PositionMatrix(tempMatrixSize, tempMatrixSize, SECTOR_SIZE);
+		if (type == 0) {
+            matrix = new PositionMatrix(tempMatrixSize, tempMatrixSize, SECTOR_SIZE);
+        } else {
+		    matrix = new PolicePositionMatrix(tempMatrixSize, tempMatrixSize, SECTOR_SIZE);
+        }
 
 		for (int i = 0; i < numberOfPeople; i++) {
 			// Generate random coordinates
@@ -161,7 +169,7 @@ public class Simulation {
 
 	public void resetMatrix() {
 	    timer.stop();
-	    initializeMatrix();
+	    initializeMatrix(0);
 	    window.resetSimulationPanel();
 	    window.repaint();
     }
@@ -277,6 +285,8 @@ public class Simulation {
 				individual.isParticipating = false;
 			}
 
+			performAdditionalCalculations(individual);
+
 			individual.preferredSpeed = individual.isParticipating ? 30 : 5 * Math.random();
 
 			// Propulsion
@@ -373,6 +383,9 @@ public class Simulation {
     public Timer getSimulationTimer() {
 	    return timer;
     }
-    
+
+    public void performAdditionalCalculations(Individual individual) {
+
+    }
   
 }

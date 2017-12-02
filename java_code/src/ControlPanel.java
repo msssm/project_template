@@ -80,7 +80,9 @@ public class ControlPanel extends JPanel implements PropertyChangeListener, Chan
         rPartSlider.setValue((int) simulation.rParticipating);
         configureSlider(rPartSlider, 1, 10, 0, 2 * Simulation.SECTOR_SIZE);
 
-        sizeLabel = new JLabel("Minimum Circle Pit Size");
+        sizeLabel = new JLabel("Neighbors Needed to Continue Participating");
+        sizeLabel.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 11));
+
 
         sizeField = new JFormattedTextField();
         sizeField.setValue(simulation.minCirclePitSize);
