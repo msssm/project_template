@@ -67,11 +67,18 @@ public class SimulationPanel extends JPanel {
             	graphics2D.setColor(new Color(76, 153, 0));
             }
 
-            if (individual.isParticipating) {
-                graphics2D.setColor(Color.YELLOW);
-            }
 
             graphics2D.fill(new Ellipse2D.Double(coords[0], coords[1], individual.radius * xScalingFactor, individual.radius * yScalingFactor));
+
+            if (!individual.isParticipating) {
+                graphics2D.setColor(Color.WHITE);
+                graphics2D.fill(new Ellipse2D.Double(coords[0] + individual.radius * xScalingFactor / 4,
+                                                     coords[1] + individual.radius * yScalingFactor / 4,
+                                                 individual.radius * xScalingFactor / 2,
+                                                 individual.radius * yScalingFactor / 2));
+
+            }
+
         }
         g.dispose();
     }
