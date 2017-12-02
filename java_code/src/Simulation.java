@@ -219,6 +219,8 @@ public class Simulation {
 				individual.isParticipating = false;
 			}
 
+			individual.preferredSpeed = individual.isParticipating ? 30 : 5 * Math.random();
+
 			// Propulsion
 			// Makes the individual want to travel at their preferred speed
             double vi = individual.preferredSpeed;
@@ -226,7 +228,7 @@ public class Simulation {
             F[1] += -mu*(norm(velocity)-vi)*velocity[1]/norm(velocity);
 
 			// Flocking
-			if (!(sumOverVelocities[0] == 0 && sumOverVelocities[1] == 0)) {
+			if (individual.isParticipating && !(sumOverVelocities[0] == 0 && sumOverVelocities[1] == 0)) {
 				double norm = norm(sumOverVelocities);
 				F[0] += alpha * sumOverVelocities[0] / norm;
 				F[1] += alpha * sumOverVelocities[1] / norm;
@@ -234,15 +236,18 @@ public class Simulation {
 
 
 			// Centripetal Force
-			double distanceToCenter = individual.distanceTo(center);
+			if (individual.isParticipating) {
+                double distanceToCenter = individual.distanceTo(center);
 
-			// Normalized vector from center to individual
-			double[] r = new double[] {center[0] - individual.x, center[1] - individual.y};
-			r[0] /= distanceToCenter;
-			r[1] /= distanceToCenter;
 
-			F[0] += gamma * r[0];
-			F[1] += gamma * r[1];
+                // Normalized vector from center to individual
+                double[] r = new double[]{center[0] - individual.x, center[1] - individual.y};
+                r[0] /= distanceToCenter;
+                r[1] /= distanceToCenter;
+
+                F[0] += gamma * r[0];
+                F[1] += gamma * r[1];
+            }
 
 			// Add noise
 			// TODO: Generate noise
