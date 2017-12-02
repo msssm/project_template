@@ -83,41 +83,34 @@ public class Simulation {
     /**
      * Safe density level
      */
-    public int safeDensity = 8;
+    public int safeDensity = 10;
 
     /**
      * Density danger level 1
      */
-    public int density1 = 10;
+    public int density1 = 20;
 
     /**
      * Density danger level 2
      */
-    public int density2 = 15;
+    public int density2 = 40;
 
-    /**
-     * Density danger level 3
-     */
-    public int density3 = 40;
-    
+
 
     
     /**
      * safe Force danger level 
      */
-    public int safeForce = 10;
+    public int safeForce = 1000;
     /**
      * Force danger level 1
      */
-    public int force1 = 20;
+    public int force1 = 3000;
     /**
      * Density danger level 2
      */
-    public int force2 = 30;
-    /**
-     * Density danger level 3
-     */
-    public int force3 = 40;
+    public int force2 = 4000;
+
     
     public boolean enableForce=true;
     public boolean enableDensity=true;
@@ -245,20 +238,23 @@ public class Simulation {
 			double[] velocity = individual.getVelocity();
 			double r0 = 2 * individual.radius;
 			
-			
+			individual.dangerLevel = 0;
 			// Calculate the danger level
 			int numNeighbors = neighbors.size();
 
 //			// We use the number of people in the neighbor list to represent density
 			if (enableDensity==true) {
-				if(numNeighbors < safeDensity)
-					individual.dangerLevel = 0;
-				if(numNeighbors > safeDensity)
-					individual.dangerLevel = 1;
-				if(numNeighbors > density1)
-					individual.dangerLevel = 2;
 				if(numNeighbors > density2)
 					individual.dangerLevel = 3;
+				else if(numNeighbors > density1)
+					individual.dangerLevel = 2;
+				else if(numNeighbors > safeDensity)
+					individual.dangerLevel = 1;
+				else if(numNeighbors < safeDensity)
+					individual.dangerLevel = 0;
+
+
+
 			}
 				
 			
@@ -302,16 +298,18 @@ public class Simulation {
 		
 			//TODO need to set different levels for jointForce
 			if(enableForce) {
-				if(jointForce < safeForce)
-					individual.dangerLevel = 0;
-				if(jointForce > safeForce)
-					individual.dangerLevel = 1;
-				if(jointForce > force1)
-					individual.dangerLevel = 2;
 				if(jointForce > force2)
-					individual.dangerLevel = 3;
+					individual.dangerLevel += 3;
+				else if(jointForce > force1)
+					individual.dangerLevel += 2;
+				else if(jointForce > safeForce)
+					individual.dangerLevel += 1;
+				else if(jointForce < safeForce)
+					individual.dangerLevel += 0;
+
+
 			}
-			if(enableForce && enableDensity) {
+			if(enableForce ^ enableDensity) {
 				individual.dangerLevel*=2;
 			}
 

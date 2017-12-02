@@ -65,10 +65,6 @@ public class SimulationPanel extends JPanel {
             } else if (dangerLevel ==5 ){
             	graphics2D.setColor(new Color(0,102,204));
             } else if (dangerLevel == 6){
-            	graphics2D.setColor(new Color(0,76,153));
-            }else if (dangerLevel == 7){
-            	graphics2D.setColor(new Color(0,51,102));
-            }else if (dangerLevel == 8){
             	graphics2D.setColor(new Color(255, 51, 51));
             }
 
