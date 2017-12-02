@@ -12,6 +12,8 @@ class Miner(CryptoCurrencyAgent):
         super().__init__(unique_id, model)
         self.hashing_capability = 0.
         self.power_consumption = 0.
+        self.hasmined = True
+        self.btc_mined = 0.
         if miningpool is not None:
             self.pool = miningpool
         else:
@@ -49,9 +51,16 @@ class Miner(CryptoCurrencyAgent):
         return self.model.parameters.electricity_cost(self.clock) * 24 * self.power_consumption
 
     def mine(self):
-        if (self.hashing_capability > 0. and self.cash_available >= self.electricity_cost):
-            self.bitcoin_available += self.hashing_capability / self.pool.hashing_capability * self.model.parameters.bitcoins_mined_per_day(self.clock)
-            assert(self.cash_available >= 0.)
+        # experimental: allow electricity debt
+        self.btc_mined = self.hashing_capability / self.pool.hashing_capability * self.model.parameters.bitcoins_mined_per_day(self.clock)
+        self.bitcoin_available += self.btc_mined
+        #if (self.hashing_capability > 0. and self.cash_available >= self.electricity_cost):
+        #    self.hasmined = True
+        #    self.btc_mined = self.hashing_capability / self.pool.hashing_capability * self.model.parameters.bitcoins_mined_per_day(self.clock)
+        #    self.bitcoin_available += self.btc_mined
+        #    assert(self.cash_available >= 0.)
+        # else:
+        #    self.hasmined = False
         # todo: what to do when we run out of cash for electricity?
         # todo: only use part of equipment to mine if we do not have enought cash
         # todo: sell bitcoin if we run out of cash for electricity

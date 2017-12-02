@@ -29,18 +29,55 @@ class CryptoCurrencyModel(Model):
             a.cash_available = numpy.random.zipf(a=1.)
             # a.bitcoin_available = 10.
             self.schedule.add(a)
+        self.update_stats()
         # todo: should we generate all traders at beginning? only a few are active
         # todo: distribute initial cash according to zipf law
         rep = {'price': lambda model: model.exchange.current_price}
-        rep['nagents'] = lambda model: model.schedule.get_agent_count()
-        rep['nchartist'] = lambda model: model.number_of_agents[Chartist]
-        rep['ntrader'] = lambda model: model.number_of_agents[RandomTrader]
-        rep['nminer'] = lambda model: model.number_of_agents[Miner]
-        # rep['nchartist'] = lambda model: [type(a) for a in model.schedule.agents].count(Chartist)
-        # rep['ntrader'] = lambda model: [type(a) for a in model.schedule.agents].count(RandomTrader)
-        # rep['nminer'] = lambda model: [type(a) for a in model.schedule.agents].count(Miner)
+        rep['n_agents'] = lambda model: model.schedule.get_agent_count()
+
+        #a_t = (Chartist, RandomTrader, Miner)
+        #a_str = ('chartist', 'trader', 'miner')
+        # p_t = (number_of_agents, bitcoin_of_agents, cash_of_agents)
+        #p_str = ('n', 'btc', 'cash')
+
+        # todo: create reporters using loop
+        rep['n' + '_' + 'chartist'] = lambda model: model.number_of_agents[Chartist]
+        rep['btc' + '_' + 'chartist'] = lambda model: model.bitcoin_of_agents[Chartist]
+        rep['cash' + '_' + 'chartist'] = lambda model: model.cash_of_agents[Chartist]
+        rep['n' + '_' + 'trader'] = lambda model: model.number_of_agents[RandomTrader]
+        rep['btc' + '_' + 'trader'] = lambda model: model.bitcoin_of_agents[RandomTrader]
+        rep['cash' + '_' + 'trader'] = lambda model: model.cash_of_agents[RandomTrader]
+        rep['n' + '_' + 'miner'] = lambda model: model.number_of_agents[Miner]
+        rep['btc' + '_' + 'miner'] = lambda model: model.bitcoin_of_agents[Miner]
+        rep['cash' + '_' + 'miner'] = lambda model: model.cash_of_agents[Miner]
+        # rep['n_chartist'] = lambda model: [type(a) for a in model.schedule.agents].count(Chartist)
+        # rep['n_trader'] = lambda model: [type(a) for a in model.schedule.agents].count(RandomTrader)
+        # rep['n_miner'] = lambda model: [type(a) for a in model.schedule.agents].count(Miner)
+
+        rep['hashing_cap' + '_' + 'total'] = lambda model: model.hashing_cap_total
+        rep['energy_cons' + '_' + 'total'] = lambda model: model.energy_cons_total
+        rep['hashing_cap' + '_' + 'avg'] = lambda model: model.hashing_cap_avg
+        rep['energy_cons' + '_' + 'avg'] = lambda model: model.energy_cons_avg
+        rep['btc_mined' + '_' + 'avg'] = lambda model: model.btc_mined_avg
+
 
         self.datacollector = DataCollector(model_reporters=rep)
+
+    def update_stats(self):
+        self.bitcoin_of_agents = {Miner: 0, RandomTrader: 0, Chartist: 0}
+        self.cash_of_agents = {Miner: 0, RandomTrader: 0, Chartist: 0}
+        for a in self.schedule.agents:
+            k = type(a)
+            self.bitcoin_of_agents[k] += a.bitcoin_total
+            self.cash_of_agents[k] += a.cash_total
+
+        n = len(self.global_pool.members)
+        if n == 0: n = 1 #prevent division by 0
+        self.hashing_cap_total = self.global_pool.hashing_capability
+        self.energy_cons_total = sum(m.power_consumption for m in self.global_pool.members if m.hasmined)
+        self.hashing_cap_avg = self.hashing_cap_total/n
+        self.energy_cons_avg = self.energy_cons_total/n
+        self.btc_mined_avg = sum(m.btc_mined for m in self.global_pool.members if m.hasmined)
 
     def step(self):
         '''Advance the model by one step.'''
@@ -58,6 +95,7 @@ class CryptoCurrencyModel(Model):
         # self.exchange.clear()
         self.exchange.clear_rel_price_var()
         self.exchange.remove_old_orders()
+        self.update_stats()
 
     def add_agent(self, agentType, cash, n=1, bitcoin=0.):
         for i in range(n):
@@ -95,4 +133,5 @@ class CryptoCurrencyModel(Model):
             later_traders.append(a)
         np.random.shuffle(later_traders)  # order list randomly
         m.later_traders = later_traders
+        m.update_stats()
         return m
