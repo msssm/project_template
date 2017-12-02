@@ -407,6 +407,8 @@ public class Simulation {
 			if (!newSector.equals(initialSector)) {
 				matrix.removeAndAdd(individual, initialSector, newSector);
 			}
+			individual.f = norm(F);
+			individual.density = neighbors.size();
 		}
 	}
 
@@ -419,7 +421,6 @@ public class Simulation {
                 else writer.print(", " + individual.x);
                 firstTime = false;
             }
-            writer.print("\b\b");
             writer.println("])");
             writer.flush();
 
@@ -430,7 +431,6 @@ public class Simulation {
                 else writer.print(", " + individual.y);
                 firstTime = false;
             }
-            writer.print("\b\b");
             writer.println("])");
             writer.flush();
 
@@ -441,7 +441,36 @@ public class Simulation {
                 else writer.print(", " + individual.dangerLevel);
                 firstTime = false;
             }
-            writer.print("\b\b");
+            writer.println("])");
+            writer.flush();
+
+            writer.print("isParticipating = array([");
+            firstTime = true;
+            for (Individual individual : matrix.getIndividuals()) {
+                if (firstTime) writer.print((individual.isParticipating ? 1 : 0));
+                else writer.print(", " + (individual.isParticipating ? 1 : 0));
+                firstTime = false;
+            }
+            writer.println("])");
+            writer.flush();
+
+            writer.print("F = array([");
+            firstTime = true;
+            for (Individual individual : matrix.getIndividuals()) {
+                if (firstTime) writer.print(individual.f);
+                else writer.print(", " + individual.f);
+                firstTime = false;
+            }
+            writer.println("])");
+            writer.flush();
+
+            writer.print("density = array([");
+            firstTime = true;
+            for (Individual individual : matrix.getIndividuals()) {
+                if (firstTime) writer.print(individual.density);
+                else writer.print(", " + individual.density);
+                firstTime = false;
+            }
             writer.println("])");
             writer.flush();
         }

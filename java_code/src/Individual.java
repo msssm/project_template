@@ -10,6 +10,8 @@ public class Individual {
     public double radius = 2;
     public double preferredSpeed = 30;
     public int dangerLevel;
+    public double f;
+    public double density;
 
     public Individual(double x, double y, double vx, double vy, boolean isParticipating, int dangerLevel) {
         this.x = x;
