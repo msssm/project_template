@@ -3,6 +3,8 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
@@ -39,7 +41,22 @@ public class SimulationPanel extends JPanel {
         this.setPreferredSize(new Dimension(width, height));
         this.setMinimumSize(new Dimension(width, height));
         this.setBackground(Color.WHITE);
+        addListeners();
         setFocusable(false);
+    }
+
+    private void addListeners() {
+        this.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                double x = e.getX() / xScalingFactor;
+                double y = e.getY() / yScalingFactor;
+                System.out.println(x);
+                System.out.println(y);
+                PositionMatrix.Sector sector = simulation.getMatrix().getSectorForCoords(x, y);
+                simulation.getMatrix().isPoliceAtSector[sector.row][sector.col] = !simulation.getMatrix().isPoliceAtSector[sector.row][sector.col];
+            }
+        });
     }
 
     /**
