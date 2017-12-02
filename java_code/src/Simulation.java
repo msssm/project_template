@@ -96,6 +96,12 @@ public class Simulation {
      * Density danger level 3
      */
     public int density3 = 13;
+    
+    /**
+     * Density danger level 4
+     */
+    public int density4 = 20;
+    
 
     private double maxX;  // Right-hand border of the terrain
 	private double maxY;  // Bottom border of the terrain
@@ -203,6 +209,7 @@ public class Simulation {
 			double[] velocity = individual.getVelocity();
 			double r0 = 2 * individual.radius;
 			
+			
 			// Calculate the danger level
 			int numNeighbors = neighbors.size();
 
@@ -217,7 +224,10 @@ public class Simulation {
 				individual.dangerLevel = 3;
 			if(numNeighbors > density3)
 				individual.dangerLevel = 4;
+			if(numNeighbors > density4)
+				individual.dangerLevel = 5;
 			
+
 
 			// =========================== CALCULATION OF THE FORCES =================================
 			for (Individual neighbor : neighbors) {
@@ -250,6 +260,14 @@ public class Simulation {
 				sumOverVelocities[0] += velocityNeighbor[0];
 				sumOverVelocities[1] += velocityNeighbor[1];
 			}
+			
+			//calculate the scalar of the force
+			double jointForce = norm(F);
+		
+			//TODO need to set different levels for jointForce
+			if(jointForce > 10000)
+				individual.dangerLevel = 6;
+			
 
 			if (sumParticipating >= minParticipatingNeighbors) {
 				individual.isParticipating = true;

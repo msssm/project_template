@@ -61,6 +61,10 @@ public class SimulationPanel extends JPanel {
             	graphics2D.setColor(new Color(0,128,255));
             } else if (dangerLevel == 4) {
             	graphics2D.setColor(new Color(0, 76, 153));
+            } else if (dangerLevel ==5 ){
+            	graphics2D.setColor(new Color(255,0,0));
+            } else if (dangerLevel == 6){
+            	graphics2D.setColor(new Color(76, 153, 0));
             }
 
             graphics2D.fill(new Ellipse2D.Double(coords[0], coords[1], individual.radius * xScalingFactor, individual.radius * yScalingFactor));
