@@ -1,7 +1,16 @@
-import javax.swing.*;
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
+import javax.swing.JPanel;
 
 /**
  * Draws the matrix into a JPanel.
@@ -12,11 +21,20 @@ public class SimulationPanel extends JPanel {
     private double xScalingFactor, yScalingFactor;
     private int sumDanger;
     public boolean enableParticipatingButton;
+    private Simulation simulation;
+    private BufferedImage image;
 
-    public SimulationPanel(int width, int height, java.util.List<Individual> individuals, int matrixWidth, int matrixHeight) {
-        this.individuals = individuals;
+    public SimulationPanel(int width, int height, Simulation simulation, int matrixWidth, int matrixHeight) {
+        this.individuals = simulation.getMatrix().getIndividuals();
         xScalingFactor = width / matrixWidth;
         yScalingFactor = height / matrixHeight;
+        this.simulation = simulation;
+        try {
+			image = ImageIO.read(new File("policeman.png"));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
         this.setSize(new Dimension(width, height));
         this.setPreferredSize(new Dimension(width, height));
         this.setMinimumSize(new Dimension(width, height));
