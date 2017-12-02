@@ -25,7 +25,7 @@ public class SimulationGUI extends JFrame {
         simulationPanel = new SimulationPanel(500, 500, matrix.getIndividuals(), matrix.width * matrix.sectorSize,
                 matrix.height * matrix.sectorSize);
 
-        controlPanel = new ControlPanel(simulation);
+        controlPanel = new ControlPanel(simulation, simulationPanel);
     }
 
     private void addComponents() {

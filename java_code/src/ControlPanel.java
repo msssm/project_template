@@ -10,16 +10,20 @@ import java.beans.PropertyChangeListener;
 public class ControlPanel extends JPanel implements PropertyChangeListener, ChangeListener {
 
     private Simulation simulation;
+    private SimulationPanel simulationpanel;
     private JButton startPauseButton;
     private JButton restartButton;
+    private JButton participatingButton;
+    private JButton exportDataButton;
     private JLabel epsilonLabel, muLabel, alphaLabel, flockRadiusLabel, gammaLabel, initialParticipantsLabel, percLabel, rPartLabel, sizeLabel, minNeighborsLabel;
     private JFormattedTextField epsilonField, muField, alphaField, gammaField, initialParticipantsField, percField, sizeField, minNeighborsField;
     private JSlider rPartSlider, flockRadiusSlider;
 
     private boolean paused = true;
 
-    public ControlPanel(Simulation simulation) {
+    public ControlPanel(Simulation simulation, SimulationPanel simulationpanel) {
         this.simulation = simulation;
+        this.simulationpanel = simulationpanel;
         setPreferredSize(new Dimension(500, 230));
         setBackground(Color.WHITE);
         setLayout(new GridLayout(11,2));
@@ -32,6 +36,8 @@ public class ControlPanel extends JPanel implements PropertyChangeListener, Chan
     private void initComponents() {
         startPauseButton = new JButton("Start");
         restartButton = new JButton("Reinitialize");
+        participatingButton = new JButton("show participants");
+        exportDataButton = new JButton("export Data");
 
         epsilonLabel = new JLabel("Repulsion Strength (ε)");
 
