@@ -19,7 +19,7 @@ class CryptoCurrencyModel(Model):
         self.global_pool = MiningPool()
         self.next_available_id = 0.
         self.number_of_agents = {Miner: 0, RandomTrader: 0, Chartist: 0}
-
+        self.later_agents = []
         # todo: put this in a separate function ?
         for i in range(self.num_agents):
             agentType = np.random.choice((RandomTrader, Chartist, Miner))
