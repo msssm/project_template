@@ -1,8 +1,6 @@
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.FileNotFoundException;
-import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
+import java.io.*;
 import java.util.List;
 
 import javax.swing.Timer;
@@ -142,7 +140,7 @@ public class Simulation {
 		this.minCirclePitSize = minCirclePitSize;
 		this.minParticipatingNeighbors = minParticipatingNeighbors;
         try {
-            writer = new PrintWriter("out.txt", "UTF-8");
+            writer = new PrintWriter("out.py", "UTF-8");
         } catch (FileNotFoundException | UnsupportedEncodingException e) {
             e.printStackTrace();
         }
@@ -410,6 +408,20 @@ public class Simulation {
 
 	public void exportData() {
         if (shouldStoreData) {
+            try {
+                writer.close();
+                writer = new PrintWriter("out.py", "UTF-8");
+            } catch (FileNotFoundException | UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+            try {
+                FileWriter writer1 = new FileWriter("out.py", false);
+                writer1.flush();
+                writer1.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            writer.println("from numpy import *");
             writer.print("x = array([");
             boolean firstTime = true;
             for (Individual individual : matrix.getIndividuals()) {
