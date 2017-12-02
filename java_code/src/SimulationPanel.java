@@ -68,6 +68,9 @@ public class SimulationPanel extends JPanel {
         Graphics2D graphics2D = (Graphics2D) g.create();
         Graphics2D generalDanger = (Graphics2D) g.create();
         increaseRenderingQuality(graphics2D);
+        
+
+        
         for (Individual individual : individuals) {
             double[] coords = individual.getPosition();
             coords[0] *= xScalingFactor;
@@ -111,6 +114,14 @@ public class SimulationPanel extends JPanel {
         generalDanger.fill(new Rectangle2D.Double(0, 10, 13, sumDanger/5));
         generalDanger.setColor(new Color(204, 204, 0));
         generalDanger.fill(new Rectangle2D.Double(1, 11, 11, sumDanger/5 - 2));
+        boolean[][] monitoredSectors = simulation.getMatrix().isPoliceAtSector;
+        for (int i = 0; i < monitoredSectors.length; i++) {
+        	for (int j = 0; j < monitoredSectors[i].length; j++) {
+        		if (monitoredSectors[i][j]) {
+        			graphics2D.drawImage(image, (int)((i * 10 + 4) * xScalingFactor), (int)((j * 10 + 4) * yScalingFactor), (int)(3 * xScalingFactor), (int)(3 * yScalingFactor), null);
+        		}
+        	}
+        }
         g.dispose();
     }
     
