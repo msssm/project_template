@@ -2,6 +2,7 @@ import numpy as np
 
 from sys import maxsize as infinity_int
 from sccm.market import Order
+from sccm.random import lognormal
 from ._agent import CryptoCurrencyAgent
 from ._equipment import Equipment
 
@@ -37,7 +38,7 @@ class Miner(CryptoCurrencyAgent):
         self.time_when_to_buy_again = self.clock + round(60 + np.random.normal(mu, sigma))
 
     def update_fraction_cash_to_buy_hardware(self):
-        self.fraction_cash_to_buy_hardware = np.clip(np.random.lognormal(mean=0.6, sigma=0.15), 0., 1.)
+        self.fraction_cash_to_buy_hardware = np.clip(lognormal(0.6, 0.15), 0., 1.)
         # gamma1:  percentage of cash allocated to buy
 
     @property

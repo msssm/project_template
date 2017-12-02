@@ -1,7 +1,7 @@
 from ._agent import CryptoCurrencyAgent
 from sccm.market import Order
+from sccm.random import lognormal
 import numpy as np
-
 
 # todo: turn this into abstract base class
 class Trader(CryptoCurrencyAgent):
@@ -15,7 +15,7 @@ class Trader(CryptoCurrencyAgent):
             kind = self.decide_on_kind_of_order()
             if kind is None:
                 return
-            beta = min(1., np.random.lognormal(mean=0.25, sigma=0.2))
+            beta = min(1., lognormal(0.25, 0.2))
             mu, sigma = 1, 0.05  # TODO correct values
             N = np.random.normal(mu, sigma)
             if kind == Order.Kind.BUY:
@@ -39,7 +39,7 @@ class RandomTrader(Trader):
 
     @property
     def expiration_time(self):
-        return round(np.random.lognormal(mean=3, sigma=1))
+        return round(lognormal(3, 1))
 
 
 class Chartist(Trader):
