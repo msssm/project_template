@@ -146,10 +146,10 @@ public class Simulation {
         } catch (FileNotFoundException | UnsupportedEncodingException e) {
             e.printStackTrace();
         }
-		initializeMatrix(0);
+		initializeMatrix();
 	}
 
-	protected void initializeMatrix(int type) {
+	protected void initializeMatrix() {
 		// TODO: Calculate optimal matrix size and sector size
 		// for now: create some bogus values
 		int tempMatrixSize = 10;
@@ -160,11 +160,7 @@ public class Simulation {
 
 		center = new double[] {maxX / 2, maxY / 2};
 
-		if (type == 0) {
-            matrix = new PositionMatrix(tempMatrixSize, tempMatrixSize, SECTOR_SIZE);
-        } else {
-		    matrix = new PolicePositionMatrix(tempMatrixSize, tempMatrixSize, SECTOR_SIZE);
-        }
+        matrix = new PositionMatrix(tempMatrixSize, tempMatrixSize, SECTOR_SIZE);
 
 		for (int i = 0; i < numberOfPeople; i++) {
 			// Generate random coordinates
@@ -190,7 +186,7 @@ public class Simulation {
 
 	public void resetMatrix() {
 	    timer.stop();
-	    initializeMatrix(0);
+	    initializeMatrix();
 	    window.resetSimulationPanel();
 	    window.repaint();
     }
@@ -321,7 +317,9 @@ public class Simulation {
 				individual.isParticipating = false;
 			}
 
-			performAdditionalCalculations(individual);
+            if (matrix.isSectorMonitored(matrix.getSectorForCoords(individual))) {
+                individual.isParticipating = false;
+            }
 
 			individual.preferredSpeed = individual.isParticipating ? 30 : 5 * Math.random();
 
@@ -486,8 +484,8 @@ public class Simulation {
 	    return timer;
     }
 
-    public void performAdditionalCalculations(Individual individual) {
-
+    public void setMonitoredSectors(int... sectors) {
+        matrix.setMonitoredSectors(sectors);
     }
   
 }

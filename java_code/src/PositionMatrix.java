@@ -41,6 +41,11 @@ public class PositionMatrix {
     }
 
     /**
+     *
+     */
+    public boolean[][] isPoliceAtSector;
+
+    /**
      * Creates a new PositionMatrix
      * @param width The desired width of the matrix
      * @param height The desired height of the matrix
@@ -60,6 +65,7 @@ public class PositionMatrix {
         }
 
         individuals = new ArrayList<>();
+        isPoliceAtSector = new boolean[width][height];
     }
 
     /**
@@ -177,6 +183,16 @@ public class PositionMatrix {
      */
     public Sector getSectorForCoords(double[] position) {
         return getSectorForCoords(position[0], position[1]);
+    }
+
+    public boolean isSectorMonitored(Sector sector) {
+        return isPoliceAtSector[sector.row][sector.col];
+    }
+
+    public void setMonitoredSectors(int... policeSectors) {
+        for (int i = 0; i < policeSectors.length; i += 2) {
+            isPoliceAtSector[policeSectors[i]][policeSectors[i+1]] = true;
+        }
     }
 
 }
