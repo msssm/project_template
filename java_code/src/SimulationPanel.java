@@ -9,6 +9,7 @@ public class SimulationPanel extends JPanel {
 
     private java.util.List<Individual> individuals;
     private double xScalingFactor, yScalingFactor;
+    public boolean enableParticipatingButton;
 
     public SimulationPanel(int width, int height, java.util.List<Individual> individuals, int matrixWidth, int matrixHeight) {
         this.individuals = individuals;
@@ -69,15 +70,15 @@ public class SimulationPanel extends JPanel {
 
 
             graphics2D.fill(new Ellipse2D.Double(coords[0], coords[1], individual.radius * xScalingFactor, individual.radius * yScalingFactor));
+			if (enableParticipatingButton) {
+				if (!individual.isParticipating) {
+					graphics2D.setColor(Color.WHITE);
+					graphics2D.fill(new Ellipse2D.Double(coords[0] + individual.radius * xScalingFactor / 4,
+							coords[1] + individual.radius * yScalingFactor / 4, individual.radius * xScalingFactor / 2,
+							individual.radius * yScalingFactor / 2));
 
-            if (!individual.isParticipating) {
-                graphics2D.setColor(Color.WHITE);
-                graphics2D.fill(new Ellipse2D.Double(coords[0] + individual.radius * xScalingFactor / 4,
-                                                     coords[1] + individual.radius * yScalingFactor / 4,
-                                                 individual.radius * xScalingFactor / 2,
-                                                 individual.radius * yScalingFactor / 2));
-
-            }
+				}
+			}
 
         }
         g.dispose();

@@ -26,7 +26,7 @@ public class ControlPanel extends JPanel implements PropertyChangeListener, Chan
         this.simulationpanel = simulationpanel;
         setPreferredSize(new Dimension(500, 230));
         setBackground(Color.WHITE);
-        setLayout(new GridLayout(11,2));
+        setLayout(new GridLayout(12,2));
 
         initComponents();
         addListeners();
@@ -135,6 +135,21 @@ public class ControlPanel extends JPanel implements PropertyChangeListener, Chan
                 simulation.resetMatrix();
             }
         });
+        
+        participatingButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            	boolean enable = simulationpanel.enableParticipatingButton;
+            	
+                if (enable) {
+                    simulationpanel.enableParticipatingButton = false;
+                }
+                else {
+                    simulationpanel.enableParticipatingButton = true;
+                }
+           
+            }
+        });
 
         epsilonField.addPropertyChangeListener("value", this);
         alphaField.addPropertyChangeListener("value", this);
@@ -151,6 +166,8 @@ public class ControlPanel extends JPanel implements PropertyChangeListener, Chan
     private void addComponents() {
         add(startPauseButton);
         add(restartButton);
+        add(participatingButton);
+        add(exportDataButton);
         add(epsilonLabel);
         add(epsilonField);
         add(muLabel);
