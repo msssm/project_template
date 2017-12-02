@@ -51,15 +51,15 @@ public class SimulationPanel extends JPanel {
             coords[1] *= yScalingFactor;
             
             int dangerLevel = individual.dangerLevel;
-            if(dangerLevel == 0 ){
+            if (dangerLevel == 0 ) {
             	graphics2D.setColor(new Color(204,229,255));
-            }else if (dangerLevel == 1){
+            } else if (dangerLevel == 1) {
             	graphics2D.setColor(new Color(154, 204, 255));
-            }else if (dangerLevel == 2){
+            } else if (dangerLevel == 2) {
             	graphics2D.setColor(new Color(51, 153,255 ));
-            }else if (dangerLevel ==3){
+            } else if (dangerLevel ==3) {
             	graphics2D.setColor(new Color(0,128,255));
-            }else if (dangerLevel == 4){
+            } else if (dangerLevel == 4) {
             	graphics2D.setColor(new Color(0, 76, 153));
             }
 
