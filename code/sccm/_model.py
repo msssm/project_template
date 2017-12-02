@@ -77,7 +77,7 @@ class CryptoCurrencyModel(Model):
         self.energy_cons_total = sum(m.power_consumption for m in self.global_pool.members if m.hasmined)
         self.hashing_cap_avg = self.hashing_cap_total/n
         self.energy_cons_avg = self.energy_cons_total/n
-        self.btc_mined_avg = sum(m.btc_mined for m in self.global_pool.members if m.hasmined)
+        self.btc_mined_avg = sum(m.btc_mined for m in self.global_pool.members if m.hasmined)/n
 
     def step(self):
         '''Advance the model by one step.'''
