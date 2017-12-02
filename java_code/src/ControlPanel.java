@@ -157,6 +157,13 @@ public class ControlPanel extends JPanel implements PropertyChangeListener, Chan
            
             }
         });
+
+        exportDataButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                simulation.exportData();
+            }
+        });
         
         enableDensity.addActionListener(new ActionListener() {
             @Override

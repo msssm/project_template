@@ -408,6 +408,9 @@ public class Simulation {
 				matrix.removeAndAdd(individual, initialSector, newSector);
 			}
 		}
+	}
+
+	public void exportData() {
         if (shouldStoreData) {
             writer.print("x = array([");
             boolean firstTime = true;
@@ -442,7 +445,7 @@ public class Simulation {
             writer.println("])");
             writer.flush();
         }
-	}
+    }
 
 	private double norm(double[] vector) {
 		return Math.sqrt(vector[0] * vector[0] + vector[1] * vector[1]);
