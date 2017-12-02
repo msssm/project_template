@@ -5,8 +5,9 @@ from sccm.agents import *
 
 
 class Parameters():
-
     scaling_factor = 1000  # factor by which we make the model smaller than the real world
+
+    miners_can_have_negative_cash = True
 
     order_threshold = 1e-10 #throw away orders with amounts less than this
 

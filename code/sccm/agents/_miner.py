@@ -20,7 +20,6 @@ class Miner(CryptoCurrencyAgent):
         else:
             self.pool = self.model.global_pool
         self.pool.join(self)  # add myself to pool
-        self.update_fraction_cash_to_buy_hardware()
         self.equipment = []  # equipment owned by the miner
         if self.clock == 0:
             self.time_when_to_buy_again = np.random.choice(range(61))  # take decision to buy in the first 60 days uniform distr
@@ -33,21 +32,27 @@ class Miner(CryptoCurrencyAgent):
             self.pool.hashing_capability += Corei5.hash_rate
             self.power_consumption = Corei5.power_consumption
 
-        else:
-            self.buy_hardware()   # buy new hardware immediately
-            self.update_time_when_to_buy_again()  # update time when to buy new mining hardware
+        else: #later
+            self.enter_market()
+
+    def enter_market(self):
+        self.buy_hardware()   # buy new hardware immediately
+        self.update_time_when_to_buy_again()  # update time when to buy new mining hardware
+
 
     def update_time_when_to_buy_again(self):
         mu, sigma = 0, 6.
         self.time_when_to_buy_again = self.clock + round(60 + np.random.normal(mu, sigma))
 
-    def update_fraction_cash_to_buy_hardware(self):
-        self.fraction_cash_to_buy_hardware = np.clip(lognormal(0.6, 0.15), 0., 1.)
+    @property
+    def fraction_cash_to_buy_hardware(self):
+        return min(lognormal(0.15, 0.15), 1.)
         # gamma1:  percentage of cash allocated to buy
 
     @property
     def fraction_bitcoin_to_be_sold_for_hardware(self):  # gamma
-        return 0.5 * self.fraction_cash_to_buy_hardware
+        return min(lognormal(0.175, 0.075), 1.)
+        #return 0.5 * self.fraction_cash_to_buy_hardware
 
     @property
     def electricity_cost(self):  # total electricity cost in usd
@@ -55,21 +60,29 @@ class Miner(CryptoCurrencyAgent):
 
     def mine(self):
         # experimental: allow electricity debt
-        # self.btc_mined = self.hashing_capability / self.pool.hashing_capability * self.model.parameters.bitcoins_mined_per_day(self.clock)
-        # self.bitcoin_available += self.btc_mined
-        if (self.hashing_capability > 0. and self.cash_available >= self.electricity_cost):
-            self.hasmined = True
+        # Paper: If trader's cash is zero, she issues a sell market order to get the cash to support her electricity expenses
+        if self.model.parameters.miners_can_have_negative_cash:
             self.btc_mined = self.hashing_capability / self.pool.hashing_capability * self.model.parameters.bitcoins_mined_per_day(self.clock)
             self.bitcoin_available += self.btc_mined
-            assert(self.cash_available >= 0.)
-        else:
-            self.hasmined = False
-        # todo: what to do when we run out of cash for electricity?
-        # todo: only use part of equipment to mine if we do not have enought cash
-        # todo: sell bitcoin if we run out of cash for electricity
+            self.cash_available -= self.electricity_cost
+            # self.hasmined = True  #remains true forever
+            if(self.cash_available < 0):
+                self.sell_bitcoin_for_electricity(amount = self.electricity_cost*self.exchange.current_price)
 
-    def buy_hardware(self):
-        cash_going_to_spend = self.fraction_cash_to_buy_hardware * self.cash_available
+        else:
+            if (self.hashing_capability > 0. and self.cash_available >= self.electricity_cost):
+                self.hasmined = True
+                self.btc_mined = self.hashing_capability / self.pool.hashing_capability * self.model.parameters.bitcoins_mined_per_day(self.clock)
+                self.bitcoin_available += self.btc_mined
+                self.cash -= self.electricity_cost
+                assert(self.cash_available >= 0.)
+            else:
+                self.hasmined = False
+                self.sell_bitcoin_for_electricity(amount = self.electricity_cost*self.exchange.current_price)
+
+    def buy_hardware(self, cash_going_to_spend=None):
+        if cash_going_to_spend is None:
+            cash_going_to_spend = self.fraction_cash_to_buy_hardware * self.cash_available
         self.cash_available -= cash_going_to_spend
         new_hardware = Equipment.buy(self.clock, cash_going_to_spend)
         self.hashing_capability += new_hardware.hash_rate
@@ -90,20 +103,38 @@ class Miner(CryptoCurrencyAgent):
         self.equipment = self.equipment[i:]
         # todo: should we sell old hardware for profit?
 
-    def sell_bitcoin_to_buy_hardware(self):
+    def sell_bitcoin_for_electricity(self, amount):
+        amount = max(self.cash_available, amount) #only money can become negative (lend from bank ecc), bitcoin can't
         kind = Order.Kind.SELLINF
-        amount = self.fraction_bitcoin_to_be_sold_for_hardware * self.bitcoin_available
         limit = 0.
         expiration_time = infinity_int
         order = Order(kind, amount, limit, self.clock, expiration_time, self)
         self.placeorder(order)
 
+    def sell_bitcoin_to_buy_hardware(self, only_sell_just_mined=False):
+        if only_sell_just_mined:
+            reference_amount = self.btc_mined
+        else:
+            reference_amount = self.bitcoin_available
+        kind = Order.Kind.SELLINF
+        amount = self.fraction_bitcoin_to_be_sold_for_hardware * reference_amount
+        limit = 0.
+        expiration_time = infinity_int
+        order = Order(kind, amount, limit, self.clock, expiration_time, self)
+        self.placeorder(order)
+        return amount * self.exchange.current_price
+
     def step(self):
         self.mine()
         # update_fraction_cash_to_buy_hardware() todo: when do we need to do this
         # todo: when to sell bitcoin to pay for electricity
-        self.divest_old_hardware()
+        #self.divest_old_hardware()
+        #self.sell_bitcoin_to_buy_hardware(True)
         if self.clock == self.time_when_to_buy_again:
-            self.sell_bitcoin_to_buy_hardware()
+            # todo: when do we sell a fraction of which amount of bitcoin???
+            money_we_expect_to_get = self.sell_bitcoin_to_buy_hardware()
+            if self.model.parameters.miners_can_have_negative_cash:
+                self.buy_hardware(money_we_expect_to_get)
+            self.divest_old_hardware()
             self.buy_hardware()
             self.update_time_when_to_buy_again()
