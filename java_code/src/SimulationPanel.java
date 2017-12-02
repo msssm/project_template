@@ -1,6 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Ellipse2D;
+import java.awt.geom.Rectangle2D;
 
 /**
  * Draws the matrix into a JPanel.
@@ -9,6 +10,7 @@ public class SimulationPanel extends JPanel {
 
     private java.util.List<Individual> individuals;
     private double xScalingFactor, yScalingFactor;
+    private int sumDanger;
     public boolean enableParticipatingButton;
 
     public SimulationPanel(int width, int height, java.util.List<Individual> individuals, int matrixWidth, int matrixHeight) {
@@ -44,7 +46,9 @@ public class SimulationPanel extends JPanel {
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
+        sumDanger = 0;
         Graphics2D graphics2D = (Graphics2D) g.create();
+        Graphics2D generalDanger = (Graphics2D) g.create();
         increaseRenderingQuality(graphics2D);
         for (Individual individual : individuals) {
             double[] coords = individual.getPosition();
@@ -59,12 +63,16 @@ public class SimulationPanel extends JPanel {
             } else if (dangerLevel == 2) {
             	graphics2D.setColor(new Color(102, 178,255 ));
             } else if (dangerLevel ==3) {
+                sumDanger++;
             	graphics2D.setColor(new Color(51,153,255));
             } else if (dangerLevel == 4) {
+                sumDanger += 2;
             	graphics2D.setColor(new Color(0,128,255));
             } else if (dangerLevel ==5 ){
+                sumDanger += 3;
             	graphics2D.setColor(new Color(0,102,204));
             } else if (dangerLevel == 6){
+                sumDanger += 4;
             	graphics2D.setColor(new Color(255, 51, 51));
             }
 
@@ -79,8 +87,12 @@ public class SimulationPanel extends JPanel {
 
 				}
 			}
-
         }
+
+        generalDanger.setColor(new Color(102, 102, 0));
+        generalDanger.fill(new Rectangle2D.Double(0, 10, 13, sumDanger/5));
+        generalDanger.setColor(new Color(204, 204, 0));
+        generalDanger.fill(new Rectangle2D.Double(1, 11, 11, sumDanger/5 - 2));
         g.dispose();
     }
     
