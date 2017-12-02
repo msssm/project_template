@@ -77,6 +77,26 @@ public class Simulation {
      */
     public SimulationGUI window;
 
+    /**
+     * Safe density level
+     */
+    public int safeDensity = 5;
+
+    /**
+     * Density danger level 1
+     */
+    public int density1 = 7;
+
+    /**
+     * Density danger level 2
+     */
+    public int density2 = 9;
+
+    /**
+     * Density danger level 3
+     */
+    public int density3 = 13;
+
     private double maxX;  // Right-hand border of the terrain
 	private double maxY;  // Bottom border of the terrain
 	private Timer timer;
@@ -183,12 +203,10 @@ public class Simulation {
 			double[] velocity = individual.getVelocity();
 			double r0 = 2 * individual.radius;
 			
-			//calculate the danger level
+			// Calculate the danger level
 			int numNeighbors = neighbors.size();
-			int safeDensity = 5; int density1 = 7; int density2 = 9; int density3 = 13;
-			double safeForceLimit = 0;
-			
-			//we use number of people in the neighbor list to represent density
+
+			// We use the number of people in the neighbor list to represent density
 			if(numNeighbors < safeDensity)
 				individual.dangerLevel = 0;
 			if(numNeighbors > safeDensity)
@@ -199,10 +217,6 @@ public class Simulation {
 				individual.dangerLevel = 3;
 			if(numNeighbors > density3)
 				individual.dangerLevel = 4;
-			
-			
-			
-			
 			
 
 			// =========================== CALCULATION OF THE FORCES =================================
@@ -264,7 +278,6 @@ public class Simulation {
 			// Centripetal Force
 			if (individual.isParticipating) {
                 double distanceToCenter = individual.distanceTo(center);
-
 
                 // Normalized vector from center to individual
                 double[] r = new double[]{center[0] - individual.x, center[1] - individual.y};
