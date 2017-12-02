@@ -122,8 +122,11 @@ public class Simulation {
 
 			// Decide whether individual is initially participating
 			boolean isParticipating = Math.random() < percentParticipating;
+			
+			//levels of danger, 0 is safe, by default it's safe
+			int dangerLevel = 0;
 
-			Individual individual = new Individual(coords, velocity, isParticipating);
+			Individual individual = new Individual(coords, velocity, isParticipating, dangerLevel);
 
 			// Add individual to appropriate sector
 			matrix.add(individual);
@@ -141,6 +144,7 @@ public class Simulation {
 	private boolean isNeighborParticipating(Individual neighbor, double distance) {
 		return neighbor.isParticipating && distance < rParticipating;
 	}
+
 
 	public void runSimulation() {
         window = new SimulationGUI(this);
@@ -178,6 +182,28 @@ public class Simulation {
 			double[] position = individual.getPosition();
 			double[] velocity = individual.getVelocity();
 			double r0 = 2 * individual.radius;
+			
+			//calculate the danger level
+			int numNeighbors = neighbors.size();
+			int safeDensity = 5; int density1 = 7; int density2 = 9; int density3 = 13;
+			double safeForceLimit = 0;
+			
+			//we use number of people in the neighbor list to represent density
+			if(numNeighbors < safeDensity)
+				individual.dangerLevel = 0;
+			if(numNeighbors > safeDensity)
+				individual.dangerLevel = 1;
+			if(numNeighbors > density1)
+				individual.dangerLevel = 2;
+			if(numNeighbors > density2)
+				individual.dangerLevel = 3;
+			if(numNeighbors > density3)
+				individual.dangerLevel = 4;
+			
+			
+			
+			
+			
 
 			// =========================== CALCULATION OF THE FORCES =================================
 			for (Individual neighbor : neighbors) {
@@ -316,4 +342,6 @@ public class Simulation {
     public Timer getSimulationTimer() {
 	    return timer;
     }
+    
+  
 }
