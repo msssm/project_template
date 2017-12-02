@@ -18,6 +18,8 @@ class CryptoCurrencyModel(Model):
         self.parameters = Parameters()
         self.global_pool = MiningPool()
         self.next_available_id = 0.
+        self.number_of_agents = {Miner: 0, RandomTrader: 0, Chartist: 0}
+
         # todo: put this in a separate function ?
         for i in range(self.num_agents):
             agentType = np.random.choice((RandomTrader, Chartist, Miner))
@@ -31,10 +33,13 @@ class CryptoCurrencyModel(Model):
         # todo: distribute initial cash according to zipf law
         rep = {'price': lambda model: model.exchange.current_price}
         rep['nagents'] = lambda model: model.schedule.get_agent_count()
-        rep['nchartist'] = lambda model: [type(a) for a in model.schedule.agents].count(Chartist)
-        rep['ntrader'] = lambda model: [type(a) for a in model.schedule.agents].count(RandomTrader)
-        rep['nminer'] = lambda model: [type(a) for a in model.schedule.agents].count(Miner)
-        
+        rep['nchartist'] = lambda model: model.number_of_agents[Chartist]
+        rep['ntrader'] = lambda model: model.number_of_agents[RandomTrader]
+        rep['nminer'] = lambda model: model.number_of_agents[Miner]
+        # rep['nchartist'] = lambda model: [type(a) for a in model.schedule.agents].count(Chartist)
+        # rep['ntrader'] = lambda model: [type(a) for a in model.schedule.agents].count(RandomTrader)
+        # rep['nminer'] = lambda model: [type(a) for a in model.schedule.agents].count(Miner)
+
         self.datacollector = DataCollector(model_reporters=rep)
 
     def step(self):
@@ -45,6 +50,7 @@ class CryptoCurrencyModel(Model):
             to_enter = self.later_traders[-number_to_enter:]
             self.later_traders = self.later_traders[:-number_to_enter]
             for a in to_enter:
+                self.number_of_agents[type(a)] += 1
                 self.schedule.add(a)
         self.datacollector.collect(self)
         self.schedule.step()
@@ -59,6 +65,7 @@ class CryptoCurrencyModel(Model):
             self.next_available_id += 1
             a.cash_available = cash
             a.bitcoin_available = bitcoin
+            self.number_of_agents[agentType] += 1
             self.schedule.add(a)
     # todo: enter agents into the market over time
     def PaperModel():
@@ -76,6 +83,7 @@ class CryptoCurrencyModel(Model):
             a = kind(i, m)
             a.cash_available = begin_cash_richest_trader/(i+1)
             a.bitcoin_available = begin_bitcoin_richest_trader/(i+1)
+            m.number_of_agents[type(a)] += 1
             m.schedule.add(a)
         initial_cash_traders_afterwards_zipf_const = 200000
         later_traders = []
@@ -88,7 +96,3 @@ class CryptoCurrencyModel(Model):
         np.random.shuffle(later_traders)  # order list randomly
         m.later_traders = later_traders
         return m
-
-
-
-        return
