@@ -15,6 +15,8 @@ public class ControlPanel extends JPanel implements PropertyChangeListener, Chan
     private JButton restartButton;
     private JButton participatingButton;
     private JButton exportDataButton;
+    private JCheckBox enableDensity;
+    private JCheckBox enableForce;
     private JLabel epsilonLabel, muLabel, alphaLabel, flockRadiusLabel, gammaLabel, initialParticipantsLabel, percLabel, rPartLabel, sizeLabel, minNeighborsLabel;
     private JFormattedTextField epsilonField, muField, alphaField, gammaField, initialParticipantsField, percField, sizeField, minNeighborsField;
     private JSlider rPartSlider, flockRadiusSlider;
@@ -26,7 +28,7 @@ public class ControlPanel extends JPanel implements PropertyChangeListener, Chan
         this.simulationpanel = simulationpanel;
         setPreferredSize(new Dimension(500, 230));
         setBackground(Color.WHITE);
-        setLayout(new GridLayout(12,2));
+        setLayout(new GridLayout(13,2));
 
         initComponents();
         addListeners();
@@ -38,6 +40,11 @@ public class ControlPanel extends JPanel implements PropertyChangeListener, Chan
         restartButton = new JButton("Reinitialize");
         participatingButton = new JButton("show participants");
         exportDataButton = new JButton("export Data");
+        
+        enableDensity = new JCheckBox("enable density");
+        enableDensity.setSelected(true);
+        enableForce = new JCheckBox("enable force");
+        enableForce.setSelected(true);
 
         epsilonLabel = new JLabel("Repulsion Strength (ε)");
 
@@ -150,6 +157,37 @@ public class ControlPanel extends JPanel implements PropertyChangeListener, Chan
            
             }
         });
+        
+        enableDensity.addActionListener(new ActionListener() {
+            @Override
+         
+            public void actionPerformed(ActionEvent e) {
+                if (!simulation.enableDensity) {
+                    simulation.enableDensity = true;
+                }
+                else {
+                    simulation.enableDensity = false;
+                    for (Individual individual : simulation.getMatrix().getIndividuals()){
+                    	individual.dangerLevel = 0 ;
+                    }
+                }
+            }
+        });
+        
+        enableForce.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (!simulation.enableForce) {
+                    simulation.enableForce = true;
+                }
+                else {
+                    simulation.enableForce = false;
+                    for (Individual individual : simulation.getMatrix().getIndividuals()){
+                    	individual.dangerLevel = 0 ;
+                    }
+                }
+            }
+        });
 
         epsilonField.addPropertyChangeListener("value", this);
         alphaField.addPropertyChangeListener("value", this);
@@ -168,6 +206,8 @@ public class ControlPanel extends JPanel implements PropertyChangeListener, Chan
         add(restartButton);
         add(participatingButton);
         add(exportDataButton);
+        add(enableDensity);
+        add(enableForce);
         add(epsilonLabel);
         add(epsilonField);
         add(muLabel);

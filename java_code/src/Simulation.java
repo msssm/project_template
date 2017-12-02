@@ -303,15 +303,15 @@ public class Simulation {
 			//TODO need to set different levels for jointForce
 			if(enableForce) {
 				if(jointForce < safeForce)
-					individual.dangerLevel += 0;
+					individual.dangerLevel = 0;
 				if(jointForce > safeForce)
-					individual.dangerLevel +=1;
+					individual.dangerLevel = 1;
 				if(jointForce > force1)
-					individual.dangerLevel +=2;
+					individual.dangerLevel = 2;
 				if(jointForce > force2)
-					individual.dangerLevel +=3;
+					individual.dangerLevel = 3;
 			}
-			if(!enableForce || !enableDensity) {
+			if(enableForce && enableDensity) {
 				individual.dangerLevel*=2;
 			}
 
