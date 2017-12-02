@@ -26,7 +26,10 @@ class Parameters():
     @staticmethod
     def probability_to_be_a_miner(t):  # N_t
         a = 0.9425
-        b = -0.002654
+        # TODO: next line has experimental value because of inconsistencies in paper; 
+        # write nminers should be 1000 at end, but fitting curve only gives 400
+        # -0.00182 was calculated fitting the exp curve to one of the monte carlo runs from the files in the appendix of the paper
+        b = -0.00182  # -0.002654
         return a * exp(b * (t-1))  # our time starts at 0, paper starts at 1
 
     probability_to_be_a_random_trader = 0.7  # given it is not a miner
