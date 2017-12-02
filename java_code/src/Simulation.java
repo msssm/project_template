@@ -1,5 +1,8 @@
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 import javax.swing.Timer;
@@ -101,7 +104,10 @@ public class Simulation {
      * Density danger level 4
      */
     public int density4 = 20;
+
+    public boolean shouldStoreData = false;
     
+    protected PrintWriter writer;
 
     private double maxX;  // Right-hand border of the terrain
 	private double maxY;  // Bottom border of the terrain
@@ -125,7 +131,12 @@ public class Simulation {
 		this.rParticipating = rParticipating;
 		this.minCirclePitSize = minCirclePitSize;
 		this.minParticipatingNeighbors = minParticipatingNeighbors;
-		initializeMatrix(0);
+        try {
+            writer = new PrintWriter("out.txt", "UTF-8");
+        } catch (FileNotFoundException | UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        initializeMatrix(0);
 	}
 
 	protected void initializeMatrix(int type) {
@@ -195,7 +206,7 @@ public class Simulation {
 		window.setVisible(true);
 	}
 
-	private void runOneTimestep() {
+	/*private*/ void runOneTimestep() {
 
 		// List of al the individuals in the matrix
 		List<Individual> individuals = matrix.getIndividuals();
@@ -234,8 +245,6 @@ public class Simulation {
 				individual.dangerLevel = 4;
 			if(numNeighbors > density4)
 				individual.dangerLevel = 5;
-			
-
 
 			// =========================== CALCULATION OF THE FORCES =================================
 			for (Individual neighbor : neighbors) {
@@ -370,6 +379,41 @@ public class Simulation {
 				matrix.removeAndAdd(individual, initialSector, newSector);
 			}
 		}
+
+		if (shouldStoreData) {
+		    writer.print("x = array([");
+		    boolean firstTime = true;
+		    for (Individual individual : matrix.getIndividuals()) {
+		        if (firstTime) writer.print(individual.x);
+		        else writer.print(", " + individual.x);
+		        firstTime = false;
+            }
+            writer.print("\b\b");
+		    writer.println("])");
+		    writer.flush();
+
+            writer.print("y = array([");
+            firstTime = true;
+            for (Individual individual : matrix.getIndividuals()) {
+                if (firstTime) writer.print(individual.y);
+                else writer.print(", " + individual.y);
+                firstTime = false;
+            }
+            writer.print("\b\b");
+            writer.println("])");
+            writer.flush();
+
+            writer.print("dangerLevel = array([");
+            firstTime = true;
+            for (Individual individual : matrix.getIndividuals()) {
+                if (firstTime) writer.print(individual.dangerLevel);
+                else writer.print(", " + individual.dangerLevel);
+                firstTime = false;
+            }
+            writer.print("\b\b");
+            writer.println("])");
+            writer.flush();
+        }
 	}
 
 	private double norm(double[] vector) {
@@ -387,5 +431,4 @@ public class Simulation {
     public void performAdditionalCalculations(Individual individual) {
 
     }
-  
 }
