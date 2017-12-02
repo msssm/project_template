@@ -21,8 +21,7 @@ public class SimulationPanel extends JPanel {
 
     private java.util.List<Individual> individuals;
     private double xScalingFactor, yScalingFactor;
-    private int sumDanger;
-    public boolean enableParticipatingButton;
+    public boolean shouldShowParticipants = true;
     private Simulation simulation;
     private BufferedImage image;
 
@@ -34,7 +33,6 @@ public class SimulationPanel extends JPanel {
         try {
 			image = ImageIO.read(new File("policeman.png"));
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
         this.setSize(new Dimension(width, height));
@@ -46,15 +44,15 @@ public class SimulationPanel extends JPanel {
     }
 
     private void addListeners() {
+        // Add a policeman on mouse click
         this.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 double x = e.getX() / xScalingFactor;
                 double y = e.getY() / yScalingFactor;
-                System.out.println(x);
-                System.out.println(y);
                 PositionMatrix.Sector sector = simulation.getMatrix().getSectorForCoords(x, y);
                 simulation.getMatrix().isPoliceAtSector[sector.row][sector.col] = !simulation.getMatrix().isPoliceAtSector[sector.row][sector.col];
+                getParent().repaint();
             }
         });
     }
@@ -81,18 +79,17 @@ public class SimulationPanel extends JPanel {
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        sumDanger = 0;
+        int sumDanger = 0;
         Graphics2D graphics2D = (Graphics2D) g.create();
-        Graphics2D generalDanger = (Graphics2D) g.create();
         increaseRenderingQuality(graphics2D);
-        
 
-        
+        // Draw each individual
         for (Individual individual : individuals) {
             double[] coords = individual.getPosition();
             coords[0] *= xScalingFactor;
             coords[1] *= yScalingFactor;
-            
+
+            // Set the color depending on the danger level of the individual
             int dangerLevel = individual.dangerLevel;
             if (dangerLevel == 0 ) {
             	graphics2D.setColor(new Color(204,229,255));
@@ -114,9 +111,10 @@ public class SimulationPanel extends JPanel {
             	graphics2D.setColor(new Color(255, 51, 51));
             }
 
-
             graphics2D.fill(new Ellipse2D.Double(coords[0], coords[1], individual.radius * xScalingFactor, individual.radius * yScalingFactor));
-			if (enableParticipatingButton) {
+
+            // Fill the individual with a white circle if not participating
+			if (shouldShowParticipants) {
 				if (!individual.isParticipating) {
 					graphics2D.setColor(Color.WHITE);
 					graphics2D.fill(new Ellipse2D.Double(coords[0] + individual.radius * xScalingFactor / 4,
@@ -127,10 +125,13 @@ public class SimulationPanel extends JPanel {
 			}
         }
 
-        generalDanger.setColor(new Color(102, 102, 0));
-        generalDanger.fill(new Rectangle2D.Double(0, 10, 13, sumDanger/5));
-        generalDanger.setColor(new Color(204, 204, 0));
-        generalDanger.fill(new Rectangle2D.Double(1, 11, 11, sumDanger/5 - 2));
+        // General Danger indicator
+        graphics2D.setColor(new Color(102, 102, 0));
+        graphics2D.fill(new Rectangle2D.Double(0, 10, 13, sumDanger /5));
+        graphics2D.setColor(new Color(204, 204, 0));
+        graphics2D.fill(new Rectangle2D.Double(1, 11, 11, sumDanger /5 - 2));
+
+        // Drawing the policemen
         boolean[][] monitoredSectors = simulation.getMatrix().isPoliceAtSector;
         for (int i = 0; i < monitoredSectors.length; i++) {
         	for (int j = 0; j < monitoredSectors[i].length; j++) {

@@ -13,10 +13,10 @@ public class ControlPanel extends JPanel implements PropertyChangeListener, Chan
     private SimulationPanel simulationpanel;
     private JButton startPauseButton;
     private JButton restartButton;
-    private JButton participatingButton;
     private JButton exportDataButton;
     private JCheckBox enableDensity;
     private JCheckBox enableForce;
+    private JCheckBox showParticipants;
     private JLabel epsilonLabel, muLabel, alphaLabel, flockRadiusLabel, gammaLabel, initialParticipantsLabel, percLabel, rPartLabel, sizeLabel, minNeighborsLabel;
     private JFormattedTextField epsilonField, muField, alphaField, gammaField, initialParticipantsField, percField, sizeField, minNeighborsField;
     private JSlider rPartSlider, flockRadiusSlider;
@@ -38,12 +38,13 @@ public class ControlPanel extends JPanel implements PropertyChangeListener, Chan
     private void initComponents() {
         startPauseButton = new JButton("Start");
         restartButton = new JButton("Reinitialize");
-        participatingButton = new JButton("show participants");
-        exportDataButton = new JButton("export Data");
+        showParticipants = new JCheckBox("Show Participants");
+        showParticipants.setSelected(true);
+        exportDataButton = new JButton("Export Data for Analysis");
         
-        enableDensity = new JCheckBox("enable density");
+        enableDensity = new JCheckBox("Density is a Danger Factor");
         enableDensity.setSelected(true);
-        enableForce = new JCheckBox("enable force");
+        enableForce = new JCheckBox("Force is a Danger Factor");
         enableForce.setSelected(true);
 
         epsilonLabel = new JLabel("Repulsion Strength (ε)");
@@ -142,19 +143,12 @@ public class ControlPanel extends JPanel implements PropertyChangeListener, Chan
                 simulation.resetMatrix();
             }
         });
-        
-        participatingButton.addActionListener(new ActionListener() {
+
+        showParticipants.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-            	boolean enable = simulationpanel.enableParticipatingButton;
-            	
-                if (enable) {
-                    simulationpanel.enableParticipatingButton = false;
-                }
-                else {
-                    simulationpanel.enableParticipatingButton = true;
-                }
-           
+                simulationpanel.shouldShowParticipants = !simulationpanel.shouldShowParticipants;
+                getParent().repaint();
             }
         });
 
@@ -167,12 +161,10 @@ public class ControlPanel extends JPanel implements PropertyChangeListener, Chan
         
         enableDensity.addActionListener(new ActionListener() {
             @Override
-         
             public void actionPerformed(ActionEvent e) {
                 if (!simulation.enableDensity) {
                     simulation.enableDensity = true;
-                }
-                else {
+                } else {
                     simulation.enableDensity = false;
                     for (Individual individual : simulation.getMatrix().getIndividuals()){
                     	individual.dangerLevel = 0 ;
@@ -211,7 +203,7 @@ public class ControlPanel extends JPanel implements PropertyChangeListener, Chan
     private void addComponents() {
         add(startPauseButton);
         add(restartButton);
-        add(participatingButton);
+        add(showParticipants);
         add(exportDataButton);
         add(enableDensity);
         add(enableForce);

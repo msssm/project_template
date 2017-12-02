@@ -9,7 +9,12 @@ public class SimulationGUI extends JFrame {
 
     public SimulationGUI(Simulation simulation) {
         this.simulation = simulation;
-        setTitle("Moshpit Simulation");
+        try {
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException e) {
+            e.printStackTrace();
+        }
+        setTitle("Circle Pit Simulation");
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
         setResizable(false);

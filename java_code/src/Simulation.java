@@ -121,11 +121,7 @@ public class Simulation {
 	private double maxY;  // Bottom border of the terrain
 	private Timer timer;
 
-	protected PositionMatrix matrix;
-
-	public Simulation() {
-
-    }
+	private PositionMatrix matrix;
 
 	public Simulation(double epsilon, double mu, double alpha, double gamma, double numberOfPeople, double flockRadius, double dt, double percentParticipating, double rParticipating, int minCirclePitSize, int minParticipatingNeighbors) {
 		this.epsilon = epsilon;
@@ -147,7 +143,7 @@ public class Simulation {
 		initializeMatrix();
 	}
 
-	protected void initializeMatrix() {
+	private void initializeMatrix() {
 		// TODO: Calculate optimal matrix size and sector size
 		// for now: create some bogus values
 		int tempMatrixSize = 10;
@@ -210,9 +206,9 @@ public class Simulation {
 		window.setVisible(true);
 	}
 
-	/*private*/ void runOneTimestep() {
+	private void runOneTimestep() {
 
-		// List of al the individuals in the matrix
+		// List of all the individuals in the matrix
 		List<Individual> individuals = matrix.getIndividuals();
 
 		// Iterate over each individual
@@ -236,24 +232,17 @@ public class Simulation {
 			// Calculate the danger level
 			int numNeighbors = neighbors.size();
 
-//			// We use the number of people in the neighbor list to represent density
-			if (enableDensity==true) {
-				if(numNeighbors > density2)
+			// We use the number of people in the neighbor list to represent density
+			if (enableDensity) {
+				if (numNeighbors > density2)
 					individual.dangerLevel = 3;
-				else if(numNeighbors > density1)
+				else if (numNeighbors > density1)
 					individual.dangerLevel = 2;
-				else if(numNeighbors > safeDensity)
+				else if (numNeighbors > safeDensity)
 					individual.dangerLevel = 1;
-				else if(numNeighbors < safeDensity)
+				else if (numNeighbors < safeDensity)
 					individual.dangerLevel = 0;
-
-
-
 			}
-				
-			
-
-			
 
 			// =========================== CALCULATION OF THE FORCES =================================
 			for (Individual neighbor : neighbors) {
@@ -275,10 +264,6 @@ public class Simulation {
 				    F[0] += epsilon * 500 * (individual.x - neighbor.x) / distance;
 				    F[1] += epsilon * 500 * (individual.y - neighbor.y) / distance;
                 } else if (distance < 2 * r0) {
-//					F[0] += epsilon * Math.pow((1 - distance / (2 * r0)), 5 / 2) * (position[0] - positionNeighbor[0])
-//							/ distance;
-//					F[1] += epsilon * Math.pow((1 - distance / (2 * r0)), 5 / 2) * (position[1] - positionNeighbor[1])
-//							/ distance;
                     F[0] += -epsilon * ((1 / (distance - 2 * r0)) * (position[0] - positionNeighbor[0])) / distance;
                     F[1] += -epsilon * ((1 / (distance - 2 * r0)) * (position[1] - positionNeighbor[1])) / distance;
                 }
@@ -287,10 +272,9 @@ public class Simulation {
 				sumOverVelocities[1] += velocityNeighbor[1];
 			}
 			
-			//calculate the scalar of the force
+			// Calculate the norm of the force
 			double jointForce = norm(F);
 		
-			//TODO need to set different levels for jointForce
 			if(enableForce) {
 				if(jointForce > force2)
 					individual.dangerLevel += 3;
@@ -300,13 +284,14 @@ public class Simulation {
 					individual.dangerLevel += 1;
 				else if(jointForce < safeForce)
 					individual.dangerLevel += 0;
-
-
 			}
+
+			// Adjust the danger level if only one of the two options is enabled
 			if(enableForce ^ enableDensity) {
 				individual.dangerLevel*=2;
 			}
 
+			// Decide if the individual is participating or not
 			if (sumParticipating >= minParticipatingNeighbors) {
 				individual.isParticipating = true;
 			}
@@ -319,6 +304,7 @@ public class Simulation {
                 individual.isParticipating = false;
             }
 
+            // Set preferred speed accordingly
 			individual.preferredSpeed = individual.isParticipating ? 30 : 5 * Math.random();
 
 			// Propulsion
@@ -406,82 +392,83 @@ public class Simulation {
 		}
 	}
 
+    /**
+     * Writes a small Python/Numpy script to allow analysis of the current situation.
+     */
 	public void exportData() {
-        if (shouldStoreData) {
-            try {
-                writer.close();
-                writer = new PrintWriter("out.py", "UTF-8");
-            } catch (FileNotFoundException | UnsupportedEncodingException e) {
-                e.printStackTrace();
-            }
-            try {
-                FileWriter writer1 = new FileWriter("out.py", false);
-                writer1.flush();
-                writer1.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            writer.println("from numpy import *");
-            writer.print("x = array([");
-            boolean firstTime = true;
-            for (Individual individual : matrix.getIndividuals()) {
-                if (firstTime) writer.print(individual.x);
-                else writer.print(", " + individual.x);
-                firstTime = false;
-            }
-            writer.println("])");
-            writer.flush();
-
-            writer.print("y = array([");
-            firstTime = true;
-            for (Individual individual : matrix.getIndividuals()) {
-                if (firstTime) writer.print(individual.y);
-                else writer.print(", " + individual.y);
-                firstTime = false;
-            }
-            writer.println("])");
-            writer.flush();
-
-            writer.print("dangerLevel = array([");
-            firstTime = true;
-            for (Individual individual : matrix.getIndividuals()) {
-                if (firstTime) writer.print(individual.dangerLevel);
-                else writer.print(", " + individual.dangerLevel);
-                firstTime = false;
-            }
-            writer.println("])");
-            writer.flush();
-
-            writer.print("isParticipating = array([");
-            firstTime = true;
-            for (Individual individual : matrix.getIndividuals()) {
-                if (firstTime) writer.print((individual.isParticipating ? 1 : 0));
-                else writer.print(", " + (individual.isParticipating ? 1 : 0));
-                firstTime = false;
-            }
-            writer.println("])");
-            writer.flush();
-
-            writer.print("F = array([");
-            firstTime = true;
-            for (Individual individual : matrix.getIndividuals()) {
-                if (firstTime) writer.print(individual.f);
-                else writer.print(", " + individual.f);
-                firstTime = false;
-            }
-            writer.println("])");
-            writer.flush();
-
-            writer.print("density = array([");
-            firstTime = true;
-            for (Individual individual : matrix.getIndividuals()) {
-                if (firstTime) writer.print(individual.density);
-                else writer.print(", " + individual.density);
-                firstTime = false;
-            }
-            writer.println("])");
-            writer.flush();
+        try {
+            writer.close();
+            writer = new PrintWriter("out.py", "UTF-8");
+        } catch (FileNotFoundException | UnsupportedEncodingException e) {
+            e.printStackTrace();
         }
+        try {
+            FileWriter writer1 = new FileWriter("out.py", false);
+            writer1.flush();
+            writer1.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        writer.println("from numpy import *");
+        writer.print("x = array([");
+        boolean firstTime = true;
+        for (Individual individual : matrix.getIndividuals()) {
+            if (firstTime) writer.print(individual.x);
+            else writer.print(", " + individual.x);
+            firstTime = false;
+        }
+        writer.println("])");
+        writer.flush();
+
+        writer.print("y = array([");
+        firstTime = true;
+        for (Individual individual : matrix.getIndividuals()) {
+            if (firstTime) writer.print(individual.y);
+            else writer.print(", " + individual.y);
+            firstTime = false;
+        }
+        writer.println("])");
+        writer.flush();
+
+        writer.print("dangerLevel = array([");
+        firstTime = true;
+        for (Individual individual : matrix.getIndividuals()) {
+            if (firstTime) writer.print(individual.dangerLevel);
+            else writer.print(", " + individual.dangerLevel);
+            firstTime = false;
+        }
+        writer.println("])");
+        writer.flush();
+
+        writer.print("isParticipating = array([");
+        firstTime = true;
+        for (Individual individual : matrix.getIndividuals()) {
+            if (firstTime) writer.print((individual.isParticipating ? 1 : 0));
+            else writer.print(", " + (individual.isParticipating ? 1 : 0));
+            firstTime = false;
+        }
+        writer.println("])");
+        writer.flush();
+
+        writer.print("F = array([");
+        firstTime = true;
+        for (Individual individual : matrix.getIndividuals()) {
+            if (firstTime) writer.print(individual.f);
+            else writer.print(", " + individual.f);
+            firstTime = false;
+        }
+        writer.println("])");
+        writer.flush();
+
+        writer.print("density = array([");
+        firstTime = true;
+        for (Individual individual : matrix.getIndividuals()) {
+            if (firstTime) writer.print(individual.density);
+            else writer.print(", " + individual.density);
+            firstTime = false;
+        }
+        writer.println("])");
+        writer.flush();
     }
 
 	private double norm(double[] vector) {
@@ -499,5 +486,4 @@ public class Simulation {
     public void setMonitoredSectors(int... sectors) {
         matrix.setMonitoredSectors(sectors);
     }
-  
 }

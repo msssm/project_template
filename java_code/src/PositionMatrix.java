@@ -41,7 +41,7 @@ public class PositionMatrix {
     }
 
     /**
-     *
+     * A boolean matrix to indicate whether sector (i, j) is under police surveillance
      */
     public boolean[][] isPoliceAtSector;
 
@@ -185,10 +185,17 @@ public class PositionMatrix {
         return getSectorForCoords(position[0], position[1]);
     }
 
+    /**
+     * Checks if the given sector is monitored by the police.
+     */
     public boolean isSectorMonitored(Sector sector) {
         return isPoliceAtSector[sector.row][sector.col];
     }
 
+    /**
+     * Adds the given list of sectors to be monitored by the police.
+     * @param policeSectors A comma separated list of sectors, e.g. 0, 0, 1, 1, 2, 2
+     */
     public void setMonitoredSectors(int... policeSectors) {
         for (int i = 0; i < policeSectors.length; i += 2) {
             isPoliceAtSector[policeSectors[i]][policeSectors[i+1]] = true;
