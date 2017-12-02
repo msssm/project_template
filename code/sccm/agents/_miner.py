@@ -24,7 +24,9 @@ class Miner(CryptoCurrencyAgent):
         self.equipment = []  # equipment owned by the miner
         if self.clock == 0:
             self.time_when_to_buy_again = np.random.choice(range(61))  # take decision to buy in the first 60 days uniform distr
-            Corei5 = Equipment(self.clock, 0.00173, 75)
+            #experimental: distr uniform of time i5 bought over the past, to prevent all of them divesting at same time
+            Corei5 = Equipment(round(np.random.uniform(-365,0)), 0.00173, 75)
+            #Corei5 = Equipment(self.clock, 0.00173, 75)
             # todo: move corei5 to initial simulation parameters
             self.equipment.append(Corei5)  # initial hardware
             self.hashing_capability = Corei5.hash_rate
