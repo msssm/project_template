@@ -3,24 +3,26 @@
 %% author: The Opinionators (Elisa Wall, Alexander Stein, Niklas Tidbury)
 
 % number of time steps
-T = 50;
+T = 100;
 
 % number of society agents
-N = 1000;
+N = 100;
 
 % Defining the properties of the society
 u = 0.4;
 mu = 0.1;
 
 % Defining the properties of the extremists
-n0 = 15;
-p0 = 5;
-kappa0 = 0.3;
-n1 = 15;
-p1 = 5;
-kappa1 = 0.3;
+n0 = 10;
+p0 = 4;
+kappa0 = 0.1;
+infop0 = 0.1;
+n1 = 10;
+p1 = 4;
+kappa1 = 0.1;
+infop1 = 0.9;
 
-with(T, N, u, mu, n0, p0, kappa0, n1, p1, kappa1)
+with(T, N, u, mu, n0, p0, kappa0, n1, p1, kappa1, infop0, infop1)
 without(T, N, u, mu)
 
 % The prgram without extremists as given in the paper
@@ -74,7 +76,7 @@ end
 % Input:
 % Output: histograms
 % The program with extremists
-function [op] = with(T, N, u, mu, n0, p0, kappa0, n1, p1, kappa1)
+function [op] = with(T, N, u, mu, n0, p0, kappa0, n1, p1, kappa1, infop0, infop1)
 %% Creating the society
 
 % A society of N SocietyAgents with opinions op in [0,1] 
@@ -143,7 +145,7 @@ for t = 1:T
         r = rand;
         k = randi(N);
         % extremists with opinion 0 only reach agents with similar opinion
-        while op(k) < 0.4
+        while op(k) < infop0
             k = randi(N);
         end
         if r < kappa0
@@ -155,7 +157,7 @@ for t = 1:T
         r = rand;
         k = randi(N);
         % extremists with opinion 1 only reach agents with similar opinion
-        while op(k) > 0.6
+        while op(k) > infop1
             k = randi(N);
         end
         if r < kappa1
