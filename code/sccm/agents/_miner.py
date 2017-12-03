@@ -114,7 +114,7 @@ class Miner(CryptoCurrencyAgent):
         # todo: should we sell old hardware for profit?
 
     def sell_bitcoin_for_electricity(self, amount):
-        amount = max(self.bitcoin_available, amount) #only money can become negative (lend from bank ecc), bitcoin can't
+        amount = min(self.bitcoin_available, amount) #only money can become negative (lend from bank ecc), bitcoin can't
         kind = Order.Kind.SELLINF
         limit = 0.
         expiration_time = infinity_int
