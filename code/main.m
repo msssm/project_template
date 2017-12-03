@@ -6,7 +6,7 @@
 T = 100;
 
 % number of society agents
-N = 100;
+N = 10000;
 
 % Defining the properties of the society
 u = 0.4;

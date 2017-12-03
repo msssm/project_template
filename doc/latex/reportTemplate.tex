@@ -9,7 +9,8 @@
 \usepackage{amssymb, amsmath}
 \DeclareGraphicsRule{.tif}{png}{.png}{`convert #1 `dirname #1`/`basename #1 .tif`.png}
 
-%\title{Title}
+\title{Opinion Formation: Impacts of convincing extreme //
+individuals onto a society that typically converges to one opinion}
 %\author{Name 1, Name 2}
 %\date{date} 
 
@@ -85,10 +86,17 @@
 \section{Individual contributions}
 
 \section{Introduction and Motivations}
+For millennia, society has consisted of many opinions and points of view. In some cases, these opinions have been oppressed, other opinions have been forced onto societies, others brainwashed. Within a democracy, these opinions are given space to spread, to change and to evolve and yet: they still converge into a general opinion. How is this possible in cases of extremism, where extreme opinions are so different compared to the majority? What effect do extreme opinions, such as that of the IS, Charles Manson and Co. have on a converging opinion of a society? We would like to examine how extreme opinions of individuals impacts such a society, and under what circumstances these opinions can have a wide-spread effect. \\*
+Basing on the papers of Holme and Newman such as  Laguna, Abramson and Zanette, a socienty of opinions in the range (0,1) converges against an average opinion 0.5 if the parameters are set accordingli. To make it easier, we started from that situation and added our extreme opinion people in order to see how it affected this outcome.
 
 \section{Description of the Model}
+\subsection{The Society}
+We have a number of N society agents normally distributed in (0,1). At each timestep t they can interact with each other within the threshold u, which corresponds to the fact that people tend to spend time with people with similar opinion. Then, the opinion of the two agents taking part of the interaction gets updated, where the old opinion gets added the average opinion of the two with a certain weight.
+\subsection{The Extreme Opinions}
+There are added two extreme opinions all the way to the left at 0 and all the way to the right at 1. The extremists at these points are very persuading and can, within a timestep, convince any one agent of the society of his opinion with a certain probability, but again only within a threshold.
 
 \section{Implementation}
+We have
 
 \section{Simulation Results and Discussion}
 
