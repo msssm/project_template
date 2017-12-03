@@ -36,6 +36,7 @@ class CryptoCurrencyAgent(Agent):
             if order.kind in (Order.Kind.SELL, Order.Kind.SELLINF):  # sell bitcoin
                 self.bitcoin_orders += order.amount
                 self.bitcoin_available -= order.amount
+                assert(self.bitcoin_available >= 0.)
             else:  # buy bitcoin
                 self.cash_orders += order.amount
                 self.cash_available -= order.amount
