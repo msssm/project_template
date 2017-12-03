@@ -13,6 +13,15 @@ class Exchange:  # TODO maybe move orderbook to its own class
         self.price = [0.0649]
         self.model = model
         self._rel_price_var = {}
+        self._stddev_price_abs_return = {}
+        self.ntransactions = 0
+        self.avgprice = 0.0649
+        self.amount_traded = 0.
+
+    def update_avg_price(self, amount, price):
+        old_amount = self.amount_traded
+        self.amount_traded += amount
+        self.avgprice = (old_amount * self.avgprice + amount * price ) / self.amount_traded  # weighted mean
 
     @property
     def clock(self):
@@ -21,6 +30,8 @@ class Exchange:  # TODO maybe move orderbook to its own class
     @property
     def current_price(self):  # current price
         return self.p(self.clock)
+        #return self.p(self.clock-1)
+        #return self.avgprice
 
     def p(self, t):  # price at time t, needed for chartists, todo: implement properly
         try:
@@ -29,14 +40,42 @@ class Exchange:  # TODO maybe move orderbook to its own class
             self.price.append(self.p(t-1))  # recursion
             return self.p(t)  # try again, if implementation correct no infinite loops should happen
 
-    def update_price(self, p):
+    def update_price(self, p, amount):
+        self.update_avg_price(amount, p)
         try:
             self.price[self.clock] = p
         except IndexError:
             self.price.append(p)
 
-    def clear_rel_price_var(self):
+    def prepare_next_step(self):
+        if self.clock > 0:
+            self.price[self.clock-1] = self.avgprice
+            self.price.append(self.avgprice)
         self._rel_price_var = {}
+        self._stddev_price_abs_return = {}
+        self.ntransactions = 0
+        #self.avgprice = 0.
+        self.amount_traded = 0.
+
+    def stddev_price_abs_return(self, window):
+        end = self.clock-1
+        start = max(end-window, 0)
+        if end-start < 2:
+            return 0., 0.
+
+        def calc_spar(start, end):
+            pricelist = self.price[start:end]
+            diff = np.abs(np.diff(pricelist))
+            var = np.var(diff)
+            return var
+        try:
+            return self._stddev_price_abs_return[window]
+        except KeyError:
+            spar = 0.
+            diff = self.p(self.clock)  # make sure we access current price
+            spar = calc_spar(start, end)  # todo: check this is correct
+            self._stddev_price_abs_return[window] = spar
+            return spar
 
     def rel_price_var(self, window):
         end = self.clock-1
@@ -49,7 +88,8 @@ class Exchange:  # TODO maybe move orderbook to its own class
             var = np.var(pricelist)
             mean = np.mean(pricelist)
             diff, _ = np.polyfit(x=range(len(pricelist)), y=pricelist, deg=1)
-            return var/mean, diff
+            return var/abs(mean), diff
+
         try:
             return self._rel_price_var[window]
         except KeyError:
@@ -111,7 +151,7 @@ class Exchange:  # TODO maybe move orderbook to its own class
         elif sell.limit_price > 0. and buy.limit_price == 0.:
             pT = max(sell.limit_price, self.p(self.clock))
         elif sell.limit_price == 0. and buy.limit_price == 0.:
-            pT = self.p(self.clock)
+            pT = self.current_price
         else:  # buy.limit_price > 0 and sell.limit_price > 0
             pT = 0.5 * (buy.limit_price + sell.limit_price)
 
@@ -123,7 +163,8 @@ class Exchange:  # TODO maybe move orderbook to its own class
         sell.agent.cash_available += amount * pT
         buy.agent.cash_orders -= amount * pT
         # update price:
-        self.update_price(pT)
+        self.update_price(pT, amount)
+        self.ntransactions += 1
         if (sell.residual*pT < buy.residual and sell.residual > self.model.parameters.order_threshold):  # avoid testing for ==0. with float
             buy.residual -= amount * pT
             heappop(self.orderbook[sell.kind])
