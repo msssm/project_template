@@ -9,7 +9,7 @@ class Parameters():
 
     miners_can_have_negative_cash = True
 
-    order_threshold = 1e-10 #throw away orders with amounts less than this
+    order_threshold = 1e-11 #throw away orders with amounts less than this
 
     @staticmethod
     def electricity_cost(t):  # epsilon
@@ -19,9 +19,9 @@ class Parameters():
     def bitcoins_mined_per_day(cls, t):  # B(t)
         # todo:  should we count mined bitcoins instead?
         if t < 853:
-            return 72 * 100./cls.scaling_factor
+            return 7200./cls.scaling_factor
         else:
-            return 36 * 100./cls.scaling_factor
+            return 3600./cls.scaling_factor
 
     @classmethod
     def number_of_traders(cls,t, scaling = None):  # N_t
@@ -38,12 +38,12 @@ class Parameters():
         # TODO: next line has experimental value because of inconsistencies in paper;
         # write nminers should be 1000 at end, but fitting curve only gives 400
         # -0.00182 was calculated fitting the exp curve to one of the monte carlo runs from the files in the appendix of the paper
-        b = -0.00182  # -0.002654
+        b = -0.00182 #-0.002654
         return a * exp(b * (t-1))  # our time starts at 0, paper starts at 1
 
-    probability_to_be_a_random_trader = 0.7  # given it is not a miner
-
     probability_to_be_a_chartist = 0.3  # given it is not a miner
+
+    probability_to_be_a_random_trader = 1-probability_to_be_a_chartist  # 0.7; given it is not a miner
 
     @classmethod
     def random_agent_kind(cls, t):
@@ -53,9 +53,3 @@ class Parameters():
             return RandomTrader
         else:
             return Chartist
-
-    @staticmethod
-    def total_number_of_bitcoins(N_traders):
-        b_1 = 0.
-        gamma = 0.
-        return b_1 * ln(N_traders) + gamma
