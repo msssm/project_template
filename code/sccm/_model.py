@@ -4,8 +4,9 @@ from mesa import Model
 from mesa.time import RandomActivation
 from mesa.datacollection import DataCollector
 from sccm.agents import *
-from sccm.market import Exchange
+from sccm.market import Exchange, Order
 from ._parameters import Parameters
+from ._shop import Shop
 
 
 class CryptoCurrencyModel(Model):
@@ -17,9 +18,11 @@ class CryptoCurrencyModel(Model):
         self.exchange = Exchange(self)
         self.parameters = Parameters()
         self.global_pool = MiningPool()
+        self.shop = Shop()
         self.next_available_id = 0.
         self.number_of_agents = {Miner: 0, RandomTrader: 0, Chartist: 0}
         self.later_agents = []
+
         # todo: put this in a separate function ?
         for i in range(self.num_agents):
             agentType = np.random.choice((RandomTrader, Chartist, Miner))
@@ -60,6 +63,19 @@ class CryptoCurrencyModel(Model):
         rep['energy_cons' + '_' + 'avg'] = lambda model: model.energy_cons_avg
         rep['btc_mined' + '_' + 'avg'] = lambda model: model.btc_mined_avg
 
+        # orders still in books at end of day
+        rep['n_orders_sell'] = lambda model: len(model.exchange.orderbook[Order.Kind.SELL])
+        rep['n_orders_sellinf'] = lambda model: len(model.exchange.orderbook[Order.Kind.SELLINF])
+        rep['n_orders_buy'] = lambda model: len(model.exchange.orderbook[Order.Kind.BUY])
+
+        rep['n_transactions'] = lambda model: model.exchange.ntransactions
+        rep['weighted_avg_price'] = lambda model: model.exchange.avgprice
+        rep['transaction_volume'] = lambda model: model.exchange.amount_traded #bitcoin
+
+        rep['electricity_cost'] = lambda model: model.shop.cash_spent_on_electricity # usd
+        rep['hardware_bought'] = lambda model: model.shop.cash_spent_on_new_hardware # usd
+
+        rep['total_amount_mined'] = lambda model: model.global_pool.total_amount_mined
 
         self.datacollector = DataCollector(model_reporters=rep)
 
@@ -82,23 +98,25 @@ class CryptoCurrencyModel(Model):
     def step(self):
         '''Advance the model by one step.'''
         # enter new agents:
+        self.exchange.prepare_next_step()
+        self.shop.prepare_next_step()
         number_to_enter = Parameters.number_of_traders(self.schedule.time) - self.schedule.get_agent_count()
         if number_to_enter > 0:
-            to_enter = self.later_traders[-number_to_enter:]
-            self.later_traders = self.later_traders[:-number_to_enter]
+            to_enter = self.later_agents[-number_to_enter:]
+            self.later_agents = self.later_agents[:-number_to_enter]
             for i, kind, c, b in to_enter:
                 a = kind(i, self)
                 a.cash_available = c
                 a.bitcoin_available = b
                 self.number_of_agents[kind] += 1
                 self.schedule.add(a)
-        self.datacollector.collect(self)
         self.schedule.step()
         # todo should we do orders as they come in or once a day
         # self.exchange.clear()
-        self.exchange.clear_rel_price_var()
         self.exchange.remove_old_orders()
         self.update_stats()
+        self.datacollector.collect(self)
+
 
     def add_agent(self, agentType, cash, n=1, bitcoin=0.):
         for i in range(n):
@@ -134,17 +152,18 @@ class CryptoCurrencyModel(Model):
             a = kind(i, m)
             a.cash_available = begin_cash_richest_trader/(i+1)
             a.bitcoin_available = begin_bitcoin_richest_trader/(i+1)
+            m.global_pool.total_amount_mined += begin_bitcoin_richest_trader/(i+1)
             m.number_of_agents[type(a)] += 1
             m.schedule.add(a)
         initial_cash_traders_afterwards_zipf_const = convert_richest_value_to_factor(200000., power = 0.6)
-        later_traders = []
+        later_agents = []
         for i in range(number_of_initial_traders, number_of_final_traders):
             kind = Parameters.random_agent_kind(m.t_end)
             #a = kind(i, m)
             cash_available = initial_cash_traders_afterwards_zipf_const/(i**0.6)
             bitcoin_available = 0.
-            later_traders.append((i, kind, cash_available, bitcoin_available))
-        np.random.shuffle(later_traders)  # order list randomly
-        m.later_traders = later_traders
+            later_agents.append((i, kind, cash_available, bitcoin_available))
+        np.random.shuffle(later_agents)  # order list randomly
+        m.later_agents = later_agents
         m.update_stats()
         return m
