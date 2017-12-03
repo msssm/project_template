@@ -127,8 +127,11 @@ class CryptoCurrencyModel(Model):
             self.number_of_agents[agentType] += 1
             self.schedule.add(a)
     # todo: enter agents into the market over time
-    def PaperModel():
-        m = CryptoCurrencyModel(0)
+
+class PaperModel(CryptoCurrencyModel):
+    def __init__(self):
+        super().__init__(0)
+        m = self
         m.t_end = 365 * 5
         number_of_initial_traders = Parameters.number_of_traders(0)  # 160 * 100 / Parameters.scaling_factor
         number_of_final_traders = Parameters.number_of_traders(m.t_end)  # ~36000 * 100 / Parameters.scaling_factor
@@ -166,4 +169,3 @@ class CryptoCurrencyModel(Model):
         np.random.shuffle(later_agents)  # order list randomly
         m.later_agents = later_agents
         m.update_stats()
-        return m

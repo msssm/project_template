@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
 
-from sccm import CryptoCurrencyModel
+from sccm import *
 from sccm.agents import *
 from tqdm import * #progress bar
 
 
 def main(n_steps):
-    model = CryptoCurrencyModel.PaperModel()
+    model = PaperModel()
     # todo use batch runner from mesa for MC sim
     for i in tqdm(range(n_steps)):
         model.step()
