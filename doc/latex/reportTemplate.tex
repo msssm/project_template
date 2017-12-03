@@ -5,7 +5,7 @@
 \usepackage{graphicx}
 \usepackage{amssymb}
 \usepackage{epstopdf}
-\usepackage{natbib}
+%\usepackage{natbib}
 \usepackage{amssymb, amsmath}
 \DeclareGraphicsRule{.tif}{png}{.png}{`convert #1 `dirname #1`/`basename #1 .tif`.png}
 
@@ -87,23 +87,51 @@ individuals onto a society that typically converges to one opinion}
 
 \section{Introduction and Motivations}
 For millennia, society has consisted of many opinions and points of view. In some cases, these opinions have been oppressed, other opinions have been forced onto societies, others brainwashed. Within a democracy, these opinions are given space to spread, to change and to evolve and yet: they still converge into a general opinion. How is this possible in cases of extremism, where extreme opinions are so different compared to the majority? What effect do extreme opinions, such as that of the IS, Charles Manson and Co. have on a converging opinion of a society? We would like to examine how extreme opinions of individuals impacts such a society, and under what circumstances these opinions can have a wide-spread effect. \\*
-Basing on the papers of Holme and Newman such as  Laguna, Abramson and Zanette, a socienty of opinions in the range (0,1) converges against an average opinion 0.5 if the parameters are set accordingli. To make it easier, we started from that situation and added our extreme opinion people in order to see how it affected this outcome.
+Basing on the papers of Holme and Newman \cite{Coevolutions} such as Laguna, Abramson and Zanette \cite{Minor}, a socienty of opinions in the range (0,1) converges against an average opinion 0.5 if the parameters are set accordingly. To make it easier, we started from that situation and added our extreme opinion people in order to see how it affected this outcome. \\*
+Our questions are basically the following: 
+\begin{itemize}
+\item What are the outcomes of n convincing individuals of extreme opinions in a society that converges to one opinion? Do we see fragmentation or polarisation of opinions?
+\item What effects do these extreme opinions have in a society of low $u$ [narrow communicating interval] and $\mu$ [weight of foreign opinions]?
+\item What happens when we vary the random distribution?
+\end{itemize}
 
 \section{Description of the Model}
-\subsection{The Society}
-We have a number of N society agents normally distributed in (0,1). At each timestep t they can interact with each other within the threshold u, which corresponds to the fact that people tend to spend time with people with similar opinion. Then, the opinion of the two agents taking part of the interaction gets updated, where the old opinion gets added the average opinion of the two with a certain weight.
+\subsection{The Interacting Society}
+We have a number of N society agents normally distributed in (0,1). At each timestep t they can interact with each other within the threshold u, which corresponds to the fact that people tend to spend time with people with similar opinion. Then, the opinion of the two agents taking part of the interaction gets updated, where the old opinion gets added the average opinion of the two with a certain weight. \\*
+According to \cite{Minor}, such a society of N agents with random, gaussian-distributed opinions $x_i$ in (0,1) will converge to a common opinion around 0.5 if a) the comunicating interval $u$ of agents communicating with each other is big enough and b) the weight $\mu$ to foreign opinions is high enough.
+
 \subsection{The Extreme Opinions}
-There are added two extreme opinions all the way to the left at 0 and all the way to the right at 1. The extremists at these points are very persuading and can, within a timestep, convince any one agent of the society of his opinion with a certain probability, but again only within a threshold.
+Within this situation we add $n$ extreme individuals in the beginning with a non-changing opinion in the outer parts of the Gaussian curve at 0 and 1. We assume that the agents are charismatic and have good rhetorics in order to convince $p$ other agents by a probability of success of $\kappa$. This can be interpreted as the influence of certain individuals can be higher, such as social media stars or politicians with extreme opinions. Again, we assume this influence only withing a threshold.
 
 \section{Implementation}
-We have
+\subsection{The Interacting Society}
+We have set a society of $N$ agents, each being $x_i$, $i \in \{1, N \}$, and define the threshold of interaction $u$ and the weight of the adjustment $0 < \mu < 1$, such that the update of an interaction between two agents $x$, $x'$ is (according to \cite{Minor}):
+\begin{equation}
+\begin{aligned}
+x(t+1) &= x(t) + \mu(x'(t) - x(t))  \\
+x'(t+1) &= x(t) + \mu(x(t) - x'(t)) 
+\end{aligned}
+\end{equation}
+The procedure can be interpreted as follows: At each time step t two randomly chosen agents meet. By building a threshold u into the structure, the agents only interact with similar-thinking agents, as people generally interact with the like-minded. If the difference in their opinion is within the communicating interval $u$, the agents with the opinions $x$ and $x'$ adapt their opinion by the weight $\mu$, which characterises the convergence of the opinions. Using this model, close opinions come even closer and opinions further away from other opinions do not change. "Close" and "far-away" are characterised in $u$. If we take reasonable values for $u$ and$\mu$ , this typically follows to a convergence of a unique opinion around $x$ = 0.5.
+As within \cite{Minor}, the variables $u$ and $\mu$ can be varied. We study these results.
+
+\subsection{The Society with Extreme Opinion Individuals}
+After that, we insert the extreme Opinion Individuals to our society. The parameters for each of the two extreme sides are the following: The number of extreme Opinion Indivuduals $n$, the number of society members that can be influenced within a timestep $p$, the probability of persuasion $\kappa$ and the threshold of interaction $infop$. \\*
+So within that probability, the extreme opinion individuals can convince somebody of either opinion 1 or 0.
+
 
 \section{Simulation Results and Discussion}
 
 \section{Summary and Outlook}
 
-\section{References}
+%\section{References}
+\begin{thebibliography}{99}
+\bibitem{Coevolutions} Peter Holme and M. E. J. Newman. \textit{Nonequilibrium phase transition in the coevolution of networks and opinions}. arXiv:physics/0603023v3, 9 March 2006.
 
+\bibitem{Minor} M. F. Laguna, Guillermo Abramson, and Damian H. Zanette. \textit{Minorities in a Model for Opinion Formation}. Wiley Periodicals, Inc., Vol. 9, No.4, 5 January 2004
+
+
+\end{thebibliography} 
 
 
 
