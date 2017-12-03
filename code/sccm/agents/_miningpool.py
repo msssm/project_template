@@ -2,6 +2,7 @@ class MiningPool():
     def __init__(self):
         self.members = []
         self.hashing_capability = 0.
+        self.total_amount_mined = 0.
 
     def join(self, a):
         self.members.append(a)
