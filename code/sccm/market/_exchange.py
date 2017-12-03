@@ -61,7 +61,7 @@ class Exchange:  # TODO maybe move orderbook to its own class
         end = self.clock-1
         start = max(end-window, 0)
         if end-start < 2:
-            return 0., 0.
+            return 0.
 
         def calc_spar(start, end):
             pricelist = self.price[start:end]
