@@ -16,7 +16,13 @@ class Trader(CryptoCurrencyAgent):
             if kind is None:
                 return
             beta = min(1., lognormal(0.25, 0.2))
-            mu, sigma = 1, 0.05  # TODO correct values
+            mu = 1.05
+            K = 2.4
+            sigma_max = 0.01  #paper messes up min/max -> here they are swapped compared to paper,todo: check if they are correcr
+            sigma_min = 0.003
+            timewindow = 30 #T_i in paper, not the same as tau_i !!!! #TODO: correct value = ?  use value 30 from the older paper
+            sigma = K * self.exchange.stddev_price_abs_return(timewindow)
+            sigma = np.clip(sigma, sigma_min, sigma_max)
             N = np.random.normal(mu, sigma)
             if kind == Order.Kind.BUY:
                 amount = self.cash_available * beta  # ba
@@ -55,10 +61,17 @@ class Chartist(Trader):
         rpv, diff = self.exchange.rel_price_var(self.given_time_window)
         if (rpv < 0.01):  # price stayed more or less the same
             return None
-        elif diff > 0:  # price increased significantly
-            return Order.Kind.BUY
-        else:  # price dropped significantly
-            return Order.Kind.SELL
+        else:
+            if np.random.rand() > 0.1:  # ten percent do contrary strategy
+                if diff > 0:  # price increased significantly
+                    return Order.Kind.BUY
+                else:  # price dropped significantly
+                    return Order.Kind.SELL
+            else :
+                if diff > 0:
+                    return Order.Kind.SELL
+                else:
+                    return Order.Kind.BUY
         # paper: issues buy order when the price relative variation in a 'given time window' is is higher than threshold 0.01
         # issues sell order otherwise ??? does not make sense
         # 'given time window' is specific for each chartist, normal distr with mu 20, sigma 1
