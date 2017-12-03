@@ -32,10 +32,11 @@ class CryptoCurrencyAgent(Agent):
         return self.bitcoin_available + self.bitcoin_orders
 
     def placeorder(self, order):
-        if order.amount != 0.:  # dont place 0 orders todo: should we prevent this elsewhere?
+        if order.amount > self.model.parameters.order_threshold:  # prevent too small orders todo: should we prevent this elsewhere?
             if order.kind in (Order.Kind.SELL, Order.Kind.SELLINF):  # sell bitcoin
                 self.bitcoin_orders += order.amount
                 self.bitcoin_available -= order.amount
+                assert(self.bitcoin_available >= 0.)
             else:  # buy bitcoin
                 self.cash_orders += order.amount
                 self.cash_available -= order.amount
