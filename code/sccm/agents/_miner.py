@@ -46,7 +46,9 @@ class Miner(CryptoCurrencyAgent):
 
     @property
     def fraction_cash_to_buy_hardware(self):
-        return min(lognormal(0.15, 0.15), 1.)
+        #experimental: typo in the paper?? should it be 0.35??
+        return min(lognormal(0.35, 0.15), 1.)
+        #return min(lognormal(0.15, 0.15), 1.)
         # gamma1:  percentage of cash allocated to buy
 
     @property
