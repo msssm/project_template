@@ -15,7 +15,7 @@ class Trader(CryptoCurrencyAgent):
             kind = self.decide_on_kind_of_order()
             if kind is None:
                 return
-            beta = min(1., lognormal(0.25, 0.2))
+            beta = min(1., lognormal(*self.beta_parameters))
             mu = 1.05
             K = 2.4
             sigma_max = 0.01  #paper messes up min/max -> here they are swapped compared to paper,todo: check if they are correcr
@@ -39,6 +39,7 @@ class RandomTrader(Trader):
     def __init__(self, unique_id, model):
         super().__init__(unique_id, model)
         self.tradeprobability = 0.1
+        self.beta_parameters = (0.25, 0.2)
 
     def decide_on_kind_of_order(self):
         return np.random.choice((Order.Kind.SELL, Order.Kind.BUY))
@@ -52,6 +53,7 @@ class Chartist(Trader):
     """A Chartist"""
     def __init__(self, unique_id, model):
         super().__init__(unique_id, model)
+        self.beta_parameters = (0.4, 0.2)
         self.tradeprobability = 0.5
         mu, sigma = 20., 1.
         self.given_time_window = round(np.random.normal(mu, sigma))  # make it an int
