@@ -1,6 +1,6 @@
 import numpy as np
 
-from heapq import heappush, heappop
+from heapq import heappush, heappop, heapify
 from ._order import Order
 
 
