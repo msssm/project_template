@@ -47,14 +47,13 @@ class Miner(CryptoCurrencyAgent):
     @property
     def fraction_cash_to_buy_hardware(self):
         #experimental: typo in the paper?? should it be 0.35??
-        return min(lognormal(0.35, 0.15), 1.)
+        return min(lognormal(0.6, 0.15), 1.)
         #return min(lognormal(0.15, 0.15), 1.)
         # gamma1:  percentage of cash allocated to buy
 
     @property
     def fraction_bitcoin_to_be_sold_for_hardware(self):  # gamma
-        return min(lognormal(0.175, 0.075), 1.)
-        #return 0.5 * self.fraction_cash_to_buy_hardware
+        return 0.5 * self.fraction_cash_to_buy_hardware
 
     @property
     def electricity_cost(self):  # total electricity cost in usd
@@ -167,7 +166,8 @@ class Miner(CryptoCurrencyAgent):
     def step(self):
         self.mine()
         if self.clock == self.time_when_to_buy_again:
-            self.invest_divest()
+            if self.clock > 60:
+                self.invest_divest()
             self.update_time_when_to_buy_again()
         elif np.random.rand() < 0.1 and self.exchange.rel_price_var(window = 15)[0] > 0.016:
             self.invest_divest()
