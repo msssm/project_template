@@ -110,6 +110,8 @@ class Exchange:  # TODO maybe move orderbook to its own class
             key = order.limit_price
         else:
             key = -order.limit_price
+            if key == 0.:
+                key = float("inf")
         heappush(self.orderbook[order.kind], (key, order))
         self.clear()
 

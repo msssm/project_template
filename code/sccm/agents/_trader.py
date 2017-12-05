@@ -21,15 +21,24 @@ class Trader(CryptoCurrencyAgent):
             sigma_max = 0.01  #paper messes up min/max -> here they are swapped compared to paper,todo: check if they are correcr
             sigma_min = 0.003
             timewindow = 30 #T_i in paper, not the same as tau_i !!!! #TODO: correct value = ?  use value 30 from the older paper
-            sigma = K * self.exchange.stddev_price_abs_return(timewindow)
-            sigma = np.clip(sigma, sigma_min, sigma_max)
-            N = np.random.normal(mu, sigma)
+            if np.random.rand() < self.probability_market_order:
+                N = None #best available price
+            else:
+                sigma = K * self.exchange.stddev_price_abs_return(timewindow)
+                sigma = np.clip(sigma, sigma_min, sigma_max)
+                N = np.random.normal(mu, sigma)
             if kind == Order.Kind.BUY:
                 amount = self.cash_available * beta  # ba
-                limit = self.exchange.p(self.clock) * N
+                if N is not None:
+                    limit = self.exchange.p(self.clock) * N
+                else:
+                    limit = 0. #TODO: infinity here, when fixed in exchange tuples
             else:  # SELL
                 amount = self.bitcoin_available * beta  # sa
-                limit = self.exchange.p(self.clock) / N
+                if N is not None:
+                    limit = self.exchange.p(self.clock) / N
+                else:
+                    limit = 0.
             # kind, amount, limit_price, time,  t_expiration, agent
             self.placeorder(Order(kind, amount, limit, self.clock, self.expiration_time, self))
 
@@ -39,6 +48,7 @@ class RandomTrader(Trader):
     def __init__(self, unique_id, model):
         super().__init__(unique_id, model)
         self.tradeprobability = 0.1
+        self.probability_market_order = 0.2
         self.beta_parameters = (0.25, 0.2)
 
     def decide_on_kind_of_order(self):
@@ -55,6 +65,7 @@ class Chartist(Trader):
         super().__init__(unique_id, model)
         self.beta_parameters = (0.4, 0.2)
         self.tradeprobability = 0.5
+        self.probability_market_order = 0.7
         mu, sigma = 20., 1.
         self.given_time_window = round(np.random.normal(mu, sigma))  # make it an int
         self.expiration_time = 0  # same day
