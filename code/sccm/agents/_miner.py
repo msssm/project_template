@@ -168,8 +168,7 @@ class Miner(CryptoCurrencyAgent):
     def step(self):
         self.mine()
         if self.clock == self.time_when_to_buy_again:
-            if self.clock > 60:
-                self.invest_divest()
+            self.invest_divest()
             self.update_time_when_to_buy_again()
         '''
         elif np.random.rand() < 0.1 and self.exchange.rel_price_var(window = 15)[0] > 0.016:
