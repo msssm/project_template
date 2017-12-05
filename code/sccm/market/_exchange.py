@@ -178,7 +178,6 @@ class Exchange:  # TODO maybe move orderbook to its own class
     def remove_old_orders(self):
         for kind in (Order.Kind.SELL, Order.Kind.BUY):
             book = self.orderbook[kind]
-            keep = []
             for order_tuple in book:  # todo do this in one nice line :D
                 _, order = order_tuple
                 if self.clock - order.time > order.t_expiration:
@@ -189,3 +188,4 @@ class Exchange:  # TODO maybe move orderbook to its own class
                         order.agent.cash_available += order.residual
                         order.agent.cash_orders -= order.residual
                     book.remove(order_tuple)
+            heapq.heapify(book) # repair heap
