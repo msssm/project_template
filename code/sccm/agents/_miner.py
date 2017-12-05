@@ -153,15 +153,17 @@ class Miner(CryptoCurrencyAgent):
     def invest_divest(self):
         self.divest_old_hardware()
         money_we_expect_to_get = self.sell_bitcoin_to_buy_hardware_estimate()
-        money_we_want_to_spend = money_we_expect_to_get * 0.5 + max(self.fraction_cash_to_buy_hardware * self.cash_available, 0.)
+        money_we_want_to_spend = money_we_expect_to_get + max(self.fraction_cash_to_buy_hardware * self.cash_available, 0.)
         if self.should_we_buy_hardware(money_we_want_to_spend):
             self.sell_bitcoin_to_buy_hardware()
             if self.model.parameters.miners_can_have_negative_cash:
                 self.buy_hardware(money_we_want_to_spend)
             else:
                 assert(False) #  TODO: implement; wait until we actually sold the bitcoins, buy then...
+        '''
         else:
             self.sell_bitcoin_to_buy_hardware(0.5) # for electricity
+        '''
 
     def step(self):
         self.mine()
@@ -169,5 +171,7 @@ class Miner(CryptoCurrencyAgent):
             if self.clock > 60:
                 self.invest_divest()
             self.update_time_when_to_buy_again()
+        '''
         elif np.random.rand() < 0.1 and self.exchange.rel_price_var(window = 15)[0] > 0.016:
             self.invest_divest()
+        '''

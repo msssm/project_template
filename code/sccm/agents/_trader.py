@@ -75,6 +75,11 @@ class Chartist(Trader):
         if (rpv < 0.01):  # price stayed more or less the same
             return None
         else:
+            if diff > 0:  # price increased significantly
+                return Order.Kind.BUY
+            else:  # price dropped significantly
+                return Order.Kind.SELL
+            '''
             if np.random.rand() > 0.1:  # ten percent do contrary strategy
                 if diff > 0:  # price increased significantly
                     return Order.Kind.BUY
@@ -85,6 +90,7 @@ class Chartist(Trader):
                     return Order.Kind.SELL
                 else:
                     return Order.Kind.BUY
+            '''
         # paper: issues buy order when the price relative variation in a 'given time window' is is higher than threshold 0.01
         # issues sell order otherwise ??? does not make sense
         # 'given time window' is specific for each chartist, normal distr with mu 20, sigma 1
