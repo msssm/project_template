@@ -9,13 +9,10 @@ Created on Sat Dec  2 16:10:23 2017
 from numpy import *
 from matplotlib.pylab import *
 
-from out import *
-print(len(x),len(y))
-r=sqrt((x-500)**2+(y-500)**2)
-figure()
-plot(x,y)
-show()
-def analysis1():
+
+        
+
+def analysis1(isParticipating,r,density):
     figure()
     for k in arange(len(x)):
         if(isParticipating[k]==1):
@@ -28,7 +25,7 @@ def analysis1():
     title('Density')
     show()
 
-def densityAnalysis():
+def densityAnalysis(r,density):
     figure()
     plot(r,density,'ro')
     xlabel('distance to center')
@@ -36,7 +33,7 @@ def densityAnalysis():
     title('Density')
     show()
     
-def analysis2():
+def analysis2(r,isParticipating,F):
     figure()
     for k in arange(len(x)):
         if(isParticipating[k]==1):
@@ -49,14 +46,14 @@ def analysis2():
     title('Force')
     show()
 
-def forceAnalysis():
+def forceAnalysis(r,F):
     figure()
     plot(r,F,'ro')
     xlabel('distance to center')
     ylabel('danger caused by forces')
     title('Force')
     show()
-def isParticipatingAnalysis():
+def isParticipatingAnalysis(r,isParticipating,density,F):
     figure()
     plot(isParticipating,density,'ro')
     xlabel('Participating')
@@ -69,8 +66,17 @@ def isParticipatingAnalysis():
     ylabel('danger caused by forces')
     title('Force')
     show()
-densityAnalysis()
-analysis1()
-forceAnalysis()
-analysis2()
-isParticipatingAnalysis()
+def analyse():
+    for k in arange(5):
+        filename='out%s' % k
+        exec("from %s import *" %filename)
+
+        print(len(x),len(y))
+        r=sqrt((x-500)**2+(y-500)**2)
+
+        densityAnalysis(r,density)
+        analysis1(isParticipating,r,density)
+        forceAnalysis(r,F)
+        analysis2(r,isParticipating,F)
+        isParticipatingAnalysis(r,isParticipating,density,F)
+analyse()
