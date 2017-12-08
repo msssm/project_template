@@ -59,9 +59,8 @@ average_without_matrix = vec2mat(sort(average_without, 'descend'), sqrt(N));
 average_with_matrix = vec2mat(sort(average_with, 'descend'), sqrt(N));
 
 % plot settings
-edges = [0 0.1:0.1 0.2:0.2 0.3:0.3 0.4:0.4 0.475:0.475 0.525:0.525 0.6:0.6 0.7:0.7 0.8:0.8 0.9:0.9 1];
-nbin = 50;
-clims= [0 1];
+edges = linspace (0,1,50);
+clims = [0 1];
 colormap('hot');
 
 % plot averages as histogram and as heat map
