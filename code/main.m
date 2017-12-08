@@ -55,8 +55,8 @@ end
 % calculate average over matrix columns
 average_without = mean(res_without);
 average_with = mean(res_with);
-average_without_matrix = vec2mat(average_without, sqrt(N));
-average_with_matrix = vec2mat(average_with, sqrt(N));
+average_without_matrix = vec2mat(sort(average_without, 'descend'), sqrt(N));
+average_with_matrix = vec2mat(sort(average_with, 'descend'), sqrt(N));
 
 % plot settings
 edges = [0 0.1:0.1 0.2:0.2 0.3:0.3 0.4:0.4 0.475:0.475 0.525:0.525 0.6:0.6 0.7:0.7 0.8:0.8 0.9:0.9 1];
