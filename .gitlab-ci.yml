@@ -2,4 +2,4 @@ test:
   script:
   - cd code
   - python3 setup.py install --user
-  - sccm
+  - ~/.local/bin/sccm
