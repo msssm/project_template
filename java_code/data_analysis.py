@@ -14,7 +14,7 @@ from matplotlib.pylab import *
 
 def analysis1(isParticipating,r,density):
     figure()
-    for k in arange(len(r)):
+    for k in arange(len(x)):
         if(isParticipating[k]==1):
             
             plot(r[k],density[k],'ro')
@@ -23,7 +23,7 @@ def analysis1(isParticipating,r,density):
     xlabel('distance to center')
     ylabel('danger caused by high density')
     title('Density')
-    show()
+    #show()
 
 def densityAnalysis(r,density):
     figure()
@@ -31,11 +31,11 @@ def densityAnalysis(r,density):
     xlabel('distance to center')
     ylabel('danger caused by density')
     title('Density')
-    show()
+    #show()
     
 def analysis2(r,isParticipating,F):
     figure()
-    for k in arange(len(r)):
+    for k in arange(len(x)):
         if(isParticipating[k]==1):
                 
             plot(r[k],F[k],'ro')
@@ -44,7 +44,7 @@ def analysis2(r,isParticipating,F):
     xlabel('distance to center')
     ylabel('danger caused by high forces')
     title('Force')
-    show()
+    #show()
 
 def forceAnalysis(r,F):
     figure()
@@ -52,14 +52,14 @@ def forceAnalysis(r,F):
     xlabel('distance to center')
     ylabel('danger caused by forces')
     title('Force')
-    show()
+    #show()
 def isParticipatingAnalysis(r,isParticipating,density,F):
     figure()
     plot(isParticipating,density,'ro')
     xlabel('Participating')
     ylabel('danger caused by high density')
     title('Density')
-    show()
+    #show()
     figure()
     plot(isParticipating,F,'ro')
     xlabel('Participating')
@@ -70,6 +70,7 @@ def analyse():
     for k in range(0,5):
         filename='out%s' % k
         exec("from %s import *" %filename, globals())
+
         print(len(x),len(y))
         r=sqrt((x-500)**2+(y-500)**2)
 
