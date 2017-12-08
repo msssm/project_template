@@ -1,162 +1,107 @@
 import numpy as np
 
 from heapq import heappush, heappop, heapify
-from ._order import Order
+from collections import deque
+from ._order import *
+from sccm.cache import ValueCache
 
 
-class Exchange:  # TODO maybe move orderbook to its own class
-    def __init__(self, model):
-        self.orderbook = {}
-        self.orderbook[Order.Kind.SELL] = []
-        self.orderbook[Order.Kind.BUY] = []
-        self.orderbook[Order.Kind.SELLINF] = []
-        self.price = [0.0649]
-        self.model = model
-        self._rel_price_var = {}
-        self._stddev_price_abs_return = {}
-        self.ntransactions = 0
-        self.avgprice = 0.0649
-        self.amount_traded = 0.
+class Calc_rpv:  # relative price variance
+    def __init__(self, exchange):
+        self._exchange = exchange
+    def __call__(self, window):
+        end = self._exchange.clock -1
+        start = max(end-window, 0)
+        if end-start < 2 or end-start > len(self._exchange.price):
+            return 0., 0.
+        pricelist = self._exchange.price[start:end]
+        var = np.var(pricelist)
+        mean = np.mean(pricelist)
+        #diff, _ = np.polyfit(x=range(len(pricelist)), y=pricelist, deg=1)  # todo: how should we do this
+        diff = pricelist[-1] - pricelist[-2]
+        return var/abs(mean), diff
 
-    def update_avg_price(self, amount, price):
-        old_amount = self.amount_traded
-        self.amount_traded += amount
-        self.avgprice = (old_amount * self.avgprice + amount * price ) / self.amount_traded  # weighted mean
-
-    @property
-    def clock(self):
-        return self.model.schedule.time
-
-    @property
-    def current_price(self):  # current price
-        return self.p(self.clock)
-        #return self.p(self.clock-1)
-        #return self.avgprice
-
-    def p(self, t):  # price at time t, needed for chartists, todo: implement properly
-        try:
-            return self.price[t]
-        except IndexError:
-            self.price.append(self.p(t-1))  # recursion
-            return self.p(t)  # try again, if implementation correct no infinite loops should happen
-
-    def update_price(self, p, amount):
-        self.update_avg_price(amount, p)
-        try:
-            self.price[self.clock] = p
-        except IndexError:
-            self.price.append(p)
-
-    def prepare_next_step(self):
-        if self.clock > 0:
-            self.price[self.clock-1] = self.avgprice
-            self.price.append(self.avgprice)
-        self._rel_price_var = {}
-        self._stddev_price_abs_return = {}
-        self.ntransactions = 0
-        #self.avgprice = 0.
-        self.amount_traded = 0.
-
-    def stddev_price_abs_return(self, window):
-        end = self.clock-1
+class Calc_spar:  # standarddeviation of absolute price return
+    def __init__(self, exchange):
+        self._exchange = exchange
+    def __call__(self, window):
+        end = self._exchange.clock - 1
         start = max(end-window, 0)
         if end-start < 2:
             return 0.
+        pricelist = self._exchange.price[start:end]
+        diff = np.abs(np.diff(pricelist))
+        var = np.var(diff)
+        return var
 
-        def calc_spar(start, end):
-            pricelist = self.price[start:end]
-            diff = np.abs(np.diff(pricelist))
-            var = np.var(diff)
-            return var
-        try:
-            return self._stddev_price_abs_return[window]
-        except KeyError:
-            spar = 0.
-            diff = self.p(self.clock)  # make sure we access current price
-            spar = calc_spar(start, end)  # todo: check this is correct
-            self._stddev_price_abs_return[window] = spar
-            return spar
+class Exchange:
+    def __init__(self, model):
+        self.orderbook = {'sell': [], 'buy':[], 'sellinf': deque(), 'selltoday': deque(), 'buytoday': deque()}
+        self.price = [model.parameters['Model']['initial_price']]
+        self._model = model  # needed for clock
+        self.rel_price_var = ValueCache(Calc_rpv(self))
+        self.stddev_price_abs_return = ValueCache(Calc_spar(self))
 
-    def rel_price_var(self, window):
-        end = self.clock-1
-        start = max(end-window, 0)
-        if end-start < 2:
-            return 0., 0.
+    @property
+    def clock(self):
+        return self._model.schedule.time
 
-        def calc_rpv(start, end):
-            pricelist = self.price[start:end]
-            var = np.var(pricelist)
-            mean = np.mean(pricelist)
-            diff, _ = np.polyfit(x=range(len(pricelist)), y=pricelist, deg=1)
-            return var/abs(mean), diff
+    @property
+    def current_price(self):
+        return self.price[-1]
 
-        try:
-            return self._rel_price_var[window]
-        except KeyError:
-            rpv = 0.
-            diff = self.p(self.clock)  # make sure we access current price
-            #diff -= self.price[start]
-            rpv, diff = calc_rpv(start, end)  # todo: check this is correct
-            self._rel_price_var[window] = (rpv, diff)
-            return rpv, diff
+    @current_price.setter
+    def current_price(self, value):
+        self.price[-1] = value
 
-    def match(self, buy, sell):  # todo: move to order class
-        # sj <= bi
-        return (sell.limit_price <= buy.limit_price) or (sell.limit_price == 0.) or (buy.limit_price == 0.)
+    def prepare_next_step(self):
+        self.rel_price_var.clear()
+        self.stddev_price_abs_return.clear()
+        self.price.append(self.price[-1])
 
     def place(self, order):
-        # print("order placed: {}".format(order))
-        if order.kind == Order.Kind.SELL:
-            key = order.limit_price
-        else:
-            key = -order.limit_price
-            if key == 0.:
-                key = float("inf")
-        heappush(self.orderbook[order.kind], (key, order))
-        self.clear()
+        order.activate()  # make money unavailable
+        if order.kind in ['buy', 'sell']:  # heapq
+            heappush(self.orderbook[order.kind], order)
+        else:  # dequeue
+            self.orderbook[order.kind].append(order)
+        self.clear_all_orders()
 
-    def clear(self):  # process all available orders
-        # first sort orders
-        # self.orderbook[Order.Kind.SELL].sort(key=lambda o: o.limit_price)  # sort should be stable, so asc time conserved
-        # self.orderbook[Order.Kind.BUY].sort(key=lambda o: o.limit_price, reverse=True)
-
-        # iterate through and match orders:
+    def clear_all_orders(self):  # process all available orders
         while 1:  # while there are orders
-            A = len(self.orderbook[Order.Kind.SELL]) > 0
-            B = len(self.orderbook[Order.Kind.SELLINF]) > 0
-            C = len(self.orderbook[Order.Kind.BUY]) > 0
-            if C:
-                buytuple = self.orderbook[Order.Kind.BUY][0]
-            else:
-                break
-            if A and B:
-                a = self.orderbook[Order.Kind.SELL][0]
-                b = self.orderbook[Order.Kind.SELLINF][0]
-                selltuple = min(a, b)
-            elif A:
-                selltuple = self.orderbook[Order.Kind.SELL][0]
-            elif B:
-                selltuple = self.orderbook[Order.Kind.SELLINF][0]
-            else:
-                break
-            if self.match(buytuple[1], selltuple[1]):  # see if they match
-                self.process(buytuple, selltuple)
+            buykinds = ['buy', 'buytoday']
+            sellkinds = ['sell', 'selltoday', 'sellinf']
+            sell = None
+            buy = None
+            for k in sellkinds:
+                if len(self.orderbook[k]) > 0:
+                    if sell is None:
+                        sell = self.orderbook[k][0]
+                    else:
+                        sell = min(sell, self.orderbook[k][0])
+            for k in buykinds:
+                if len(self.orderbook[k]) > 0:
+                    if buy is None:
+                        buy = self.orderbook[k][0]
+                    else:
+                        buy = min(buy, self.orderbook[k][0])
+            if (buy is None) or (sell is None):
+                break # no more matching orders
+            if buy.matches(sell):  # see if they match
+                self.process(buy, sell)
             else:
                 break  # no more matching orders
 
-    def process(self, buytuple, selltuple):
-        _, buy = buytuple
-        _, sell = selltuple
+    def process(self, buy, sell):
         # determine price of transaction pT in $ per btc
-        if buy.limit_price > 0. and sell.limit_price == 0.:
-            pT = min(buy.limit_price, self.p(self.clock))
-        elif sell.limit_price > 0. and buy.limit_price == 0.:
-            pT = max(sell.limit_price, self.p(self.clock))
-        elif sell.limit_price == 0. and buy.limit_price == 0.:
+        if sell.is_market_order and buy.is_market_order:
             pT = self.current_price
-        else:  # buy.limit_price > 0 and sell.limit_price > 0
+        elif sell.is_market_order:  # zero limit
+            pT = min(buy.limit_price, self.current_price)
+        elif buy.is_market_order:  # infinite limit
+            pT = max(sell.limit_price, self.current_price)
+        else:
             pT = 0.5 * (buy.limit_price + sell.limit_price)
-
         # determine amount of transaction
         amount = min(sell.residual, buy.residual/pT)  # amount that is actually traded
         # exchange currency
@@ -165,29 +110,36 @@ class Exchange:  # TODO maybe move orderbook to its own class
         sell.agent.cash_available += amount * pT
         buy.agent.cash_orders -= amount * pT
         # update price:
-        self.update_price(pT, amount)
-        self.ntransactions += 1
-        if (sell.residual*pT < buy.residual and sell.residual > self.model.parameters.order_threshold):  # avoid testing for ==0. with float
+        self.current_price = pT
+
+        def remove(order):  # helper function to remove an order from the different datastructures
+            # TODO: assert that this is first order on list
+            if order.kind in ['buy', 'sell']:  # heapq
+                heappop(self.orderbook[order.kind])
+            else:  # dequeue
+                self.orderbook[order.kind].popleft()
+
+        if (sell.residual*pT < buy.residual):  # TODO: threshold
             buy.residual -= amount * pT
-            heappop(self.orderbook[sell.kind])
-        elif (sell.residual*pT > buy.residual and buy.residual > self.model.parameters.order_threshold):
+            remove(sell)
+        elif (sell.residual*pT > buy.residual):
             sell.residual -= amount
-            heappop(self.orderbook[buy.kind])
+            remove(buy)
         else:  # remove both
-            heappop(self.orderbook[sell.kind])
-            heappop(self.orderbook[buy.kind])
+            remove(sell)
+            remove(buy)
 
     def remove_old_orders(self):
-        for kind in (Order.Kind.SELL, Order.Kind.BUY):
+        self.orderbook['buytoday'].clear()
+        self.orderbook['selltoday'].clear()
+        for kind in ('buy', 'sell'):
             book = self.orderbook[kind]
-            for order_tuple in book:  # todo do this in one nice line :D
-                _, order = order_tuple
-                if self.clock - order.time > order.t_expiration:
-                    if order.kind == Order.Kind.SELL:  # sell bitcoin
-                        order.agent.bitcoin_available += order.residual
-                        order.agent.bitcoin_orders -= order.residual
-                    else:  # buy bitcoin
-                        order.agent.cash_available += order.residual
-                        order.agent.cash_orders -= order.residual
-                    book.remove(order_tuple)
-            heapify(book) # repair heap
+            toremove = []
+            for order in book:  # TODO what is the most efficient way?
+                if order.is_expired(self.clock):
+                    order.cancel()  # give the agent his money back, mark as cancelled, will be removed when encountered by clear_all_orders
+                    toremove.append(order)
+            for order in toremove:
+                book.remove(order)
+            if len(toremove)>0:
+                heapify(book)  # repair heap

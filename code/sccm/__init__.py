@@ -1,1 +1,2 @@
-from ._model import CryptoCurrencyModel, PaperModel
+from ._model import PaperModel
+from ._parameters import Parameters

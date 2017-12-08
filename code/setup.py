@@ -11,6 +11,7 @@ setup(name='sccm',
       install_requires=[
           'numpy',
           'mesa',
+          'pyyaml'
       ],
       include_package_data=True,
       zip_safe=False)

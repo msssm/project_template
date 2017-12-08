@@ -1,96 +1,70 @@
 from ._agent import CryptoCurrencyAgent
-from sccm.market import Order
-from sccm.random import lognormal
+from sccm.market import *
+from sccm.random import lognormal, normal
 import numpy as np
 
 # todo: turn this into abstract base class
 class Trader(CryptoCurrencyAgent):
     """A General Trader"""
-    def __init__(self, unique_id, model):
-        super().__init__(unique_id, model)
-        # todo aquire initial btc when entering market after t=0
-
     def step(self):
-        if (np.random.rand() < self.tradeprobability):
+        if (np.random.rand() < self._model.parameters['Trader'][self.kind]['tradeprobability']):
             kind = self.decide_on_kind_of_order()
             if kind is None:
                 return
-            beta = min(1., lognormal(*self.beta_parameters))
-            mu = 1.05
-            K = 2.4
-            sigma_max = 0.01  #paper messes up min/max -> here they are swapped compared to paper,todo: check if they are correcr
-            sigma_min = 0.003
-            timewindow = 30 #T_i in paper, not the same as tau_i !!!! #TODO: correct value = ?  use value 30 from the older paper
-            if np.random.rand() < self.probability_market_order:
-                N = None #best available price
-            else:
-                sigma = K * self.exchange.stddev_price_abs_return(timewindow)
-                sigma = np.clip(sigma, sigma_min, sigma_max)
-                N = np.random.normal(mu, sigma)
-            if kind == Order.Kind.BUY:
-                amount = self.cash_available * beta  # ba
-                if N is not None:
-                    limit = self.exchange.p(self.clock) * N
-                else:
-                    limit = 0. #TODO: infinity here, when fixed in exchange tuples
-            else:  # SELL
-                amount = self.bitcoin_available * beta  # sa
-                if N is not None:
-                    limit = self.exchange.p(self.clock) / N
-                else:
+            beta = self.calculate_beta(**self.model.parameters['Trader']['RandomTrader']['fraction_cash_bitcoin_to_trade'])
+            # TODO: simplify
+            if np.random.rand() < self._model.parameters['Trader'][self.kind]['probability_market_order']:
+                if issubclass(kind, BuyOrder): # buy
+                    amount = self.cash_available * beta  # ba
+                    limit = float('inf')
+                    self.placeorder(kind(amount, limit, self.clock, self.order_expiration_time, self, is_market_order = True))
+                else:  # SELL
+                    amount = self.bitcoin_available * beta  # sa
                     limit = 0.
-            # kind, amount, limit_price, time,  t_expiration, agent
-            self.placeorder(Order(kind, amount, limit, self.clock, self.expiration_time, self))
+                    self.placeorder(kind(amount, limit, self.clock, self.order_expiration_time, self, is_market_order = True))
+            else:
+                N = self.calculate_N(**self.model.parameters['Trader']['strategy_limit'])
+                if issubclass(kind, BuyOrder): # buy
+                    amount = self.cash_available * beta  # ba
+                    limit = self.exchange.current_price * N
+                    self.placeorder(kind(amount, limit, self.clock, self.order_expiration_time, self))
+                else:  # sell
+                    amount = self.bitcoin_available * beta  # sa
+                    limit = self.exchange.current_price / N
+                    self.placeorder(kind(amount, limit, self.clock, self.order_expiration_time, self))
 
+    def calculate_N(self, mu, K, sigma_max, sigma_min, timewindow):
+        sigma = K * self.exchange.stddev_price_abs_return(timewindow)
+        sigma = max(min(sigma, sigma_max), sigma_min)  # apparently more efficient than np.clip TODO: own clip function
+        return np.random.normal(mu, sigma)
+    def calculate_beta(self, **kwargs):
+        return min(lognormal(**kwargs), 1.)
 
 class RandomTrader(Trader):
     """A Random Trader"""
-    def __init__(self, unique_id, model):
-        super().__init__(unique_id, model)
-        self.tradeprobability = 0.1
-        self.probability_market_order = 0.2
-        self.beta_parameters = (0.25, 0.2)
+    kind = 'RandomTrader'
 
     def decide_on_kind_of_order(self):
-        return np.random.choice((Order.Kind.SELL, Order.Kind.BUY))
+        return np.random.choice((SellOrder, BuyOrder))
 
     @property
-    def expiration_time(self):
-        return round(lognormal(3, 1))
-
+    def order_expiration_time(self):
+        return round(lognormal(**self.model.parameters['Trader']['RandomTrader']['order_expiration_time']))
 
 class Chartist(Trader):
     """A Chartist"""
-    def __init__(self, unique_id, model):
-        super().__init__(unique_id, model)
-        self.beta_parameters = (0.4, 0.2)
-        self.tradeprobability = 0.5
-        self.probability_market_order = 0.7
-        mu, sigma = 20., 1.
-        self.given_time_window = round(np.random.normal(mu, sigma))  # make it an int
-        self.expiration_time = 0  # same day
+    kind = 'Chartist'
+    order_expiration_time = 0.
+    def __init__(self, *args):
+        super().__init__(*args)
+        self.given_time_window = round(normal(**self.model.parameters['Trader']['Chartist']['strategy_timewindow']))  # make it an int
 
     def decide_on_kind_of_order(self):
         rpv, diff = self.exchange.rel_price_var(self.given_time_window)
-        if (rpv < 0.01):  # price stayed more or less the same
+        if (rpv < self.model.parameters['Trader']['Chartist']['strategy_pricevariance_threshold']):  # price stayed more or less the same
             return None
         else:
             if diff > 0:  # price increased significantly
-                return Order.Kind.BUY
+                return BuyTodayOrder
             else:  # price dropped significantly
-                return Order.Kind.SELL
-            '''
-            if np.random.rand() > 0.1:  # ten percent do contrary strategy
-                if diff > 0:  # price increased significantly
-                    return Order.Kind.BUY
-                else:  # price dropped significantly
-                    return Order.Kind.SELL
-            else :
-                if diff > 0:
-                    return Order.Kind.SELL
-                else:
-                    return Order.Kind.BUY
-            '''
-        # paper: issues buy order when the price relative variation in a 'given time window' is is higher than threshold 0.01
-        # issues sell order otherwise ??? does not make sense
-        # 'given time window' is specific for each chartist, normal distr with mu 20, sigma 1
+                return SellTodayOrder
