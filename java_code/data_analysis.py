@@ -67,9 +67,9 @@ def isParticipatingAnalysis(r,isParticipating,density,F):
     title('Force')
     show()
 def analyse():
-    for k in arange(5):
+    for k in range(0,5):
         filename='out%s' % k
-        exec("from %s import *" %filename)
+        exec("from %s import *" %filename, globals())
         print(len(x),len(y))
         r=sqrt((x-500)**2+(y-500)**2)
 
