@@ -61,7 +61,7 @@ average_with_matrix = vec2mat(average_with, sqrt(N));
 % plot settings
 edges = [0 0.1:0.1 0.2:0.2 0.3:0.3 0.4:0.4 0.475:0.475 0.525:0.525 0.6:0.6 0.7:0.7 0.8:0.8 0.9:0.9 1];
 nbin = 50;
-caxis([0 1]);
+clims= [0 1];
 colormap('hot');
 
 % plot averages as histogram and as heat map
@@ -70,10 +70,10 @@ histogram(average_without, edges);
 figure('name', 'Hist: Mean average with Extremists');
 histogram(average_with, edges);
 figure('name', 'Heat: Mean average without Extremists');
-imagesc(average_without_matrix);
+imagesc(average_without_matrix, clims);
 colorbar;
 figure('name', 'Heat: Mean average with Extremists');
-imagesc(average_with_matrix);
+imagesc(average_with_matrix, clims);
 colorbar;
 
 
