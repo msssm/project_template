@@ -14,7 +14,7 @@ from matplotlib.pylab import *
 
 def analysis1(isParticipating,r,density):
     figure()
-    for k in arange(len(x)):
+    for k in arange(len(r)):
         if(isParticipating[k]==1):
             
             plot(r[k],density[k],'ro')
@@ -35,7 +35,7 @@ def densityAnalysis(r,density):
     
 def analysis2(r,isParticipating,F):
     figure()
-    for k in arange(len(x)):
+    for k in arange(len(r)):
         if(isParticipating[k]==1):
                 
             plot(r[k],F[k],'ro')
@@ -70,7 +70,6 @@ def analyse():
     for k in arange(5):
         filename='out%s' % k
         exec("from %s import *" %filename)
-
         print(len(x),len(y))
         r=sqrt((x-500)**2+(y-500)**2)
 
