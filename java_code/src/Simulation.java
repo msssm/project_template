@@ -124,6 +124,7 @@ public class Simulation {
 
 	private Random random = new Random(42);
 	private int fileCounter = 0;
+	private PrintWriter fileCounterWriter;
 
 	private PositionMatrix matrix;
 
@@ -139,12 +140,12 @@ public class Simulation {
 		this.rParticipating = rParticipating;
 		this.minCirclePitSize = minCirclePitSize;
 		this.minParticipatingNeighbors = minParticipatingNeighbors;
-//        try {
-//            writer = new PrintWriter("out.py", "UTF-8");
-//        } catch (FileNotFoundException | UnsupportedEncodingException e) {
-//            e.printStackTrace();
-//        }
-		initializeMatrix();
+        try {
+            fileCounterWriter = new PrintWriter("counter.py");
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        initializeMatrix();
 	}
 
 	private void initializeMatrix() {
@@ -412,6 +413,12 @@ public class Simulation {
                 e1.printStackTrace();
             }
         }
+        try {
+            fileCounterWriter.close();
+            fileCounterWriter = new PrintWriter("counter.py");
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
         writer.println("from numpy import *");
         writer.print("x = array([");
         boolean firstTime = true;
@@ -473,6 +480,8 @@ public class Simulation {
         writer.println("])");
         writer.flush();
         fileCounter++;
+        fileCounterWriter.println("n = " + fileCounter);
+        fileCounterWriter.flush();
     }
 
 	private double norm(double[] vector) {
