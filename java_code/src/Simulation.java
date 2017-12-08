@@ -125,6 +125,7 @@ public class Simulation {
 	private Random random = new Random(42);
 	private int fileCounter = 0;
 	private PrintWriter fileCounterWriter;
+	private int seedCounter = 0;
 
 	private PositionMatrix matrix;
 
@@ -190,6 +191,18 @@ public class Simulation {
 	    window.repaint();
     }
 
+    public void restartSimulation() {
+	    timer.stop();
+	    initializeMatrix();
+	    window.resetSimulationPanel();
+	    window.repaint();
+	    timer.start();
+    }
+
+    public void setSeed(int seed) {
+	    random = new Random(seed);
+    }
+
 	// Checks if the given neighbor at the given distance is participating
 	private boolean isNeighborParticipating(Individual neighbor, double distance) {
 		return neighbor.isParticipating && distance < rParticipating;
@@ -210,6 +223,11 @@ public class Simulation {
 
 		window.setVisible(true);
 	}
+
+	public void runAutomaticSimulation() {
+	    runSimulation();
+	    timer.start();
+    }
 
 	private void runOneTimestep() {
 
@@ -403,19 +421,19 @@ public class Simulation {
 	public void exportData() {
         try {
             writer.close();
-            writer = new PrintWriter("out" + fileCounter + ".py", "UTF-8");
+            writer = new PrintWriter("special" + fileCounter + ".py", "UTF-8");
         } catch (FileNotFoundException | UnsupportedEncodingException e) {
             e.printStackTrace();
         } catch (NullPointerException e) {
             try {
-                writer = new PrintWriter("out" + fileCounter + ".py", "UTF-8");
+                writer = new PrintWriter("special" + fileCounter + ".py", "UTF-8");
             } catch (FileNotFoundException | UnsupportedEncodingException e1) {
                 e1.printStackTrace();
             }
         }
         try {
             fileCounterWriter.close();
-            fileCounterWriter = new PrintWriter("counter.py");
+            fileCounterWriter = new PrintWriter("special_counter.py");
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
