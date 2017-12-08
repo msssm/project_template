@@ -6,10 +6,10 @@
 T = 100;
 
 %% number of iterations
-Tg = 10;
+Tg = 20;
 
 %% number of society agents
-N = 10000;
+N = 1089;
 
 %% Properties of the SocietyAgents
 % The threshold u defines when two agents speak/interact with each other
@@ -50,7 +50,7 @@ for k = 1:Tg
     res_with(k,:) = with(T, N, u, mu, n0, p0, kappa0, n1, p1, kappa1, infop0, infop1);
     perc = k*(100/Tg);
     disp([num2str(perc),'%']);
-end;
+end
 
 % calculate average over matrix columns
 average_without = mean(res_without);
@@ -61,6 +61,7 @@ average_with_matrix = vec2mat(average_with, sqrt(N));
 % plot settings
 edges = [0 0.1:0.1 0.2:0.2 0.3:0.3 0.4:0.4 0.475:0.475 0.525:0.525 0.6:0.6 0.7:0.7 0.8:0.8 0.9:0.9 1];
 nbin = 50;
+caxis([0 1]);
 colormap('hot');
 
 % plot averages as histogram and as heat map
