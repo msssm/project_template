@@ -8,6 +8,7 @@ Created on Sat Dec  2 16:10:23 2017
 
 from numpy import *
 from matplotlib.pylab import *
+from counter import n
 
 
         
@@ -67,11 +68,11 @@ def isParticipatingAnalysis(r,isParticipating,density,F):
     title('Force')
     show()
 def analyse():
-    for k in range(0,5):
+    for k in range(0,n):
         filename='out%s' % k
         exec("from %s import *" %filename, globals())
 
-        print(len(x),len(y))
+        
         r=sqrt((x-500)**2+(y-500)**2)
 
         densityAnalysis(r,density)
@@ -79,4 +80,5 @@ def analyse():
         forceAnalysis(r,F)
         analysis2(r,isParticipating,F)
         isParticipatingAnalysis(r,isParticipating,density,F)
+        print (k)
 analyse()
