@@ -2,6 +2,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.*;
 import java.util.List;
+import java.util.Random;
 
 import javax.swing.Timer;
 
@@ -121,6 +122,9 @@ public class Simulation {
 	private double maxY;  // Bottom border of the terrain
 	private Timer timer;
 
+	private Random random = new Random(42);
+	private int fileCounter = 0;
+
 	private PositionMatrix matrix;
 
 	public Simulation(double epsilon, double mu, double alpha, double gamma, double numberOfPeople, double flockRadius, double dt, double percentParticipating, double rParticipating, int minCirclePitSize, int minParticipatingNeighbors) {
@@ -135,11 +139,11 @@ public class Simulation {
 		this.rParticipating = rParticipating;
 		this.minCirclePitSize = minCirclePitSize;
 		this.minParticipatingNeighbors = minParticipatingNeighbors;
-        try {
-            writer = new PrintWriter("out.py", "UTF-8");
-        } catch (FileNotFoundException | UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            writer = new PrintWriter("out.py", "UTF-8");
+//        } catch (FileNotFoundException | UnsupportedEncodingException e) {
+//            e.printStackTrace();
+//        }
 		initializeMatrix();
 	}
 
@@ -159,14 +163,14 @@ public class Simulation {
 		for (int i = 0; i < numberOfPeople; i++) {
 			// Generate random coordinates
 			double[] coords = new double[2];
-			coords[0] = Math.random() * SECTOR_SIZE * tempMatrixSize;
-			coords[1] = Math.random() * SECTOR_SIZE * tempMatrixSize;
+			coords[0] = random.nextDouble() * SECTOR_SIZE * tempMatrixSize;
+			coords[1] = random.nextDouble() * SECTOR_SIZE * tempMatrixSize;
 
 			// Generate random velocity
-			double[] velocity = new double[] { Math.random() - 0.5, Math.random() - 0.5 };
+			double[] velocity = new double[] { random.nextDouble() - 0.5, random.nextDouble() - 0.5 };
 
 			// Decide whether individual is initially participating
-			boolean isParticipating = Math.random() < percentParticipating;
+			boolean isParticipating = random.nextDouble() < percentParticipating;
 			
 			//levels of danger, 0 is safe, by default it's safe
 			int dangerLevel = 0;
@@ -398,16 +402,15 @@ public class Simulation {
 	public void exportData() {
         try {
             writer.close();
-            writer = new PrintWriter("out.py", "UTF-8");
+            writer = new PrintWriter("out" + fileCounter + ".py", "UTF-8");
         } catch (FileNotFoundException | UnsupportedEncodingException e) {
             e.printStackTrace();
-        }
-        try {
-            FileWriter writer1 = new FileWriter("out.py", false);
-            writer1.flush();
-            writer1.close();
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (NullPointerException e) {
+            try {
+                writer = new PrintWriter("out" + fileCounter + ".py", "UTF-8");
+            } catch (FileNotFoundException | UnsupportedEncodingException e1) {
+                e1.printStackTrace();
+            }
         }
         writer.println("from numpy import *");
         writer.print("x = array([");
@@ -469,6 +472,7 @@ public class Simulation {
         }
         writer.println("])");
         writer.flush();
+        fileCounter++;
     }
 
 	private double norm(double[] vector) {
