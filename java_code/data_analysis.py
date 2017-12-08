@@ -73,7 +73,7 @@ def analyse():
         exec("from %s import *" %filename, globals())
 
         
-        r=sqrt((x-500)**2+(y-500)**2)
+        r=sqrt((x-50)**2+(y-50)**2)
 
         densityAnalysis(r,density)
         analysis1(isParticipating,r,density)
