@@ -6,7 +6,6 @@ import java.util.Random;
 
 import javax.swing.Timer;
 
-// TODO: Find a way to restart the simulation
 public class Simulation {
 
     /**
@@ -94,9 +93,6 @@ public class Simulation {
      */
     public int density2 = 40;
 
-
-
-    
     /**
      * safe Force danger level 
      */
@@ -225,8 +221,18 @@ public class Simulation {
 	}
 
 	public void runAutomaticSimulation() {
-	    runSimulation();
+        window = new SimulationGUI(this);
+
+        DataCollector collector = new DataCollector(this, "test", 50, 2000) {
+	        @Override
+            public void performCustomStuff() {
+	            runOneTimestep();
+	            window.repaint();
+            }
+        };
+	    timer = new Timer(50, collector);
 	    timer.start();
+        window.setVisible(true);
     }
 
 	private void runOneTimestep() {
@@ -328,7 +334,7 @@ public class Simulation {
             }
 
             // Set preferred speed accordingly
-			individual.preferredSpeed = individual.isParticipating ? 30 : 5 * Math.random();
+			individual.preferredSpeed = individual.isParticipating ? 30 : 5 * random.nextDouble();
 
 			// Propulsion
 			// Makes the individual want to travel at their preferred speed

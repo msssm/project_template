@@ -15,11 +15,18 @@ public class DataCollector implements ActionListener {
     private int timeCounter = 0;
     private final static int MAX_TIME = 3;
     private final static int MAX_SEEDS = 2;
+    private final int timeStepInterval;
+    private int realTimeElapsed = 0;
+    private final int dataCollectionInterval;
+
+    private int counter = 0;
 
     private String configurationName;
 
-    public DataCollector(Simulation simulation, String configurationName) {
+    public DataCollector(Simulation simulation, String configurationName, int timeStepInterval, int dataCollectionInterval) {
         this.simulation = simulation;
+        this.timeStepInterval = timeStepInterval;
+        this.dataCollectionInterval = dataCollectionInterval;
         File file = new File(configurationName + "/out_0_0.py");
         file.getParentFile().mkdirs();
         try {
@@ -38,35 +45,43 @@ public class DataCollector implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         PositionMatrix matrix = simulation.getMatrix();
+        realTimeElapsed += timeStepInterval;
+        performCustomStuff();
+        if (realTimeElapsed % dataCollectionInterval == 0) {
+            realTimeElapsed = 0;
 
-        outWriter.println("from numpy import *");
-        outWriter.flush();
 
-        writePositionData(matrix);
-        writeDangerLevelData(matrix);
-        writeForceData(matrix);
-        writeDensityData(matrix);
-        writeIsParticipatingData(matrix);
-
-        if (timeCounter >= MAX_TIME) {
-            timeCounter = 0;
-            simulation.setSeed(seedCounter);
-            seedCounter++;
-            simulation.restartSimulation();
-        }
-        if (seedCounter >= MAX_SEEDS) {
-            fileCounterWriter.println("n = " + MAX_TIME);
-            fileCounterWriter.println("m = " + MAX_SEEDS);
-            fileCounterWriter.flush();
-            fileCounterWriter.close();
+            outWriter.println("from numpy import *");
             outWriter.flush();
-            outWriter.close();
-            System.exit(0);
+
+            writePositionData(matrix);
+            writeDangerLevelData(matrix);
+            writeForceData(matrix);
+            writeDensityData(matrix);
+            writeIsParticipatingData(matrix);
+            writeAverageDanger(matrix);
+            writeMaxDanger(matrix);
+
+            if (timeCounter >= MAX_TIME) {
+                timeCounter = 0;
+                simulation.setSeed(seedCounter);
+                seedCounter++;
+                simulation.restartSimulation();
+            }
+            if (seedCounter >= MAX_SEEDS) {
+                fileCounterWriter.println("n = " + MAX_TIME);
+                fileCounterWriter.println("m = " + MAX_SEEDS);
+                fileCounterWriter.flush();
+                fileCounterWriter.close();
+                outWriter.flush();
+                outWriter.close();
+                System.exit(0);
+            }
+
+            resetWriters(configurationName + "/out_" + seedCounter + "_" + timeCounter + ".py");
+
+            timeCounter++;
         }
-
-        resetWriters(configurationName + "/out_" + seedCounter + "_" + timeCounter + ".py");
-
-        timeCounter++;
     }
 
     private void writePositionData(PositionMatrix matrix) {
@@ -139,6 +154,27 @@ public class DataCollector implements ActionListener {
         outWriter.flush();
     }
 
+    private void writeAverageDanger(PositionMatrix matrix) {
+        outWriter.print("averageDanger = ");
+        double averageDanger = 0;
+        for (Individual individual : matrix.getIndividuals()) {
+            averageDanger += individual.f / 10000 + individual.density / 50;
+        }
+        averageDanger /= matrix.getIndividuals().size();
+        outWriter.println(averageDanger);
+        outWriter.flush();
+    }
+
+    private void writeMaxDanger(PositionMatrix matrix) {
+        outWriter.print("maxDanger = ");
+        double maxDanger = -1;
+        for (Individual individual : matrix.getIndividuals()) {
+            maxDanger += Math.max(maxDanger, individual.f / 10000 + individual.density / 50);
+        }
+        outWriter.println(maxDanger);
+        outWriter.flush();
+    }
+
     private void resetWriters(String newOutFileName) {
         try {
             outWriter.close();
@@ -147,4 +183,6 @@ public class DataCollector implements ActionListener {
             e3.printStackTrace();
         }
     }
+
+    public void performCustomStuff() {}
 }
