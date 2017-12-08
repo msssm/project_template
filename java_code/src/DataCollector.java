@@ -30,7 +30,7 @@ public class DataCollector implements ActionListener {
         File file = new File(configurationName + "/out_0_0.py");
         file.getParentFile().mkdirs();
         try {
-            fileCounterWriter = new PrintWriter("counter.py");
+            fileCounterWriter = new PrintWriter(configurationName + "/counter.py");
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
