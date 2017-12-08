@@ -1,4 +1,6 @@
 import numpy as np
+import random
+import time
 
 from mesa import Model
 from mesa.time import RandomActivation
@@ -11,7 +13,14 @@ def zipf(i, cash, exponent=-1.):  # zero indexed
     return cash * (i+1)**exponent
 
 class PaperModel(Model):
-    def __init__(self, parameters):
+    def __init__(self, parameters, seed=None):
+        # super().__init__(seed)  # mesa automatic seeding is broken: TODO: bugreport
+        if seed is None:
+            seed = int(time.time())
+        self.seed = seed
+        print('seed: {}'.format(self.seed))
+        random.seed(seed)
+        np.random.seed(seed)
         self.parameters = parameters
         self.running = True
         self.num_agents = parameters.number_of_agents(0)
