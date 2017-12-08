@@ -5,6 +5,9 @@
 %% number of time steps
 T = 100;
 
+%% number of iterations
+Tg = 10;
+
 %% number of society agents
 N = 10000;
 
@@ -34,15 +37,51 @@ infop0 = 0.1;
 infop1 = 0.9;
 
 %% run the program
-without(T, N, u, mu)
-with(T, N, u, mu, n0, p0, kappa0, n1, p1, kappa1, infop0, infop1)
+
+% prepare result matrices
+res_with = zeros([Tg, N]);
+res_without = zeros([Tg, N]);
+
+% iterate through
+disp("Running...");
+for k = 1:Tg
+    % allocate result vectors to array
+    res_without(k,:) = without(T, N, u, mu);
+    res_with(k,:) = with(T, N, u, mu, n0, p0, kappa0, n1, p1, kappa1, infop0, infop1);
+    perc = k*(100/Tg);
+    disp([num2str(perc),'%']);
+end;
+
+% calculate average over matrix columns
+average_without = mean(res_without);
+average_with = mean(res_with);
+average_without_matrix = vec2mat(average_without, sqrt(N));
+average_with_matrix = vec2mat(average_with, sqrt(N));
+
+% plot settings
+edges = [0 0.1:0.1 0.2:0.2 0.3:0.3 0.4:0.4 0.475:0.475 0.525:0.525 0.6:0.6 0.7:0.7 0.8:0.8 0.9:0.9 1];
+nbin = 50;
+colormap('hot');
+
+% plot averages as histogram and as heat map
+figure('name', 'Hist: Mean average without Extremists');
+histogram(average_without, edges);
+figure('name', 'Hist: Mean average with Extremists');
+histogram(average_with, edges);
+figure('name', 'Heat: Mean average without Extremists');
+imagesc(average_without_matrix);
+colorbar;
+figure('name', 'Heat: Mean average with Extremists');
+imagesc(average_with_matrix);
+colorbar;
+
 
 %% functions
 
 % The prgram without extremists as given in the paper
 % Input: T, N, u, mu
 % Output: histograms
-function without(T, N, u, mu)
+function [op] = without(T, N, u, mu)
 %% Creating the society
 % A society of N SocietyAgents with opinions op in [0,1] that are randomly 
 %       normal distributed (with mean=0.5 and sigma=1)
@@ -53,7 +92,7 @@ for i = 1:N
     while (op(i) > 1 || op(i) < 0)
         op(i) = normrnd(0.5, 1);
     end
-    disp(op(i));
+    %disp(op(i));
 end
 
 % Alternatively one can start with a uniform distribution
@@ -72,11 +111,15 @@ for t = 1:T
         op(i) = op0;
         op(k) = op1;
     end
-
-    edges = linspace (0,1,50);
-    histogram(op, edges);
-    pause(timeGap)
-    drawnow;
+    
+    %use = vec2mat(op, sqrt(N));
+    %colormap('hot');
+    %imagesc(use);
+    %colorbar;
+    %edges = linspace (0,1,50);
+    %histogram(op, edges);
+    %pause(timeGap);
+    %drawnow;
 end
 
 end
@@ -95,7 +138,7 @@ for i = 1:N
     while (op(i) > 1 || op(i) < 0)
         op(i) = normrnd(0.5, 1);
     end
-    disp(op(i));
+    %disp(op(i));
 end
 
 % Alternatively one can start with a uniform distribution
@@ -144,11 +187,14 @@ for t = 1:T
         end
     end
     
-    edges = linspace (0,1,50);
-    histogram(op, edges);
-    pause(timeGap)
-    drawnow; 
-    
+    %use = vec2mat(op, sqrt(N));
+    %colormap('hot');
+    %imagesc(use);
+    %colorbar;
+    %edges = linspace (0,1,50);
+    %histogram(op, edges);
+    %pause(timeGap);
+    %drawnow;
 end
 end
 
