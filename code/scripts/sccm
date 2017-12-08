@@ -1,6 +1,12 @@
 #!/usr/bin/env python3
 
-from sccm import *
+try:
+	from sccm import *
+except ModuleNotFoundError:
+	import sys
+	sys.path.append('../')
+	from sccm import *
+
 from tqdm import *
 
 def run():
