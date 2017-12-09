@@ -1,9 +1,6 @@
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
+import java.io.*;
 import java.util.List;
 
 /**
@@ -11,29 +8,25 @@ import java.util.List;
  */
 public class DataCollector implements ActionListener {
 
+    private final int MAX_TIME;  // Max amount of timepoints to dump data for
+    private final int MAX_SEEDS;  // Max amount of seeds to test
+    private final int dataCollectionInterval;  // How often to collect data
+    public boolean hasInsertedPolice = false;  // True if police inserted
     private Simulation simulation;  // Simulation for which to collect data
-
     private PrintWriter fileCounterWriter;  // Writes number of timepoints and number of seeds
     private PrintWriter outWriter;  // Writes data
     private int seedCounter = 0;  // Counts how many seeds have already been tested
     private int timeCounter = 0;  // Counts how many timepoints we have already dumped data for
-    private final int MAX_TIME;  // Max amount of timepoints to dump data for
-    private final int MAX_SEEDS;  // Max amount of seeds to test
-    private final int timeStepInterval;  // Refresh rate of simulation
     private int realTimeElapsed = 0;  // Amount of timesteps of the simulation elapsed
-    private final int dataCollectionInterval;  // How often to collect data
     private int insertPoliceAfterCounter = 0;  // Counter to test if we should insert police
     private boolean stillWaitingToInsertPolice = true;  // True if police not inserted yet
     private int insertPoliceAfter;  // How many timesteps to wait before inserting police
-
-    public boolean hasInsertedPolice = false;  // True if police inserted
     private boolean[][] policeSectors = new boolean[10][10];  // Sectors with police
 
     private String configurationName;  // Name of the configuration we are currently testing
 
-    public DataCollector(Simulation simulation, String configurationName, int timeStepInterval, int dataCollectionInterval, int insertPoliceAfter, int maxSeeds, int maxTime, boolean[][] policeSectors) {
+    public DataCollector(Simulation simulation, String configurationName, int dataCollectionInterval, int insertPoliceAfter, int maxSeeds, int maxTime, boolean[][] policeSectors) {
         this.simulation = simulation;
-        this.timeStepInterval = timeStepInterval;
         this.dataCollectionInterval = dataCollectionInterval;
         this.insertPoliceAfter = insertPoliceAfter;
         this.policeSectors = policeSectors;
@@ -53,12 +46,45 @@ public class DataCollector implements ActionListener {
             e.printStackTrace();
         }
         this.configurationName = configurationName;
+        File initFile = new File(configurationName + "/__init__.py");
+        try {
+            initFile.createNewFile();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Iterates over the given list and, for each element of that list, adds the value of the field with the given name
+     * to a numpy array that is written to a file using the provided PrintWriter. The resulting array is named
+     * <code>description</code>.
+     *
+     * @param list         The list from which to gather the data
+     * @param propertyName The property that we want to output
+     * @param writer       The writer with which to write the data
+     * @param description  The name of the numpy array
+     */
+    public static void writeNumPyArray(List list, String propertyName, PrintWriter writer, String description) {
+        writer.print(description + " = array([");
+        boolean firstTime = true;
+        try {
+            for (Object object : list) {
+                Object value = object.getClass().getField(propertyName).get(object);
+                if (firstTime) writer.print(value);
+                else writer.print(", " + value);
+                firstTime = false;
+            }
+            writer.println("])");
+            writer.flush();
+        } catch (NoSuchFieldException | IllegalAccessException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         PositionMatrix matrix = simulation.getMatrix();
-        realTimeElapsed += timeStepInterval;  // Check how much time has elapsed to see if we should dump data
+        realTimeElapsed += Simulation.TIMESTEP;  // Check how much time has elapsed to see if we should dump data
         if (!simulation.isCurrentIterationFinished) {
             simulation.runOneTimestep();
             simulation.repaint();
@@ -82,12 +108,16 @@ public class DataCollector implements ActionListener {
 
             List<Individual> individuals = matrix.getIndividuals();
 
+            // Write data on positions of individuals
             writeNumPyArray(individuals, "x", outWriter, "x");
             writeNumPyArray(individuals, "y", outWriter, "y");
+
+            // Write data on danger levels of individuals
             writeNumPyArray(individuals, "dangerLevel", outWriter, "dangerLevel");
-            writeIsParticipatingData(matrix);
-            writeNumPyArray(individuals, "f", outWriter, "F");
-            writeNumPyArray(individuals, "density", outWriter, "density");
+
+            writeIsParticipatingData(matrix);  // Write data on which individuals are participating
+            writeNumPyArray(individuals, "f", outWriter, "F");  // Write data on force acting on individuals
+            writeNumPyArray(individuals, "density", outWriter, "density");  // Write data on density surrounding individuals
             writeAverageDanger(matrix);
             writeMaxDanger(matrix);
 
@@ -160,32 +190,6 @@ public class DataCollector implements ActionListener {
             outWriter = new PrintWriter(newOutFileName, "UTF-8");
         } catch (FileNotFoundException | UnsupportedEncodingException e3) {
             e3.printStackTrace();
-        }
-    }
-
-    /**
-     * Iterates over the given list and, for each element of that list, adds the value of the field with the given name
-     * to a numpy array that is written to a file using the provided PrintWriter. The resulting array is named
-     * <code>description</code>.
-     * @param list The list from which to gather the data
-     * @param propertyName The property that we want to output
-     * @param writer The writer with which to write the data
-     * @param description The name of the numpy array
-     */
-    public static void writeNumPyArray(List list, String propertyName, PrintWriter writer, String description) {
-        writer.print(description + " = array([");
-        boolean firstTime = true;
-        try {
-            for (Object object : list) {
-                Object value = object.getClass().getField(propertyName).get(object);
-                if (firstTime) writer.print(value);
-                else writer.print(", " + value);
-                firstTime = false;
-            }
-            writer.println("])");
-            writer.flush();
-        } catch (NoSuchFieldException | IllegalAccessException e) {
-            e.printStackTrace();
         }
     }
 }

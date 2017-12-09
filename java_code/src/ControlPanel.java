@@ -28,7 +28,7 @@ public class ControlPanel extends JPanel implements PropertyChangeListener, Chan
         this.simulationpanel = simulationpanel;
         setPreferredSize(new Dimension(500, 230));
         setBackground(Color.WHITE);
-        setLayout(new GridLayout(13,2));
+        setLayout(new GridLayout(13, 2));
 
         initComponents();
         addListeners();
@@ -41,7 +41,7 @@ public class ControlPanel extends JPanel implements PropertyChangeListener, Chan
         showParticipants = new JCheckBox("Show Participants");
         showParticipants.setSelected(true);
         exportDataButton = new JButton("Export Data for Analysis");
-        
+
         enableDensity = new JCheckBox("Density is a Danger Factor");
         enableDensity.setSelected(true);
         enableForce = new JCheckBox("Force is a Danger Factor");
@@ -102,7 +102,7 @@ public class ControlPanel extends JPanel implements PropertyChangeListener, Chan
         sizeField.setValue(simulation.minCirclePitSize);
         sizeField.setColumns(10);
 
-	    minNeighborsLabel = new JLabel("Neighbors Needed to Join in Circle Pit");
+        minNeighborsLabel = new JLabel("Neighbors Needed to Join in Circle Pit");
 
         minNeighborsField = new JFormattedTextField();
         minNeighborsField.setValue(simulation.minParticipatingNeighbors);
@@ -126,8 +126,7 @@ public class ControlPanel extends JPanel implements PropertyChangeListener, Chan
                 if (paused) {
                     simulation.getSimulationTimer().start();
                     startPauseButton.setText("Pause");
-                }
-                else {
+                } else {
                     simulation.getSimulationTimer().stop();
                     startPauseButton.setText("Start");
                 }
@@ -158,7 +157,7 @@ public class ControlPanel extends JPanel implements PropertyChangeListener, Chan
                 simulation.exportData();
             }
         });
-        
+
         enableDensity.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -166,23 +165,22 @@ public class ControlPanel extends JPanel implements PropertyChangeListener, Chan
                     simulation.enableDensity = true;
                 } else {
                     simulation.enableDensity = false;
-                    for (Individual individual : simulation.getMatrix().getIndividuals()){
-                    	individual.dangerLevel = 0 ;
+                    for (Individual individual : simulation.getMatrix().getIndividuals()) {
+                        individual.dangerLevel = 0;
                     }
                 }
             }
         });
-        
+
         enableForce.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (!simulation.enableForce) {
                     simulation.enableForce = true;
-                }
-                else {
+                } else {
                     simulation.enableForce = false;
-                    for (Individual individual : simulation.getMatrix().getIndividuals()){
-                    	individual.dangerLevel = 0 ;
+                    for (Individual individual : simulation.getMatrix().getIndividuals()) {
+                        individual.dangerLevel = 0;
                     }
                 }
             }
@@ -219,13 +217,13 @@ public class ControlPanel extends JPanel implements PropertyChangeListener, Chan
         add(gammaField);
         add(initialParticipantsLabel);
         add(initialParticipantsField);
-	    add(percLabel);
+        add(percLabel);
         add(percField);
-	    add(rPartLabel);
+        add(rPartLabel);
         add(rPartSlider);
-	    add(sizeLabel);
+        add(sizeLabel);
         add(sizeField);
-	    add(minNeighborsLabel);
+        add(minNeighborsLabel);
         add(minNeighborsField);
 
         setVisible(true);
@@ -251,12 +249,12 @@ public class ControlPanel extends JPanel implements PropertyChangeListener, Chan
             simulation.percentParticipating = ((Number) percField.getValue()).doubleValue();
         } else if (source == rPartSlider) {
             simulation.rParticipating = ((Number) rPartSlider.getValue()).doubleValue();
-	    } else if (source == sizeField) {
+        } else if (source == sizeField) {
             simulation.minCirclePitSize = ((Number) sizeField.getValue()).intValue();
-	    } else if (source == minNeighborsField) {
+        } else if (source == minNeighborsField) {
             simulation.minParticipatingNeighbors = ((Number) minNeighborsField.getValue()).intValue();
-    	}
-}
+        }
+    }
 
     @Override
     public void stateChanged(ChangeEvent e) {

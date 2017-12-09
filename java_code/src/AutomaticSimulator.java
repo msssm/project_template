@@ -1,6 +1,9 @@
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.*;
+import java.util.ArrayDeque;
+import java.util.Arrays;
+import java.util.Queue;
+import java.util.Scanner;
 
 /**
  * An object that reads the configs given in <code>configs.sim</code> and executes the corresponding simulations while
@@ -11,42 +14,15 @@ public class AutomaticSimulator {
     private Queue<String> configNames = new ArrayDeque<>();  // The configs to simulate
     private Simulation simulation;
 
-    // A class that stores all the parameters from a config file
-    private class Config {
-        String name;
-        double epsilon, alpha, mu, gamma, dt, percentParticipating;
-        int numberOfPeople, flockRadius, rParticipating, minCirclePitSize, minParticipatingNeighbors, dataCollectionInterval,
-                insertPoliceAfter, collectionTimes, amountOfSeeds;
-        boolean[][] policeSectors = new boolean[10][10];
-
-        private void readNumbersFromArray(double[] array) {
-            assert array.length == 15;
-            epsilon = array[0];
-            mu = array[1];
-            alpha = array[2];
-            gamma = array[3];
-            numberOfPeople = (int) array[4];
-            flockRadius = (int) array[5];
-            dt = array[6];
-            percentParticipating = array[7];
-            rParticipating = (int) array[8];
-            minCirclePitSize = (int) array[9];
-            minParticipatingNeighbors = (int) array[10];
-            dataCollectionInterval = (int) array[11];
-            insertPoliceAfter = (int) array[12];
-            collectionTimes = (int) array[13];
-            amountOfSeeds = (int) array[14];
-        }
-    }
-
     public AutomaticSimulator() throws FileNotFoundException {
         readConfigNames();
     }
 
     /**
      * Runs the automatic simulation.
+     *
      * @throws FileNotFoundException either if <code>configs.sim</code> could not be found or if a configuration
-     * specified in <code>configs.sim</code> could not be found.
+     *                               specified in <code>configs.sim</code> could not be found.
      */
     public void run() throws FileNotFoundException {
         // Keep going while not all configurations have been tested
@@ -95,7 +71,7 @@ public class AutomaticSimulator {
         for (int i = 0; i < 10; i++) {
             String line = scanner.nextLine();
             for (int j = 0; j < 10; j++) {
-                if (line.charAt(j+1) == 'x') {  // j+1 because of leading |, 'x' means there is a policeman there
+                if (line.charAt(j + 1) == 'x') {  // j+1 because of leading |, 'x' means there is a policeman there
                     c.policeSectors[j][i] = true;
                 }
             }
@@ -114,7 +90,7 @@ public class AutomaticSimulator {
             // Initialize the simulation with data from the config file
             simulation = new Simulation(c.epsilon, c.mu, c.alpha, c.gamma, c.numberOfPeople, c.flockRadius, c.dt, c.percentParticipating, c.rParticipating, c.minCirclePitSize, c.minParticipatingNeighbors);
             simulation.createWindow();
-            simulation.createNewTimer(new DataCollector(simulation, c.name, Simulation.TIMESTEP, c.dataCollectionInterval, c.insertPoliceAfter, c.amountOfSeeds, c.collectionTimes, c.policeSectors));
+            simulation.createNewTimer(new DataCollector(simulation, c.name, c.dataCollectionInterval, c.insertPoliceAfter, c.amountOfSeeds, c.collectionTimes, c.policeSectors));
             simulation.start();
         } else {
             // Reinitialize all the parameters with data from the config file
@@ -129,10 +105,38 @@ public class AutomaticSimulator {
             simulation.percentParticipating = c.percentParticipating;
             simulation.rParticipating = c.rParticipating;
             simulation.minCirclePitSize = c.minCirclePitSize;
-            simulation.minParticipatingNeighbors  = c.minParticipatingNeighbors;
-            simulation.createNewTimer(new DataCollector(simulation, c.name, Simulation.TIMESTEP, c.dataCollectionInterval, c.insertPoliceAfter, c.amountOfSeeds, c.collectionTimes, c.policeSectors));
+            simulation.minParticipatingNeighbors = c.minParticipatingNeighbors;
+            simulation.createNewTimer(new DataCollector(simulation, c.name, c.dataCollectionInterval, c.insertPoliceAfter, c.amountOfSeeds, c.collectionTimes, c.policeSectors));
             simulation.basicReset();
             simulation.start();
+        }
+    }
+
+    // A class that stores all the parameters from a config file
+    private class Config {
+        String name;
+        double epsilon, alpha, mu, gamma, dt, percentParticipating;
+        int numberOfPeople, flockRadius, rParticipating, minCirclePitSize, minParticipatingNeighbors, dataCollectionInterval,
+                insertPoliceAfter, collectionTimes, amountOfSeeds;
+        boolean[][] policeSectors = new boolean[10][10];
+
+        private void readNumbersFromArray(double[] array) {
+            assert array.length == 15;
+            epsilon = array[0];
+            mu = array[1];
+            alpha = array[2];
+            gamma = array[3];
+            numberOfPeople = (int) array[4];
+            flockRadius = (int) array[5];
+            dt = array[6];
+            percentParticipating = array[7];
+            rParticipating = (int) array[8];
+            minCirclePitSize = (int) array[9];
+            minParticipatingNeighbors = (int) array[10];
+            dataCollectionInterval = (int) array[11];
+            insertPoliceAfter = (int) array[12];
+            collectionTimes = (int) array[13];
+            amountOfSeeds = (int) array[14];
         }
     }
 }

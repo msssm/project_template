@@ -7,11 +7,6 @@ import java.util.List;
  */
 public class PositionMatrix {
 
-    // The actual matrix
-    private LinkedList<Individual>[][] matrix;
-
-    // A List containing all the individuals, makes iterating over them easier
-    private ArrayList<Individual> individuals;
     /**
      * The width of the matrix
      */
@@ -24,31 +19,20 @@ public class PositionMatrix {
      * The size of one sector
      */
     public final int sectorSize;
-
-    /**
-     * An inner class that represents one sector at a particular location in the matrix.
-     */
-    public class Sector {
-        int row;  // Row of the matrix
-        int col;  // Column of the matrix
-        public Sector(int row, int col) {
-            this.row = row;
-            this.col = col;
-        }
-        public boolean equals(Sector other) {
-            return row == other.row && col == other.col;
-        }
-    }
-
     /**
      * A boolean matrix to indicate whether sector (i, j) is under police surveillance
      */
     public boolean[][] isPoliceAtSector;
+    // The actual matrix
+    private LinkedList<Individual>[][] matrix;
+    // A List containing all the individuals, makes iterating over them easier
+    private ArrayList<Individual> individuals;
 
     /**
      * Creates a new PositionMatrix
-     * @param width The desired width of the matrix
-     * @param height The desired height of the matrix
+     *
+     * @param width      The desired width of the matrix
+     * @param height     The desired height of the matrix
      * @param sectorSize The desired sector size
      */
     public PositionMatrix(int width, int height, int sectorSize) {
@@ -70,6 +54,7 @@ public class PositionMatrix {
 
     /**
      * Gets an individual at position (i, j) in the matrix.
+     *
      * @param i The row of the individual
      * @param j The column of the individual
      * @return The individual at (i, j)
@@ -80,6 +65,7 @@ public class PositionMatrix {
 
     /**
      * Gets an individual at the specified sector in the matrix.
+     *
      * @param sector The sector that the individual is in.
      * @return The individual at the given sector.
      */
@@ -89,6 +75,7 @@ public class PositionMatrix {
 
     /**
      * Gets a list of all the individuals.
+     *
      * @return The list of the individuals.
      */
     public List<Individual> getIndividuals() {
@@ -97,6 +84,7 @@ public class PositionMatrix {
 
     /**
      * Adds a new individual to the matrix at the proper position.
+     *
      * @param individual The individual to be added
      */
     public void add(Individual individual) {
@@ -112,8 +100,9 @@ public class PositionMatrix {
 
     /**
      * Gets the neighbors of an individual.
+     *
      * @param individual The individual for whom to search for neighbors
-     * @param radius The radius in which to search
+     * @param radius     The radius in which to search
      * @return A <code>java.util.List</code> of the neighbors.
      */
     public List<Individual> getNeighborsFor(Individual individual, double radius) {
@@ -147,6 +136,7 @@ public class PositionMatrix {
 
     /**
      * Gets the sector for the given coordinates.
+     *
      * @param x The x coordinate
      * @param y The y coordinate
      * @return A <code>Sector</code> object corresponding the the given coordinates.
@@ -157,7 +147,7 @@ public class PositionMatrix {
 
         // Make sure the sector is not out of bounds
         if (sectorX < 0) sectorX = 0;
-        else if (sectorX >= width) sectorX = width -1;
+        else if (sectorX >= width) sectorX = width - 1;
 
         if (sectorY < 0) sectorY = 0;
         else if (sectorY >= height) sectorY = height - 1;
@@ -167,6 +157,7 @@ public class PositionMatrix {
 
     /**
      * Gets the sector that the given individual is in.
+     *
      * @param individual The individual for whom to get the sector
      * @return The sector that the individual is in.
      * @see PositionMatrix#getSectorForCoords(double, double)
@@ -177,6 +168,7 @@ public class PositionMatrix {
 
     /**
      * Gets the sector that the given individual is in given an array of {x, y} coordinates.
+     *
      * @param position The array of coordinates
      * @return The sector corresponding to <code>position</code>
      * @see PositionMatrix#getSectorForCoords(double, double)
@@ -194,12 +186,29 @@ public class PositionMatrix {
 
     /**
      * Adds the given list of sectors to be monitored by the police.
+     *
      * @param policeSectors A comma separated list of sectors, e.g. 0, 0, 1, 1, 2, 2
      */
     public void setMonitoredSectors(int... policeSectors) {
         for (int i = 0; i < policeSectors.length; i += 2) {
-            isPoliceAtSector[policeSectors[i]][policeSectors[i+1]] = true;
+            isPoliceAtSector[policeSectors[i]][policeSectors[i + 1]] = true;
         }
     }
 
+    /**
+     * An inner class that represents one sector at a particular location in the matrix.
+     */
+    public class Sector {
+        int row;  // Row of the matrix
+        int col;  // Column of the matrix
+
+        public Sector(int row, int col) {
+            this.row = row;
+            this.col = col;
+        }
+
+        public boolean equals(Sector other) {
+            return row == other.row && col == other.col;
+        }
+    }
 }
