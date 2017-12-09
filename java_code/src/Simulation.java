@@ -110,7 +110,10 @@ public class Simulation {
     public boolean enableForce=true;
     public boolean enableDensity=true;
 
+    public boolean isCurrentIterationFinished = false;
+
     public boolean shouldStoreData = false;
+    public final static int TIMESTEP = 50;
 
     protected PrintWriter writer;
 
@@ -138,7 +141,7 @@ public class Simulation {
 		this.minCirclePitSize = minCirclePitSize;
 		this.minParticipatingNeighbors = minParticipatingNeighbors;
         try {
-            fileCounterWriter = new PrintWriter("counter.py");
+            fileCounterWriter = new PrintWriter("special_counter.py");
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
@@ -181,18 +184,41 @@ public class Simulation {
 	}
 
 	public void resetMatrix() {
-	    timer.stop();
-	    initializeMatrix();
+	    stop();
+	    basicReset();
+    }
+
+    public void restartSimulation() {
+	    stop();
+	    basicReset();
+	    start();
+    }
+
+    public void basicReset() {
+//	    boolean[][] policeSectors = new boolean[10][10];
+//        for (int i = 0; i < 10; i++) {
+//            System.arraycopy(matrix.isPoliceAtSector[i], 0, policeSectors[i], 0, 10);
+//        }
+        initializeMatrix();
+//        setMonitoredSectors(policeSectors);
 	    window.resetSimulationPanel();
 	    window.repaint();
     }
 
-    public void restartSimulation() {
+    public void stop() {
 	    timer.stop();
-	    initializeMatrix();
-	    window.resetSimulationPanel();
-	    window.repaint();
+    }
+
+    public void start() {
 	    timer.start();
+    }
+
+    public void createNewTimer(ActionListener listener) {
+	    timer = new Timer(TIMESTEP, listener);
+    }
+
+    public void repaint() {
+	    window.repaint();
     }
 
     public void setSeed(int seed) {
@@ -220,22 +246,21 @@ public class Simulation {
 		window.setVisible(true);
 	}
 
-	public void runAutomaticSimulation() {
+	public void createWindow() {
+        window = new SimulationGUI(this);
+        window.setVisible(true);
+    }
+
+	public void runAutomaticSimulation(String name, int dataCollectionInterval, int insertPoliceAfer, int amountOfSeeds, int collectionTimes) {
         window = new SimulationGUI(this);
 
-        DataCollector collector = new DataCollector(this, "test", 50, 2000) {
-	        @Override
-            public void performCustomStuff() {
-	            runOneTimestep();
-	            window.repaint();
-            }
-        };
-	    timer = new Timer(50, collector);
+        DataCollector collector = new DataCollector(this, name, TIMESTEP, dataCollectionInterval, insertPoliceAfer, amountOfSeeds, collectionTimes, new boolean[10][10]);
+	    timer = new Timer(TIMESTEP, collector);
 	    timer.start();
         window.setVisible(true);
     }
 
-	private void runOneTimestep() {
+	public void runOneTimestep() {
 
 		// List of all the individuals in the matrix
 		List<Individual> individuals = matrix.getIndividuals();
@@ -522,5 +547,9 @@ public class Simulation {
 
     public void setMonitoredSectors(int... sectors) {
         matrix.setMonitoredSectors(sectors);
+    }
+
+    public void setMonitoredSectors(boolean[][] sectors) {
+	    matrix.isPoliceAtSector = sectors;
     }
 }
