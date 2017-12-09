@@ -78,10 +78,11 @@ colorbar;
 
 %% functions
 
-% The prgram without extremists as given in the paper
-% Input: T, N, u, mu
-% Output: histograms
-function [op] = without(T, N, u, mu)
+%% Creating the society
+% Input: number of extremists
+% Output: (1xN) opinion matrix of an arbitrary random distribution 
+%       (gaussian or uniform distribution)
+function [op] = create(N)
 %% Creating the society
 % A society of N SocietyAgents with opinions op in [0,1] that are randomly 
 %       normal distributed (with mean=0.5 and sigma=1)
@@ -98,6 +99,15 @@ end
 % Alternatively one can start with a uniform distribution
 % op = rand(1,N)
 
+end
+
+
+%% The prgram without extremists as given in the paper
+% Input: T, N, u, mu
+% Output: updated opinion
+function [op] = without(T, N, u, mu)
+%%Creating the society
+op = create(N);
 
 %% A world without extrimists
 % The influence of a single agent in a singlte timestep t is defined in the
@@ -124,25 +134,12 @@ end
 
 end
 
+%% The program with extremists
 % Input: T, N, mu, n0, n1, p0, p1, kappa0, kappa1, infop0, infop1
 % Output: histograms
-% The program with extremists
 function [op] = with(T, N, u, mu, n0, p0, kappa0, n1, p1, kappa1, infop0, infop1)
 %% Creating the society
-% A society of N SocietyAgents with opinions op in [0,1] that are randomly 
-%       normal distributed (with mean=0.5 and sigma=1)
-op = normrnd(0.5, 1, N, 1);
-
-% We want to guarantee that all opinions are in [0,1]
-for i = 1:N
-    while (op(i) > 1 || op(i) < 0)
-        op(i) = normrnd(0.5, 1);
-    end
-    %disp(op(i));
-end
-
-% Alternatively one can start with a uniform distribution
-% op = rand(1,N)
+op = create(N);
 
 %% Effective number of influenced people by the extremists
 
@@ -199,7 +196,7 @@ end
 end
 
 
-% Defining the influence of a single SocietyAgent during one timestep t
+%% Defining the influence of a single SocietyAgent during one timestep t
 % Input: op0 = opinion of a single agent, op = opinion of the society,
 %       mu, u and N as described above
 % Output: new opinion of op0 (opnew0), 
@@ -217,4 +214,4 @@ else
     opnew0 = op0;
     opnew1 = op1;
 end
-end
+end 
