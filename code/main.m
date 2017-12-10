@@ -13,12 +13,12 @@ N = 1089;
 
 %% Properties of the SocietyAgents
 % The threshold u defines when two agents speak/interact with each other
-u = 0.4;
+u = 0;
 
 % Mu defines the change of opinion when two agents speak with each other
 %       mu has to be between 0 and 1 to ensure that all opinions are 
 %       opinions are between 0 and 1.
-mu = 0.1;
+mu = 0;
 
 %% Properties of the extremists
 % number of extremists
@@ -85,7 +85,13 @@ colorbar;
 function [op] = create(N)
 %% Creating the society
 % A society of N SocietyAgents with opinions op in [0,1] that are randomly 
-%       normal distributed (with mean=0.5 and sigma=1)
+%       distributed
+
+% uniform distribution
+op = rand(1,N);
+
+% Normal distribution with mean=0.5 and sigma=1
+%{
 op = normrnd(0.5, 1, N, 1);
 
 % We want to guarantee that all opinions are in [0,1]
@@ -95,10 +101,7 @@ for i = 1:N
     end
     %disp(op(i));
 end
-
-% Alternatively one can start with a uniform distribution
-% op = rand(1,N)
-
+%}
 end
 
 
