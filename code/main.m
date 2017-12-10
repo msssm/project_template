@@ -3,13 +3,13 @@
 %% author: The Opinionators (Elisa Wall, Alexander Stein, Niklas Tidbury)
 
 %% number of time steps
-T = 10;
+T = 100;
 
 %% number of iterations
 Tg = 20;
 
 %% number of society agents
-N = 10000;
+N = 1089;
 
 %% Properties of the SocietyAgents
 % The threshold u defines when two agents speak/interact with each other
@@ -18,7 +18,7 @@ u = 0.4;
 % Mu defines the change of opinion when two agents speak with each other
 %       mu has to be between 0 and 1 to ensure that all opinions are 
 %       opinions are between 0 and 1.
-mu = 0.3;
+mu = 0.1;
 
 %% Properties of the extremists
 % number of extremists
@@ -36,27 +36,7 @@ kappa1 = 0.1;
 infop0 = 0.1;
 infop1 = 0.9;
 
-%% run_functions of the program
-run_function("with_heat", T, Tg, N, u, mu, n0, n1, p0, p1, kappa0, kappa1, infop0, infop1)
-
-function [] = run_function(option, T, Tg, N, u, mu, n0, n1, p0, p1, kappa0, kappa1, infop0, infop1)
- if option=="with_heat"
-     run_with(T, Tg, N, u, mu, n0, n1, p0, p1, kappa0, kappa1, infop0, infop1)
- elseif option=="with_histo"
-     run_without(T, Tg, N, u, mu, n0, n1, p0, p1, kappa0, kappa1, infop0, infop1)
- else disp("No valid option...")
- end
-
-end
-
-% Alternatve 1) Without iteration
-function [] = run_without()
-[opwo] = without
-[opw] = with
-end
-
-%% Alternative 2) With iteration
-function [] = run_with(T, Tg, N, u, mu, n0, n1, p0, p1, kappa0, kappa1, infop0, infop1)
+%% run the program
 
 % prepare result matrices
 res_with = zeros([Tg, N]);
@@ -94,8 +74,6 @@ colorbar;
 figure('name', 'Heat: Mean average with Extremists');
 imagesc(average_with_matrix, clims);
 colorbar;
-end
-
 
 
 %% functions
@@ -106,14 +84,8 @@ end
 %       (gaussian or uniform distribution)
 function [op] = create(N)
 %% Creating the society
-% A society of N SocietyAgents with opinions op in [0,1] that are randomly
-%       distributed
-
-% uniform distribution
-op = rand(1,N);
-
-% normal distributed (with mean=0.5 and sigma=1)
-%{
+% A society of N SocietyAgents with opinions op in [0,1] that are randomly 
+%       normal distributed (with mean=0.5 and sigma=1)
 op = normrnd(0.5, 1, N, 1);
 
 % We want to guarantee that all opinions are in [0,1]
@@ -123,11 +95,14 @@ for i = 1:N
     end
     %disp(op(i));
 end
-%}
+
+% Alternatively one can start with a uniform distribution
+% op = rand(1,N)
+
 end
 
 
-%% The program without extremists as given in the paper
+%% The prgram without extremists as given in the paper
 % Input: T, N, u, mu
 % Output: updated opinion
 function [op] = without(T, N, u, mu)
@@ -162,7 +137,7 @@ end
 %% The program with extremists
 % Input: T, N, mu, n0, n1, p0, p1, kappa0, kappa1, infop0, infop1
 % Output: histograms
-function
+function [op] = with(T, N, u, mu, n0, p0, kappa0, n1, p1, kappa1, infop0, infop1)
 %% Creating the society
 op = create(N);
 
@@ -176,6 +151,7 @@ neff1 = p1 * n1;
 
 %% A world with extremists
 timeGap = 0.01;
+
 for t = 1:T
     % For timestep t; the SoicietyAgents play their game
     for i = 1:N
@@ -217,6 +193,8 @@ for t = 1:T
     %pause(timeGap);
     %drawnow;
 end
+end
+
 
 %% Defining the influence of a single SocietyAgent during one timestep t
 % Input: op0 = opinion of a single agent, op = opinion of the society,
@@ -236,4 +214,4 @@ else
     opnew0 = op0;
     opnew1 = op1;
 end
-end 
+end
