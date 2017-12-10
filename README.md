@@ -5,9 +5,7 @@
 > * Project Title: Opinion Formation: Impacts of convincing extreme individuals onto a society that typically converges to one opinion
 
 ## TO DO
-- rethink questions
-- concrete goal
-- discuss implementation of kappa and p
+see in code-ReadMe
 
 ## General Introduction
 
