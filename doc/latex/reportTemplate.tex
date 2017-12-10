@@ -101,41 +101,71 @@ Our questions are basically the following:
 
 
 \section{Model and Implementation}
+\subsection{Society agent in a single time step}
+We have set a society of $N$ agents with opinions $x_i \in [0,1]$, $i \in \{1, N \}$. For initial condition we assume a random uniform distribution which means that all opinions are equally like.
 
-\subsection{The Interacting Society}
-We have a number of society agents N starting from a random uniform distribution of opinions in the interval [0,1]. At each timestep t they can interact with each other within the threshold u, which corresponds to the fact that people tend to spend time with agents with similar opinion. Then, the opinion of the two agents taking part of the interaction gets updated, where the old opinion gets added the average opinion of the two with a certain weight. \\*
-According to \cite{Minor}, such a society of N agents with random uniform distributed opinions $x_i$ in [0,1] will converge to a common opinion around 0.5 if a) the comunicating interval $u$ of agents communicating with each other is big enough and b) the weight $\mu$ to foreign opinions is high enough.
+Then we define a threshold $u$. So agents interact with each other only if their difference in opinion is smaller than this threshold. In \cite{Minor} they refer this to "bounded confidence" which corresponds to the fact that people tend to spend time with agents with similar opinion. A big u means that the society agents are open-minded and can take big changes in their opinion.
 
-\subsection{The Interacting Society}
-We have set a society of $N$ agents, each being $x_i$, $i \in \{1, N \}$, and define the threshold of interaction $u$ and the weight of the adjustment $0 < \mu < 1$, such that the update of an interaction between two agents $x$, $x'$ is (according to \cite{Minor}):
+By building a threshold u into the structure, the agents only interact with similar-thinking agents, as people generally interact with the like-minded.
+
+When two agents interact with each other they mutual adopt their opinion. This is defined by their difference of opinion and a weight $mu$ that we introduce here. \\
+
+The concrete implementation refered to \cite{Minor} looks as follows:
 \begin{equation}
 \begin{aligned}
 x(t+1) &= x(t) + \mu(x'(t) - x(t))  \\
 x'(t+1) &= x(t) + \mu(x(t) - x'(t)) 
 \end{aligned}
 \end{equation}
-The procedure can be interpreted as follows: At each time step t two randomly chosen agents meet. By building a threshold u into the structure, the agents only interact with similar-thinking agents, as people generally interact with the like-minded. If the difference in their opinion is within the communicating interval $u$, the agents with the opinions $x$ and $x'$ adapt their opinion by the weight $\mu$, which characterises the convergence of the opinions. Using this model, close opinions come even closer and opinions further away from other opinions do not change. "Close" and "far-away" are characterised in $u$. If we take reasonable values for $u$ and$\mu$ , this typically follows to a convergence of a unique opinion around $x$ = 0.5.
-As within \cite{Minor}, the variables $u$ and $\mu$ can be varied. We study these results.
 
-\subsection{The Society with Extreme Opinion Individuals}
+Note that only weight adjustment $0 < \mu < 1$ are allowed to guarantee that the opinions after are between 0 and 1. Next to this a negative value would mean that opinion of the two agents split even more and value bigger than 1 would mean that updated opinion of x will be closer to the opinion of the prior opinion of x' than the updated opinion of x'. 
+
+Also note that using this model, close opinions come even closer and opinions further away from other opinions do not change. "Close" and "far-away" are characterized in $u$.
+
+Until now we have defined how two agents interact with each other and under which threshold they meet. Now we define a single time step in this way that every agent choose randomly another agent of the society within the threshold to interact with him as described above. Further we iterate over the $T$ time steps to get the final update of opinion.
+
+According to \cite{Minor}: If we take reasonable values for $u$ and$\mu$ , this typically follows to a convergence of a unique opinion around $x$ = 0.5.
+
+
+\subsection{Extremists}
 After that, we insert the extreme Opinion Individuals to our society. The parameters for each of the two extreme sides are the following: The number of extreme Opinion Indivuduals $n$, the number of society members that can be influenced within a timestep $p$, the probability of persuasion $\kappa$ and the threshold of interaction $infop$. \\*
 So within that probability, the extreme opinion individuals can convince somebody of either opinion 1 or 0.
 
-\subsection{The Extreme Opinions}
+\paragraph{The Extreme Opinions}
 Within this situation we add $n$ extreme individuals in the beginning with a non-changing opinion in the outer parts of the Gaussian curve at 0 and 1. We assume that the agents are charismatic and have good rhetorics in order to convince $p$ other agents by a probability of success of $\kappa$. This can be interpreted as the influence of certain individuals can be higher, such as social media stars or politicians with extreme opinions. Again, we assume this influence only withing a threshold.
+
+\subsection{Effective values}
+Describe here: What are the effective values? \\
+$n_{eff} = n*p$ follows to: it only matters the product of n and p and not the single values itself.
+
+$\kappa*n_{eff}$ matters but not kappa and neff itself
+
+Finally we will have two effective parameters: infop and $\kappa*n_{eff}$
 
 \section{A world without extremists}
 Insert a description of the effects that are already mentioned in the paper.
 
+\subsection{The weigh mu gives the speed of convergence}
+insert the plots and describe the effect
+
+
+\subsection{The threshold u defines the cluster building}
+According to \cite{Minor}, such a society of N agents with random uniform distributed opinions $x_i$ in [0,1] will converge to a common opinion around 0.5 if the comunicating interval $u$ of agents communicating with each other is big enough, more precise if $u>0.3$.
+
+insert the plot and describe the effect
+
 \section{A world with extremists}
 We extended the paper. The experiments and their results should be discussed here.
+
 
 \section{Discussion}
 a typical discussion... what was good/bad? Problems? Interpretation of our simulation results? Limits of the model?
 
 \section{Summary and Outlook}
 Until now we considered only symmetric random distributions and symmetric distribution of extremists. What is gonna happen if this will be asymmetric?
-If we do no Gaussian distribtion
+
+
+If we do no Gaussian distribtion: a normal distribution is a sensible alternative opinion distribution where 0.5 is the main stream opinion and other opinions are spreaded around the main stream distribution. Sigma would be measure for "how far" the other opinions are spreaded from the main stream opinion.
 
 
 %\section{References}
@@ -145,7 +175,6 @@ If we do no Gaussian distribtion
 \bibitem{Minor} M. F. Laguna, Guillermo Abramson, and Damian H. Zanette. \textit{Minorities in a Model for Opinion Formation}. Wiley Periodicals, Inc., Vol. 9, No.4, 5 January 2004
 
 \end{thebibliography} 
-
 
 
 \end{document}
