@@ -13,12 +13,12 @@ N = 1089;
 
 %% Properties of the SocietyAgents
 % The threshold u defines when two agents speak/interact with each other
-u = 0;
+u = 0.25;
 
 % Mu defines the change of opinion when two agents speak with each other
 %       mu has to be between 0 and 1 to ensure that all opinions are 
 %       opinions are between 0 and 1.
-mu = 0;
+mu = 0.3;
 
 %% Properties of the extremists
 % number of extremists
@@ -36,8 +36,53 @@ kappa1 = 0.1;
 infop0 = 0.1;
 infop1 = 0.9;
 
+
 %% run the program
 
+run_multi("with", Tg, T, N, u, mu, n0, p0, kappa0, n1, p1, kappa1, infop0, infop1);
+run_multi("without", Tg, T, N, u, mu, n0, p0, kappa0, n1, p1, kappa1, infop0, infop1);
+run_single("with", Tg, T, N, u, mu, n0, p0, kappa0, n1, p1, kappa1, infop0, infop1);
+run_single("without", Tg, T, N, u, mu, n0, p0, kappa0, n1, p1, kappa1, infop0, infop1);
+
+function [] = run_single(param, Tg, T, N, u, mu, n0, p0, kappa0, n1, p1, kappa1, infop0, infop1)
+    edges = linspace(0,1,200);
+    if param == "without"
+        figure('name', 'SingleHist: Mean average without Extremists');
+        histogram(without(T, N, u, mu), edges);
+    elseif param == "with"
+        figure('name', 'SingleHist: Mean average with Extremists');
+        histogram(with(T, N, u, mu, n0, p0, kappa0, n1, p1, kappa1, infop0, infop1), edges);
+    end
+end
+
+function [] = run_multi(param, Tg, T, N, u, mu, n0, p0, kappa0, n1, p1, kappa1, infop0, infop1)
+    edges = linspace(0,1,200);
+    if param == "without"
+        res_without = zeros([Tg, N]);
+        for k = 1:Tg
+            % allocate result vectors to array
+            res_without(k,:) = without(T, N, u, mu);
+            perc = k*(100/Tg);
+            disp([num2str(perc),'%']);
+        end
+        average_without = mean(res_without);
+        figure('name', 'MultiHist: Mean average without Extremists');
+        histogram(average_without, edges);
+    elseif param == "with"
+        res_with = zeros([Tg, N]);
+        for k = 1:Tg
+            % allocate result vectors to array
+            res_with(k,:) = with(T, N, u, mu, n0, p0, kappa0, n1, p1, kappa1, infop0, infop1);
+            perc = k*(100/Tg);
+            disp([num2str(perc),'%']);
+        end
+        average_with = mean(res_with);
+        figure('name', 'MultiHist: Mean average with Extremists');
+        histogram(average_with, edges);
+    end
+end
+
+%{
 % prepare result matrices
 res_with = zeros([Tg, N]);
 res_without = zeros([Tg, N]);
@@ -47,16 +92,16 @@ disp("Running...");
 for k = 1:Tg
     % allocate result vectors to array
     res_without(k,:) = without(T, N, u, mu);
-    res_with(k,:) = with(T, N, u, mu, n0, p0, kappa0, n1, p1, kappa1, infop0, infop1);
+    % res_with(k,:) = with(T, N, u, mu, n0, p0, kappa0, n1, p1, kappa1, infop0, infop1);
     perc = k*(100/Tg);
     disp([num2str(perc),'%']);
 end
 
 % calculate average over matrix columns
 average_without = mean(res_without);
-average_with = mean(res_with);
+%average_with = mean(res_with);
 average_without_matrix = vec2mat(sort(average_without, 'descend'), sqrt(N));
-average_with_matrix = vec2mat(sort(average_with, 'descend'), sqrt(N));
+%average_with_matrix = vec2mat(sort(average_with, 'descend'), sqrt(N));
 
 % plot settings
 edges = linspace (0,1,50);
@@ -66,16 +111,18 @@ colormap('hot');
 % plot averages as histogram and as heat map
 figure('name', 'Hist: Mean average without Extremists');
 histogram(average_without, edges);
-figure('name', 'Hist: Mean average with Extremists');
-histogram(average_with, edges);
+%figure('name', 'Hist: Mean average with Extremists');
+%histogram(average_with, edges);
+%{
 figure('name', 'Heat: Mean average without Extremists');
 imagesc(average_without_matrix, clims);
 colorbar;
 figure('name', 'Heat: Mean average with Extremists');
 imagesc(average_with_matrix, clims);
 colorbar;
+%}
 
-
+%}
 %% functions
 
 %% Creating the society
