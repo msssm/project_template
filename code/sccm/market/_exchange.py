@@ -1,4 +1,5 @@
 import numpy as np
+import itertools
 
 from heapq import heappush, heappop, heapify
 from collections import deque
@@ -12,13 +13,15 @@ class Calc_rpv:  # relative price variance
     def __call__(self, window):
         end = self._exchange.clock -1
         start = max(end-window, 0)
-        if end-start < 2 or end-start > len(self._exchange.price):
+        if end-start < 2:
             return 0., 0.
-        pricelist = self._exchange.price[start:end]
+        pricelist = list(itertools.chain.from_iterable(self._exchange.allprices[start:end])) #put all prices in one big list
+        if len(pricelist) < 2:
+            return 0., 0.
         var = np.var(pricelist)
         mean = np.mean(pricelist)
-        #diff, _ = np.polyfit(x=range(len(pricelist)), y=pricelist, deg=1)  # todo: how should we do this
-        diff = pricelist[-1] - pricelist[-2]
+        diff, _ = np.polyfit(x=range(len(pricelist)), y=pricelist, deg=1)  # todo: how should we do this
+        #diff = pricelist[-1] - pricelist[-2]
         return var/abs(mean), diff
 
 class Calc_spar:  # standarddeviation of absolute price return
@@ -29,7 +32,10 @@ class Calc_spar:  # standarddeviation of absolute price return
         start = max(end-window, 0)
         if end-start < 2:
             return 0.
-        pricelist = self._exchange.price[start:end]
+        pricelist = list(itertools.chain.from_iterable(self._exchange.allprices[start:end])) #put all prices in one big list
+        if len(pricelist) < 2:
+            return 0.
+        pricelist = list(itertools.chain.from_iterable(self._exchange.allprices[start:end])) #put all prices in one big list
         diff = np.abs(np.diff(pricelist))
         var = np.var(diff)
         return var
@@ -38,6 +44,7 @@ class Exchange:
     def __init__(self, model):
         self.orderbook = {'sell': [], 'buy':[], 'sellinf': deque(), 'selltoday': deque(), 'buytoday': deque()}
         self.price = [model.parameters['Model']['initial_price']]
+        self.allprices = [[model.parameters['Model']['initial_price']]]
         self._model = model  # needed for clock
         self.rel_price_var = ValueCache(Calc_rpv(self))
         self.stddev_price_abs_return = ValueCache(Calc_spar(self))
@@ -53,11 +60,13 @@ class Exchange:
     @current_price.setter
     def current_price(self, value):
         self.price[-1] = value
+        self.allprices[-1].append(value)
 
     def prepare_next_step(self):
         self.rel_price_var.clear()
         self.stddev_price_abs_return.clear()
         self.price.append(self.price[-1])
+        self.allprices.append([])
 
     def place(self, order):
         order.activate()  # make money unavailable
