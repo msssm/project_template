@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+import sys
 
 try:
 	from sccm import *
@@ -7,13 +8,21 @@ except ModuleNotFoundError:
 	sys.path.append('../') #for debugging ./sccm
 	from sccm import *
 
-from tqdm import *
+# TODO: print usage
+
+if len(sys.argv) > 1:
+  filename = sys.argv[1]
+  print('parameterfile: ' + filename)
+else:
+  filename = None
 
 def run():
 	p = Parameters()  # load default parameters
+	if filename is not None:
+		p.load(filename)
 	model = PaperModel(p)
 	model.run()
-	model.save_results()
+	model.save_results()  # TODO: save under a different name
 
 if __name__ == "__main__":
 	run()

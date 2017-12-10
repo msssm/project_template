@@ -91,7 +91,7 @@ class Parameters():  # TODO: inherit from dict?
         # TODO nicer
         sortedkeys = list(sorted(d.keys()))
         for i in range(len(sortedkeys)):
-            if sortedkeys[i] > t:
+            if int(sortedkeys[i]) > t: #fix for parameters.load(), TODO: better
                 return d[sortedkeys[i-1]]/self.scalingfactor
         return d[sortedkeys[-1]]/self.scalingfactor
 
