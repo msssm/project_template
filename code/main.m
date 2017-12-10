@@ -51,6 +51,8 @@ end
 
 % Alternatve 1) Without iteration
 function [] = run_without()
+[opwo] = without
+[opw] = with
 end
 
 %% Alternative 2) With iteration
@@ -104,8 +106,14 @@ end
 %       (gaussian or uniform distribution)
 function [op] = create(N)
 %% Creating the society
-% A society of N SocietyAgents with opinions op in [0,1] that are randomly 
-%       normal distributed (with mean=0.5 and sigma=1)
+% A society of N SocietyAgents with opinions op in [0,1] that are randomly
+%       distributed
+
+% uniform distribution
+op = rand(1,N);
+
+% normal distributed (with mean=0.5 and sigma=1)
+%{
 op = normrnd(0.5, 1, N, 1);
 
 % We want to guarantee that all opinions are in [0,1]
@@ -115,14 +123,11 @@ for i = 1:N
     end
     %disp(op(i));
 end
-
-% Alternatively one can start with a uniform distribution
-% op = rand(1,N)
-
+%}
 end
 
 
-%% The prgram without extremists as given in the paper
+%% The program without extremists as given in the paper
 % Input: T, N, u, mu
 % Output: updated opinion
 function [op] = without(T, N, u, mu)
@@ -157,7 +162,7 @@ end
 %% The program with extremists
 % Input: T, N, mu, n0, n1, p0, p1, kappa0, kappa1, infop0, infop1
 % Output: histograms
-function [op] = with(T, N, u, mu, n0, p0, kappa0, n1, p1, kappa1, infop0, infop1)
+function
 %% Creating the society
 op = create(N);
 
@@ -171,7 +176,6 @@ neff1 = p1 * n1;
 
 %% A world with extremists
 timeGap = 0.01;
-
 for t = 1:T
     % For timestep t; the SoicietyAgents play their game
     for i = 1:N
@@ -213,8 +217,6 @@ for t = 1:T
     %pause(timeGap);
     %drawnow;
 end
-end
-
 
 %% Defining the influence of a single SocietyAgent during one timestep t
 % Input: op0 = opinion of a single agent, op = opinion of the society,
