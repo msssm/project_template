@@ -4,6 +4,7 @@
 
 ## Open questions for the implementation
 (1) We put the standard derivation simga to one in our program. Is this sensible? Is it the same as in the paper? \
+--> No, it is not! In the paper they use uniform distribution. If we have enough time we can do both and argue that a normal distribution is a sensible alternative opinion distribution where 0.5 is the main stream opinion and other opinions are spreaded around the main stream distribution. Sigma would be measure for "how far" the other opinions are spreaded from the main stream opinion. \
 (2) Is there any difference between the setting (p_a, kappa_a) and (p_b, kappa_b) if p_a x kappa_a = p_b x kappa_b? \
 --> I think there is no difference. So either we change the implementation or we have only two parameters more (p x kappa, infop) than the Laguna paper (mu, u) which is also fine for me. \
 (3) Do we leave infop as it is? \
