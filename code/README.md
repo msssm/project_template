@@ -13,10 +13,17 @@ or
 ```
 git clone https://gitlab.ethz.ch:gclemens/simulating_cryptocurrency_markets.git
 ```
+
 __install:__
+
 ```
 cd simulating_cryptocurrency_markets/code
 python3 setup.py install --user
 ```
 
+__run__
+
+```
+bsub -n 1 -W'00:10' sccm
+```
 

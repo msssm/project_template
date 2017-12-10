@@ -47,7 +47,7 @@ defaultparameters['Trader']['RandomTrader']['order_expiration_time'] = {'mu': 3,
 
 defaultparameters['Trader']['Chartist']['fraction_cash_bitcoin_to_trade'] = {'mu': 0.4, 'sigma': 0.2}
 defaultparameters['Trader']['Chartist']['tradeprobability'] = 0.5
-defaultparameters['Trader']['Chartist']['probability_market_order'] = 0.
+defaultparameters['Trader']['Chartist']['probability_market_order'] = 0.7
 defaultparameters['Trader']['Chartist']['strategy_timewindow'] = {'mu':20, 'sigma': 1.}
 defaultparameters['Trader']['Chartist']['strategy_pricevariance_threshold'] = 0.01
 

@@ -5,6 +5,7 @@ import time
 from mesa import Model
 from mesa.time import RandomActivation
 from mesa.datacollection import DataCollector
+from tqdm import *
 from sccm.agents import *
 from sccm.market import *
 from ._parameters import Parameters, calc_factor_total_vs_richest
@@ -128,3 +129,9 @@ class PaperModel(Model):
         gini = self.datacollector.get_model_vars_dataframe()
         gini.to_pickle(name + 'statisticss.pkl')
         self.parameters.save(name + 'parameters.json')
+
+    def run(self, steps=None):
+        if steps is None:
+            steps = self.parameters['Model']['number_of_steps'] - self.schedule.time
+        for _ in tqdm(range(steps)):
+            self.step()
