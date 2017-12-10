@@ -11,8 +11,8 @@
 
 \title{Opinion Formation: Impacts of convincing extreme //
 individuals onto a society that typically converges to one opinion}
-%\author{Name 1, Name 2}
-%\date{date} 
+\author{Alexander Stein, Niklas Tidbury, Elisa Wall}
+\date{date} 
 
 \begin{document}
 
@@ -40,22 +40,28 @@ individuals onto a society that typically converges to one opinion}
 \bigskip
 
 
-\begin{tabular}{@{}p{3.3cm}@{}p{6cm}@{}@{}p{6cm}@{}}
-\begin{minipage}{3cm}
+\begin{tabular}{@{}p{1cm}@{}p{5cm}@{}@{}p{5cm}@{}@{}p{5cm}@{}}
+\begin{minipage}{1cm}
 
 \end{minipage}
 &
-\begin{minipage}{6cm}
-\vspace{2mm} \large Name 1
+\begin{minipage}{5cm}
+\vspace{2mm} \large Alexander Stein
 
  \vspace{\baselineskip}
 
 \end{minipage}
 &
-\begin{minipage}{6cm}
+\begin{minipage}{5cm}
 
-\large Name 2
+\large Niklas Tidbury
 
+\end{minipage}
+&
+\begin{minipage}{5cm}
+	
+	\large Elisa Wall
+	
 \end{minipage}
 \end{tabular}
 
@@ -83,11 +89,9 @@ individuals onto a society that typically converges to one opinion}
 
 \section{Abstract}
 
-\section{Individual contributions}
-
 \section{Introduction and Motivations}
 For millennia, society has consisted of many opinions and points of view. In some cases, these opinions have been oppressed, other opinions have been forced onto societies, others brainwashed. Within a democracy, these opinions are given space to spread, to change and to evolve and yet: they still converge into a general opinion. How is this possible in cases of extremism, where extreme opinions are so different compared to the majority? What effect do extreme opinions, such as that of the IS, Charles Manson and Co. have on a converging opinion of a society? We would like to examine how extreme opinions of individuals impacts such a society, and under what circumstances these opinions can have a wide-spread effect. \\*
-Basing on the papers of Holme and Newman \cite{Coevolutions} such as Laguna, Abramson and Zanette \cite{Minor}, a socienty of opinions in the range (0,1) converges against an average opinion 0.5 if the parameters are set accordingly. To make it easier, we started from that situation and added our extreme opinion people in order to see how it affected this outcome. \\*
+Basing on the papers of Holme and Newman \cite{Coevolutions} such as Laguna, Abramson and Zanette \cite{Minor}, a socienty of opinions in the range [0,1] converges against an average opinion 0.5 if the parameters are set accordingly. To make it easier, we started from that situation and added the extreme opinion people in order to see how it affects the outcome. \\*
 Our questions are basically the following: 
 \begin{itemize}
 \item What are the outcomes of n convincing individuals of extreme opinions in a society that converges to one opinion? Do we see fragmentation or polarisation of opinions?
@@ -95,15 +99,13 @@ Our questions are basically the following:
 \item What happens when we vary the random distribution?
 \end{itemize}
 
-\section{Description of the Model}
+
+\section{Model and Implementation}
+
 \subsection{The Interacting Society}
-We have a number of N society agents normally distributed in (0,1). At each timestep t they can interact with each other within the threshold u, which corresponds to the fact that people tend to spend time with people with similar opinion. Then, the opinion of the two agents taking part of the interaction gets updated, where the old opinion gets added the average opinion of the two with a certain weight. \\*
-According to \cite{Minor}, such a society of N agents with random, gaussian-distributed opinions $x_i$ in (0,1) will converge to a common opinion around 0.5 if a) the comunicating interval $u$ of agents communicating with each other is big enough and b) the weight $\mu$ to foreign opinions is high enough.
+We have a number of society agents N starting from a random uniform distribution of opinions in the interval [0,1]. At each timestep t they can interact with each other within the threshold u, which corresponds to the fact that people tend to spend time with agents with similar opinion. Then, the opinion of the two agents taking part of the interaction gets updated, where the old opinion gets added the average opinion of the two with a certain weight. \\*
+According to \cite{Minor}, such a society of N agents with random uniform distributed opinions $x_i$ in [0,1] will converge to a common opinion around 0.5 if a) the comunicating interval $u$ of agents communicating with each other is big enough and b) the weight $\mu$ to foreign opinions is high enough.
 
-\subsection{The Extreme Opinions}
-Within this situation we add $n$ extreme individuals in the beginning with a non-changing opinion in the outer parts of the Gaussian curve at 0 and 1. We assume that the agents are charismatic and have good rhetorics in order to convince $p$ other agents by a probability of success of $\kappa$. This can be interpreted as the influence of certain individuals can be higher, such as social media stars or politicians with extreme opinions. Again, we assume this influence only withing a threshold.
-
-\section{Implementation}
 \subsection{The Interacting Society}
 We have set a society of $N$ agents, each being $x_i$, $i \in \{1, N \}$, and define the threshold of interaction $u$ and the weight of the adjustment $0 < \mu < 1$, such that the update of an interaction between two agents $x$, $x'$ is (according to \cite{Minor}):
 \begin{equation}
@@ -119,10 +121,22 @@ As within \cite{Minor}, the variables $u$ and $\mu$ can be varied. We study thes
 After that, we insert the extreme Opinion Individuals to our society. The parameters for each of the two extreme sides are the following: The number of extreme Opinion Indivuduals $n$, the number of society members that can be influenced within a timestep $p$, the probability of persuasion $\kappa$ and the threshold of interaction $infop$. \\*
 So within that probability, the extreme opinion individuals can convince somebody of either opinion 1 or 0.
 
+\subsection{The Extreme Opinions}
+Within this situation we add $n$ extreme individuals in the beginning with a non-changing opinion in the outer parts of the Gaussian curve at 0 and 1. We assume that the agents are charismatic and have good rhetorics in order to convince $p$ other agents by a probability of success of $\kappa$. This can be interpreted as the influence of certain individuals can be higher, such as social media stars or politicians with extreme opinions. Again, we assume this influence only withing a threshold.
 
-\section{Simulation Results and Discussion}
+\section{A world without extremists}
+Insert a description of the effects that are already mentioned in the paper.
+
+\section{A world with extremists}
+We extended the paper. The experiments and their results should be discussed here.
+
+\section{Discussion}
+a typical discussion... what was good/bad? Problems? Interpretation of our simulation results? Limits of the model?
 
 \section{Summary and Outlook}
+Until now we considered only symmetric random distributions and symmetric distribution of extremists. What is gonna happen if this will be asymmetric?
+If we do no Gaussian distribtion
+
 
 %\section{References}
 \begin{thebibliography}{99}
@@ -130,15 +144,8 @@ So within that probability, the extreme opinion individuals can convince somebod
 
 \bibitem{Minor} M. F. Laguna, Guillermo Abramson, and Damian H. Zanette. \textit{Minorities in a Model for Opinion Formation}. Wiley Periodicals, Inc., Vol. 9, No.4, 5 January 2004
 
-
 \end{thebibliography} 
 
 
 
-
-
-\end{document}  
-
-
-
- 
+\end{document}
