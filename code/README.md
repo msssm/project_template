@@ -1,3 +1,29 @@
-# Code Folder 
+## Installation on Euler
+make sure to always load python when you login: 
+```
+module load new python/3.6.1
+```
 
-Your code goes here. You could also replace the content of this file with something more meaningful
+__download:__
+
+```
+git clone git@gitlab.ethz.ch:gclemens/simulating_cryptocurrency_markets.git
+```
+or
+```
+git clone https://gitlab.ethz.ch:gclemens/simulating_cryptocurrency_markets.git
+```
+
+__install:__
+
+```
+cd simulating_cryptocurrency_markets/code
+python3 setup.py install --user
+```
+
+__run__
+
+```
+bsub -n 1 -W'00:10' sccm
+```
+
