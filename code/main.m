@@ -3,13 +3,13 @@
 %% author: The Opinionators (Elisa Wall, Alexander Stein, Niklas Tidbury)
 
 %% number of time steps
-T = 100;
+T = 10;
 
 %% number of iterations
 Tg = 20;
 
 %% number of society agents
-N = 1089;
+N = 10000;
 
 %% Properties of the SocietyAgents
 % The threshold u defines when two agents speak/interact with each other
@@ -18,7 +18,7 @@ u = 0.4;
 % Mu defines the change of opinion when two agents speak with each other
 %       mu has to be between 0 and 1 to ensure that all opinions are 
 %       opinions are between 0 and 1.
-mu = 0.1;
+mu = 0.3;
 
 %% Properties of the extremists
 % number of extremists
@@ -36,7 +36,25 @@ kappa1 = 0.1;
 infop0 = 0.1;
 infop1 = 0.9;
 
-%% run the program
+%% run_functions of the program
+run_function("with_heat", T, Tg, N, u, mu, n0, n1, p0, p1, kappa0, kappa1, infop0, infop1)
+
+function [] = run_function(option, T, Tg, N, u, mu, n0, n1, p0, p1, kappa0, kappa1, infop0, infop1)
+ if option=="with_heat"
+     run_with(T, Tg, N, u, mu, n0, n1, p0, p1, kappa0, kappa1, infop0, infop1)
+ elseif option=="with_histo"
+     run_without(T, Tg, N, u, mu, n0, n1, p0, p1, kappa0, kappa1, infop0, infop1)
+ else disp("No valid option...")
+ end
+
+end
+
+% Alternatve 1) Without iteration
+function [] = run_without()
+end
+
+%% Alternative 2) With iteration
+function [] = run_with(T, Tg, N, u, mu, n0, n1, p0, p1, kappa0, kappa1, infop0, infop1)
 
 % prepare result matrices
 res_with = zeros([Tg, N]);
@@ -74,6 +92,8 @@ colorbar;
 figure('name', 'Heat: Mean average with Extremists');
 imagesc(average_with_matrix, clims);
 colorbar;
+end
+
 
 
 %% functions
