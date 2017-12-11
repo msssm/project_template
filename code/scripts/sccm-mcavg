@@ -20,6 +20,8 @@ dfs = []
 for f in args.infilenames:
     dfs.append(pd.read_pickle(f))
 
-mc = pd.concat(dfs).groupby(level=0).mean()
+mcmean = pd.concat(dfs).groupby(level=0).mean()
+mcstd = pd.concat(dfs).groupby(level=0).std()
 
-mc.to_pickle(args.outfilename)
+
+mean.to_pickle(args.outfilename)
