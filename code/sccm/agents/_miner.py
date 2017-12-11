@@ -69,7 +69,7 @@ class Miner(CryptoCurrencyAgent):
 
     def divest_old_hardware(self):
         equip = lambda: self.equipment[0]
-        while len(self.equipment)>0 and self.should_we_divest_hardware(equip()):
+        while len(self.equipment)>0 and self.clock - equip().time_bought  > self.model.parameters['Miner']['age_divest_hardware']:
             self.hashing_capability -= equip().hash_rate
             self.pool.hashing_capability -= equip().hash_rate
             self.power_consumption -= equip().power_consumption
@@ -83,23 +83,12 @@ class Miner(CryptoCurrencyAgent):
         order = SellInfiniteOrder(amount, limit, self.clock, expiration_time, self, is_market_order = True)
         self.placeorder(order)
 
-    def should_we_buy_hardware(self, cash=1.):
-        e = self.model.parameters.buy(self.clock, cash)
-        bitcoin_potentially_mined = e.hash_rate / (self.pool.hashing_capability + e.hash_rate) * self.model.parameters.bitcoins_mined_per_day(self.clock)
-        electricity_cost = self.model.parameters.electricity_cost(self.clock) * 24 * e.power_consumption
-        return electricity_cost < bitcoin_potentially_mined * self.exchange.current_price
-
-    def should_we_divest_hardware(self, e):
-        bitcoin_potentially_mined = e.hash_rate / (self.pool.hashing_capability) * self.model.parameters.bitcoins_mined_per_day(self.clock)
-        electricity_cost = self.model.parameters.electricity_cost(self.clock) * 24 * e.power_consumption
-        return electricity_cost > self.model.parameters['Miner']['strategy_cost_factor_when_to_divest'] * bitcoin_potentially_mined * self.exchange.current_price
-
     def invest_divest(self):
         self.divest_old_hardware()
         bitcoin_we_would_be_willing_to_sell = self.fraction_bitcoin_to_be_sold_for_hardware * self.bitcoin_available
-        #money_we_expect_to_get = bitcoin_we_would_be_willing_to_sell * self.exchange.current_price
-        money_we_want_to_spend = max(self.fraction_cash_to_buy_hardware * self.cash_available, 0.) # TODO: dont copypaste
-        if self.should_we_buy_hardware(money_we_want_to_spend):
+        money_we_expect_to_get = bitcoin_we_would_be_willing_to_sell * self.exchange.current_price
+        money_we_want_to_spend = max(self.fraction_cash_to_buy_hardware * self.cash_available, 0.) + money_we_expect_to_get # TODO: dont copypaste
+        if self.cash_available > 0:  # TODO: check
             self.sell_bitcoin(bitcoin_we_would_be_willing_to_sell)
             self.buy_hardware(money_we_want_to_spend)
 
