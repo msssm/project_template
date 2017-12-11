@@ -9,8 +9,15 @@ Created on Fri Dec  8 15:31:01 2017
 
 from numpy import *
 from matplotlib.pylab import *
-from counter import n , m
-def analyse():
+
+def analyse(test_set):
+
+    toDo = "from %s.counter import *" % test_set
+
+    print toDo
+
+    exec(toDo)
+
     maxDanger_TimeEvolution=zeros((n,m))
     averageDanger_TimeEvolution=zeros((n,m))
     
@@ -22,7 +29,7 @@ def analyse():
     for j in range(0,m):        #iterating over different seeds
         for k in range(0,n):    #iterating over time steps
             filename='out_%s_%s' %(j,k)
-            exec("from %s import *" %filename, globals())   #importing data for given seed and time steps
+            exec("from %s.%s import *" % (test_set, filename), globals())   #importing data for given seed and time steps
             maxDanger_TimeEvolution[k,j]+=maxDanger
         plot(t,maxDanger_TimeEvolution[:,j],'--',linewidth=0.2)   #creating plot
     
@@ -38,7 +45,7 @@ def analyse():
     for j in range(0,m):        #iterating over different seeds
         for k in range(0,n):    #iterating over time steps
             filename='out_%s_%s' %(j,k)
-            exec("from %s import *" %filename, globals())   #importing data for given seed and time steps
+            exec("from %s.%s import *" % (test_set, filename), globals())   #importing data for given seed and time steps
             averageDanger_TimeEvolution[k,j]+=averageDanger
         plot(t,averageDanger_TimeEvolution[:,j],'--',linewidth=0.2)
     
@@ -47,4 +54,12 @@ def analyse():
     savefig('averageDanger_timeEvolution.jpg')
     show()
 
-analyse()
+if __name__ == '__main__' and __package__ is None:
+    import sys, os.path as path
+    sys.path.append(path.dirname(path.dirname(path.abspath(__file__))))
+    from doubleHalfLine.counter import n
+    print n
+    with open("configs.sim") as f:
+        next(f)
+        for test_set in f:
+            analyse(test_set.strip())
