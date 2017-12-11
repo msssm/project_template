@@ -59,9 +59,15 @@ class PaperModel(Model):
         rep['hashing_cap' + '_' + 'avg'] = lambda model: model.hashing_cap_avg
         rep['energy_cons' + '_' + 'avg'] = lambda model: model.energy_cons_avg
 
-        rep['n_orders_sell'] = lambda model: len(model.exchange.orderbook['sell'])
-        rep['n_orders_sellinf'] = lambda model: len(model.exchange.orderbook['sellinf'])
-        rep['n_orders_buy'] = lambda model: len(model.exchange.orderbook['buy'])
+        rep['n_orders_sell_left'] = lambda model: len(model.exchange.orderbook['sell'])
+        rep['n_orders_sellinf_left'] = lambda model: len(model.exchange.orderbook['sellinf'])
+        rep['n_orders_buy_left'] = lambda model: len(model.exchange.orderbook['buy'])
+
+        rep['maxprice'] = lambda model: max(model.exchange.allprices[-1] + [0.])
+        rep['minprice'] = lambda model: min(model.exchange.allprices[-1]+ [0.])
+        rep['n_transactions'] = lambda model: len(model.exchange.allprices)
+        rep['transaction_volume_btc'] = lambda model: model.exchange.tradevolume['bitcoin']
+        rep['transaction_volume_cash'] = lambda model: model.exchange.tradevolume['cash']
 
         self.datacollector = DataCollector(model_reporters=rep)
 

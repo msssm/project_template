@@ -48,6 +48,7 @@ class Exchange:
         self._model = model  # needed for clock
         self.rel_price_var = ValueCache(Calc_rpv(self))
         self.stddev_price_abs_return = ValueCache(Calc_spar(self))
+        self.tradevolume = {'bitcoin': 0., 'cash': 0.}
 
     @property
     def clock(self):
@@ -67,6 +68,7 @@ class Exchange:
         self.stddev_price_abs_return.clear()
         self.price.append(self.price[-1])
         self.allprices.append([])
+        self.tradevolume = {'bitcoin': 0., 'cash': 0.}
 
     def place(self, order):
         order.activate()  # make money unavailable
@@ -137,6 +139,8 @@ class Exchange:
         else:  # remove both
             remove(sell)
             remove(buy)
+        self.tradevolume['bitcoin'] += amount  #  #bitcoin
+        self.tradevolume['cash'] += amount*pT  #  #bitcoin
 
     def remove_old_orders(self):
         self.orderbook['buytoday'].clear()

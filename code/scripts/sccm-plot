@@ -6,7 +6,6 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 
-
 parser = argparse.ArgumentParser(description='plot simulation results')
 parser.add_argument('-i', action='store', dest='filename', help='input pickle df file', default='statistics.pkl')
 
@@ -24,11 +23,16 @@ def plotdata(l, lg=False):
     plt.show()
 
 plotdata(['price'])
+# TODO: volatility bars, so df['maxprice'] and 'minprice'
+
+# TODO: also plot n_transactions, transaction_volume_btc, transaction_volume_cash
+
+# TODO: monitor and plot hardware bought, hardware thrown away etc
 
 plotdata(['n_agents', 'n_miner', 'n_trader', 'n_chartist'])
 plotdata(['btc_miner', 'btc_trader', 'btc_chartist'])
 plotdata(['cash_miner', 'cash_trader', 'cash_chartist'])
-plotdata(['n_orders_sell', 'n_orders_sellinf', 'n_orders_buy'])
+plotdata(['n_orders_sell_left', 'n_orders_sellinf_left', 'n_orders_buy_left'])
 
 
 df[['btc_miner', 'btc_trader', 'btc_chartist']].sum(axis=1).plot()
