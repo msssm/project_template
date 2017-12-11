@@ -2,7 +2,7 @@
 import sys
 import argparse
 import time
-import random
+import random as python_random  # TODO: dont call ours sccm.random
 
 try:
 	from sccm import *
@@ -14,7 +14,7 @@ except ModuleNotFoundError:
 parser = argparse.ArgumentParser(description='run a simulation')
 parser.add_argument('-i', action='store', dest='filename', help='input parameter file', default=None)
 parser.add_argument('-o', action='store', dest='outnameprefix', help='output prefix',default='')
-parser.add_argument('-id', type=int, dest='mc_id', help='number of the montecarlo run, used for seeding',default=1)
+parser.add_argument('-id', type=int, dest='mc_id', help='number of the montecarlo run, used for seeding', default=1)
 
 args = parser.parse_args()
 
@@ -23,13 +23,13 @@ def run():
 	if args.filename is not None:
 		p.load(args.filename)
 
-	seed = (random.getrandbits(64) * (mc_id+1)) % int(time.time())
+	seed = (python_random.getrandbits(64) * (args.mc_id+1)) % int(time.time())
 
 	model = PaperModel(p, seed)
 	model.run()
 	if args.outnameprefix != '':
 		args.outnameprefix += '_'
-	model.save_results(args.outnameprefix+'_'+ str(args.mc_id))
+	model.save_results(args.outnameprefix + str(args.mc_id) + '_')
 
 if __name__ == "__main__":
 	run()

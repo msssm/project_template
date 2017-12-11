@@ -32,9 +32,9 @@ __montecarlo simulations__
 (using job arrays)
 
 ```
-bsub -J "sccmjobname[1-100]" -W "00:10" 'sccm -o run_$LSB_JOBINDEX'
+bsub -J "sccmjobname[1-100]" -R "rusage[mem=4096]" -W "00:10" 'sccm -o results -id $LSB_JOBINDEX'
 
-sccm-mcavg -i *.pkl -o montecarlo_average.pkl
+sccm-mcavg -i results*.pkl -o montecarlo_average.pkl
 
 sccm-plot -i montecarlo_average.pkl
 ```
