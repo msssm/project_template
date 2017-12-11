@@ -1,3 +1,5 @@
 List the names of the configs to test below (do not remove this comment).
-doubleHalfLine
-verticalLine
+# Example (remove all lines starting with a '#'!):
+# bigCircle
+# U_shape
+# cross

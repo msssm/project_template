@@ -95,7 +95,9 @@ public class ControlPanel extends JPanel implements PropertyChangeListener, Chan
         configureSlider(rPartSlider, 1, 10, 0, 2 * Simulation.SECTOR_SIZE);
 
         sizeLabel = new JLabel("Neighbors Needed to Continue Participating");
-        sizeLabel.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 11));
+
+        String fontFamily = sizeLabel.getFont().getFamily();
+        sizeLabel.setFont(new Font(fontFamily, Font.PLAIN, 11));
 
 
         sizeField = new JFormattedTextField();
@@ -121,7 +123,7 @@ public class ControlPanel extends JPanel implements PropertyChangeListener, Chan
 
     private void addListeners() {
         startPauseButton.addActionListener(new ActionListener() {
-            @Override
+            /* @Override */
             public void actionPerformed(ActionEvent e) {
                 if (paused) {
                     simulation.getSimulationTimer().start();
@@ -135,7 +137,7 @@ public class ControlPanel extends JPanel implements PropertyChangeListener, Chan
         });
 
         restartButton.addActionListener(new ActionListener() {
-            @Override
+           /* @Override */
             public void actionPerformed(ActionEvent e) {
                 startPauseButton.setText("Start");
                 paused = true;
@@ -144,7 +146,7 @@ public class ControlPanel extends JPanel implements PropertyChangeListener, Chan
         });
 
         showParticipants.addActionListener(new ActionListener() {
-            @Override
+            /* @Override */
             public void actionPerformed(ActionEvent e) {
                 simulationpanel.shouldShowParticipants = !simulationpanel.shouldShowParticipants;
                 getParent().repaint();
@@ -152,14 +154,14 @@ public class ControlPanel extends JPanel implements PropertyChangeListener, Chan
         });
 
         exportDataButton.addActionListener(new ActionListener() {
-            @Override
+            /* @Override */
             public void actionPerformed(ActionEvent e) {
                 simulation.exportData();
             }
         });
 
         enableDensity.addActionListener(new ActionListener() {
-            @Override
+            /* @Override */
             public void actionPerformed(ActionEvent e) {
                 if (!simulation.enableDensity) {
                     simulation.enableDensity = true;
@@ -173,7 +175,7 @@ public class ControlPanel extends JPanel implements PropertyChangeListener, Chan
         });
 
         enableForce.addActionListener(new ActionListener() {
-            @Override
+            /* @Override */
             public void actionPerformed(ActionEvent e) {
                 if (!simulation.enableForce) {
                     simulation.enableForce = true;
@@ -232,7 +234,7 @@ public class ControlPanel extends JPanel implements PropertyChangeListener, Chan
     /**
      * Called when a field's "value" property changes.
      */
-    @Override
+    /* @Override */
     public void propertyChange(PropertyChangeEvent e) {
         Object source = e.getSource();
         if (source == epsilonField) {
@@ -256,7 +258,7 @@ public class ControlPanel extends JPanel implements PropertyChangeListener, Chan
         }
     }
 
-    @Override
+    /* @Override */
     public void stateChanged(ChangeEvent e) {
         JSlider source = (JSlider) e.getSource();
         if (source == rPartSlider && !source.getValueIsAdjusting()) {
