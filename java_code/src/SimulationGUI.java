@@ -11,7 +11,13 @@ public class SimulationGUI extends JFrame {
         this.simulation = simulation;
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException e) {
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (UnsupportedLookAndFeelException e) {
             e.printStackTrace();
         }
         setTitle("Circle Pit Simulation");

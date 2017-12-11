@@ -42,7 +42,9 @@ public class DataCollector implements ActionListener {
         }
         try {
             outWriter = new PrintWriter(configurationName + "/out_0_0.py", "UTF-8");
-        } catch (FileNotFoundException | UnsupportedEncodingException e) {
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
         this.configurationName = configurationName;
@@ -76,12 +78,14 @@ public class DataCollector implements ActionListener {
             }
             writer.println("])");
             writer.flush();
-        } catch (NoSuchFieldException | IllegalAccessException e) {
+        } catch (NoSuchFieldException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
             e.printStackTrace();
         }
     }
 
-    @Override
+    /*@Override*/
     public void actionPerformed(ActionEvent e) {
         PositionMatrix matrix = simulation.getMatrix();
         realTimeElapsed += Simulation.TIMESTEP;  // Check how much time has elapsed to see if we should dump data
@@ -188,7 +192,9 @@ public class DataCollector implements ActionListener {
         try {
             outWriter.close();
             outWriter = new PrintWriter(newOutFileName, "UTF-8");
-        } catch (FileNotFoundException | UnsupportedEncodingException e3) {
+        } catch (FileNotFoundException e3) {
+            e3.printStackTrace();
+        } catch (UnsupportedEncodingException e3) {
             e3.printStackTrace();
         }
     }

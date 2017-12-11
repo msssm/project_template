@@ -267,7 +267,7 @@ public class Simulation {
 
         // Run a new frame every 50 milliseconds
         timer = new Timer(50, new ActionListener() {
-            @Override
+            /*@Override*/
             public void actionPerformed(ActionEvent e) {
                 runOneTimestep();
                 window.repaint();
@@ -499,12 +499,16 @@ public class Simulation {
         try {
             writer.close();
             writer = new PrintWriter("special" + fileCounter + ".py", "UTF-8");
-        } catch (FileNotFoundException | UnsupportedEncodingException e) {
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         } catch (NullPointerException e) {
             try {
                 writer = new PrintWriter("special" + fileCounter + ".py", "UTF-8");
-            } catch (FileNotFoundException | UnsupportedEncodingException e1) {
+            } catch (FileNotFoundException e1) {
+                e1.printStackTrace();
+            } catch (UnsupportedEncodingException e1) {
                 e1.printStackTrace();
             }
         }

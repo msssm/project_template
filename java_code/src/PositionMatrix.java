@@ -44,11 +44,11 @@ public class PositionMatrix {
         matrix = (LinkedList<Individual>[][]) new LinkedList[width][height];
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
-                matrix[i][j] = new LinkedList<>();
+                matrix[i][j] = new LinkedList<Individual>();
             }
         }
 
-        individuals = new ArrayList<>();
+        individuals = new ArrayList<Individual>();
         isPoliceAtSector = new boolean[width][height];
     }
 
@@ -106,8 +106,8 @@ public class PositionMatrix {
      * @return A <code>java.util.List</code> of the neighbors.
      */
     public List<Individual> getNeighborsFor(Individual individual, double radius) {
-        ArrayList<Individual> neighbors = new ArrayList<>(10);
-        ArrayList<Sector> sectorsToSearch = new ArrayList<>(9);
+        ArrayList<Individual> neighbors = new ArrayList<Individual>(10);
+        ArrayList<Sector> sectorsToSearch = new ArrayList<Sector>(9);
         Sector sector = getSectorForCoords(individual);
         sectorsToSearch.add(sector);
 

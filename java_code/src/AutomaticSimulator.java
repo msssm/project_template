@@ -1,9 +1,6 @@
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.ArrayDeque;
-import java.util.Arrays;
-import java.util.Queue;
-import java.util.Scanner;
+import java.util.*;
 
 /**
  * An object that reads the configs given in <code>configs.sim</code> and executes the corresponding simulations while
@@ -11,7 +8,7 @@ import java.util.Scanner;
  */
 public class AutomaticSimulator {
 
-    private Queue<String> configNames = new ArrayDeque<>();  // The configs to simulate
+    private Queue<String> configNames = new LinkedList<String>();  // The configs to simulate
     private Simulation simulation;
 
     public AutomaticSimulator() throws FileNotFoundException {
