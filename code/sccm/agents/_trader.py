@@ -60,11 +60,11 @@ class Chartist(Trader):
         self.given_time_window = round(normal(**self.model.parameters['Trader']['Chartist']['strategy_timewindow']))  # make it an int
 
     def decide_on_kind_of_order(self):
-        rpv, diff = self.exchange.rel_price_var(self.given_time_window)
-        if (rpv < self.model.parameters['Trader']['Chartist']['strategy_pricevariance_threshold']):  # price stayed more or less the same
+        rpv = self.exchange.rel_price_var(self.given_time_window)
+        threshold = self.model.parameters['Trader']['Chartist']['strategy_pricevariance_threshold']
+        if (rpv > threshold): # price increased significantly
+            return BuyTodayOrder
+        elif(rpv < -threshold):  # price dropped significantly
+            return SellTodayOrder
+        else: # price stayed more or less the same
             return None
-        else:
-            if diff > 0:  # price increased significantly
-                return BuyTodayOrder
-            else:  # price dropped significantly
-                return SellTodayOrder
