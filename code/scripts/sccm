@@ -11,7 +11,7 @@ except ModuleNotFoundError:
 
 parser = argparse.ArgumentParser(description='run a simulation')
 parser.add_argument('-i', action='store', dest='filename', help='input parameter file', default=None)
-parser.add_argument('-o', action='store', dest='outnameprefix', help='output prefix',default='s')
+parser.add_argument('-o', action='store', dest='outnameprefix', help='output prefix',default='')
 
 args = parser.parse_args()
 
@@ -21,8 +21,8 @@ def run():
 		p.load(args.filename)
 	model = PaperModel(p)
 	model.run()
-	if outnameprefix != '':
-		outnameprefix += '_'
+	if args.outnameprefix != '':
+		args.outnameprefix += '_'
 	model.save_results(args.outnameprefix)
 
 if __name__ == "__main__":
