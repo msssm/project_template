@@ -27,3 +27,14 @@ __run__
 bsub -n 1 -W'00:10' sccm
 ```
 
+
+__montecarlo simulations__
+(using job arrays)
+
+```
+bsub -J "sccmjobname[1-100]" -W "00:10" 'sccm -o run_$LSB_JOBINDEX'
+
+sccm-mcavg -i *.pkl -o montecarlo_average.pkl
+
+sccm-plot -i montecarlo_average.pkl
+```
