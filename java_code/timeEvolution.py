@@ -10,11 +10,13 @@ Created on Fri Dec  8 15:31:01 2017
 from numpy import *
 from matplotlib.pylab import *
 
+
 def analyse(test_set):
 
     toDo = "from %s.counter import *" % test_set
 
-    exec(toDo)
+
+    exec(toDo, globals())
 
     maxDanger_TimeEvolution=zeros((n,m))
     averageDanger_TimeEvolution=zeros((n,m))
@@ -33,7 +35,7 @@ def analyse(test_set):
     
     plot(t,mean(maxDanger_TimeEvolution,axis=1),linewidth=1.5,label='mean for different seeds')
     legend()
-    savefig('maxDanger_timeEvolution.jpg')
+    savefig('maxDanger_timeEvolution.png')
     show()    
     
     
@@ -49,13 +51,14 @@ def analyse(test_set):
     
     plot(t,mean(averageDanger_TimeEvolution,axis=1),linewidth=1.5,label='mean for different seeds')
     legend()
-    savefig('averageDanger_timeEvolution.jpg')
+    savefig('averageDanger_timeEvolution.png')
     show()
 
 if __name__ == '__main__' and __package__ is None:
     import sys, os.path as path
     sys.path.append(path.dirname(path.dirname(path.abspath(__file__))))
     from doubleHalfLine.counter import n
+
     with open("configs.sim") as f:
         next(f)
         for test_set in f:
