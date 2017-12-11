@@ -20,8 +20,13 @@ dfs = []
 for f in args.infilenames:
     dfs.append(pd.read_pickle(f))
 
-mcmean = pd.concat(dfs).groupby(level=0).mean()
-mcstd = pd.concat(dfs).groupby(level=0).std()
+mean = pd.concat(dfs).groupby(level=0).mean()
+st = pd.concat(dfs).groupby(level=0).std()
+mx = pd.concat(dfs).groupby(level=0).min()
+mi = pd.concat(dfs).groupby(level=0).max()
 
 
 mean.to_pickle(args.outfilename)
+mi.to_pickle('min_'+args.outfilename)
+mx.to_pickle('max_'+args.outfilename)
+st.to_pickle('std_'+args.outfilename)
