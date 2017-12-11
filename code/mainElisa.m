@@ -3,7 +3,7 @@
 %% author: The Opinionators (Elisa Wall, Alexander Stein, Niklas Tidbury)
 
 %% number of time steps
-T = 10000;
+T = 30;
 
 %% number of iterations
 Tg = 20;
@@ -13,12 +13,12 @@ N = 1089;
 
 %% Properties of the SocietyAgents
 % The threshold u defines when two agents speak/interact with each other
-u = 0.27;
+u = 0.3;
 
 % Mu defines the change of opinion when two agents speak with each other
 %       mu has to be between 0 and 1 to ensure that all opinions are 
 %       opinions are between 0 and 1.
-mu = 0.003;
+mu = 0.3;
 
 %% Properties of the extremists
 % number of extremists

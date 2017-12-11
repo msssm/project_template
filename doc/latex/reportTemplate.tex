@@ -2,6 +2,10 @@
 \usepackage{geometry}                
 \geometry{letterpaper}                   
 
+
+\usepackage{hyperref}
+\usepackage{color}
+
 \usepackage{graphicx}
 \usepackage{amssymb}
 \usepackage{epstopdf}
@@ -102,51 +106,37 @@ Our questions are basically the following:
 
 \section{Model and Implementation}
 \subsection{Society agent in a single time step}
-We have set a society of $N$ agents with opinions $x_i \in [0,1]$, $i \in \{1, N \}$. For initial condition we assume a random uniform distribution which means that all opinions are equally like.
+We have set a society of $N$ agents with opinions $x_i \in [0,1]$, $i \in \{1, N \}$. Initially the distribution of opinions is uniform, which means that all opinions are equally alike.
 
-Then we define a threshold $u$. So agents interact with each other only if their difference in opinion is smaller than this threshold. In \cite{Minor} they refer this to "bounded confidence" which corresponds to the fact that people tend to spend time with agents with similar opinion. A big u means that the society agents are open-minded and can take big changes in their opinion.
+We further define the parameter of a threshold of communication $u$. So agents interact with each other only if their difference in opinion is smaller than this threshold. In \cite{Minor} this is introduced as the "bounded confidence" which corresponds to the fact that people tend to spend time with agents with similar opinion, for instance circle of friends tend to be of similar opinion. By building a threshold u into the structure, the agents only interact with similar-thinking agents, as people generally interact with the like-minded. A big $u$ therefore corresponds to open-minded society agents which interact with people of an opinion "further away".
 
-By building a threshold u into the structure, the agents only interact with similar-thinking agents, as people generally interact with the like-minded.
+The second parameter is the $\mu$, which represents the weight on other opinions of each society agent. When two agents interact with each other they mutually adapt their opinion to some opinion in the middle. \\
 
-When two agents interact with each other they mutual adopt their opinion. This is defined by their difference of opinion and a weight $mu$ that we introduce here. \\
-
-The concrete implementation refered to \cite{Minor} looks as follows:
+The concrete implementation as in \cite{Minor} looks as follows:
 \begin{equation}
 \begin{aligned}
 x(t+1) &= x(t) + \mu(x'(t) - x(t))  \\
-x'(t+1) &= x(t) + \mu(x(t) - x'(t)) 
+x'(t+1) &= x'(t) + \mu(x(t) - x'(t)) 
 \end{aligned}
 \end{equation}
 
-Note that only weight adjustment $0 < \mu < 1$ are allowed to guarantee that the opinions after are between 0 and 1. Next to this a negative value would mean that opinion of the two agents split even more and value bigger than 1 would mean that updated opinion of x will be closer to the opinion of the prior opinion of x' than the updated opinion of x'. 
-
-Also note that using this model, close opinions come even closer and opinions further away from other opinions do not change. "Close" and "far-away" are characterized in $u$.
-
-Until now we have defined how two agents interact with each other and under which threshold they meet. Now we define a single time step in this way that every agent choose randomly another agent of the society within the threshold to interact with him as described above. Further we iterate over the $T$ time steps to get the final update of opinion.
-
-According to \cite{Minor}: If we take reasonable values for $u$ and$\mu$ , this typically follows to a convergence of a unique opinion around $x$ = 0.5.
-
+Note that only weight adjustments $0 < \mu < 1$ are allowed to guarantee that the opinions after are between the two initial opinions and that the values do not exceed the range of [0,1]. A negative value would mean that opinion of the two agents would develop in the opposite direction of opinion. \\*
+A characteristic property of this model is the fact that close opinions come even closer and opinions further away from each other do not influence each other, whereby "close" and "far-away" are defined by $u$. \\*
+Up to now we have defined under which threshold two agents meet and under which weight they exchange their opinion. The next point is to define a single time step in such a way that every agent randomly chooses another agent within the society and the threshold of communication $u$ to interact with him as described above. Then we iterate over the $T$ time steps to get the final update of opinions.
+As concluded in \cite{Minor}, first of all the parameters $\mu$ and $T$ are related in such a way that the results at given $u$ do not vary if by reducing one the other has to be increased. If moreover a high enough value of $u$ = 0.3 or greater as a communication threshold is chosen, the society's opinion converges to a unique opinion around $x$ = 0.5.
 
 \subsection{Extremists}
-After that, we insert the extreme Opinion Individuals to our society. The parameters for each of the two extreme sides are the following: The number of extreme Opinion Indivuduals $n$, the number of society members that can be influenced within a timestep $p$, the probability of persuasion $\kappa$ and the threshold of interaction $infop$. \\*
-So within that probability, the extreme opinion individuals can convince somebody of either opinion 1 or 0.
-
-\paragraph{The Extreme Opinions}
-Within this situation we add $n$ extreme individuals in the beginning with a non-changing opinion in the outer parts of the Gaussian curve at 0 and 1. We assume that the agents are charismatic and have good rhetorics in order to convince $p$ other agents by a probability of success of $\kappa$. This can be interpreted as the influence of certain individuals can be higher, such as social media stars or politicians with extreme opinions. Again, we assume this influence only withing a threshold.
-
-\subsection{Effective values}
-Describe here: What are the effective values? \\
-$n_{eff} = n*p$ follows to: it only matters the product of n and p and not the single values itself.
-
-$\kappa*n_{eff}$ matters but not kappa and neff itself
-
-Finally we will have two effective parameters: infop and $\kappa*n_{eff}$
+Basing on the setting of society of interacting agents with the three parameters $u$, $\mu$ and $T$ of the last chapter we add extreme individuals of non-changing opinion on each of the outskirts of the opinion range at 0 and 1. They represent charismatic individuals of good rhetorics able to convince a lot of people on their opinion, such as social media stars or politicians with extreme opinions. \\*
+This is implemented with the following parameters for each of the two sides: At each time step the $n$ extreme opinion individuals can persuade $p$ other agents by a probability of success of $\kappa$ each, but again only within a threshold of communication, this time called $infop$. \\*
+So here we seemingly add four new parameters to $u$, $\mu$ and $T$, but in fact there are some correlations, just as there were correlations between $\mu$ and $T$ in the case without extremists.
+Firstly, we have an effective number of persuaded people in each time step of $n_{eff} = n \cdot p$ that and that can be united as one parameter. Secondly, this again then can be united to $n_{conv}$ = $\kappa \cdot n_{eff}$, under {\color{red}the constraint that we have high enough numbers such that statistical averages take place}. \\*
+So in the end we have only two additional parameters $n_{conv}$ and $infop$ in the case of the society with extremist, with a total of five parameters of $u$, $\mu$, $T$, $n_{conv}$ and $infop$.
 
 \section{A world without extremists}
-Insert a description of the effects that are already mentioned in the paper.
+In order to keep things easier, we started the simulations with a society without extremists converting against a common opinion around $x$ = 0.5. We therefore first had to code a situation as given in \cite{Minor} in order to reproduce the results.
 
-\subsection{The weigh mu gives the speed of convergence}
-insert the plots and describe the effect
+\subsection{The weight \texorpdfstring{$\mu$}{TEXT} gives the speed of convergence}
+We reproduce the fact, that $\mu$ only acts as a parameter of convergence, and that in the case of a constant $u$ a small $\mu$ has to be compensated with a high number of time steps $T$ and that the results are the same apart from that.
 
 
 \subsection{The threshold u defines the cluster building}
