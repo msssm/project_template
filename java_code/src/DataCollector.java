@@ -177,7 +177,6 @@ public class DataCollector implements ActionListener {
         outWriter.print("maxDanger = ");
         double maxDanger = Double.MIN_VALUE;
         for (Individual individual : matrix.getIndividuals()) {
-            System.out.println(individual.f / 10000 + individual.density / 50);
             maxDanger = Math.max(maxDanger, individual.f / 10000 + individual.density / 50);
         }
         outWriter.println(maxDanger);

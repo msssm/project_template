@@ -14,8 +14,6 @@ def analyse(test_set):
 
     toDo = "from %s.counter import *" % test_set
 
-    print toDo
-
     exec(toDo)
 
     maxDanger_TimeEvolution=zeros((n,m))
@@ -58,7 +56,6 @@ if __name__ == '__main__' and __package__ is None:
     import sys, os.path as path
     sys.path.append(path.dirname(path.dirname(path.abspath(__file__))))
     from doubleHalfLine.counter import n
-    print n
     with open("configs.sim") as f:
         next(f)
         for test_set in f:
