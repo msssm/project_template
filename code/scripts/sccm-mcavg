@@ -1,0 +1,25 @@
+#!/usr/bin/env python3
+
+import argparse
+
+import pandas as pd
+
+parser = argparse.ArgumentParser(description='average over multiple rund')
+parser.add_argument('-i', nargs='+', dest='infilenames', help='input pickle df files', required=True)
+parser.add_argument('-o', action='store', dest='outfilename', help='output pickle df file', required=True)
+
+#TODO: plt.save instead of showing on screen
+
+args = parser.parse_args()
+
+print('input files: ', args.infilenames)
+print('output: ', args.outfilename)
+
+
+dfs = []
+for f in args.infilenames:
+    dfs.append(pd.read_pickle(f))
+
+mc = pd.concat(dfs).groupby(level=0).mean()
+
+mc.to_pickle(args.outfilename)

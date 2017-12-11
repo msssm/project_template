@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 import sys
+import argparse
 
 try:
 	from sccm import *
@@ -8,21 +9,21 @@ except ModuleNotFoundError:
 	sys.path.append('../') #for debugging ./sccm
 	from sccm import *
 
-# TODO: print usage
+parser = argparse.ArgumentParser(description='run a simulation')
+parser.add_argument('-i', action='store', dest='filename', help='input parameter file', default=None)
+parser.add_argument('-o', action='store', dest='outnameprefix', help='output prefix',default='s')
 
-if len(sys.argv) > 1:
-  filename = sys.argv[1]
-  print('parameterfile: ' + filename)
-else:
-  filename = None
+args = parser.parse_args()
 
 def run():
 	p = Parameters()  # load default parameters
-	if filename is not None:
-		p.load(filename)
+	if args.filename is not None:
+		p.load(args.filename)
 	model = PaperModel(p)
 	model.run()
-	model.save_results()  # TODO: save under a different name
+	if outnameprefix != '':
+		outnameprefix += '_'
+	model.save_results(args.outnameprefix)
 
 if __name__ == "__main__":
 	run()

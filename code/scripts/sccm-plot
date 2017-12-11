@@ -1,19 +1,22 @@
 #!/usr/bin/env python3
 
-import sys
+import argparse
 
 import pandas as pd
 import matplotlib.pyplot as plt
 
 
-if len(sys.argv) > 1:
-  filename = sys.argv[1]
-else:
-  filename = 'statistics.pkl'
 
-print('file: '+filename)
+parser = argparse.ArgumentParser(description='plot simulation results')
+parser.add_argument('-i', action='store', dest='filename', help='input pickle df file', default='statistics.pkl')
 
-df = pd.read_pickle(filename)
+#TODO: plt.save instead of showing on screen
+
+args = parser.parse_args()
+
+print('file: '+ args.filename)
+
+df = pd.read_pickle(args.filename)
 
 def plotdata(l, lg=False):
     df[l].plot(logy=lg)
