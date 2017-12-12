@@ -46,7 +46,7 @@ op = create(N);
 %gen_plot("hist", 3, run_simulation("with", op, Tg, T, N, u, mu, n0, p0, kappa0, n1, p1, kappa1, infop0, infop1), "Opinion spread", "Opinion", "Number of Agents", T, N, false);
 %gen_plot("line", 1, run_simulation("with", op, Tg, T, N, u, mu, n0, p0, kappa0, n1, p1, kappa1, infop0, infop1), "Percentages", "Time", "Percentage of Extreme", T, N, false);
 %gen_plot_interval("line", "Percentage over P", "p", "Percentage", "p", create(N), Tg, T, N, u, mu, n0, p0, kappa0, n1, p1, kappa1, infop0, infop1);
-gen_av_plot("without", 2, "hist", "Average of agent opinions over Tg = 10", "Opinion", "Number of agents", Tg, T, N, u, mu, n0, p0, kappa0, n1, p1, kappa1, infop0, infop1);
+gen_av_plot("without", 2, "hist", "Average of agent opinions over Tg = 10", "Opinion", "Number of agents", Tg, T, N, u, mu, n0, p0, kappa0, n1, p1, kappa1, infop0, infop1, false);
 
 %% Function for generating plots
 % plot_type= plot type (hist or line)
@@ -125,14 +125,21 @@ end
 
 %% Function for calculating average over several simulated societies and plotting them accordingly
 % param = with / without extremists
-function [] = gen_av_plot(param, number_of_plots, plot_type, plot_name, x_axis, y_axis, Tg, T, N, u, mu, n0, p0, kappa0, n1, p1, kappa1, infop0, infop1)
+% number_of_plots: number of data sets in plot
+% data = data from simulation (call run_simulation())
+% plot_name = name window of plot
+% plot_type = type of plot
+% x_axis / y_axis = axis labelling
+% other vars = as usual
+% save = activate / deactivate saving plot as png in folder "exports"
+function [] = gen_av_plot(param, number_of_plots, plot_type, plot_name, x_axis, y_axis, Tg, T, N, u, mu, n0, p0, kappa0, n1, p1, kappa1, infop0, infop1, save)
     av_matrix = zeros(T, N, Tg);
     for j = 1:Tg
         av_matrix(:,:,j) = run_simulation(param, create(N), Tg, T, N, u, mu, n0, p0, kappa0, n1, p1, kappa1, infop0, infop1);
     end
     size(av_matrix)
     av = mean(av_matrix,3);
-    gen_plot(plot_type, number_of_plots, av, plot_name, x_axis, y_axis, T, N, false);
+    gen_plot(plot_type, number_of_plots, av, plot_name, x_axis, y_axis, T, N, save);
 end
 
 
