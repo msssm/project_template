@@ -5,7 +5,6 @@
 %% number of time steps
 T = 100;
 
-
 %% number of iterations
 Tg = 50;
 
@@ -18,8 +17,8 @@ u = 0.32;
 
 
 % Mu defines the change of opinion when two agents speak with each other
-%       mu has to be between 0 and 1 to ensure that all opinions are 
-%       opinions are between 0 and 1.
+% mu has to be between 0 and 1 to ensure that all opinions are 
+% opinions are between 0 and 1.
 mu = 0.1;
 
 
@@ -28,14 +27,14 @@ mu = 0.1;
 n0 = 1;
 n1 = 1;
 % number of agents one extremist can reach
-p0 = 100;
-p1 = 100;
+p0 = 10;
+p1 = 10;
 % An extremist convinces an agent with probability kappa
 kappa0 = 0.2;
 kappa1 = 0.2;
 % an extremist has a range of people he reaches
-%       The extremist with opinion 0 can reach all agents with opinion in 
-%       [0,infop0], repectively extremists with opinion 1 to [infop1, 1] 
+% The extremist with opinion 0 can reach all agents with opinion in 
+% [0,infop0], repectively extremists with opinion 1 to [infop1, 1] 
 infop0 = 0.3;
 infop1 = 0.7;
 
@@ -43,10 +42,11 @@ infop1 = 0.7;
 %% run the program
 
 op = create(N);
-%gen_plot("hist", 3, run_simulation("with", op, Tg, T, N, u, mu, n0, p0, kappa0, n1, p1, kappa1, infop0, infop1), "Opinion spread", "Opinion", "Number of Agents", T, N, false);
-%gen_plot("line", 1, run_simulation("with", op, Tg, T, N, u, mu, n0, p0, kappa0, n1, p1, kappa1, infop0, infop1), "Percentages", "Time", "Percentage of Extreme", T, N, false);
+%gen_plot("hist", false, 3, run_simulation("with", op, Tg, T, N, u, mu, n0, p0, kappa0, n1, p1, kappa1, infop0, infop1), "Opinion spread", "Opinion", "Number of Agents", T, N, false);
+gen_plot("hist", true, 1, run_simulation("with", op, Tg, T, N, u, mu, n0, p0, kappa0, n1, p1, kappa1, infop0, infop1), "Percentages", "Time", "Percentage of Extreme", T, N, false);
 %gen_plot_interval("line", "Percentage over P", "p", "Percentage", "p", create(N), Tg, T, N, u, mu, n0, p0, kappa0, n1, p1, kappa1, infop0, infop1);
-gen_av_plot("without", 2, "hist", "Average of agent opinions over Tg = 10", "Opinion", "Number of agents", Tg, T, N, u, mu, n0, p0, kappa0, n1, p1, kappa1, infop0, infop1, false);
+%gen_av_plot("without", 2, "hist", "Average of agent opinions over Tg = 10", "Opinion", "Number of agents", Tg, T, N, u, mu, n0, p0, kappa0, n1, p1, kappa1, infop0, infop1, false);
+
 
 
 
@@ -55,14 +55,16 @@ gen_av_plot("without", 2, "hist", "Average of agent opinions over Tg = 10", "Opi
 
 
 %% Function for generating plots
-% plot_type= plot type (hist or line)
-% number_of_plots: number of data sets in plot
+% plot_type = plot type (hist or line)
+% slider_bool = when number_of_plots is 1, the option to add a slider is
+% given
+% number_of_plots = number of data sets in plot
 % data = data from simulation (call run_simulation())
 % plot_name = name window of plot
 % T = entire time (must be same T as passed to run_simulation())
 % N = society size (must be same N as passed to run_simulation())
 % save = activate / deactivate saving plot as png in folder "exports"
-function [] = gen_plot(plot_type, number_of_plots, data, plot_name, x_axis, y_axis, T, N, save)
+function [] = gen_plot(plot_type, slider_bool, number_of_plots, data, plot_name, x_axis, y_axis, T, N, save)
     figure('name', plot_name);
     disp("Running...");
     if plot_type == "hist"
@@ -74,7 +76,15 @@ function [] = gen_plot(plot_type, number_of_plots, data, plot_name, x_axis, y_ax
                 hold on;
             end
         else
-            histogram(data(T,:), edges, 'DisplayName', ['T = ', num2str(T)]);
+            slmin = 1;
+            slmax = T;
+            histogram(data(1,:), edges, 'DisplayName', ['T = ', num2str(T)]);
+            if slider_bool
+                hsl = uicontrol('Style','slider','Min',slmin,'Max',slmax,...
+                    'SliderStep',[1 1]./(slmax-slmin),'Value',1,...
+                    'Position',[50 10 500 10]);
+                set(hsl,'Callback',@(hObject,eventdata) histogram(data(round(get(hObject,'Value')),:), edges, 'DisplayName', ['T = ', num2str(round(get(hObject,'Value')))]));
+            end
         end
         legend('show');
     elseif plot_type == "line"
