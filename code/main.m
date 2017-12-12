@@ -3,11 +3,11 @@
 %% author: The Opinionators (Elisa Wall, Alexander Stein, Niklas Tidbury)
 
 %% number of time steps
-T = 45;
+T = 100;
 
 
 %% number of iterations
-Tg = 1;
+Tg = 50;
 
 %% number of society agents
 N = 1000;
@@ -28,8 +28,8 @@ mu = 0.1;
 n0 = 1;
 n1 = 1;
 % number of agents one extremist can reach
-p0 = 30;
-p1 = 30;
+p0 = 100;
+p1 = 100;
 % An extremist convinces an agent with probability kappa
 kappa0 = 0.2;
 kappa1 = 0.2;
@@ -43,10 +43,10 @@ infop1 = 0.7;
 %% run the program
 
 op = create(N);
-gen_plot("hist", 3, run_simulation("with", op, Tg, T, N, u, mu, n0, p0, kappa0, n1, p1, kappa1, infop0, infop1), "Opinion spread", "Opinion", "Number of Agents", T, N, true);
-gen_plot("line", 1, run_simulation("with", op, Tg, T, N, u, mu, n0, p0, kappa0, n1, p1, kappa1, infop0, infop1), "Percentages", "Time", "Percentage of Extreme", T, N, false);
+%gen_plot("hist", 3, run_simulation("with", op, Tg, T, N, u, mu, n0, p0, kappa0, n1, p1, kappa1, infop0, infop1), "Opinion spread", "Opinion", "Number of Agents", T, N, false);
+%gen_plot("line", 1, run_simulation("with", op, Tg, T, N, u, mu, n0, p0, kappa0, n1, p1, kappa1, infop0, infop1), "Percentages", "Time", "Percentage of Extreme", T, N, false);
 %gen_plot_interval("line", "Percentage over P", "p", "Percentage", "p", create(N), Tg, T, N, u, mu, n0, p0, kappa0, n1, p1, kappa1, infop0, infop1);
-
+gen_av_plot("without", 2, "hist", "Average of agent opinions over Tg = 10", "Opinion", "Number of agents", Tg, T, N, u, mu, n0, p0, kappa0, n1, p1, kappa1, infop0, infop1);
 
 %% Function for generating plots
 % plot_type= plot type (hist or line)
@@ -55,6 +55,7 @@ gen_plot("line", 1, run_simulation("with", op, Tg, T, N, u, mu, n0, p0, kappa0, 
 % plot_name = name window of plot
 % T = entire time (must be same T as passed to run_simulation())
 % N = society size (must be same N as passed to run_simulation())
+% save = activate / deactivate saving plot as png in folder "exports"
 function [] = gen_plot(plot_type, number_of_plots, data, plot_name, x_axis, y_axis, T, N, save)
     figure('name', plot_name);
     disp("Running...");
@@ -62,7 +63,8 @@ function [] = gen_plot(plot_type, number_of_plots, data, plot_name, x_axis, y_ax
         edges = linspace(0,1,200);
         if number_of_plots > 1
             for i = 1:number_of_plots
-                histogram(data(round(i*T/number_of_plots),:), edges, 'DisplayName', ['T = ', num2str(round(i*T/number_of_plots))]);
+                histdata = data(round(i*T/number_of_plots),:);
+                histogram(histdata, edges, 'DisplayName', ['T = ', num2str(round(i*T/number_of_plots))]);
                 hold on;
             end
         else
@@ -121,6 +123,18 @@ function [] = gen_plot_interval(plot_type, plot_name, x_axis, y_axis, param, op,
     disp("Finished...");
 end
 
+%% Function for calculating average over several simulated societies and plotting them accordingly
+% param = with / without extremists
+function [] = gen_av_plot(param, number_of_plots, plot_type, plot_name, x_axis, y_axis, Tg, T, N, u, mu, n0, p0, kappa0, n1, p1, kappa1, infop0, infop1)
+    av_matrix = zeros(T, N, Tg);
+    for j = 1:Tg
+        av_matrix(:,:,j) = run_simulation(param, create(N), Tg, T, N, u, mu, n0, p0, kappa0, n1, p1, kappa1, infop0, infop1);
+    end
+    size(av_matrix)
+    av = mean(av_matrix,3);
+    gen_plot(plot_type, number_of_plots, av, plot_name, x_axis, y_axis, T, N, false);
+end
+
 
 function [data] = run_simulation(param, op, Tg, T, N, u, mu, n0, p0, kappa0, n1, p1, kappa1, infop0, infop1)
     if param == "without"
@@ -128,13 +142,6 @@ function [data] = run_simulation(param, op, Tg, T, N, u, mu, n0, p0, kappa0, n1,
     elseif param == "with"
         data = with(op, T, N, u, mu, n0, p0, kappa0, n1, p1, kappa1, infop0, infop1);
     end
-end
-
-function [data] = get_average(simulation)
-
-
-
-
 end
 
 
