@@ -60,14 +60,15 @@ function [] = gen_plot(plot_type, number_of_plots, data, plot_name, x_axis, y_ax
     disp("Running...");
     if plot_type == "hist"
         edges = linspace(0,1,200);
-        histogram(data(T,:), edges);
-        hold on;
         if number_of_plots > 1
             for i = 1:number_of_plots
-                histogram(data(round(i*T/number_of_plots),:), edges);
+                histogram(data(round(i*T/number_of_plots),:), edges, 'DisplayName', ['T = ', num2str(round(i*T/number_of_plots))]);
                 hold on;
             end
+        else
+            histogram(data(T,:), edges, 'DisplayName', ['T = ', num2str(T)]);
         end
+        legend('show');
     elseif plot_type == "line"
         tot_perc = zeros(T);
         for i = 1:T
