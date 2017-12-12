@@ -1,5 +1,6 @@
 List the names of the configs to test below (do not remove this comment).
-# Example (remove all lines starting with a '#'!):
-# bigCircle
-# U_shape
+# Insert your configurations here (and remove all lines starting with '#')
+# Example:
+# verticalLine
+# circle
 # cross

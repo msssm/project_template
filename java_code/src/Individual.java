@@ -42,6 +42,10 @@ public class Individual {
      * Number of neighbors of the individual.
      */
     public double density;
+    /**
+     * Continuous (rather than discrete) measure of the danger level of an individual.
+     */
+    public double continuousDangerLevel;
 
     public Individual(double x, double y, double vx, double vy, boolean isParticipating, int dangerLevel) {
         this.x = x;

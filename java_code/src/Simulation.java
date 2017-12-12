@@ -489,6 +489,7 @@ public class Simulation {
             // Set the force acting on this individual and the amount of neighbors so that the danger level can be assessed
             individual.f = norm(F);
             individual.density = neighbors.size();
+            individual.continuousDangerLevel = individual.f / 10000 + individual.density / 50;
         }
     }
 

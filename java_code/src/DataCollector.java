@@ -1,6 +1,7 @@
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.*;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -118,12 +119,14 @@ public class DataCollector implements ActionListener {
 
             // Write data on danger levels of individuals
             writeNumPyArray(individuals, "dangerLevel", outWriter, "dangerLevel");
+            writeNumPyArray(individuals, "continuousDangerLevel", outWriter, "continuousDangerLevel");
 
             writeIsParticipatingData(matrix);  // Write data on which individuals are participating
             writeNumPyArray(individuals, "f", outWriter, "F");  // Write data on force acting on individuals
             writeNumPyArray(individuals, "density", outWriter, "density");  // Write data on density surrounding individuals
             writeAverageDanger(matrix);
             writeMaxDanger(matrix);
+            writeMedianDanger(matrix);
 
             // If we have dumped data enough times, restart with a new seed
             if (timeCounter >= MAX_TIME) {
@@ -185,6 +188,56 @@ public class DataCollector implements ActionListener {
         }
         outWriter.println(maxDanger);
         outWriter.flush();
+    }
+
+    private void writeMedianDanger(PositionMatrix matrix) {
+        outWriter.print("medianDanger = ");
+        // Check if there is an even amount of individuals
+        ArrayList<Individual> individuals = (ArrayList<Individual>) matrix.getIndividuals();
+        int nOver2 = individuals.size() / 2;
+
+        double median = (individuals.size() % 2 == 0) ?
+                (getNthSmallestContinuousDangerLevel(individuals, nOver2) + getNthSmallestContinuousDangerLevel(individuals, nOver2 + 1)) / 2 :
+                getNthSmallestContinuousDangerLevel(individuals, nOver2);
+
+        outWriter.println(median);
+        outWriter.flush();
+    }
+
+    // QuickSelect algorithm
+    private static double getNthSmallestContinuousDangerLevel(ArrayList<Individual> individuals, int n) {
+        double result;
+        double pivot;
+
+        // 3 ArrayLists for elements smaller than pivot, equal to pivot, larger than pivot
+        ArrayList<Individual> lessThanPivot = new ArrayList<Individual>();
+        ArrayList<Individual> greaterThanPivot = new ArrayList<Individual>();
+        ArrayList<Individual> equalToPivot = new ArrayList<Individual>();
+
+        // Select a random pivot
+        pivot = individuals.get((int) (Math.random() * individuals.size())).continuousDangerLevel;
+
+        // Add each element of the given list to the appropriate category
+        for (Individual individual : individuals) {
+            if (individual.continuousDangerLevel < pivot) {
+                lessThanPivot.add(individual);
+            } else if (individual.continuousDangerLevel > pivot) {
+                greaterThanPivot.add(individual);
+            } else {
+                equalToPivot.add(individual);
+            }
+        }
+
+        // Recurse into the appropriate category or return the pivot
+        if (n < lessThanPivot.size()) {
+            result = getNthSmallestContinuousDangerLevel(lessThanPivot, n);
+        } else if (n < lessThanPivot.size() + equalToPivot.size()) {
+            result = pivot;
+        } else {
+            result = getNthSmallestContinuousDangerLevel(greaterThanPivot, n - lessThanPivot.size() - equalToPivot.size());
+        }
+
+        return result;
     }
 
     // Make sure we are writing to the appropriate file
