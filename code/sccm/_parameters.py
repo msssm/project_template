@@ -28,6 +28,8 @@ def calc_factor_total_vs_richest(n, exponent=-1., start=0):  # TODO: paper says 
 defaultparameters['Model']['zipf_total_cash_start'] = {'cash': 20587 * calc_factor_total_vs_richest(160, -1.) * 100, 'exponent': -1.}  #
 defaultparameters['Model']['zipf_total_cash_bitcoin_equivalent_start'] = {'cash': 4117. * calc_factor_total_vs_richest(160) * 100, 'exponent': -1.}  #          #usd, divide by initial price to get initial bitcoin
 defaultparameters['Model']['zipf_total_cash_later'] = {'cash': 200000 * calc_factor_total_vs_richest(39694, -0.6, 160) * 100, 'exponent': -0.6}
+defaultparameters['Model']['zipf_later_start_at_zero'] = False  # start i for zipf law at zero or start at n_initial_agents+1
+
 
 defaultparameters['Model']['number_of_agents'] = {'a' : 2624., 'b': 0.002971, 'c': 608}  # a*exp(b*(t+c))
 defaultparameters['Model']['fraction_miners'] = {'a' : 0.9425, 'b': -0.002654, 'c': 0.}  # a*exp(b*(t+c))
@@ -55,6 +57,8 @@ defaultparameters['Miner']['fraction_cash_to_buy_hardware'] = {'mu': 0.6, 'sigma
 defaultparameters['Miner']['fraction_bitcoin_to_be_sold_for_hardware'] = {'mu': 0.3, 'sigma': 0.075} #half of fraction_cash_to_buy_hardware TODO check half is correct
 defaultparameters['Miner']['initial_hardware'] = {'hashrate': 0.00173, 'powerconsumption': 75}  # corei5
 defaultparameters['Miner']['age_divest_hardware'] = 365
+
+defaultparameters['Miner']['buy_immediately'] = False
 
 
 class Parameters():  # TODO: inherit from dict?

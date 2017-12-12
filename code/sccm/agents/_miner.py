@@ -87,8 +87,10 @@ class Miner(CryptoCurrencyAgent):
         self.divest_old_hardware()
         bitcoin_we_would_be_willing_to_sell = self.fraction_bitcoin_to_be_sold_for_hardware * self.bitcoin_available
         money_we_expect_to_get = bitcoin_we_would_be_willing_to_sell * self.exchange.current_price
-        money_we_want_to_spend = max(self.fraction_cash_to_buy_hardware * self.cash_available, 0.) + money_we_expect_to_get # TODO: dont copypaste
-        if self.cash_available > 0:  # TODO: check
+        money_we_want_to_spend = max(self.fraction_cash_to_buy_hardware * self.cash_available, 0.)
+        if self.model.parameters['Miner']['buy_immediately']:
+            money_we_want_to_spend += money_we_expect_to_get
+        if money_we_want_to_spend > 0.:
             self.sell_bitcoin(bitcoin_we_would_be_willing_to_sell)
             self.buy_hardware(money_we_want_to_spend)
 

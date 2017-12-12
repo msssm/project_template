@@ -111,11 +111,15 @@ class PaperModel(Model):
         inv_factor = self.parameters.scalingfactor * calc_factor_total_vs_richest(number_of_final_traders, exponent=self.parameters['Model']['zipf_total_cash_later']['exponent'], start=number_of_initial_traders)
 
         #TODO TODO TODO where should i for zipf start from?? 0 or number_of_initial_traders??
+        if self.parameters['Model']['zipf_later_start_at_zero']:
+            i_start = 0
+        else:
+            i_start = number_of_initial_traders
         for i in range(number_of_final_traders-number_of_initial_traders):  # need range from 0 for zipf
             kind = self.parameters.random_agent_kind(self.t_end)
             cash = zipf(i, **self.parameters['Model']['zipf_total_cash_later'])/inv_factor
             bitcoin = 0.
-            self.later_agents.append((kind,(i+number_of_initial_traders, self, cash, bitcoin)))  # i must be unique
+            self.later_agents.append((kind,(i+i_start, self, cash, bitcoin)))  # i must be unique
         np.random.shuffle(self.later_agents)  # order list randomly
 
     def step(self):
