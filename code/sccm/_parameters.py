@@ -1,11 +1,10 @@
 import numpy as np
 import json
-import yaml
+import copy
 
 from math import exp, log
 from sccm.agents import *
 from sccm.math import general_exponential
-import copy
 
 defaultparameters = {}
 
@@ -36,7 +35,7 @@ defaultparameters['Model']['fraction_random_traders'] = 0.7  # 70% random trader
 
 defaultparameters['Model']['hashrate_available_per_dollar'] = {'a' : 8.635e4, 'b': 0.006318, 'c': 0.}  # a*exp(b*(t+c))
 defaultparameters['Model']['power_consumption_available_per_hashrate'] = {'a' : 4.649e-7, 'b': -0.004055, 'c': 0.}  # a*exp(b*(t+c))
-defaultparameters['Model']['bitcoin_mined_per_day'] = {0: 7200, 853: 3600}  # key means starting from that date value is valid until next key
+defaultparameters['Model']['bitcoin_mined_per_day'] = {0: 7200, 853: 3600}  # key means starting from that date value is valid until next key, needs to be sorted!!
 
 defaultparameters['Trader']['strategy_limit'] = {'mu' : 1.05, 'K': 2.4, 'sigma_max':0.01, 'sigma_min': 0.003 , 'timewindow': 30}  # use value 30 from the older paper
 
@@ -81,18 +80,19 @@ class Parameters():  # TODO: inherit from dict?
     def load(self, filename='parameters.json'):
         with open(filename, 'r') as f:
             self._pdict = json.load(f)
+        d = self._pdict['Model']['bitcoin_mined_per_day']
+        d_intkeys = {int(key):value for key,value in d.items()}  # this seems to sort it as well
+        self._pdict['Model']['bitcoin_mined_per_day'] = dict(sorted(d_intkeys.items()))  # probably not necessary to sort again here
 
     def electricity_cost(self, t=0.):  # epsilon
         return self._pdict['Model']['electricity_cost']
 
-    def bitcoins_mined_per_day(self, t):  # TODO: make this work for more than 2 values
+    def bitcoins_mined_per_day(self, t):
         d = self._pdict['Model']['bitcoin_mined_per_day']
-        # TODO nicer
-        sortedkeys = list(sorted(d.keys()))
-        for i in range(len(sortedkeys)):
-            if int(sortedkeys[i]) > t: #fix for parameters.load(), TODO: better
-                return d[sortedkeys[i-1]]/self.scalingfactor
-        return d[sortedkeys[-1]]/self.scalingfactor
+        condition = [t >= k for k in d.keys()]
+        values = list(d.values())
+        res = np.piecewise(t, condition, values)
+        return float(res)/self.scalingfactor
 
     def number_of_agents(self, t):
         return round(general_exponential(t+1, **self._pdict['Model']['number_of_agents'])/self.scalingfactor)
