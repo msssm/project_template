@@ -65,7 +65,7 @@ class PaperModel(Model):
 
         rep['maxprice'] = lambda model: max(model.exchange.allprices[-1] + [0.])
         rep['minprice'] = lambda model: min(model.exchange.allprices[-1]+ [0.])
-        rep['n_transactions'] = lambda model: len(model.exchange.allprices)
+        rep['n_transactions'] = lambda model: len(model.exchange.allprices[-1])
         rep['transaction_volume_btc'] = lambda model: model.exchange.tradevolume['bitcoin']
         rep['transaction_volume_cash'] = lambda model: model.exchange.tradevolume['cash']
 
