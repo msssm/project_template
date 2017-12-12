@@ -3,7 +3,7 @@
 %% author: The Opinionators (Elisa Wall, Alexander Stein, Niklas Tidbury)
 
 %% number of time steps
-T = 1000;
+T = 30;
 
 
 %% number of iterations
@@ -36,15 +36,15 @@ kappa1 = 0.2;
 % an extremist has a range of people he reaches
 %       The extremist with opinion 0 can reach all agents with opinion in 
 %       [0,infop0], repectively extremists with opinion 1 to [infop1, 1] 
-infop0 = 0.5;
-infop1 = 0.5;
+infop0 = 0.3;
+infop1 = 0.7;
 
 
 %% run the program
 
 op = create(N);
-gen_plot("hist", 2, run_simulation("with", op, Tg, T, N, u, mu, n0, p0, kappa0, n1, p1, kappa1, infop0, infop1), "Opinion spread", T, N);
-gen_plot("line", 1, run_simulation("with", op, Tg, T, N, u, mu, n0, p0, kappa0, n1, p1, kappa1, infop0, infop1), "Percentages", T, N);
+gen_plot("hist", 2, run_simulation("with", op, Tg, T, N, u, mu, n0, p0, kappa0, n1, p1, kappa1, infop0, infop1), "Opinion spread", "Opinion", "Number of Agents", T, N);
+gen_plot("line", 1, run_simulation("with", op, Tg, T, N, u, mu, n0, p0, kappa0, n1, p1, kappa1, infop0, infop1), "Percentages", "Time", "Percentage of Extreme", T, N);
 %gen_plot_interval("line", "Percentage over P", "p", create(N), Tg, T, N, u, mu, n0, p0, kappa0, n1, p1, kappa1, infop0, infop1);
 
 
@@ -55,7 +55,7 @@ gen_plot("line", 1, run_simulation("with", op, Tg, T, N, u, mu, n0, p0, kappa0, 
 % plot_name = name window of plot
 % T = entire time (must be same T as passed to run_simulation())
 % N = society size (must be same N as passed to run_simulation())
-function [] = gen_plot(plot_type, number_of_plots, data, plot_name, T, N)
+function [] = gen_plot(plot_type, number_of_plots, data, plot_name, x_axis, y_axis, T, N)
     figure('name', plot_name);
     disp("Running...");
     if plot_type == "hist"
@@ -78,6 +78,9 @@ function [] = gen_plot(plot_type, number_of_plots, data, plot_name, T, N)
         end
         plot(tot_perc);
     end
+    title(plot_name');
+    xlabel(x_axis);
+    ylabel(y_axis);
     disp("Finished...");
 end
 
