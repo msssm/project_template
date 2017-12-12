@@ -36,5 +36,5 @@ bsub -J "sccmjobname[1-100]" -R "rusage[mem=4096]" -W "00:10" 'sccm -o results -
 
 sccm-mcavg -i results*.pkl -o montecarlo_average.pkl
 
-sccm-plot -i montecarlo_average.pkl
+sccm-plot montecarlo_average.pkl
 ```
