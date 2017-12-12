@@ -34,7 +34,7 @@ __montecarlo simulations__
 ```
 bsub -J "sccmjobname[1-100]" -R "rusage[mem=4096]" -W "00:10" 'sccm -o results -id $LSB_JOBINDEX -i parameters.json'
 
-sccm-mcavg -i results*.pkl -o montecarlo_average.pkl
+sccm-mcavg -i results*.pkl -o ./montecarlo_
 
-sccm-plot montecarlo_average.pkl
+sccm-plot montecarlo_mean.pkl
 ```
