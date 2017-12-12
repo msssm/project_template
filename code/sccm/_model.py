@@ -69,6 +69,8 @@ class PaperModel(Model):
         rep['transaction_volume_btc'] = lambda model: model.exchange.tradevolume['bitcoin']
         rep['transaction_volume_cash'] = lambda model: model.exchange.tradevolume['cash']
 
+        rep['stddev_price_abs_return'] = lambda model: model.exchange.stddev_price_abs_return(model.parameters['Trader']['strategy_limit']['timewindow'])
+
         self.datacollector = DataCollector(model_reporters=rep)
 
     def update_stats(self):
