@@ -36,8 +36,8 @@ kappa1 = 0.2;
 % an extremist has a range of people he reaches
 %       The extremist with opinion 0 can reach all agents with opinion in 
 %       [0,infop0], repectively extremists with opinion 1 to [infop1, 1] 
-infop0 = 0.3;
-infop1 = 0.7;
+infop0 = 0.5;
+infop1 = 0.5;
 
 
 %% run the program
@@ -45,7 +45,7 @@ infop1 = 0.7;
 op = create(N);
 gen_plot("hist", 2, run_simulation("with", op, Tg, T, N, u, mu, n0, p0, kappa0, n1, p1, kappa1, infop0, infop1), "Opinion spread", T, N);
 gen_plot("line", 1, run_simulation("with", op, Tg, T, N, u, mu, n0, p0, kappa0, n1, p1, kappa1, infop0, infop1), "Percentages", T, N);
-gen_plot_interval("line", "Percentage over P", "p", create(N), Tg, T, N, u, mu, n0, p0, kappa0, n1, p1, kappa1, infop0, infop1);
+%gen_plot_interval("line", "Percentage over P", "p", create(N), Tg, T, N, u, mu, n0, p0, kappa0, n1, p1, kappa1, infop0, infop1);
 
 
 %% Function for generating plots
@@ -73,7 +73,7 @@ function [] = gen_plot(plot_type, number_of_plots, data, plot_name, T, N)
         for i = 1:T
            tot_perc(i) = countPercentage(0,0.1,data(i,:),N);
            if tot_perc(i) == 100
-               disp(["100% at T: ", num2str(T)]);
+               disp(["100% at T: ", num2str(i)]);
            end
         end
         plot(tot_perc);
@@ -97,7 +97,7 @@ function [] = gen_plot_interval(plot_type, plot_name, param, op, Tg, T, N, u, mu
                 arr = run_simulation("with", op, Tg, T, N, u, mu, n0, j, kappa0, n1, j, kappa1, infop0, infop1);
                 perc_total(j) = countPercentage(0, 0.1, arr(T,:), N);
                 if perc_total(j) == 100
-                    disp(["100% at p0: ", num2str(p0)]);
+                    disp(["100% at p0: ", num2str(j)]);
                 end
                 pause(0.0001);
                 drawnow;
