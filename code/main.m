@@ -3,88 +3,114 @@
 %% author: The Opinionators (Elisa Wall, Alexander Stein, Niklas Tidbury)
 
 %% number of time steps
-T = 100;
+T = 10;
 
 %% number of iterations
-Tg = 20;
+Tg = 1;
 
 %% number of society agents
-N = 1089;
+N = 1000;
 
 %% Properties of the SocietyAgents
 % The threshold u defines when two agents speak/interact with each other
-u = 1;
+u = 0.32;
 
 % Mu defines the change of opinion when two agents speak with each other
 %       mu has to be between 0 and 1 to ensure that all opinions are 
 %       opinions are between 0 and 1.
-mu = 0;
+mu = 0.1;
 
 %% Properties of the extremists
 % number of extremists
-n0 = 10;
-n1 = 10;
+n0 = 1;
+n1 = 1;
 % number of agents one extremist can reach
-p0 = 4;
-p1 = 4;
+p0 = 30;
+p1 = 30;
 % An extremist convinces an agent with probability kappa
-kappa0 = 0.1;
-kappa1 = 0.1;
+kappa0 = 0.2;
+kappa1 = 0.2;
 % an extremist has a range of people he reaches
 %       The extremist with opinion 0 can reach all agents with opinion in 
-%       [0,infop0], repectively extremists with opinion 0 to [infop1, 1] 
-infop0 = 0.1;
-infop1 = 0.9;
+%       [0,infop0], repectively extremists with opinion 1 to [infop1, 1] 
+infop0 = 0.3;
+infop1 = 0.7;
 
 
 %% run the program
 
-%run_multi("with", Tg, T, N, u, mu, n0, p0, kappa0, n1, p1, kappa1, infop0, infop1);
-%run_multi("without", Tg, T, N, u, mu, n0, p0, kappa0, n1, p1, kappa1, infop0, infop1);
-run_single("with", Tg, T, N, u, mu, n0, p0, kappa0, n1, p1, kappa1, infop0, infop1);
-run_single("without", Tg, T, N, u, mu, n0, p0, kappa0, n1, p1, kappa1, infop0, infop1);
 
-function [] = run_single(param, Tg, T, N, u, mu, n0, p0, kappa0, n1, p1, kappa1, infop0, infop1)
-    disp("Running...");
-    edges = linspace(0,1,200);
-    if param == "without"
-        figure('name', 'SingleHist: Mean average without Extremists');
-        histogram(without(T, N, u, mu), edges);
-    elseif param == "with"
-        figure('name', 'SingleHist: Mean average with Extremists');
-        histogram(with(T, N, u, mu, n0, p0, kappa0, n1, p1, kappa1, infop0, infop1), edges);
+
+gen_plot("hist", 1, run_simulation("with", create(N), Tg, T, N, u, mu, n0, p0, kappa0, n1, p1, kappa1, infop0, infop1), "Test", T, N);
+gen_plot("line", 1, run_simulation("with", create(N), Tg, T, N, u, mu, n0, p0, kappa0, n1, p1, kappa1, infop0, infop1), "Line Test", T, N);
+gen_plot_interval("line", "Percentage over P", "p", create(N), Tg, T, N, u, mu, n0, p0, kappa0, n1, p1, kappa1, infop0, infop1);
+
+
+%% Function for generating plots
+% plot_type= plot type (hist or line)
+% number_of_plots: number of data sets in plot
+% data = data from simulation (call run_simulation())
+% plot_name = name window of plot
+% T = entire time (must be same T as passed to run_simulation())
+% N = society size (must be same N as passed to run_simulation())
+function [] = gen_plot(plot_type, number_of_plots, data, plot_name, T, N)
+    figure('name', plot_name);
+    if plot_type == "hist"
+        edges = linspace(0,1,200);
+        histogram(data(T,:), edges);
+        hold on;
+        if number_of_plots > 1
+            histogram(data(1,:), edges);
+            hold on;
+            for i = 2:number_of_plots
+                histogram(data(round(i*T/number_of_plots),:), edges);
+                hold on;
+            end
+        end
+    elseif plot_type == "line"
+        tot_perc = zeros(T);
+        for i = 1:T
+           tot_perc(i) = countPercentage(0,0.1,data(i,:),N);
+        end
+        plot(tot_perc);
     end
-    disp("Finished!");
 end
 
-function [] = run_multi(param, Tg, T, N, u, mu, n0, p0, kappa0, n1, p1, kappa1, infop0, infop1)
-    disp("Running...");
-    edges = linspace(0,1,200);
-    if param == "without"
-        res_without = zeros([Tg, N]);
-        for k = 1:Tg
-            % allocate result vectors to array
-            res_without(k,:) = without(T, N, u, mu);
-            perc = k*(100/Tg);
-            disp([num2str(perc),'%']);
+%% Function for generating plots over interval of a certain var (can be customized)
+% plot_type= plot type (hist or line)
+% plot_name = name window of plot
+% param = string name of variable to generate and plot over
+% other vars same as usual
+function [] = gen_plot_interval(plot_type, plot_name, param, op, Tg, T, N, u, mu, n0, p0, kappa0, n1, p1, kappa1, infop0, infop1)
+    figure('name', plot_name);
+    if param == "p"
+        if plot_type == "line"
+            perc_total = zeros(p0, 1);
+            for j = 1:p0
+                arr = run_simulation("with", op, Tg, T, N, u, mu, n0, j, kappa0, n1, j, kappa1, infop0, infop1);
+                perc_total(j) = countPercentage(0, 0.1, arr(T,:), N);
+            end
+            plot(perc_total);
         end
-        average_without = mean(res_without);
-        figure('name', 'MultiHist: Mean average without Extremists');
-        histogram(average_without, edges);
-    elseif param == "with"
-        res_with = zeros([Tg, N]);
-        for k = 1:Tg
-            % allocate result vectors to array
-            res_with(k,:) = with(T, N, u, mu, n0, p0, kappa0, n1, p1, kappa1, infop0, infop1);
-            perc = k*(100/Tg);
-            disp([num2str(perc),'%']);
-        end
-        average_with = mean(res_with);
-        figure('name', 'MultiHist: Mean average with Extremists');
-        histogram(average_with, edges);
     end
-    disp("Finished!");
 end
+
+
+function [data] = run_simulation(param, op, Tg, T, N, u, mu, n0, p0, kappa0, n1, p1, kappa1, infop0, infop1)
+    disp("Running...");
+    if param == "without"
+        data = without(op, T, N, u, mu);
+        perc = 1*(100/Tg);
+        disp([num2str(perc),'%']);
+    elseif param == "with"
+        data = with(op, T, N, u, mu, n0, p0, kappa0, n1, p1, kappa1, infop0, infop1);
+        perc = 1*(100/Tg);
+        disp([num2str(perc),'%']);
+    end
+    disp("Finished...");
+end
+
+
 
 %% functions
 
@@ -115,44 +141,34 @@ end
 end
 
 
-%% The prgram without extremists as given in the paper
+%% The program without extremists as given in the paper
 % Input: T, N, u, mu
 % Output: updated opinion
-function [op] = without(T, N, u, mu)
-%%Creating the society
-op = create(N);
+function [simulation] = without(op, T, N, u, mu)
+
+
+simulation = zeros(T, N);
 
 %% A world without extrimists
 % The influence of a single agent in a singlte timestep t is defined in the
 %       funtion SocietyAgent. We raise up the time steps to T. In every 
 %       time step t, every agent has the chance to speak with another.
-timeGap = 0.01;
 
-for t = 1:T
-    for i = 1:N
-        [op0, op1, k] = SingleAgent(op(i), op, u, N, mu);
-        op(i) = op0;
-        op(k) = op1;
+    for t = 1:T
+        for i = 1:N
+            [op0, op1, k] = SingleAgent(op(i), op, u, N, mu);
+            op(i) = op0;
+            op(k) = op1;
+        end
+        simulation(t, :) = op;
     end
-    
-    %use = vec2mat(op, sqrt(N));
-    %colormap('hot');
-    %imagesc(use);
-    %colorbar;
-    %edges = linspace (0,1,50);
-    %histogram(op, edges);
-    %pause(timeGap);
-    %drawnow;
-end
-
 end
 
 %% The program with extremists
 % Input: T, N, mu, n0, n1, p0, p1, kappa0, kappa1, infop0, infop1
 % Output: histograms
-function [op] = with(T, N, u, mu, n0, p0, kappa0, n1, p1, kappa1, infop0, infop1)
-%% Creating the society
-op = create(N);
+function [simulation] = with(op, T, N, u, mu, n0, p0, kappa0, n1, p1, kappa1, infop0, infop1)
+simulation = zeros(T, N);
 
 %% Effective number of influenced people by the extremists
 
@@ -163,49 +179,43 @@ neff1 = p1 * n1;
 
 
 %% A world with extremists
-timeGap = 0.01;
 
-for t = 1:T
-    % For timestep t; the SoicietyAgents play their game
-    for i = 1:N
-        [op0, op1, k] = SingleAgent(op(i), op, u, N, mu);
-        op(i) = op0;
-        op(k) = op1;
-    end
-    % For timestep t; the extremists with opinion 0 play their game
-    for i = 1:neff0
-        r = rand;
-        k = randi(N);
-        % extremists with opinion 0 only reach agents with similar opinion
-        while op(k) < infop0
+    for t = 1:T
+        % For timestep t; the SocietyAgents play their game
+        for i = 1:N
+            [op0, op1, k] = SingleAgent(op(i), op, u, N, mu);
+            op(i) = op0;
+            op(k) = op1;
+        end
+        % For timestep t; the extremists with opinion 0 play their game
+        for i = 1:neff0
+            r = rand;
             k = randi(N);
+            counter = 0;
+            % extremists with opinion 0 only reach agents with similar opinion
+            while op(k) > infop0 && counter < N
+                k = randi(N);
+                counter = counter + 1;
+            end
+            if r < kappa0
+                op(k) = 0;
+            end
         end
-        if r < kappa0
-            op(k) = 0;
-        end
-    end
-    % For timestep t; the extremists with opinion 1 play their game
-    for i = 1:neff1
-        r = rand;
-        k = randi(N);
-        % extremists with opinion 1 only reach agents with similar opinion
-        while op(k) > infop1
+        % For timestep t; the extremists with opinion 1 play their game
+        for i = 1:neff1
+            r = rand;
             k = randi(N);
+            % extremists with opinion 1 only reach agents with similar opinion
+            while op(k) < infop1 && counter < N
+                k = randi(N);
+                counter = counter + 1;
+            end
+            if r < kappa1
+                op(k) = 1;
+            end
         end
-        if r < kappa1
-            op(k) = 1;
-        end
+        simulation(t, :) = op;
     end
-    
-    %use = vec2mat(op, sqrt(N));
-    %colormap('hot');
-    %imagesc(use);
-    %colorbar;
-    %edges = linspace (0,1,50);
-    %histogram(op, edges);
-    %pause(timeGap);
-    %drawnow;
-end
 end
 
 
@@ -217,14 +227,27 @@ end
 %       op0 and the position of op1 (pos)
 function [opnew0, opnew1, pos] = SingleAgent(op0, op, u, N, mu)
 % op0 meets a randomly chosen agent in the society op, called op1
-pos = randi(N);
-op1 = op(pos);
-if abs(op1 - op0) < u
-    % weighted difference of opinions, weigh is given by mu
-    opnew0 = op0 + mu*(op1-op0);
-    opnew1 = op1 + mu*(op0-op1);
-else
-    opnew0 = op0;
-    opnew1 = op1;
+    pos = randi(N);
+    op1 = op(pos);
+    if abs(op1 - op0) < u
+        % weighted difference of opinions, weigh is given by mu
+        opnew0 = op0 + mu*(op1-op0);
+        opnew1 = op1 + mu*(op0-op1);
+    else
+        opnew0 = op0;
+        opnew1 = op1;
+    end
 end
+
+%% Calculate percentage of opinions in certain interval
+
+function [perc] = countPercentage(lower, upper, op, N)
+  counter = 0;
+  for i = 1:N
+       if (op(i) >= lower && op(i) <= upper) || (op(i) >= 1-upper && op(i) <= 1-lower)
+           counter = counter + 1;
+       end
+  end
+  perc = counter/N*100;
+  %disp([num2str(perc), '% | ', num2str(lower), ' - ', num2str(upper)])
 end
