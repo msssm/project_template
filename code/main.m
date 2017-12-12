@@ -3,7 +3,7 @@
 %% author: The Opinionators (Elisa Wall, Alexander Stein, Niklas Tidbury)
 
 %% number of time steps
-T = 70;
+T = 50;
 
 
 %% number of iterations
@@ -57,6 +57,7 @@ gen_plot_interval("line", "Percentage over P", "p", create(N), Tg, T, N, u, mu, 
 % N = society size (must be same N as passed to run_simulation())
 function [] = gen_plot(plot_type, number_of_plots, data, plot_name, T, N)
     figure('name', plot_name);
+    disp("Running...");
     if plot_type == "hist"
         edges = linspace(0,1,200);
         histogram(data(T,:), edges);
@@ -74,6 +75,7 @@ function [] = gen_plot(plot_type, number_of_plots, data, plot_name, T, N)
         end
         plot(tot_perc);
     end
+    disp("Finished...");
 end
 
 %% Function for generating plots over interval of a certain var (can be customized)
@@ -83,6 +85,7 @@ end
 % other vars same as usual
 function [] = gen_plot_interval(plot_type, plot_name, param, op, Tg, T, N, u, mu, n0, p0, kappa0, n1, p1, kappa1, infop0, infop1)
     figure('name', plot_name);
+    disp("Running...");
     if param == "p"
         if plot_type == "line"
             perc_total = zeros(p0, 1);
@@ -90,16 +93,16 @@ function [] = gen_plot_interval(plot_type, plot_name, param, op, Tg, T, N, u, mu
                 plot(perc_total);
                 arr = run_simulation("with", op, Tg, T, N, u, mu, n0, j, kappa0, n1, j, kappa1, infop0, infop1);
                 perc_total(j) = countPercentage(0, 0.1, arr(T,:), N);
-                pause(0.001);
+                pause(0.0001);
                 drawnow;
             end
         end
     end
+    disp("Finished...");
 end
 
 
 function [data] = run_simulation(param, op, Tg, T, N, u, mu, n0, p0, kappa0, n1, p1, kappa1, infop0, infop1)
-    disp("Running...");
     if param == "without"
         data = without(op, T, N, u, mu);
         perc = 1*(100/Tg);
@@ -109,7 +112,6 @@ function [data] = run_simulation(param, op, Tg, T, N, u, mu, n0, p0, kappa0, n1,
         perc = 1*(100/Tg);
         disp([num2str(perc),'%']);
     end
-    disp("Finished...");
 end
 
 
@@ -251,5 +253,4 @@ function [perc] = countPercentage(lower, upper, op, N)
        end
   end
   perc = counter/N*100;
-  %disp([num2str(perc), '% | ', num2str(lower), ' - ', num2str(upper)])
 end
