@@ -27,6 +27,10 @@ __run__
 bsub -n 1 -W'00:10' sccm
 ```
 
+__obtain default parameters__
+```
+sccm-defaultparameters-print > parameters.json
+```
 
 __montecarlo simulations__
 (using job arrays)

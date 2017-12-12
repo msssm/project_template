@@ -14,7 +14,7 @@ class Order:
     def _match(sell, buy):  # todo: move to order class
         return (sell.limit_price <= buy.limit_price)
 
-    def __repr__(self):
+    def __repr__(self):  # TODO: this sould probably be __str__, TODO: define unambiguous __repr__
         return "BTC {0} order of {1}{2} with residual {3}{2} and limit {4} usd/btc that was placed at time {5}".format(self.kind, self.amount, self.amount_type, self.residual, self.limit_price, self.time_placed)
 
     def is_expired(self, t):

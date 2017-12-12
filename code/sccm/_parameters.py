@@ -77,6 +77,9 @@ class Parameters():  # TODO: inherit from dict?
     def __setitem__(self, key, value):
         self._pdict[key] = value
 
+    def __repr__(self, filename='parameters.json'):
+        return json.dumps(self._pdict, indent=4, sort_keys=True)
+
     def save(self, filename='parameters.json'):
         with open(filename, 'w') as f:
             json.dump(self._pdict, f)
