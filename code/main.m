@@ -3,7 +3,7 @@
 %% author: The Opinionators (Elisa Wall, Alexander Stein, Niklas Tidbury)
 
 %% number of time steps
-T = 50;
+T = 1000;
 
 
 %% number of iterations
@@ -72,6 +72,9 @@ function [] = gen_plot(plot_type, number_of_plots, data, plot_name, T, N)
         tot_perc = zeros(T);
         for i = 1:T
            tot_perc(i) = countPercentage(0,0.1,data(i,:),N);
+           if tot_perc(i) == 100
+               disp(["100% at T: ", num2str(T)]);
+           end
         end
         plot(tot_perc);
     end
@@ -93,6 +96,9 @@ function [] = gen_plot_interval(plot_type, plot_name, param, op, Tg, T, N, u, mu
                 plot(perc_total);
                 arr = run_simulation("with", op, Tg, T, N, u, mu, n0, j, kappa0, n1, j, kappa1, infop0, infop1);
                 perc_total(j) = countPercentage(0, 0.1, arr(T,:), N);
+                if perc_total(j) == 100
+                    disp(["100% at p0: ", num2str(p0)]);
+                end
                 pause(0.0001);
                 drawnow;
             end
@@ -105,12 +111,8 @@ end
 function [data] = run_simulation(param, op, Tg, T, N, u, mu, n0, p0, kappa0, n1, p1, kappa1, infop0, infop1)
     if param == "without"
         data = without(op, T, N, u, mu);
-        perc = 1*(100/Tg);
-        disp([num2str(perc),'%']);
     elseif param == "with"
         data = with(op, T, N, u, mu, n0, p0, kappa0, n1, p1, kappa1, infop0, infop1);
-        perc = 1*(100/Tg);
-        disp([num2str(perc),'%']);
     end
 end
 
