@@ -17,28 +17,56 @@ print('file: '+ args.filename)
 
 df = pd.read_pickle(args.filename)
 
-def plotdata(l, lg=False):
+def plotdata(l, tit, x='time (day)', y='', legend=None, lg=False):
     df[l].plot(logy=lg)
-    plt.legend(l)
+    plt.title(tit)
+    plt.xlabel(x)
+    plt.ylabel(y)
+    if legend is not None:
+        plt.legend(legend)
     plt.show()
 
-plotdata(['price'])
-# TODO: volatility bars, so df['maxprice'] and 'minprice'
-
-# TODO: also plot n_transactions, transaction_volume_btc, transaction_volume_cash
-
-# TODO: monitor and plot hardware bought, hardware thrown away etc
-
-plotdata(['n_agents', 'n_miner', 'n_trader', 'n_chartist'])
-plotdata(['btc_miner', 'btc_trader', 'btc_chartist'])
-plotdata(['cash_miner', 'cash_trader', 'cash_chartist'])
-plotdata(['n_orders_sell_left', 'n_orders_sellinf_left', 'n_orders_buy_left'])
-
+plotdata('price', 'Bitcoin price', y='price (USD)')
+legend1 = ['miners', 'random traders', 'chartists', 'all agents']
+plotdata(['n_miner', 'n_trader', 'n_chartist', 'n_agents'], 'Number of agents', y='number of agents', legend=legend1)
+plotdata(['btc_miner', 'btc_trader', 'btc_chartist'], 'Bitcoins owned by agents', y='number of bitcoins', legend=legend1[:3])
+plotdata(['cash_miner', 'cash_trader', 'cash_chartist'], 'Cash owned by agents', y='cash amount (USD)', legend=legend1[:3])
+legend2 = ['sell orders', 'sellinf orders', 'buy orders']
+plotdata(['n_orders_sell', 'n_orders_sellinf', 'n_orders_buy'], 'Number of orders', y='number of orders', legend=legend2)
+plotdata('energy_cons_avg', 'Average hashing capability', y='hashing capability per miner (GH/s)')
+plotdata('btc_mined_avg', 'Average bitcoin income', y='bitcoin income per miner')
+plotdata('n_transactions', 'Number of transactions', y='number of transactions')
+plotdata('transaction_volume', 'Transaction volume', y='transaction volume (#bitcoin)')
+plotdata('energy_cons_total', 'Total energy consumption', y='energy comsumption (W)', lg=True)
+plotdata('hashing_cap_total', 'Total hashing capability', y='hashing capability (GH/s)', lg=True)
 
 df[['btc_miner', 'btc_trader', 'btc_chartist']].sum(axis=1).plot()
-plt.legend(['btc_total'])
+plt.title('Total number of bitcoins')
+plt.xlabel('time (day)')
+plt.ylabel('number of bitcoins')
 plt.show()
 
 df[['cash_miner', 'cash_trader', 'cash_chartist']].sum(axis=1).plot()
-plt.legend(['cash_total'])
+plt.title('Total amount of cash in the market')
+plt.xlabel('time (day)')
+plt.ylabel('cash amount (USD)')
+plt.show()
+
+def getsum6(p):
+    dat = list(df[p])
+    n = len(dat)
+    m = int(np.floor(n/6))
+    k = 6*m
+    return np.array(dat[:k]).reshape(m, 6).sum(axis=1)
+
+plt.semilogy(getsum6('electricity_cost'))
+plt.title('6 days sum of electricity cost')
+plt.xlabel('time (6 days)')
+plt.ylabel('electricity cost (USD)')
+plt.show()  
+
+plt.semilogy(getsum6('hardware_bought'))
+plt.title('6 days sum of number of bought equipments')
+plt.xlabel('time (6 days)')
+plt.ylabel('equipments bought (#)')
 plt.show()
