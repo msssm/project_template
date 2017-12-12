@@ -2,56 +2,72 @@
 
 import argparse
 
-import pandas as pd
-import matplotlib.pyplot as plt
-
-
 parser = argparse.ArgumentParser(description='plot simulation results')
-parser.add_argument('-i', action='store', dest='filename', help='input pickle df file', default='statistics.pkl')
-
-#TODO: plt.save instead of showing on screen
+parser.add_argument('-o', action='store', dest='outdir', help='output directory', default='')
+parser.add_argument('-show', action="store_true", dest='show', help='show on screen instead of save to file', default=False)
+parser.add_argument(action='store', dest='filename', help='input pickle df file')
 
 args = parser.parse_args()
 
-print('file: '+ args.filename)
+if args.show:
+    import matplotlib.pyplot as plt
+    create_plot = lambda _: plt.show()
+else:
+    import matplotlib
+    matplotlib.use('Agg')  # needed on headless machines without xserver
+    import matplotlib.pyplot as plt
+    def create_plot(name):
+        plt.savefig(name + '.png')
+        plt.clf()  # clear legend, necessary if we dont provide a new legend for next plot
+
+import pandas as pd  # might import matplotlib, but we need to matplotlib.use('Agg') first
+
+print('input: '+ args.filename)
+print('output directory: '+ args.outdir)
 
 df = pd.read_pickle(args.filename)
 
-def plotdata(l, tit, x='time (day)', y='', legend=None, lg=False):
+def plotdata(l, title, xlabel='time (day)', ylabel='', legend=None, lg=False, plot_sum=False, legend_sum=None, filename = ''):
     df[l].plot(logy=lg)
-    plt.title(tit)
-    plt.xlabel(x)
-    plt.ylabel(y)
+    plt.title(title)
+    plt.xlabel(xlabel)
+    plt.ylabel(ylabel)
+    if plot_sum:
+        df[l].sum(axis=1).plot()
+        legend.append(legend_sum)
     if legend is not None:
         plt.legend(legend)
-    plt.show()
+    create_plot(filename)
 
-plotdata('price', 'Bitcoin price', y='price (USD)')
-legend1 = ['miners', 'random traders', 'chartists', 'all agents']
-plotdata(['n_miner', 'n_trader', 'n_chartist', 'n_agents'], 'Number of agents', y='number of agents', legend=legend1)
-plotdata(['btc_miner', 'btc_trader', 'btc_chartist'], 'Bitcoins owned by agents', y='number of bitcoins', legend=legend1[:3])
-plotdata(['cash_miner', 'cash_trader', 'cash_chartist'], 'Cash owned by agents', y='cash amount (USD)', legend=legend1[:3])
-legend2 = ['sell orders', 'sellinf orders', 'buy orders']
-plotdata(['n_orders_sell', 'n_orders_sellinf', 'n_orders_buy'], 'Number of orders', y='number of orders', legend=legend2)
-plotdata('energy_cons_avg', 'Average hashing capability', y='hashing capability per miner (GH/s)')
-plotdata('btc_mined_avg', 'Average bitcoin income', y='bitcoin income per miner')
-plotdata('n_transactions', 'Number of transactions', y='number of transactions')
-plotdata('transaction_volume', 'Transaction volume', y='transaction volume (#bitcoin)')
-plotdata('energy_cons_total', 'Total energy consumption', y='energy comsumption (W)', lg=True)
-plotdata('hashing_cap_total', 'Total hashing capability', y='hashing capability (GH/s)', lg=True)
+plotdata('price', 'Bitcoin price', ylabel='price (USD)', filename='price')
+# TODO; plot price volatility, so I - shaped bar from minprice to maxprice
 
-df[['btc_miner', 'btc_trader', 'btc_chartist']].sum(axis=1).plot()
-plt.title('Total number of bitcoins')
-plt.xlabel('time (day)')
-plt.ylabel('number of bitcoins')
-plt.show()
+legend_agents = ['miners', 'random traders', 'chartists', 'all agents']
+plotdata(['n_miner', 'n_trader', 'n_chartist', 'n_agents'], 'Number of agents', ylabel='number of agents', legend=legend_agents, filename = 'agents')
+plotdata(['btc_miner', 'btc_trader', 'btc_chartist'], 'Bitcoins owned by agents', ylabel='number of bitcoins', legend=legend_agents[:3], plot_sum=True, legend_sum = 'Total number of bitcoins', filename = 'bitcoin')
 
-df[['cash_miner', 'cash_trader', 'cash_chartist']].sum(axis=1).plot()
-plt.title('Total amount of cash in the market')
-plt.xlabel('time (day)')
-plt.ylabel('cash amount (USD)')
-plt.show()
+plotdata(['cash_miner', 'cash_trader', 'cash_chartist'], 'Cash owned by agents', ylabel='cash amount (USD)', legend=legend_agents[:3], plot_sum=True, legend_sum = 'Total amount of cash', filename = 'cash')
 
+# TODO: plot total wealth as sum of cash+bitcoin*price on dataframe per agend kind
+# TODO: also plot average of cash bitcoin and total wealth
+
+legend_orders = ['sell orders', 'infinite sell orders', 'buy orders']
+plotdata(['n_orders_sell_left', 'n_orders_sellinf_left', 'n_orders_buy_left'], 'Number of orders left at end of day', ylabel='number of orders', legend=legend_orders, filename = 'orders')
+
+plotdata('energy_cons_avg', 'Average hashing capability', ylabel='hashing capability per miner (GH/s)', filename = 'energy_avg')
+plotdata('energy_cons_total', 'Total energy consumption', ylabel='energy comsumption (W)', lg=True, filename = 'energy_total')
+
+plotdata('hashing_cap_total', 'Total hashing capability', ylabel='hashing capability (GH/s)', lg=True, filename = 'hashing_avg')
+#plotdata('btc_mined_avg', 'Average bitcoin income', ylabel='bitcoin income per miner', filename = 'hashing_total')
+
+plotdata('n_transactions', 'Number of transactions', ylabel='number of transactions', filename = 'transactions')
+plotdata('transaction_volume_btc', 'Transaction volume', ylabel='transaction volume (#bitcoin)', filename = 'transaction_volume_btc')
+
+plotdata('transaction_volume_cash', 'Transaction volume', ylabel='transaction volume (USD)', filename = 'transaction_volume_cash')
+
+
+# TODO: re-implement datacollection of electricity_cost and hardware_bought
+"""
 def getsum6(p):
     dat = list(df[p])
     n = len(dat)
@@ -60,13 +76,14 @@ def getsum6(p):
     return np.array(dat[:k]).reshape(m, 6).sum(axis=1)
 
 plt.semilogy(getsum6('electricity_cost'))
-plt.title('6 days sum of electricity cost')
+plt.title('6-day sum of electricity cost')
 plt.xlabel('time (6 days)')
 plt.ylabel('electricity cost (USD)')
-plt.show()  
+create_plot(...name...)
 
 plt.semilogy(getsum6('hardware_bought'))
-plt.title('6 days sum of number of bought equipments')
+plt.title('6-day sum of units of equipment bought')
 plt.xlabel('time (6 days)')
 plt.ylabel('equipments bought (#)')
-plt.show()
+create_plot(...name...)
+"""
