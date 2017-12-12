@@ -55,7 +55,7 @@ class Miner(CryptoCurrencyAgent):
             self.bitcoin_available += btc_mined
             self.cash_available -= self.electricity_cost
             if(self.cash_available < 0):
-                self.sell_bitcoin(min(self.electricity_cost*self.exchange.current_price, self.bitcoin_available))
+                self.sell_bitcoin(min(self.electricity_cost/self.exchange.current_price, self.bitcoin_available))
 
     def buy_hardware(self, cash_going_to_spend=None):
         if cash_going_to_spend is None:

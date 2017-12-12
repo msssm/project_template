@@ -37,7 +37,7 @@ defaultparameters['Model']['hashrate_available_per_dollar'] = {'a' : 8.635e4, 'b
 defaultparameters['Model']['power_consumption_available_per_hashrate'] = {'a' : 4.649e-7, 'b': -0.004055, 'c': 0.}  # a*exp(b*(t+c))
 defaultparameters['Model']['bitcoin_mined_per_day'] = {0: 7200, 853: 3600}  # key means starting from that date value is valid until next key, needs to be sorted!!
 
-defaultparameters['Trader']['strategy_limit'] = {'mu' : 1.05, 'K': 2.4, 'sigma_max':0.01, 'sigma_min': 0.003 , 'timewindow': 30}  # use value 30 from the older paper
+defaultparameters['Trader']['strategy_limit'] = {'mu' : 1.05, 'K': 2.4, 'sigma_max':0.03, 'sigma_min': 0.01 , 'timewindow': 30}  # use value 30 from the older paper
 
 defaultparameters['Trader']['RandomTrader']['tradeprobability'] = 0.1
 defaultparameters['Trader']['RandomTrader']['fraction_cash_bitcoin_to_trade'] = {'mu': 0.25, 'sigma':0.2 }

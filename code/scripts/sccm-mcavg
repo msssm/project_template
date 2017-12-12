@@ -6,14 +6,12 @@ import pandas as pd
 
 parser = argparse.ArgumentParser(description='average over multiple rund')
 parser.add_argument('-i', nargs='+', dest='infilenames', help='input pickle df files', required=True)
-parser.add_argument('-o', action='store', dest='outfilename', help='output pickle df file', required=True)
-
-#TODO: plt.save instead of showing on screen
+parser.add_argument('-o', action='store', dest='outdir', help='output directory', default = '')
 
 args = parser.parse_args()
 
 print('input files: ', args.infilenames)
-print('output: ', args.outfilename)
+print('output dir: ', args.outdir)
 
 
 dfs = []
@@ -26,7 +24,7 @@ mx = pd.concat(dfs).groupby(level=0).max()
 mi = pd.concat(dfs).groupby(level=0).min()
 
 
-mean.to_pickle(args.outfilename)
-mi.to_pickle('min_'+args.outfilename)
-mx.to_pickle('max_'+args.outfilename)
-st.to_pickle('std_'+args.outfilename)
+mean.to_pickle(args.outdir+'mean.pkl')
+mi.to_pickle(args.outdir+'min.pkl')
+mx.to_pickle(args.outdir+'max.pkl')
+st.to_pickle(args.outdir+'std.pkl')
