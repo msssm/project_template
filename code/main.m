@@ -3,7 +3,7 @@
 %% author: The Opinionators (Elisa Wall, Alexander Stein, Niklas Tidbury)
 
 %% number of time steps
-T = 10;
+T = 70;
 
 
 %% number of iterations
@@ -28,8 +28,8 @@ mu = 0.1;
 n0 = 1;
 n1 = 1;
 % number of agents one extremist can reach
-p0 = 30;
-p1 = 30;
+p0 = 500;
+p1 = 500;
 % An extremist convinces an agent with probability kappa
 kappa0 = 0.2;
 kappa1 = 0.2;
@@ -42,9 +42,9 @@ infop1 = 0.7;
 
 %% run the program
 
-
-gen_plot("hist", 1, run_simulation("with", create(N), Tg, T, N, u, mu, n0, p0, kappa0, n1, p1, kappa1, infop0, infop1), "Test", T, N);
-gen_plot("line", 1, run_simulation("with", create(N), Tg, T, N, u, mu, n0, p0, kappa0, n1, p1, kappa1, infop0, infop1), "Line Test", T, N);
+op = create(N);
+gen_plot("hist", 2, run_simulation("with", op, Tg, T, N, u, mu, n0, p0, kappa0, n1, p1, kappa1, infop0, infop1), "Opinion spread", T, N);
+gen_plot("line", 1, run_simulation("with", op, Tg, T, N, u, mu, n0, p0, kappa0, n1, p1, kappa1, infop0, infop1), "Percentages", T, N);
 gen_plot_interval("line", "Percentage over P", "p", create(N), Tg, T, N, u, mu, n0, p0, kappa0, n1, p1, kappa1, infop0, infop1);
 
 
@@ -87,10 +87,12 @@ function [] = gen_plot_interval(plot_type, plot_name, param, op, Tg, T, N, u, mu
         if plot_type == "line"
             perc_total = zeros(p0, 1);
             for j = 1:p0
+                plot(perc_total);
                 arr = run_simulation("with", op, Tg, T, N, u, mu, n0, j, kappa0, n1, j, kappa1, infop0, infop1);
                 perc_total(j) = countPercentage(0, 0.1, arr(T,:), N);
+                pause(0.001);
+                drawnow;
             end
-            plot(perc_total);
         end
     end
 end
