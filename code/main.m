@@ -62,9 +62,7 @@ function [] = gen_plot(plot_type, number_of_plots, data, plot_name, T, N)
         histogram(data(T,:), edges);
         hold on;
         if number_of_plots > 1
-            histogram(data(1,:), edges);
-            hold on;
-            for i = 2:number_of_plots
+            for i = 1:number_of_plots
                 histogram(data(round(i*T/number_of_plots),:), edges);
                 hold on;
             end
