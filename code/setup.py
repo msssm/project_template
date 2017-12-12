@@ -12,6 +12,6 @@ setup(name='sccm',
           'numpy',
           'mesa'
       ],
-      scripts=['scripts/sccm','scripts/sccm-plot','scripts/sccm-mcavg'],
+      scripts=['scripts/sccm','scripts/sccm-plot','scripts/sccm-mcavg', 'scripts/sccm-defaultparameters-print'],
       include_package_data=True,
       zip_safe=False)
