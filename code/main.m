@@ -5,6 +5,7 @@
 %% number of time steps
 T = 10;
 
+
 %% number of iterations
 Tg = 1;
 
@@ -15,10 +16,12 @@ N = 1000;
 % The threshold u defines when two agents speak/interact with each other
 u = 0.32;
 
+
 % Mu defines the change of opinion when two agents speak with each other
 %       mu has to be between 0 and 1 to ensure that all opinions are 
 %       opinions are between 0 and 1.
 mu = 0.1;
+
 
 %% Properties of the extremists
 % number of extremists
@@ -38,7 +41,6 @@ infop1 = 0.7;
 
 
 %% run the program
-
 
 
 gen_plot("hist", 1, run_simulation("with", create(N), Tg, T, N, u, mu, n0, p0, kappa0, n1, p1, kappa1, infop0, infop1), "Test", T, N);
