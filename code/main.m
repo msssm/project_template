@@ -28,8 +28,8 @@ mu = 0.1;
 n0 = 1;
 n1 = 1;
 % number of agents one extremist can reach
-p0 = 500;
-p1 = 500;
+p0 = 30;
+p1 = 30;
 % An extremist convinces an agent with probability kappa
 kappa0 = 0.2;
 kappa1 = 0.2;
@@ -45,7 +45,7 @@ infop1 = 0.7;
 op = create(N);
 gen_plot("hist", 2, run_simulation("with", op, Tg, T, N, u, mu, n0, p0, kappa0, n1, p1, kappa1, infop0, infop1), "Opinion spread", "Opinion", "Number of Agents", T, N);
 gen_plot("line", 1, run_simulation("with", op, Tg, T, N, u, mu, n0, p0, kappa0, n1, p1, kappa1, infop0, infop1), "Percentages", "Time", "Percentage of Extreme", T, N);
-%gen_plot_interval("line", "Percentage over P", "p", create(N), Tg, T, N, u, mu, n0, p0, kappa0, n1, p1, kappa1, infop0, infop1);
+gen_plot_interval("line", "Percentage over P", "p", "Percentage", "p", create(N), Tg, T, N, u, mu, n0, p0, kappa0, n1, p1, kappa1, infop0, infop1);
 
 
 %% Function for generating plots
@@ -78,7 +78,7 @@ function [] = gen_plot(plot_type, number_of_plots, data, plot_name, x_axis, y_ax
         end
         plot(tot_perc);
     end
-    title(plot_name');
+    title(plot_name);
     xlabel(x_axis);
     ylabel(y_axis);
     disp("Finished...");
@@ -89,7 +89,7 @@ end
 % plot_name = name window of plot
 % param = string name of variable to generate and plot over
 % other vars same as usual
-function [] = gen_plot_interval(plot_type, plot_name, param, op, Tg, T, N, u, mu, n0, p0, kappa0, n1, p1, kappa1, infop0, infop1)
+function [] = gen_plot_interval(plot_type, plot_name, x_axis, y_axis, param, op, Tg, T, N, u, mu, n0, p0, kappa0, n1, p1, kappa1, infop0, infop1)
     figure('name', plot_name);
     disp("Running...");
     if param == "p"
@@ -107,6 +107,9 @@ function [] = gen_plot_interval(plot_type, plot_name, param, op, Tg, T, N, u, mu
             end
         end
     end
+    title(plot_name);
+    xlabel(x_axis);
+    ylabel(y_axis);
     disp("Finished...");
 end
 
