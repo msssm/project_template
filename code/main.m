@@ -3,7 +3,7 @@
 %% author: The Opinionators (Elisa Wall, Alexander Stein, Niklas Tidbury)
 
 %% number of time steps
-T = 30;
+T = 45;
 
 
 %% number of iterations
@@ -43,9 +43,9 @@ infop1 = 0.7;
 %% run the program
 
 op = create(N);
-gen_plot("hist", 2, run_simulation("with", op, Tg, T, N, u, mu, n0, p0, kappa0, n1, p1, kappa1, infop0, infop1), "Opinion spread", "Opinion", "Number of Agents", T, N);
-gen_plot("line", 1, run_simulation("with", op, Tg, T, N, u, mu, n0, p0, kappa0, n1, p1, kappa1, infop0, infop1), "Percentages", "Time", "Percentage of Extreme", T, N);
-gen_plot_interval("line", "Percentage over P", "p", "Percentage", "p", create(N), Tg, T, N, u, mu, n0, p0, kappa0, n1, p1, kappa1, infop0, infop1);
+gen_plot("hist", 3, run_simulation("with", op, Tg, T, N, u, mu, n0, p0, kappa0, n1, p1, kappa1, infop0, infop1), "Opinion spread", "Opinion", "Number of Agents", T, N, true);
+gen_plot("line", 1, run_simulation("with", op, Tg, T, N, u, mu, n0, p0, kappa0, n1, p1, kappa1, infop0, infop1), "Percentages", "Time", "Percentage of Extreme", T, N, false);
+%gen_plot_interval("line", "Percentage over P", "p", "Percentage", "p", create(N), Tg, T, N, u, mu, n0, p0, kappa0, n1, p1, kappa1, infop0, infop1);
 
 
 %% Function for generating plots
@@ -55,7 +55,7 @@ gen_plot_interval("line", "Percentage over P", "p", "Percentage", "p", create(N)
 % plot_name = name window of plot
 % T = entire time (must be same T as passed to run_simulation())
 % N = society size (must be same N as passed to run_simulation())
-function [] = gen_plot(plot_type, number_of_plots, data, plot_name, x_axis, y_axis, T, N)
+function [] = gen_plot(plot_type, number_of_plots, data, plot_name, x_axis, y_axis, T, N, save)
     figure('name', plot_name);
     disp("Running...");
     if plot_type == "hist"
@@ -82,6 +82,13 @@ function [] = gen_plot(plot_type, number_of_plots, data, plot_name, x_axis, y_ax
     title(plot_name);
     xlabel(x_axis);
     ylabel(y_axis);
+    if save
+       format shortg;
+       c = clock;
+       fix(c);
+       filename = sprintf("exports/gen_plot_%s_%d%d%d%d%d%d.png",plot_name,c(1),c(2),c(3),c(4),c(5),c(6));
+       saveas(gcf,filename);
+    end
     disp("Finished...");
 end
 
@@ -121,6 +128,13 @@ function [data] = run_simulation(param, op, Tg, T, N, u, mu, n0, p0, kappa0, n1,
     elseif param == "with"
         data = with(op, T, N, u, mu, n0, p0, kappa0, n1, p1, kappa1, infop0, infop1);
     end
+end
+
+function [data] = get_average(simulation)
+
+
+
+
 end
 
 
