@@ -48,6 +48,12 @@ op = create(N);
 %gen_plot_interval("line", "Percentage over P", "p", "Percentage", "p", create(N), Tg, T, N, u, mu, n0, p0, kappa0, n1, p1, kappa1, infop0, infop1);
 gen_av_plot("without", 2, "hist", "Average of agent opinions over Tg = 10", "Opinion", "Number of agents", Tg, T, N, u, mu, n0, p0, kappa0, n1, p1, kappa1, infop0, infop1, false);
 
+
+
+
+%% Functions
+
+
 %% Function for generating plots
 % plot_type= plot type (hist or line)
 % number_of_plots: number of data sets in plot
@@ -94,6 +100,7 @@ function [] = gen_plot(plot_type, number_of_plots, data, plot_name, x_axis, y_ax
     disp("Finished...");
 end
 
+
 %% Function for generating plots over interval of a certain var (can be customized)
 % plot_type= plot type (hist or line)
 % plot_name = name window of plot
@@ -123,6 +130,7 @@ function [] = gen_plot_interval(plot_type, plot_name, x_axis, y_axis, param, op,
     disp("Finished...");
 end
 
+
 %% Function for calculating average over several simulated societies and plotting them accordingly
 % param = with / without extremists
 % number_of_plots: number of data sets in plot
@@ -143,6 +151,9 @@ function [] = gen_av_plot(param, number_of_plots, plot_type, plot_name, x_axis, 
 end
 
 
+%% Running a round of simulation
+% returns an T x N matrix of data from the simulation, so we have the data
+% from each given time step for analysis
 function [data] = run_simulation(param, op, Tg, T, N, u, mu, n0, p0, kappa0, n1, p1, kappa1, infop0, infop1)
     if param == "without"
         data = without(op, T, N, u, mu);
@@ -152,33 +163,30 @@ function [data] = run_simulation(param, op, Tg, T, N, u, mu, n0, p0, kappa0, n1,
 end
 
 
-
-%% functions
-
 %% Creating the society
 % Input: number of extremists
 % Output: (1xN) opinion matrix of an arbitrary random distribution 
 %       (gaussian or uniform distribution)
 function [op] = create(N)
-%% Creating the society
-% A society of N SocietyAgents with opinions op in [0,1] that are randomly 
-%       distributed
+    %% Creating the society
+    % A society of N SocietyAgents with opinions op in [0,1] that are randomly 
+    %       distributed
 
-% uniform distribution
-op = rand(1,N);
+    % uniform distribution
+    op = rand(1,N);
 
-% Normal distribution with mean=0.5 and sigma=1
-%{
-op = normrnd(0.5, 1, N, 1);
+    % Normal distribution with mean=0.5 and sigma=1
+    %{
+    op = normrnd(0.5, 1, N, 1);
 
-% We want to guarantee that all opinions are in [0,1]
-for i = 1:N
-    while (op(i) > 1 || op(i) < 0)
-        op(i) = normrnd(0.5, 1);
+    % We want to guarantee that all opinions are in [0,1]
+    for i = 1:N
+        while (op(i) > 1 || op(i) < 0)
+            op(i) = normrnd(0.5, 1);
+        end
+        %disp(op(i));
     end
-    %disp(op(i));
-end
-%}
+    %}
 end
 
 
@@ -186,14 +194,12 @@ end
 % Input: T, N, u, mu
 % Output: updated opinion
 function [simulation] = without(op, T, N, u, mu)
+    %%  A world without extrimists
+    %   The influence of a single agent in a singlte timestep t is defined in the
+    %   function SocietyAgent. We raise up the time steps to T. In every 
+    %   time step t, every agent has the chance to speak with another.
 
-
-simulation = zeros(T, N);
-
-%% A world without extrimists
-% The influence of a single agent in a singlte timestep t is defined in the
-%       funtion SocietyAgent. We raise up the time steps to T. In every 
-%       time step t, every agent has the chance to speak with another.
+    simulation = zeros(T, N);
 
     for t = 1:T
         for i = 1:N
@@ -205,21 +211,20 @@ simulation = zeros(T, N);
     end
 end
 
+
 %% The program with extremists
 % Input: T, N, mu, n0, n1, p0, p1, kappa0, kappa1, infop0, infop1
 % Output: histograms
 function [simulation] = with(op, T, N, u, mu, n0, p0, kappa0, n1, p1, kappa1, infop0, infop1)
-simulation = zeros(T, N);
+    %% Effective number of influenced people by the extremists
+    %   All agents have the same behavior, so we can sum up the influence of all
+    %   agents in the number of people that get influenced
+    
+    simulation = zeros(T, N);
+    neff0 = p0 * n0;
+    neff1 = p1 * n1;
 
-%% Effective number of influenced people by the extremists
-
-% All agents have the same behavior, so we can sum up the influence of all
-%       agents in the number of people that get influenced
-neff0 = p0 * n0;
-neff1 = p1 * n1;
-
-
-%% A world with extremists
+    %% A world with extremists
 
     for t = 1:T
         % For timestep t; the SocietyAgents play their game
@@ -267,7 +272,7 @@ end
 %       new opinion of a randomly chosen op1 (opnew1) that interacted with
 %       op0 and the position of op1 (pos)
 function [opnew0, opnew1, pos] = SingleAgent(op0, op, u, N, mu)
-% op0 meets a randomly chosen agent in the society op, called op1
+    % op0 meets a randomly chosen agent in the society op, called op1
     pos = randi(N);
     op1 = op(pos);
     if abs(op1 - op0) < u
@@ -280,8 +285,8 @@ function [opnew0, opnew1, pos] = SingleAgent(op0, op, u, N, mu)
     end
 end
 
-%% Calculate percentage of opinions in certain interval
 
+%% Calculate percentage of opinions in certain interval (extremist, 0-0.1, 0.9-1)
 function [perc] = countPercentage(lower, upper, op, N)
   counter = 0;
   for i = 1:N
