@@ -45,11 +45,24 @@ plotdata('price', 'Bitcoin price', ylabel='price (USD)', filename='price')
 legend_agents = ['miners', 'random traders', 'chartists', 'all agents']
 plotdata(['n_miner', 'n_trader', 'n_chartist', 'n_agents'], 'Number of agents', ylabel='number of agents', legend=legend_agents, filename = 'agents')
 plotdata(['btc_miner', 'btc_trader', 'btc_chartist'], 'Bitcoins owned by agents', ylabel='number of bitcoins', legend=legend_agents[:3], plot_sum=True, legend_sum = 'Total number of bitcoins', filename = 'bitcoin')
-
 plotdata(['cash_miner', 'cash_trader', 'cash_chartist'], 'Cash owned by agents', ylabel='cash amount (USD)', legend=legend_agents[:3], plot_sum=True, legend_sum = 'Total amount of cash', filename = 'cash')
 
-# TODO: plot total wealth as sum of cash+bitcoin*price on dataframe per agend kind
-# TODO: also plot average of cash bitcoin and total wealth
+# calculate wealth
+for agent in ['miner', 'trader', 'chartist']:
+    df['wealth_'+agent] = df['cash_'+agent] + df['btc_'+agent] * df['price']
+
+# calculate mean over agents
+for agent in ['miner', 'trader', 'chartist']:
+    for currency in ['cash', 'btc', 'wealth']:
+        df[currency+'_' + agent + '_avg'] = df[currency+'_'+agent] / df['n_'+agent]
+
+
+# TODO: make this nicer
+plotdata(['btc_miner_avg', 'btc_trader_avg', 'btc_chartist_avg'], 'Average Bitcoins owned by agents', ylabel='number of bitcoins', legend=legend_agents[:3], filename = 'bitcoin_avg')
+plotdata(['cash_miner_avg', 'cash_trader_avg', 'cash_chartist_avg'], 'Average Cash owned by agents', ylabel='cash amount (USD)', legend=legend_agents[:3], filename = 'cash_avg')
+
+plotdata(['wealth_miner', 'wealth_trader', 'wealth_chartist'], 'Agent Wealth', ylabel='$', legend=legend_agents, plot_sum=True, legend_sum = 'Total wealth', filename = 'wealth')
+plotdata(['wealth_miner_avg', 'wealth_trader_avg', 'wealth_chartist_avg'], 'Average agent wealth', ylabel='$', legend=legend_agents[:3], filename = 'wealth_avg')
 
 legend_orders = ['sell orders', 'infinite sell orders', 'buy orders']
 plotdata(['n_orders_sell_left', 'n_orders_sellinf_left', 'n_orders_buy_left'], 'Number of orders left at end of day', ylabel='number of orders', legend=legend_orders, filename = 'orders')
