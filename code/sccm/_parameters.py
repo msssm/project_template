@@ -55,7 +55,7 @@ defaultparameters['Trader']['Chartist']['strategy_pricevariation_threshold'] = 0
 defaultparameters['Miner']['delta_time_to_decide_on_new_hardware'] = {'mu': 60, 'sigma': 6}
 defaultparameters['Miner']['fraction_cash_to_buy_hardware'] = {'mu': 0.6, 'sigma': 0.15}
 defaultparameters['Miner']['fraction_bitcoin_to_be_sold_for_hardware'] = {'mu': 0.3, 'sigma': 0.075} #half of fraction_cash_to_buy_hardware TODO check half is correct
-defaultparameters['Miner']['initial_hardware'] = {'hashrate': 0.00173, 'powerconsumption': 75}  # corei5
+defaultparameters['Miner']['initial_hardware'] = {'hashrate': 0.00173e9, 'powerconsumption': 75}  # corei5
 defaultparameters['Miner']['age_divest_hardware'] = 365
 
 defaultparameters['Miner']['buy_immediately'] = False
