@@ -21,7 +21,9 @@ else:
     matplotlib.use('Agg')  # needed on headless machines without xserver
     import matplotlib.pyplot as plt
     def create_plot(name):
-        plt.savefig(args.outdir + name + '.png')
+        filename = args.outdir + name + '.png'
+        print(filename)
+        plt.savefig(filename)
         plt.clf()  # clear legend, necessary if we dont provide a new legend for next plot
 
 import pandas as pd  # might import matplotlib, but we need to matplotlib.use('Agg') first
