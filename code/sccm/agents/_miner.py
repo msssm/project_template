@@ -23,7 +23,8 @@ class Miner(CryptoCurrencyAgent):
 
         if self.clock == 0: #entering at time zero
             self.time_when_to_buy_again = np.random.randint(0, self.model.parameters['Miner']['delta_time_to_decide_on_new_hardware']['mu'])  # take decision to buy in the first 60 days uniform distr
-            Corei5 = Equipment(0,**self.model.parameters['Miner']['initial_hardware'])
+            age = np.random.randint(self.model.parameters['Miner']['age_divest_hardware'])  # to prevent all initial miners from divesting at t=365
+            Corei5 = Equipment(**self.model.parameters['Miner']['initial_hardware'], time_bought = -age)
             self.equipment.append(Corei5)  # initial hardware
 
             #update by hand for the sake of performance
