@@ -5,6 +5,10 @@ import argparse
 parser = argparse.ArgumentParser(description='plot simulation results')
 parser.add_argument('-o', action='store', dest='outdir', help='output directory', default='')
 parser.add_argument('-show', action="store_true", dest='show', help='show on screen instead of save to file', default=False)
+parser.add_argument('-all', action="store_true", dest='all', help=' min max std files of mc', default=False)  # TODO: imporve this
+parser.add_argument('-candle', action="store_true", dest='candle', help='plot price candlesticks', default=False)
+
+
 parser.add_argument(action='store', dest='filename', help='input pickle df file')
 
 args = parser.parse_args()
@@ -17,7 +21,7 @@ else:
     matplotlib.use('Agg')  # needed on headless machines without xserver
     import matplotlib.pyplot as plt
     def create_plot(name):
-        plt.savefig(name + '.png')
+        plt.savefig(args.outdir + name + '.png')
         plt.clf()  # clear legend, necessary if we dont provide a new legend for next plot
 
 import pandas as pd  # might import matplotlib, but we need to matplotlib.use('Agg') first
@@ -25,22 +29,43 @@ import pandas as pd  # might import matplotlib, but we need to matplotlib.use('A
 print('input: '+ args.filename)
 print('output directory: '+ args.outdir)
 
-df = pd.read_pickle(args.filename)
+df_mean = pd.read_pickle(args.filename)
+if args.all:
+    df_max = pd.read_pickle(args.filename.strip('mean.pkl') + 'max.pkl')
+    df_min = pd.read_pickle(args.filename.strip('mean.pkl') + 'min.pkl')
+    df_std = pd.read_pickle(args.filename.strip('mean.pkl') + 'std.pkl')  # standard deviation over all monte carlo runs
+
+#TODO: plot stddev montecarlo runs etc
+
 
 def plotdata(l, title, xlabel='time (day)', ylabel='', legend=None, lg=False, plot_sum=False, legend_sum=None, filename = ''):
-    df[l].plot(logy=lg)
+    df_mean[l].plot(logy=lg)
     plt.title(title)
     plt.xlabel(xlabel)
     plt.ylabel(ylabel)
     if plot_sum:
-        df[l].sum(axis=1).plot()
+        df_mean[l].sum(axis=1).plot()
         legend.append(legend_sum)
     if legend is not None:
         plt.legend(legend)
     create_plot(filename)
 
 plotdata('price', 'Bitcoin price', ylabel='price (USD)', filename='price')
-# TODO; plot price volatility, so I - shaped bar from minprice to maxprice
+
+#TODO candle plot for monte carlo simulations;
+# which values to take for max and min??
+
+# see: https://matplotlib.org/examples/pylab_examples/finance_demo.html
+if args.candle:
+    from matplotlib.finance import candlestick_ohlc  # this will give warning about deprecated, TODO fix
+    import numpy as np
+    a = np.array(df_mean.index).reshape((-1, 1))
+    b = df_mean[['price_open', 'price_max', 'price_min', 'price_close']].values
+    data = np.concatenate((a,b), axis=1)
+    #TODO merge days and plot less because this way nothing can be seen
+    candlestick_ohlc(plt.gca(), data)
+    #TODO TODO: plt.xlabel, ylabel title
+    create_plot('candle')
 
 legend_agents = ['miners', 'random traders', 'chartists', 'all agents']
 plotdata(['n_miner', 'n_trader', 'n_chartist', 'n_agents'], 'Number of agents', ylabel='number of agents', legend=legend_agents, filename = 'agents')
@@ -49,12 +74,12 @@ plotdata(['cash_miner', 'cash_trader', 'cash_chartist'], 'Cash owned by agents',
 
 # calculate wealth
 for agent in ['miner', 'trader', 'chartist']:
-    df['wealth_'+agent] = df['cash_'+agent] + df['btc_'+agent] * df['price']
+    df_mean['wealth_'+agent] = df_mean['cash_'+agent] + df_mean['btc_'+agent] * df_mean['price']
 
 # calculate mean over agents
 for agent in ['miner', 'trader', 'chartist']:
     for currency in ['cash', 'btc', 'wealth']:
-        df[currency+'_' + agent + '_avg'] = df[currency+'_'+agent] / df['n_'+agent]
+        df_mean[currency+'_' + agent + '_avg'] = df_mean[currency+'_'+agent] / df_mean['n_'+agent]
 
 
 # TODO: make this nicer
@@ -82,7 +107,7 @@ plotdata('transaction_volume_cash', 'Transaction volume', ylabel='transaction vo
 # TODO: re-implement datacollection of electricity_cost and hardware_bought
 """
 def getsum6(p):
-    dat = list(df[p])
+    dat = list(df_mean[p])
     n = len(dat)
     m = int(np.floor(n/6))
     k = 6*m
