@@ -63,8 +63,13 @@ class PaperModel(Model):
         rep['n_orders_sellinf_left'] = lambda model: len(model.exchange.orderbook['sellinf'])
         rep['n_orders_buy_left'] = lambda model: len(model.exchange.orderbook['buy'])
 
-        rep['maxprice'] = lambda model: max(model.exchange.allprices[-1] + [0.])
-        rep['minprice'] = lambda model: min(model.exchange.allprices[-1]+ [0.])
+        rep['price_max'] = lambda model: np.max(model.exchange.allprices[-1]) if len(model.exchange.allprices[-1]) else 0.
+        rep['price_min'] = lambda model: np.min(model.exchange.allprices[-1]) if len(model.exchange.allprices[-1]) else 0.
+        rep['price_mean'] = lambda model: np.mean(model.exchange.allprices[-1]) if len(model.exchange.allprices[-1]) else 0.
+        rep['price_median'] = lambda model: np.median(model.exchange.allprices[-1]) if len(model.exchange.allprices[-1]) else 0.
+        rep['price_q1'] = lambda model: np.percentile(model.exchange.allprices[-1], 25) if len(model.exchange.allprices[-1]) else 0.
+        rep['price_q3'] = lambda model: np.percentile(model.exchange.allprices[-1], 75) if len(model.exchange.allprices[-1]) else 0.
+
         rep['n_transactions'] = lambda model: len(model.exchange.allprices[-1])
         rep['transaction_volume_btc'] = lambda model: model.exchange.tradevolume['bitcoin']
         rep['transaction_volume_cash'] = lambda model: model.exchange.tradevolume['cash']
