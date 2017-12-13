@@ -15,6 +15,8 @@ parser = argparse.ArgumentParser(description='run a simulation')
 parser.add_argument('-i', action='store', dest='filename', help='input parameter file', default=None)
 parser.add_argument('-o', action='store', dest='outnameprefix', help='output prefix',default='')
 parser.add_argument('-id', type=int, dest='mc_id', help='number of the montecarlo run, used for seeding', default=1)
+parser.add_argument('-seed', action="store", dest='seed', type=int, help='specify seed manually', default=None)
+parser.add_argument('-allprices', action="store_true", dest='allprices', help='save all prices (takes a lot of space)', default=False)
 
 args = parser.parse_args()
 
@@ -23,13 +25,16 @@ def run():
 	if args.filename is not None:
 		p.load(args.filename)
 
-	seed = (python_random.getrandbits(64) * (args.mc_id+1)) % int(time.time())
+	if args.seed is not None:
+		seed = args.seed
+	else:
+		seed = (python_random.getrandbits(64) * (args.mc_id+1)) % int(time.time())
 
 	model = PaperModel(p, seed)
 	model.run()
 	if args.outnameprefix != '':
 		args.outnameprefix += '_'
-	model.save_results(args.outnameprefix + str(args.mc_id) + '_')
+	model.save_results(args.outnameprefix + str(args.mc_id) + '_', save_allprices=args.allprices)
 
 if __name__ == "__main__":
 	run()

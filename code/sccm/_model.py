@@ -141,7 +141,7 @@ class PaperModel(Model):
         self.update_stats()
         self.datacollector.collect(self)
 
-    def save_results(self, name = ''):
+    def save_results(self, name = '', save_allprices=False):
         gini = self.datacollector.get_model_vars_dataframe()
         gini.to_pickle(name + 'statistics.pkl')
         self.parameters.save(name + 'parameters.json')
