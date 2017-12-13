@@ -12,7 +12,7 @@ class Calc_spar:  # standarddeviation of absolute price return
         self._exchange = exchange
     def __call__(self, window):
         start = max(len(self._exchange.price)-window, 0)
-        pricelist = self._exchange.price[start:]
+        pricelist = self._exchange.price[start:]  # TODO: last price should be closing price of prev day
         if len(pricelist) < 2:
             return 0.
         abs_returns = np.divide(np.diff(pricelist), pricelist[:-1])
@@ -24,7 +24,7 @@ class Exchange:
         self.price = [model.parameters['Model']['initial_price']]
         self.allprices = [[model.parameters['Model']['initial_price']]]
         self._model = model  # needed for clock
-        self.stddev_price_abs_return = ValueCache(Calc_spar(self))
+        self.stddev_price_abs_return = ValueCache(Calc_spar(self))  # TODO: compute explicitly instead of cache
         self.tradevolume = {'bitcoin': 0., 'cash': 0.}
 
     def rel_price_var(self, window):

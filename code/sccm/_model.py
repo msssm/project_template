@@ -44,35 +44,33 @@ class PaperModel(Model):
         rep['n_agents'] = lambda model: model.schedule.get_agent_count()
 
         # todo: create reporters using loop, might as well assign some member functions instead lambdas
-        rep['n' + '_' + 'chartist'] = lambda model: model.number_of_agents[Chartist]
+        rep['n' + '_' + 'chartist'] =   lambda model: model.number_of_agents[Chartist]
         rep['btc' + '_' + 'chartist'] = lambda model: model.bitcoin_of_agents[Chartist]
-        rep['cash' + '_' + 'chartist'] = lambda model: model.cash_of_agents[Chartist]
-        rep['n' + '_' + 'trader'] = lambda model: model.number_of_agents[RandomTrader]
-        rep['btc' + '_' + 'trader'] = lambda model: model.bitcoin_of_agents[RandomTrader]
-        rep['cash' + '_' + 'trader'] = lambda model: model.cash_of_agents[RandomTrader]
-        rep['n' + '_' + 'miner'] = lambda model: model.number_of_agents[Miner]
-        rep['btc' + '_' + 'miner'] = lambda model: model.bitcoin_of_agents[Miner]
-        rep['cash' + '_' + 'miner'] = lambda model: model.cash_of_agents[Miner]
+        rep['cash' + '_' + 'chartist'] =lambda model: model.cash_of_agents[Chartist]
+        rep['n' + '_' + 'trader'] =     lambda model: model.number_of_agents[RandomTrader]
+        rep['btc' + '_' + 'trader'] =   lambda model: model.bitcoin_of_agents[RandomTrader]
+        rep['cash' + '_' + 'trader'] =  lambda model: model.cash_of_agents[RandomTrader]
+        rep['n' + '_' + 'miner'] =      lambda model: model.number_of_agents[Miner]
+        rep['btc' + '_' + 'miner'] =    lambda model: model.bitcoin_of_agents[Miner]
+        rep['cash' + '_' + 'miner'] =   lambda model: model.cash_of_agents[Miner]
 
-        rep['hashing_cap' + '_' + 'total'] = lambda model: model.hashing_cap_total
-        rep['energy_cons' + '_' + 'total'] = lambda model: model.energy_cons_total
-        rep['hashing_cap' + '_' + 'avg'] = lambda model: model.hashing_cap_avg
-        rep['energy_cons' + '_' + 'avg'] = lambda model: model.energy_cons_avg
+        rep['hashing_cap' + '_' + 'total'] =    lambda model: model.hashing_cap_total
+        rep['energy_cons' + '_' + 'total'] =    lambda model: model.energy_cons_total
+        rep['hashing_cap' + '_' + 'avg'] =      lambda model: model.hashing_cap_avg
+        rep['energy_cons' + '_' + 'avg'] =      lambda model: model.energy_cons_avg
 
-        rep['n_orders_sell_left'] = lambda model: len(model.exchange.orderbook['sell'])
-        rep['n_orders_sellinf_left'] = lambda model: len(model.exchange.orderbook['sellinf'])
-        rep['n_orders_buy_left'] = lambda model: len(model.exchange.orderbook['buy'])
+        rep['n_orders_sell_left'] =     lambda model: len(model.exchange.orderbook['sell'])
+        rep['n_orders_sellinf_left'] =  lambda model: len(model.exchange.orderbook['sellinf'])
+        rep['n_orders_buy_left'] =      lambda model: len(model.exchange.orderbook['buy'])
 
-        rep['price_max'] = lambda model: np.max(model.exchange.allprices[-1]) if len(model.exchange.allprices[-1]) else 0.
-        rep['price_min'] = lambda model: np.min(model.exchange.allprices[-1]) if len(model.exchange.allprices[-1]) else 0.
-        rep['price_mean'] = lambda model: np.mean(model.exchange.allprices[-1]) if len(model.exchange.allprices[-1]) else 0.
-        rep['price_median'] = lambda model: np.median(model.exchange.allprices[-1]) if len(model.exchange.allprices[-1]) else 0.
-        rep['price_q1'] = lambda model: np.percentile(model.exchange.allprices[-1], 25) if len(model.exchange.allprices[-1]) else 0.
-        rep['price_q3'] = lambda model: np.percentile(model.exchange.allprices[-1], 75) if len(model.exchange.allprices[-1]) else 0.
+        rep['price_max'] =      lambda model: np.max(model.exchange.allprices[-1])  if len(model.exchange.allprices[-1]) > 0 else 0.
+        rep['price_min'] =      lambda model: np.min(model.exchange.allprices[-1])  if len(model.exchange.allprices[-1]) > 0 else 0.
+        rep['price_open'] =     lambda model: model.exchange.allprices[-1][0]       if len(model.exchange.allprices[-1]) > 0 else 0.
+        rep['price_close'] =    lambda model: model.exchange.allprices[-1][-1]      if len(model.exchange.allprices[-1]) > 0 else 0.
 
         rep['n_transactions'] = lambda model: len(model.exchange.allprices[-1])
-        rep['transaction_volume_btc'] = lambda model: model.exchange.tradevolume['bitcoin']
-        rep['transaction_volume_cash'] = lambda model: model.exchange.tradevolume['cash']
+        rep['transaction_volume_btc'] =     lambda model: model.exchange.tradevolume['bitcoin']
+        rep['transaction_volume_cash'] =    lambda model: model.exchange.tradevolume['cash']
 
         rep['stddev_price_abs_return'] = lambda model: model.exchange.stddev_price_abs_return(model.parameters['Trader']['strategy_limit']['timewindow'])
 
