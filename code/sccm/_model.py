@@ -145,8 +145,10 @@ class PaperModel(Model):
         gini = self.datacollector.get_model_vars_dataframe()
         gini.to_pickle(name + 'statistics.pkl')
         self.parameters.save(name + 'parameters.json')
-        with open(name + 'allprices.pkl', 'wb') as f:
-            pickle.dump(self.exchange.allprices, f)
+        if save_allprices:
+            with open(name + 'allprices.pkl', 'wb') as f:
+                pickle.dump(self.exchange.allprices, f)
+
 
     def run(self, steps=None):
         if steps is None:
