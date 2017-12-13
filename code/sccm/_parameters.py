@@ -50,7 +50,7 @@ defaultparameters['Trader']['Chartist']['fraction_cash_bitcoin_to_trade'] = {'mu
 defaultparameters['Trader']['Chartist']['tradeprobability'] = 0.5
 defaultparameters['Trader']['Chartist']['probability_market_order'] = 0.7
 defaultparameters['Trader']['Chartist']['strategy_timewindow'] = {'mu':20, 'sigma': 1.}
-defaultparameters['Trader']['Chartist']['strategy_pricevariance_threshold'] = 0.01
+defaultparameters['Trader']['Chartist']['strategy_pricevariation_threshold'] = 0.01
 
 defaultparameters['Miner']['delta_time_to_decide_on_new_hardware'] = {'mu': 60, 'sigma': 6}
 defaultparameters['Miner']['fraction_cash_to_buy_hardware'] = {'mu': 0.6, 'sigma': 0.15}

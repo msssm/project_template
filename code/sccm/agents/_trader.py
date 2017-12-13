@@ -61,7 +61,7 @@ class Chartist(Trader):
 
     def decide_on_kind_of_order(self):
         rpv = self.exchange.rel_price_var(self.given_time_window)
-        threshold = self.model.parameters['Trader']['Chartist']['strategy_pricevariance_threshold']
+        threshold = self.model.parameters['Trader']['Chartist']['strategy_pricevariation_threshold']
         if (rpv > threshold): # price increased significantly
             return BuyTodayOrder
         elif(rpv < -threshold):  # price dropped significantly
