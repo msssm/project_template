@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2015.11.28)  11 DEC 2017 21:36
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2015.11.28)  14 DEC 2017 11:10
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -375,7 +375,7 @@ Package epstopdf Info: Source file: <ETHlogo.eps>
 df ETHlogo.eps>
 (epstopdf)             \includegraphics on input line 5.
 Package epstopdf Info: Output file is already uptodate.
- <ETHlogo-eps-converted-to.pdf, id=48, 179.67125pt x 45.16875pt>
+ <ETHlogo-eps-converted-to.pdf, id=64, 179.67125pt x 45.16875pt>
 File: ETHlogo-eps-converted-to.pdf Graphic file (type pdf)
 
 <use ETHlogo-eps-converted-to.pdf>
@@ -417,21 +417,34 @@ Underfull \hbox (badness 10000) in paragraph at lines 113--114
  []
 
 [5] [6]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 170.
+Missing character: There is no â in font cmr12!
+Missing character: There is no € in font cmr12!
+Missing character: There is no œ in font cmr12!
+Missing character: There is no â in font cmr12!
+Missing character: There is no € in font cmr12!
+Missing character: There is no  in font cmr12!
+Missing character: There is no â in font cmr12!
+Missing character: There is no € in font cmr12!
+Missing character: There is no œ in font cmr12!
+Missing character: There is no â in font cmr12!
+Missing character: There is no € in font cmr12!
+Missing character: There is no  in font cmr12!
  [7]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 170.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 191.
+ [8]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 191.
  (./reportTemplate.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 170.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 170.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 191.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 191.
 Package rerunfilecheck Info: File `reportTemplate.out' has not changed.
-(rerunfilecheck)             Checksum: C5AB16AFE55791F555F946F933B32DA0;716.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 170.
+(rerunfilecheck)             Checksum: CDBFCB1F78084FBB221ACAAD0AAB9B31;1091.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 191.
  ) 
 Here is how much of TeX's memory you used:
- 6479 strings out of 493089
- 93592 string characters out of 6134841
- 183941 words of memory out of 5000000
- 9868 multiletter control sequences out of 15000+600000
+ 6488 strings out of 493089
+ 93718 string characters out of 6134841
+ 184945 words of memory out of 5000000
+ 9872 multiletter control sequences out of 15000+600000
  12457 words of font info for 48 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  30i,10n,28p,749b,325s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -444,10 +457,10 @@ local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/lo
 cal/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/loc
 al/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local
 /texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb>
-Output written on reportTemplate.pdf (7 pages, 135989 bytes).
+Output written on reportTemplate.pdf (8 pages, 141660 bytes).
 PDF statistics:
- 153 PDF objects out of 1000 (max. 8388607)
- 132 compressed objects within 2 object streams
- 25 named destinations out of 1000 (max. 500000)
- 94 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 178 PDF objects out of 1000 (max. 8388607)
+ 156 compressed objects within 2 object streams
+ 30 named destinations out of 1000 (max. 500000)
+ 126 words of extra memory for PDF output out of 10000 (max. 10000000)
 

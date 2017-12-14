@@ -135,7 +135,7 @@ So in the end we have only two additional parameters $n_{conv}$ and $infop$ in t
 \section{A world without extremists}
 In order to keep things easier, we started the simulations with a society without extremists converting against a common opinion around $x$ = 0.5. We therefore first had to code a situation as given in \cite{Minor} in order to reproduce the results.
 
-\subsection{The weight \texorpdfstring{$\mu$}{TEXT} gives the speed of convergence}
+\subsection{The weight \texorpdfstring{$\mu$}{TEXT} gives the speed of convergence, but has no influence on result}
 We reproduce the fact, that $\mu$ only acts as a parameter of convergence, and that in the case of a constant $u$ a small $\mu$ has to be compensated with a high number of time steps $T$ and that the results are the same apart from that.
 
 
@@ -146,6 +146,27 @@ insert the plot and describe the effect
 
 \section{A world with extremists}
 We extended the paper. The experiments and their results should be discussed here.
+\subsection{Varying weight \texorpdfstring{$\mu$}{TEXT}}
+In the case of a society without extremists, $\mu$ was just a measure of convergence, but did not have an influence on the result. So if a small $\mu$ was chosen, we number of timesteps T could be increased accordingly to get  to the same result of convergence (See Chapter 4.1). \\*
+While varying the values of $\mu$ and T in a society with extremists, $/mu$ does not only influence the convergence, but also the spread of opinions. If a small $\mu$ is chosen, thus the natural convergence is slow, this leads to more agents with extreme opinions, compared to a high $\mu$. \\*
+This can be explained as follows: If the natural convergence is slow, more time steps are needed to get to the stationary state. But the extremists influence is independent of $\mu$. Therefore, if the natural influence is small, the extremists have more time to grasp agents with opinions in the interval accessible to the the agents who could pull them to the average opinion cluster at $x$ = 0.5. \\*
+Plot with small mu (resp big T) and big mu (resp small T) to show that effect. The extremists should be strong (means infop for example around 0.4 and big value for $n_{conv}$)
+
+\subsection{Varying the extremists interval of influence \texorpdfstring{$infop$}{TEXT}}
+Next, the interval of influence is varied from 0 to 0.5 symmetrically. \\*
+plot: histogram for with and without for increasing T \\*
+Question: For which T do we reach a stable state? When do we lose the convergence around 0.5? - I think the convergence is highly dependent on the infop factor! (similar to u since infop is kind of u for the extremists...)
+
+\subsection{Varying the number of convinced agents \texorpdfstring{$n_{conv}$}{TEXT}}
+If we fix $\mu$ to 0.1 and $u$ to 0.32 (just to be sure), in the case of a society without extremists we would see a convergence of opinions. Now the extremists are inserted and we examine the cluster development on the edges of the opinion range. \\*
+If we fix $n$ to only 1 extremist per side and $\kappa$ to 0.2, but we vary the number of influenceable people $p$ in [0,$P$] such that for the number $P$ all the agents end up at the edges. \\*
+Plots: 1) Time plots of the percentage on the corners, 2) Plot the final (stable) percentage over p
+Question: At which time step do we reach stable state? When do we reach the point that every agent has an extreme opinion? What is the dependence of the edge percentage to $n_{conv}$?
+
+\subsection{Stability of the average opinion}
+Without extremists, the agents end up with a common opinion around 0.5 with a small deviation. If extremists are inserted, we observe a higher deviation. \\*
+plot: for T tending towards infinity and iterating over with and without calculate for each iteration the average and plot all of them in a “average with” and a “average without” histogram. \\*
+Question: For T tending to infinity and iteration of with and without, what are the averages of the opnion?
 
 
 \section{Discussion}
@@ -155,7 +176,7 @@ a typical discussion... what was good/bad? Problems? Interpretation of our simul
 Until now we considered only symmetric random distributions and symmetric distribution of extremists. What is gonna happen if this will be asymmetric?
 
 
-If we do no Gaussian distribtion: a normal distribution is a sensible alternative opinion distribution where 0.5 is the main stream opinion and other opinions are spreaded around the main stream distribution. Sigma would be measure for "how far" the other opinions are spreaded from the main stream opinion.
+If we do no Gaussian distribtion: a normal distribution is a sensible alternative opinion distribution where 0.5 is the main stream opinion and other opinions are spreaded around the main stream distribution. Sigma would be measure for 'how far' the other opinions are spreaded from the main stream opinion.
 
 
 %\section{References}
