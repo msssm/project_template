@@ -3,7 +3,7 @@
 %% author: The Opinionators (Elisa Wall, Alexander Stein, Niklas Tidbury)
 
 %% number of time steps
-T = 100;
+T = 30;
 
 %% number of iterations
 Tg = 50;
@@ -19,7 +19,7 @@ u = 0.32;
 % Mu defines the change of opinion when two agents speak with each other
 % mu has to be between 0 and 1 to ensure that all opinions are 
 % opinions are between 0 and 1.
-mu = 0.1;
+mu = 0.3;
 
 
 %% Properties of the extremists
@@ -42,9 +42,9 @@ infop1 = 0.7;
 %% run the program
 
 op = create(N);
-%gen_plot("hist", false, 3, run_simulation("with", op, Tg, T, N, u, mu, n0, p0, kappa0, n1, p1, kappa1, infop0, infop1), "Opinion spread", "Opinion", "Number of Agents", T, N, false);
-gen_plot("hist", true, 1, run_simulation("with", op, Tg, T, N, u, mu, n0, p0, kappa0, n1, p1, kappa1, infop0, infop1), "Percentages", "Time", "Percentage of Extreme", T, N, false);
-%gen_plot_interval("line", "Percentage over P", "p", "Percentage", "p", create(N), Tg, T, N, u, mu, n0, p0, kappa0, n1, p1, kappa1, infop0, infop1);
+%gen_plot("hist", false, 3, run_simulation("with", op, Tg, T, N, u, mu, n0, p0, kappa0, n1, p1, kappa1, infop0, infop1), "mu=0.3", "Opinion", "Number of Agents", T, N, true);
+%gen_plot("hist", true, 1, run_simulation("with", op, Tg, T, N, u, mu, n0, p0, kappa0, n1, p1, kappa1, infop0, infop1), "Percentages", "Time", "Percentage of Extreme", T, N, false);
+gen_plot_interval("line", "Percentage of agents with same opinion between 0.45 and 0.55", "u * 100", "Percentage", true, "without", "u", create(N), Tg, T, N, u, mu, n0, p0, kappa0, n1, p1, kappa1, infop0, infop1);
 %gen_av_plot("without", 2, "hist", "Average of agent opinions over Tg = 10", "Opinion", "Number of agents", Tg, T, N, u, mu, n0, p0, kappa0, n1, p1, kappa1, infop0, infop1, false);
 
 
@@ -116,7 +116,7 @@ end
 % plot_name = name window of plot
 % param = string name of variable to generate and plot over
 % other vars same as usual
-function [] = gen_plot_interval(plot_type, plot_name, x_axis, y_axis, param, op, Tg, T, N, u, mu, n0, p0, kappa0, n1, p1, kappa1, infop0, infop1)
+function [] = gen_plot_interval(plot_type, plot_name, x_axis, y_axis, save, simtype, param, op, Tg, T, N, u, mu, n0, p0, kappa0, n1, p1, kappa1, infop0, infop1)
     figure('name', plot_name);
     disp("Running...");
     if param == "p"
@@ -124,8 +124,22 @@ function [] = gen_plot_interval(plot_type, plot_name, x_axis, y_axis, param, op,
             perc_total = zeros(p0, 1);
             for j = 1:p0
                 plot(perc_total);
-                arr = run_simulation("with", op, Tg, T, N, u, mu, n0, j, kappa0, n1, j, kappa1, infop0, infop1);
+                arr = run_simulation(simtype, op, Tg, T, N, u, mu, n0, j, kappa0, n1, j, kappa1, infop0, infop1);
                 perc_total(j) = countPercentage(0, 0.1, arr(T,:), N);
+                if perc_total(j) == 100
+                    disp(["100% at p0: ", num2str(j)]);
+                end
+                pause(0.0001);
+                drawnow;
+            end
+        end
+    elseif param == "u"
+        if plot_type == "line"
+            perc_total = zeros(100, 1);
+            for j = 1:100
+                plot(perc_total);
+                arr = run_simulation(simtype, op, Tg, T, N, j/100, mu, n0, p0, kappa0, n1, p1, kappa1, infop0, infop1);
+                perc_total(j) = countPercentage(0.45, 0.55, arr(T,:), N);
                 if perc_total(j) == 100
                     disp(["100% at p0: ", num2str(j)]);
                 end
@@ -138,6 +152,13 @@ function [] = gen_plot_interval(plot_type, plot_name, x_axis, y_axis, param, op,
     xlabel(x_axis);
     ylabel(y_axis);
     disp("Finished...");
+    if save
+       format shortg;
+       c = clock;
+       fix(c);
+       filename = sprintf("exports/gen_plot_intervall_%s_%d%d%d%d%d%d.png",plot_name,c(1),c(2),c(3),c(4),c(5),c(6));
+       saveas(gcf,filename);
+    end
 end
 
 
