@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2015.11.28)  14 DEC 2017 17:40
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2015.11.28)  14 DEC 2017 19:44
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -416,40 +416,40 @@ Underfull \hbox (badness 10000) in paragraph at lines 113--114
 
  []
 
-[5] <gen_plot_2017121415381080438e+01.png, id=123, 562.2606pt x 421.575pt>
-File: gen_plot_2017121415381080438e+01.png Graphic file (type png)
+[5] <gen_plot_2017121418225017531e+01.png, id=123, 562.2606pt x 421.575pt>
+File: gen_plot_2017121418225017531e+01.png Graphic file (type png)
 
-<use gen_plot_2017121415381080438e+01.png>
-Package pdftex.def Info: gen_plot_2017121415381080438e+01.png used on input lin
+<use gen_plot_2017121418225017531e+01.png>
+Package pdftex.def Info: gen_plot_2017121418225017531e+01.png used on input lin
 e 143.
 (pdftex.def)             Requested size: 137.60461pt x 103.1742pt.
 
-<gen_plot_2017121415383200164e+00.png, id=124, 562.2606pt x 421.575pt>
-File: gen_plot_2017121415383200164e+00.png Graphic file (type png)
+<gen_plot_2017121418224358724e+01.png, id=124, 562.2606pt x 421.575pt>
+File: gen_plot_2017121418224358724e+01.png Graphic file (type png)
 
-<use gen_plot_2017121415383200164e+00.png>
-Package pdftex.def Info: gen_plot_2017121415383200164e+00.png used on input lin
+<use gen_plot_2017121418224358724e+01.png>
+Package pdftex.def Info: gen_plot_2017121418224358724e+01.png used on input lin
 e 146.
 (pdftex.def)             Requested size: 137.60461pt x 103.1742pt.
 
-<gen_plot_2017121415386231505e+00.png, id=125, 562.2606pt x 421.575pt>
-File: gen_plot_2017121415386231505e+00.png Graphic file (type png)
+<gen_plot_2017121418225354249e+01.png, id=125, 562.2606pt x 421.575pt>
+File: gen_plot_2017121418225354249e+01.png Graphic file (type png)
 
-<use gen_plot_2017121415386231505e+00.png>
-Package pdftex.def Info: gen_plot_2017121415386231505e+00.png used on input lin
+<use gen_plot_2017121418225354249e+01.png>
+Package pdftex.def Info: gen_plot_2017121418225354249e+01.png used on input lin
 e 150.
 (pdftex.def)             Requested size: 137.60461pt x 103.1742pt.
 
-<gen_plot_intervall_2017121415382179938e+01.png, id=127, 562.2606pt x 421.575pt
+<gen_plot_intervall_2017121418231461579e+01.png, id=127, 562.2606pt x 421.575pt
 >
-File: gen_plot_intervall_2017121415382179938e+01.png Graphic file (type png)
- <use gen_plot_intervall_2017121415382179938e+01.png>
-Package pdftex.def Info: gen_plot_intervall_2017121415382179938e+01.png used on
+File: gen_plot_intervall_2017121418231461579e+01.png Graphic file (type png)
+ <use gen_plot_intervall_2017121418231461579e+01.png>
+Package pdftex.def Info: gen_plot_intervall_2017121418231461579e+01.png used on
  input line 159.
 (pdftex.def)             Requested size: 258.00539pt x 193.45082pt.
- [6 <./gen_plot_2017121415381080438e+01.png (PNG copy)> <./gen_plot_20171214153
-83200164e+00.png (PNG copy)> <./gen_plot_2017121415386231505e+00.png (PNG copy)
->] [7 <./gen_plot_intervall_2017121415382179938e+01.png (PNG copy)>]
+ [6 <./gen_plot_2017121418225017531e+01.png (PNG copy)> <./gen_plot_20171214182
+24358724e+01.png (PNG copy)> <./gen_plot_2017121418225354249e+01.png (PNG copy)
+>] [7 <./gen_plot_intervall_2017121418231461579e+01.png (PNG copy)>]
 Missing character: There is no â in font cmr12!
 Missing character: There is no € in font cmr12!
 Missing character: There is no œ in font cmr12!
@@ -490,7 +490,7 @@ local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/lo
 cal/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/loc
 al/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local
 /texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb>
-Output written on reportTemplate.pdf (9 pages, 270842 bytes).
+Output written on reportTemplate.pdf (9 pages, 304548 bytes).
 PDF statistics:
  187 PDF objects out of 1000 (max. 8388607)
  160 compressed objects within 2 object streams
