@@ -138,11 +138,26 @@ In order to keep things easier, we started the simulations with a society withou
 \subsection{The weight \texorpdfstring{$\mu$}{TEXT} gives the speed of convergence, but has no influence on result}
 We reproduce the fact, that $\mu$ only acts as a parameter of convergence, and that in the case of a constant $u$ a small $\mu$ has to be compensated with a high number of time steps $T$ and that the results are the same apart from that.
 
+\begin{figure}[!htb]
+\minipage{0.32\textwidth}
+  \includegraphics[width=\linewidth]{gen_plot_2017121415381080438e+01.png}
+\endminipage\hfill
+\minipage{0.32\textwidth}
+  \includegraphics[width=\linewidth]{gen_plot_2017121415383200164e+00.png}
+
+\endminipage\hfill
+\minipage{0.32\textwidth}%
+  \includegraphics[width=\linewidth]{gen_plot_2017121415386231505e+00.png}
+\endminipage
+\label{fig:muwithoutextremists}
+\end{figure}
+
 
 \subsection{The threshold u defines the cluster building}
 According to \cite{Minor}, such a society of N agents with random uniform distributed opinions $x_i$ in [0,1] will converge to a common opinion around 0.5 if the comunicating interval $u$ of agents communicating with each other is big enough, more precise if $u>0.3$.
-
-insert the plot and describe the effect
+\begin{figure}[!htb]
+  \includegraphics[width=0.6\linewidth]{gen_plot_intervall_2017121415382179938e+01.png}
+\end{figure}
 
 \section{A world with extremists}
 The society model described above is being extended to a society with extreme opinion individuals who can influence the agents. We carry on to vary different parameters in this society model.
