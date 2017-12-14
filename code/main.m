@@ -66,21 +66,21 @@ mu = 0.3;
 T = 30;
 
 op = create(N);
-gen_plot("hist", false, 3, run_simulation("without", op, Tg, T, N, u, mu, n0, p0, kappa0, n1, p1, kappa1, infop0, infop1), "µ=0.03", "Opinion", "Number of Agents", T, N, true);
+gen_plot("hist", false, 3, run_simulation("without", op, Tg, T, N, u, mu, n0, p0, kappa0, n1, p1, kappa1, infop0, infop1), "µ=0.3", "Opinion", "Number of Agents", T, N, true);
 op = create(N);
-gen_plot("hist", false, 3, run_simulation("without", op, Tg, T, N, u, mu, n0, p0, kappa0, n1, p1, kappa1, infop0, infop1), "µ=0.03", "Opinion", "Number of Agents", T, N, true);
+gen_plot("hist", false, 3, run_simulation("without", op, Tg, T, N, u, mu, n0, p0, kappa0, n1, p1, kappa1, infop0, infop1), "µ=0.3", "Opinion", "Number of Agents", T, N, true);
 op = create(N);
-gen_plot("hist", false, 3, run_simulation("without", op, Tg, T, N, u, mu, n0, p0, kappa0, n1, p1, kappa1, infop0, infop1), "µ=0.03", "Opinion", "Number of Agents", T, N, true);
+gen_plot("hist", false, 3, run_simulation("without", op, Tg, T, N, u, mu, n0, p0, kappa0, n1, p1, kappa1, infop0, infop1), "µ=0.3", "Opinion", "Number of Agents", T, N, true);
 op = create(N);
-gen_plot("hist", false, 3, run_simulation("without", op, Tg, T, N, u, mu, n0, p0, kappa0, n1, p1, kappa1, infop0, infop1), "µ=0.03", "Opinion", "Number of Agents", T, N, true);
+gen_plot("hist", false, 3, run_simulation("without", op, Tg, T, N, u, mu, n0, p0, kappa0, n1, p1, kappa1, infop0, infop1), "µ=0.3", "Opinion", "Number of Agents", T, N, true);
 
 %gen_plot("hist", true, 1, run_simulation("with", op, Tg, T, N, u, mu, n0, p0, kappa0, n1, p1, kappa1, infop0, infop1), "Percentages", "Time", "Percentage of Extreme", T, N, false);
 
 
-gen_plot_interval("line", "Percentage of agents with same opinion between 0.45 and 0.55", "µ", "Percentage", true, "without", "u", create(N), Tg, T, N, u, mu, n0, p0, kappa0, n1, p1, kappa1, infop0, infop1);
-gen_plot_interval("line", "Percentage of agents with same opinion between 0.45 and 0.55", "µ", "Percentage", true, "without", "u", create(N), Tg, T, N, u, mu, n0, p0, kappa0, n1, p1, kappa1, infop0, infop1);
-gen_plot_interval("line", "Percentage of agents with same opinion between 0.45 and 0.55", "µ", "Percentage", true, "without", "u", create(N), Tg, T, N, u, mu, n0, p0, kappa0, n1, p1, kappa1, infop0, infop1);
-gen_plot_interval("line", "Percentage of agents with same opinion between 0.45 and 0.55", "µ", "Percentage", true, "without", "u", create(N), Tg, T, N, u, mu, n0, p0, kappa0, n1, p1, kappa1, infop0, infop1);
+gen_plot_interval("line", "% of opinion between 0.45 and 0.55", "µ", "Percentage", true, "without", "u", create(N), Tg, T, N, u, mu, n0, p0, kappa0, n1, p1, kappa1, infop0, infop1);
+gen_plot_interval("line", "% of opinion between 0.45 and 0.55", "µ", "Percentage", true, "without", "u", create(N), Tg, T, N, u, mu, n0, p0, kappa0, n1, p1, kappa1, infop0, infop1);
+gen_plot_interval("line", "% of opinion between 0.45 and 0.55", "µ", "Percentage", true, "without", "u", create(N), Tg, T, N, u, mu, n0, p0, kappa0, n1, p1, kappa1, infop0, infop1);
+gen_plot_interval("line", "% of opinion between 0.45 and 0.55", "µ", "Percentage", true, "without", "u", create(N), Tg, T, N, u, mu, n0, p0, kappa0, n1, p1, kappa1, infop0, infop1);
 
 %gen_av_plot("without", 2, "hist", "Average of agent opinions over Tg = 10", "Opinion", "Number of agents", Tg, T, N, u, mu, n0, p0, kappa0, n1, p1, kappa1, infop0, infop1, false);
 
@@ -134,9 +134,9 @@ function [] = gen_plot(plot_type, slider_bool, number_of_plots, data, plot_name,
         end
         plot(tot_perc);
     end
-    title(plot_name);
-    xlabel(x_axis);
-    ylabel(y_axis);
+    title({' ', plot_name, ' '}, 'FontSize', 25);
+    xlabel(x_axis, 'FontSize', 25);
+    ylabel(y_axis, 'FontSize', 25);
     if save
        format shortg;
        c = clock;
@@ -144,7 +144,7 @@ function [] = gen_plot(plot_type, slider_bool, number_of_plots, data, plot_name,
        filename = sprintf("exports/gen_plot_%d%d%d%d%d%d.png",c(1),c(2),c(3),c(4),c(5),c(6));
        saveas(gcf,filename);
     end
-    disp("Finished...");
+    disp("Finished!");
 end
 
 
@@ -185,12 +185,12 @@ function [] = gen_plot_interval(plot_type, plot_name, x_axis, y_axis, save, simt
             end
         end
     end
-    title(plot_name);
-    xlabel(x_axis);
-    ylabel(y_axis);
+    title({' ', plot_name, ' '}, 'FontSize', 25);
+    xlabel(x_axis, 'FontSize', 25);
+    ylabel(y_axis, 'FontSize', 25);
     xticks([0 10 20 30 40 50 60 70 80 90 100]);
     xticklabels({'0','0.1','0.2','0.3','0.4','0.5','0.6', '0.7', '0.8', '0.9', '1'});
-    disp("Finished...");
+    disp("Finished!");
     if save
        format shortg;
        c = clock;
