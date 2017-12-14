@@ -42,37 +42,37 @@ infop1 = 0.7;
 %% run the program
 
 op = create(N);
-gen_plot("hist", false, 3, run_simulation("without", op, Tg, T, N, u, mu, n0, p0, kappa0, n1, p1, kappa1, infop0, infop1), "µ=0.2", "Opinion", "Number of Agents", T, N, true);
+gen_plot("hist", false, 3, run_simulation("without", op, Tg, T, N, u, mu, n0, p0, kappa0, n1, p1, kappa1, infop0, infop1), "µ = 0.2", "Opinion", "Number of Agents", T, N, true);
 op = create(N);
-gen_plot("hist", false, 3, run_simulation("without", op, Tg, T, N, u, mu, n0, p0, kappa0, n1, p1, kappa1, infop0, infop1), "µ=0.2", "Opinion", "Number of Agents", T, N, true);
+gen_plot("hist", false, 3, run_simulation("without", op, Tg, T, N, u, mu, n0, p0, kappa0, n1, p1, kappa1, infop0, infop1), "µ = 0.2", "Opinion", "Number of Agents", T, N, true);
 op = create(N);
-gen_plot("hist", false, 3, run_simulation("without", op, Tg, T, N, u, mu, n0, p0, kappa0, n1, p1, kappa1, infop0, infop1), "µ=0.2", "Opinion", "Number of Agents", T, N, true);
+gen_plot("hist", false, 3, run_simulation("without", op, Tg, T, N, u, mu, n0, p0, kappa0, n1, p1, kappa1, infop0, infop1), "µ = 0.2", "Opinion", "Number of Agents", T, N, true);
 op = create(N);
-gen_plot("hist", false, 3, run_simulation("without", op, Tg, T, N, u, mu, n0, p0, kappa0, n1, p1, kappa1, infop0, infop1), "µ=0.2", "Opinion", "Number of Agents", T, N, true);
+gen_plot("hist", false, 3, run_simulation("without", op, Tg, T, N, u, mu, n0, p0, kappa0, n1, p1, kappa1, infop0, infop1), "µ = 0.2", "Opinion", "Number of Agents", T, N, true);
 
 mu = 0.03;
 T = 200;
 
 op = create(N);
-gen_plot("hist", false, 3, run_simulation("without", op, Tg, T, N, u, mu, n0, p0, kappa0, n1, p1, kappa1, infop0, infop1), "µ=0.03", "Opinion", "Number of Agents", T, N, true);
+gen_plot("hist", false, 3, run_simulation("without", op, Tg, T, N, u, mu, n0, p0, kappa0, n1, p1, kappa1, infop0, infop1), "µ = 0.03", "Opinion", "Number of Agents", T, N, true);
 op = create(N);
-gen_plot("hist", false, 3, run_simulation("without", op, Tg, T, N, u, mu, n0, p0, kappa0, n1, p1, kappa1, infop0, infop1), "µ=0.03", "Opinion", "Number of Agents", T, N, true);
+gen_plot("hist", false, 3, run_simulation("without", op, Tg, T, N, u, mu, n0, p0, kappa0, n1, p1, kappa1, infop0, infop1), "µ = 0.03", "Opinion", "Number of Agents", T, N, true);
 op = create(N);
-gen_plot("hist", false, 3, run_simulation("without", op, Tg, T, N, u, mu, n0, p0, kappa0, n1, p1, kappa1, infop0, infop1), "µ=0.03", "Opinion", "Number of Agents", T, N, true);
+gen_plot("hist", false, 3, run_simulation("without", op, Tg, T, N, u, mu, n0, p0, kappa0, n1, p1, kappa1, infop0, infop1), "µ = 0.03", "Opinion", "Number of Agents", T, N, true);
 op = create(N);
-gen_plot("hist", false, 3, run_simulation("without", op, Tg, T, N, u, mu, n0, p0, kappa0, n1, p1, kappa1, infop0, infop1), "µ=0.03", "Opinion", "Number of Agents", T, N, true);
+gen_plot("hist", false, 3, run_simulation("without", op, Tg, T, N, u, mu, n0, p0, kappa0, n1, p1, kappa1, infop0, infop1), "µ = 0.03", "Opinion", "Number of Agents", T, N, true);
 
 mu = 0.3;
 T = 30;
 
 op = create(N);
-gen_plot("hist", false, 3, run_simulation("without", op, Tg, T, N, u, mu, n0, p0, kappa0, n1, p1, kappa1, infop0, infop1), "µ=0.3", "Opinion", "Number of Agents", T, N, true);
+gen_plot("hist", false, 3, run_simulation("without", op, Tg, T, N, u, mu, n0, p0, kappa0, n1, p1, kappa1, infop0, infop1), "µ = 0.3", "Opinion", "Number of Agents", T, N, true);
 op = create(N);
-gen_plot("hist", false, 3, run_simulation("without", op, Tg, T, N, u, mu, n0, p0, kappa0, n1, p1, kappa1, infop0, infop1), "µ=0.3", "Opinion", "Number of Agents", T, N, true);
+gen_plot("hist", false, 3, run_simulation("without", op, Tg, T, N, u, mu, n0, p0, kappa0, n1, p1, kappa1, infop0, infop1), "µ = 0.3", "Opinion", "Number of Agents", T, N, true);
 op = create(N);
-gen_plot("hist", false, 3, run_simulation("without", op, Tg, T, N, u, mu, n0, p0, kappa0, n1, p1, kappa1, infop0, infop1), "µ=0.3", "Opinion", "Number of Agents", T, N, true);
+gen_plot("hist", false, 3, run_simulation("without", op, Tg, T, N, u, mu, n0, p0, kappa0, n1, p1, kappa1, infop0, infop1), "µ = 0.3", "Opinion", "Number of Agents", T, N, true);
 op = create(N);
-gen_plot("hist", false, 3, run_simulation("without", op, Tg, T, N, u, mu, n0, p0, kappa0, n1, p1, kappa1, infop0, infop1), "µ=0.3", "Opinion", "Number of Agents", T, N, true);
+gen_plot("hist", false, 3, run_simulation("without", op, Tg, T, N, u, mu, n0, p0, kappa0, n1, p1, kappa1, infop0, infop1), "µ = 0.3", "Opinion", "Number of Agents", T, N, true);
 
 %gen_plot("hist", true, 1, run_simulation("with", op, Tg, T, N, u, mu, n0, p0, kappa0, n1, p1, kappa1, infop0, infop1), "Percentages", "Time", "Percentage of Extreme", T, N, false);
 
