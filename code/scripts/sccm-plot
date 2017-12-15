@@ -8,7 +8,7 @@ parser.add_argument('-o', action='store', dest='outdir', help='output directory'
 parser.add_argument('-show', action="store_true", dest='show', help='show on screen instead of save to file', default=False)
 parser.add_argument('-all', action="store_true", dest='all', help=' min max std files of mc', default=False)  # TODO: imporve this
 parser.add_argument('-candle', action="store_true", dest='candle', help='plot price candlesticks', default=False)
-parser.add_argument('-ci', action="store_true", dest='candleinterval', type=int, help='candle interval', default=1)
+parser.add_argument('-ci', action="store", dest='candleinterval', type=int, help='candle interval', default=1)
 
 
 parser.add_argument(action='store', dest='filename', help='input pickle df file')
@@ -25,7 +25,7 @@ else:
     def create_plot(name):
         filename = args.outdir + name + '.png'
         print(filename)
-        plt.savefig(filename)
+        plt.savefig(filename,dpi=300)
         plt.clf()  # clear legend, necessary if we dont provide a new legend for next plot
 
 import pandas as pd  # might import matplotlib, but we need to matplotlib.use('Agg') first
