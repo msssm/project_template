@@ -73,15 +73,15 @@ if args.candle:
     else:
         df_candles_temp = copy.deepcopy(df_mean[['price_open', 'price_max', 'price_min', 'price_close']])
 
-    if candleinterval > 1:
+    if args.candleinterval > 1:
         nrows = len(df_candles_temp)
-        ncandles = int(np.ceil(nrows/candleinterval))
-        df_candles_temp['candleinterval'] = np.kron(np.arange(ncandles), np.ones(candleinterval))[:nrows].astype(int)
+        ncandles = int(np.ceil(nrows/args.candleinterval))
+        df_candles_temp['candleinterval'] = np.kron(np.arange(ncandles), np.ones(args.candleinterval))[:nrows].astype(int)
         df_candles = df_candles_temp.groupby('candleinterval').max()
         df_candles['price_min'] = df_candles_temp.groupby('candleinterval').min()['price_min'] # TODO: nicer
         df_candles['price_open'] = df_candles_temp.groupby('candleinterval').first()['price_open'] # TODO: nicer
         df_candles['price_close'] = df_candles_temp.groupby('candleinterval').last()['price_close'] # TODO: nicer
-        a = np.array((np.arange(ncandles) + np.ones(ncandles) * 0.5)* candleinterval).reshape((-1, 1))
+        a = np.array((np.arange(ncandles) + np.ones(ncandles) * 0.5)* args.candleinterval).reshape((-1, 1))
 
     else:
         df_candles = df_candles_temp
