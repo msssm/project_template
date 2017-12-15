@@ -1,12 +1,14 @@
 #!/usr/bin/env python3
 
 import argparse
+import copy
 
 parser = argparse.ArgumentParser(description='plot simulation results')
 parser.add_argument('-o', action='store', dest='outdir', help='output directory', default='')
 parser.add_argument('-show', action="store_true", dest='show', help='show on screen instead of save to file', default=False)
 parser.add_argument('-all', action="store_true", dest='all', help=' min max std files of mc', default=False)  # TODO: imporve this
 parser.add_argument('-candle', action="store_true", dest='candle', help='plot price candlesticks', default=False)
+parser.add_argument('-ci', action="store_true", dest='candleinterval', type=int, help='candle interval', default=1)
 
 
 parser.add_argument(action='store', dest='filename', help='input pickle df file')
@@ -32,6 +34,7 @@ print('input: '+ args.filename)
 print('output directory: '+ args.outdir)
 
 df_mean = pd.read_pickle(args.filename)
+
 if args.all:
     df_max = pd.read_pickle(args.filename.strip('mean.pkl') + 'max.pkl')
     df_min = pd.read_pickle(args.filename.strip('mean.pkl') + 'min.pkl')
@@ -61,8 +64,30 @@ plotdata('price', 'Bitcoin price', ylabel='price (USD)', filename='price')
 if args.candle:
     from matplotlib.finance import candlestick_ohlc  # this will give warning about deprecated, TODO fix
     import numpy as np
-    a = np.array(df_mean.index).reshape((-1, 1))
-    b = df_mean[['price_open', 'price_max', 'price_min', 'price_close']].values
+    df_candles_temp = pd.DataFrame()
+    if args.all:
+        df_candles_temp['price_max'] = df_max['price_max']  # TODO: do this straight after creating df instead of hidden here
+        df_candles_temp['price_min'] = df_min['price_max']
+        df_candles_temp['price_close'] = df_mean['price_close']
+        df_candles_temp['price_open'] = df_mean['price_open']
+    else:
+        df_candles_temp = copy.deepcopy(df_mean[['price_open', 'price_max', 'price_min', 'price_close']])
+
+    if candleinterval > 1:
+        nrows = len(df_candles_temp)
+        ncandles = int(np.ceil(nrows/candleinterval))
+        df_candles_temp['candleinterval'] = np.kron(np.arange(ncandles), np.ones(candleinterval))[:nrows].astype(int)
+        df_candles = df_candles_temp.groupby('candleinterval').max()
+        df_candles['price_min'] = df_candles_temp.groupby('candleinterval').min()['price_min'] # TODO: nicer
+        df_candles['price_open'] = df_candles_temp.groupby('candleinterval').first()['price_open'] # TODO: nicer
+        df_candles['price_close'] = df_candles_temp.groupby('candleinterval').last()['price_close'] # TODO: nicer
+        a = np.array((np.arange(ncandles) + np.ones(ncandles) * 0.5)* candleinterval).reshape((-1, 1))
+
+    else:
+        df_candles = df_candles_temp
+        a = np.array(df_mean.index).reshape((-1, 1))
+    #
+    b = df_candles[['price_open', 'price_max', 'price_min', 'price_close']].values
     data = np.concatenate((a,b), axis=1)
     #TODO merge days and plot less because this way nothing can be seen
     candlestick_ohlc(plt.gca(), data)
