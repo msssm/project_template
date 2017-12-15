@@ -16,7 +16,7 @@ def zipf(i, cash, exponent=-1.):  # zero indexed
 
 class PaperModel(Model):
     def __init__(self, parameters, seed=None):
-        # super().__init__(seed)  # mesa automatic seeding is broken: TODO: bugreport
+        # super().__init__(seed)  # mesa automatic seeding is broken: saves current time into seed, but then seeds np and random with None; they do their own default seeding that might not be correlated with the time mesa saves into seed TODO: bugreport
         if seed is None:
             seed = int(time.time())
         self.seed = seed
@@ -38,9 +38,6 @@ class PaperModel(Model):
         self.add_datacollector()
 
     def add_datacollector(self):
-
-        # todo: should we generate all traders at beginning? only a few are active
-        # todo: distribute initial cash according to zipf law
         rep = {'price': lambda model: model.exchange.current_price}
         rep['n_agents'] = lambda model: model.schedule.get_agent_count()
 
@@ -73,7 +70,15 @@ class PaperModel(Model):
         rep['transaction_volume_btc'] =     lambda model: model.exchange.tradevolume['bitcoin']
         rep['transaction_volume_cash'] =    lambda model: model.exchange.tradevolume['cash']
 
+        rep['cash_spent_on_electricity'] =     lambda model: model.global_pool.cash_spent_on_electricity_today #TODO: redundant: divide by electricity cost to get energy_cons, might be useful if electricity cost is not constant and not stored otherwise
+        rep['cash_spent_on_hardware'] =     lambda model: model.global_pool.hardware_bought_today #usd
+
+        rep['btc_mined'] =    lambda model: model.global_pool.btc_mined_today  # TODO: this is redundant information, could just take difference of sum of bitcoin of agents between days
+
         rep['stddev_price_abs_return'] = lambda model: model.exchange.stddev_price_abs_return(model.parameters['Trader']['strategy_limit']['timewindow'])
+
+        #TODO can calculate divested hardware/hashrate from cash_spent_on_hardware, hashrate avail and delta hashing_cap
+
 
         self.datacollector = DataCollector(model_reporters=rep)
 
@@ -96,7 +101,6 @@ class PaperModel(Model):
     def add_agent(self, a):
             self.number_of_agents[type(a)] += 1
             self.schedule.add(a)
-        # todo: enter agents into the market over time
 
     def add_initial_agents(self):
         number_of_initial_traders = self.parameters.number_of_agents(0)
@@ -114,7 +118,6 @@ class PaperModel(Model):
         number_of_final_traders = self.parameters.number_of_agents(self.t_end)
         inv_factor = self.parameters.scalingfactor * calc_factor_total_vs_richest(number_of_final_traders, exponent=self.parameters['Model']['zipf_total_cash_later']['exponent'], start=number_of_initial_traders)
 
-        #TODO TODO TODO where should i for zipf start from?? 0 or number_of_initial_traders??
         if self.parameters['Model']['zipf_later_start_at_zero']:
             i_start = 0
         else:
@@ -130,6 +133,7 @@ class PaperModel(Model):
         '''Advance the model by one step.'''
         # enter new agents:
         self.exchange.prepare_next_step()
+        self.global_pool.prepare_next_step()
         number_to_enter = self.parameters.number_of_agents(self.schedule.time) - self.schedule.get_agent_count()
         if number_to_enter > 0:
             to_enter = self.later_agents[-number_to_enter:]

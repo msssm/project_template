@@ -55,6 +55,8 @@ class Miner(CryptoCurrencyAgent):
             btc_mined = self.hashing_capability / self.pool.hashing_capability * self.model.parameters.bitcoins_mined_per_day(self.clock)
             self.bitcoin_available += btc_mined
             self.cash_available -= self.electricity_cost
+            self.pool.cash_spent_on_electricity_today += self.electricity_cost
+            self.pool.btc_mined_today += btc_mined
             if(self.cash_available < 0):
                 self.sell_bitcoin(min(self.electricity_cost/self.exchange.current_price, self.bitcoin_available))
 
@@ -62,6 +64,7 @@ class Miner(CryptoCurrencyAgent):
         if cash_going_to_spend is None:
             cash_going_to_spend = max(self.fraction_cash_to_buy_hardware * self.cash_available, 0.)  # TODO: dont copypaste
         self.cash_available -= cash_going_to_spend
+        self.pool.hardware_bought_today += cash_going_to_spend
         new_hardware = self.model.parameters.buy(self.clock, cash_going_to_spend)
         self.hashing_capability += new_hardware.hash_rate
         self.pool.hashing_capability += new_hardware.hash_rate

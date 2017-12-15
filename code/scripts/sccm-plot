@@ -2,6 +2,7 @@
 
 import argparse
 import copy
+import numpy as np
 
 parser = argparse.ArgumentParser(description='plot simulation results')
 parser.add_argument('-o', action='store', dest='outdir', help='output directory', default='')
@@ -10,6 +11,7 @@ parser.add_argument('-all', action="store_true", dest='all', help=' min max std 
 parser.add_argument('-candle', action="store_true", dest='candle', help='plot price candlesticks', default=False)
 parser.add_argument('-ci', action="store", dest='candleinterval', type=int, help='candle interval', default=1)
 parser.add_argument('-cw', action="store", dest='candlewidth', type=int, help='candle box width (fraction of day)', default=0.8)
+parser.add_argument('-sixday', action="store_true", dest='sixday', help='plot six day electricity and hardware expenses', default=False)
 
 
 parser.add_argument(action='store', dest='filename', help='input pickle df file')
@@ -138,8 +140,6 @@ plotdata('transaction_volume_btc_avg', 'Average Transaction volume', ylabel='bit
 
 plotdata('transaction_volume_cash_avg', 'Average Transaction volume', ylabel='USD', filename = 'transaction_volume_cash_avg')
 
-# TODO: re-implement datacollection of electricity_cost and hardware_bought
-"""
 def getsum6(p):
     dat = list(df_mean[p])
     n = len(dat)
@@ -147,15 +147,16 @@ def getsum6(p):
     k = 6*m
     return np.array(dat[:k]).reshape(m, 6).sum(axis=1)
 
-plt.semilogy(getsum6('electricity_cost'))
-plt.title('6-day sum of electricity cost')
-plt.xlabel('time (6 days)')
-plt.ylabel('electricity cost (USD)')
-create_plot(...name...)
+if args.sixday:
+    plt.semilogy(getsum6('cash_spent_on_electricity'))
+    plt.title('6-day sum of global electricity cost')
+    plt.xlabel('time (6 days)')
+    plt.ylabel('USD')
+    create_plot('electricity')
 
-plt.semilogy(getsum6('hardware_bought'))
-plt.title('6-day sum of units of equipment bought')
-plt.xlabel('time (6 days)')
-plt.ylabel('equipments bought (#)')
-create_plot(...name...)
-"""
+    #TODO: multiply with available hashrate to get hashrate bought
+    plt.semilogy(getsum6('cash_spent_on_hardware'))
+    plt.title('6-day sum of cash spend on hardware')
+    plt.xlabel('time (6 days)')
+    plt.ylabel('USD')
+    create_plot('hardware')
