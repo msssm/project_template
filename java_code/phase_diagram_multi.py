@@ -73,31 +73,29 @@ def average_(points2, d2, f2):
 
 
 # Imports and averages the data-set from the out files
-def analyse2(test_set):
+def analyse2(test_set, time):
     toDo = "from %s.counter import *" % test_set
     exec(toDo, globals())
 
     global points_
     global density_
     global force_
-
-
+    exec("from %s.out_0_0 import *" % (test_set), globals())
+    points_ = [x, y]
+    density_ = density
+    force_ = F
+    
     for i in range(0, m):
-        for j in range(0, n):
-            try:
-                filename_ = 'out_%s_%s' % (i, j)
-                exec("from %s.%s import *" % (test_set, filename_), globals())
-            except ModuleNotFoundError:
-                break
+        try:
+            filename_ = 'out_%s_%s' % (i, time)
+            exec("from %s.%s import *" % (test_set, filename_), globals())
+        except ModuleNotFoundError:
+            break
             
-            points_ = [x, y]
-            density_ = density
-            force_ = F
-            average_((x, y), density, F)
-            i = i+1
-            j = j+1
+        average_((x, y), density, F)
+        i = i+1
         
-            phaseDiagram(points_[0], points_[1], density_, force_)
+    phaseDiagram(points_[0], points_[1], density_, force_)
 
 
 
@@ -110,5 +108,6 @@ if __name__ == '__main__' and __package__ is None:
     with open("configs.sim") as f:
         next(f)
         for test_set in f:
-            analyse2(test_set.strip())
+            time = int(input('Choose time ->    '))
+            analyse2(test_set.strip(), time)
 
