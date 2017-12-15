@@ -54,8 +54,8 @@ class PaperModel(Model):
 
         rep['hashing_cap' + '_' + 'total'] =    lambda model: model.hashing_cap_total
         rep['energy_cons' + '_' + 'total'] =    lambda model: model.energy_cons_total
-        rep['hashing_cap' + '_' + 'avg'] =      lambda model: model.hashing_cap_avg
-        rep['energy_cons' + '_' + 'avg'] =      lambda model: model.energy_cons_avg
+        rep['hashing_cap' + '_' + 'avg'] =      lambda model: model.hashing_cap_avg  # TODO: redundant
+        rep['energy_cons' + '_' + 'avg'] =      lambda model: model.energy_cons_avg  # TODO: redundant
 
         rep['n_orders_sell_left'] =     lambda model: len(model.exchange.orderbook['sell'])
         rep['n_orders_sellinf_left'] =  lambda model: len(model.exchange.orderbook['sellinf'])

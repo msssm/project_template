@@ -11,8 +11,6 @@ parser.add_argument('-all', action="store_true", dest='all', help=' min max std 
 parser.add_argument('-candle', action="store_true", dest='candle', help='plot price candlesticks', default=False)
 parser.add_argument('-ci', action="store", dest='candleinterval', type=int, help='candle interval', default=1)
 parser.add_argument('-cw', action="store", dest='candlewidth', type=int, help='candle box width (fraction of day)', default=0.8)
-parser.add_argument('-sixday', action="store_true", dest='sixday', help='plot six day electricity and hardware expenses', default=False)
-
 
 parser.add_argument(action='store', dest='filename', help='input pickle df file')
 
@@ -125,8 +123,11 @@ plotdata(['n_orders_sell_left', 'n_orders_sellinf_left', 'n_orders_buy_left'], '
 plotdata('energy_cons_avg', 'Average hashing capability', ylabel='hashing capability per miner (GH/s)', filename = 'energy_avg')
 plotdata('energy_cons_total', 'Total energy consumption', ylabel='energy comsumption (W)', lg=True, filename = 'energy_total')
 
-plotdata('hashing_cap_total', 'Total hashing capability', ylabel='hashing capability (GH/s)', lg=True, filename = 'hashing_avg')
-#plotdata('btc_mined_avg', 'Average bitcoin income', ylabel='bitcoin income per miner', filename = 'hashing_total')
+plotdata('hashing_cap_avg', 'Average hashing capability', ylabel='GH/s', filename = 'hashing_avg')
+plotdata('hashing_cap_total', 'Total hashing capability', ylabel='GH/s', lg=True, filename = 'hashing_total')
+
+if 'btc_mined' in df_mean.columns:
+    plotdata('btc_mined', 'Bitcoin mined by all Miners', ylabel='bitcoin', filename = 'bitcoin_mined')
 
 plotdata('n_transactions', 'Number of transactions', ylabel='number of transactions', filename = 'transactions')
 plotdata('transaction_volume_btc', 'Transaction volume', ylabel='transaction volume (#bitcoin)', filename = 'transaction_volume_btc')
@@ -147,13 +148,14 @@ def getsum6(p):
     k = 6*m
     return np.array(dat[:k]).reshape(m, 6).sum(axis=1)
 
-if args.sixday:
+if 'cash_spent_on_electricity' in df_mean.columns:
     plt.semilogy(getsum6('cash_spent_on_electricity'))
     plt.title('6-day sum of global electricity cost')
     plt.xlabel('time (6 days)')
     plt.ylabel('USD')
     create_plot('electricity')
 
+if 'cash_spent_on_hardware' in df_mean.columns:
     #TODO: multiply with available hashrate to get hashrate bought
     plt.semilogy(getsum6('cash_spent_on_hardware'))
     plt.title('6-day sum of cash spend on hardware')
