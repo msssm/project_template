@@ -131,6 +131,12 @@ plotdata('transaction_volume_btc', 'Transaction volume', ylabel='transaction vol
 
 plotdata('transaction_volume_cash', 'Transaction volume', ylabel='transaction volume (USD)', filename = 'transaction_volume_cash')
 
+for transaction in ['transaction_volume_cash', 'transaction_volume_btc']:
+    df_mean[transaction+'_avg'] = df_mean[transaction] / df_mean['n_transactions']
+
+plotdata('transaction_volume_btc_avg', 'Average Transaction volume', ylabel='bitcoin', filename = 'transaction_volume_btc_avg', lg=True)
+
+plotdata('transaction_volume_cash_avg', 'Average Transaction volume', ylabel='USD', filename = 'transaction_volume_cash_avg')
 
 # TODO: re-implement datacollection of electricity_cost and hardware_bought
 """
