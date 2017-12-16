@@ -3,6 +3,7 @@ import numpy as np
 from sys import maxsize as infinity_int
 from sccm.market import *
 from sccm.random import lognormal, normal
+from sccm.math import clip
 from collections import deque
 
 from ._agent import CryptoCurrencyAgent
@@ -40,11 +41,11 @@ class Miner(CryptoCurrencyAgent):
 
     @property
     def fraction_cash_to_buy_hardware(self):
-        return np.clip(lognormal(**self.model.parameters['Miner']['fraction_cash_to_buy_hardware'] ), 0., 1.)
+        return clip(lognormal(**self.model.parameters['Miner']['fraction_cash_to_buy_hardware'] ), 0., 1.)
 
     @property
     def fraction_bitcoin_to_be_sold_for_hardware(self):  # gamma
-        return np.clip(lognormal(**self.model.parameters['Miner']['fraction_bitcoin_to_be_sold_for_hardware'] ), 0., 1.)
+        return clip(lognormal(**self.model.parameters['Miner']['fraction_bitcoin_to_be_sold_for_hardware'] ), 0., 1.)
 
     @property
     def electricity_cost(self):  # total electricity cost in usd
