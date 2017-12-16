@@ -26,6 +26,13 @@ class Exchange:
         self._model = model  # needed for clock
         self.stddev_price_abs_return = ValueCache(Calc_spar(self))  # TODO: window is same for all agents, so we could just explicitly calculate it... might be useful if window vas variable between RandomTraders
         self.tradevolume = {'bitcoin': 0., 'cash': 0.}
+        self._next_order_id = 0
+
+    @property
+    def next_available_order_id(self):
+        res = self._next_order_id
+        self._next_order_id += 1
+        return res
 
     def rel_price_var(self, window):
         start = max(self.clock-window, 0)
@@ -54,6 +61,7 @@ class Exchange:
 
     def place(self, order):
         order.activate()  # make money unavailable
+        order.id = self.next_available_order_id
         if order.kind in ['buy', 'sell']:  # heapq
             heappush(self.orderbook[order.kind], order)
         else:  # dequeue

@@ -29,7 +29,7 @@ class SellOrder(Order):
 
     def __lt__(self, other):
         if self.limit_price == other.limit_price:
-            return self.time_placed < other.time_placed
+            return self.id < other.id
         else:
             return self.limit_price < other.limit_price
 
@@ -57,7 +57,7 @@ class BuyOrder(Order):
 
     def __lt__(self, other):
         if self.limit_price == other.limit_price:
-            return self.time_placed < other.time_placed
+            return self.id < other.id
         else:
             return self.limit_price > other.limit_price
 
