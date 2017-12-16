@@ -21,6 +21,7 @@ parser.add_argument('-allprices', action="store_true", dest='allprices', help='s
 args = parser.parse_args()
 
 def run():
+	print("Job id: {}".format(args.mc_id))
 	p = Parameters()  # load default parameters
 	if args.filename is not None:
 		p.load(args.filename)
