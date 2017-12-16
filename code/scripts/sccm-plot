@@ -51,6 +51,7 @@ def plotdata(l, title, xlabel='Time steps', ylabel='', legend=None, lg=False, pl
     plt.title(title)
     plt.xlabel(xlabel)
     plt.ylabel(ylabel)
+    plt.xlim(0, len(df[l]))
     if plot_sum:
         df[l].sum(axis=1).plot()
         legend.append(legend_sum)
