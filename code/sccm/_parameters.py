@@ -20,16 +20,14 @@ defaultparameters['Model']['initial_price'] = 0.0649
 defaultparameters['Model']['electricity_cost'] = 1.4e-4
 defaultparameters['Model']['number_of_steps'] = 1856
 
-def calc_factor_total_vs_richest(n, exponent=-1., start=0):  # TODO: paper says with -1 one could somehow use euler-mascheroni const + log...
+def calc_factor_total_vs_richest(n, exponent=-1.):  # TODO: paper says with -1 one could somehow use euler-mascheroni const + log...
     return sum((i+1)**exponent for i in reversed(range(0, n)))
 
 #calc_factor_total_vs_richest(160) = 5.655511224939
 
 defaultparameters['Model']['zipf_total_cash_start'] = {'cash': 20587 * calc_factor_total_vs_richest(160, -1.) * 100, 'exponent': -1.}  #
-defaultparameters['Model']['zipf_total_cash_bitcoin_equivalent_start'] = {'cash': 4117. * calc_factor_total_vs_richest(160) * 100, 'exponent': -1.}  #          #usd, divide by initial price to get initial bitcoin
-defaultparameters['Model']['zipf_total_cash_later'] = {'cash': 200000 * calc_factor_total_vs_richest(39694, -0.6, 160) * 100, 'exponent': -0.6}
-defaultparameters['Model']['zipf_later_start_at_zero'] = False  # start i for zipf law at zero or start at n_initial_agents+1
-
+defaultparameters['Model']['zipf_total_cash_bitcoin_equivalent_start'] = {'cash': 4117. * calc_factor_total_vs_richest(160, -1.) * 100, 'exponent': -1.}  #          #usd, divide by initial price to get initial bitcoin
+defaultparameters['Model']['zipf_total_cash_later'] = {'cash': 200000 * calc_factor_total_vs_richest(39694, -0.6) * 100, 'exponent': -0.6}  # start i for zipf law at zero or start at n_initial_agents+1
 
 defaultparameters['Model']['number_of_agents'] = {'a' : 2624., 'b': 0.002971, 'c': 608}  # a*exp(b*(t+c))
 defaultparameters['Model']['fraction_miners'] = {'a' : 0.9425, 'b': -0.002654, 'c': 0.}  # a*exp(b*(t+c))

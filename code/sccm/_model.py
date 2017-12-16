@@ -104,8 +104,8 @@ class PaperModel(Model):
 
     def add_initial_agents(self):
         number_of_initial_traders = self.parameters.number_of_agents(0)
-        inv_factor_cash = self.parameters.scalingfactor * calc_factor_total_vs_richest(number_of_initial_traders, exponent=self.parameters['Model']['zipf_total_cash_start']['exponent'], start=0)
-        inv_factor_bitcoin = self.parameters.scalingfactor * calc_factor_total_vs_richest(number_of_initial_traders, exponent=self.parameters['Model']['zipf_total_cash_bitcoin_equivalent_start']['exponent'], start=0)
+        inv_factor_cash = self.parameters.scalingfactor * calc_factor_total_vs_richest(number_of_initial_traders, exponent=self.parameters['Model']['zipf_total_cash_start']['exponent'])
+        inv_factor_bitcoin = self.parameters.scalingfactor * calc_factor_total_vs_richest(number_of_initial_traders, exponent=self.parameters['Model']['zipf_total_cash_bitcoin_equivalent_start']['exponent'])
         for i in range(number_of_initial_traders):
             Kind = self.parameters.random_agent_kind(0)
             cash =   zipf(i, **self.parameters['Model']['zipf_total_cash_start'])/ inv_factor_cash
@@ -116,17 +116,12 @@ class PaperModel(Model):
     def prepare_later_agents (self):
         number_of_initial_traders = self.parameters.number_of_agents(0)
         number_of_final_traders = self.parameters.number_of_agents(self.t_end)
-        inv_factor = self.parameters.scalingfactor * calc_factor_total_vs_richest(number_of_final_traders, exponent=self.parameters['Model']['zipf_total_cash_later']['exponent'], start=number_of_initial_traders)
-
-        if self.parameters['Model']['zipf_later_start_at_zero']:
-            i_start = 0
-        else:
-            i_start = number_of_initial_traders
+        inv_factor = self.parameters.scalingfactor * calc_factor_total_vs_richest(number_of_final_traders, exponent=self.parameters['Model']['zipf_total_cash_later']['exponent'])
         for i in range(number_of_final_traders-number_of_initial_traders):  # need range from 0 for zipf
             kind = self.parameters.random_agent_kind(self.t_end)
             cash = zipf(i, **self.parameters['Model']['zipf_total_cash_later'])/inv_factor
             bitcoin = 0.
-            self.later_agents.append((kind,(i+i_start, self, cash, bitcoin)))  # i must be unique
+            self.later_agents.append((kind,(i+number_of_initial_traders, self, cash, bitcoin)))  # i must be unique
         np.random.shuffle(self.later_agents)  # order list randomly
 
     def step(self):
