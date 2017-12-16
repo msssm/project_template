@@ -34,29 +34,35 @@ import pandas as pd  # might import matplotlib, but we need to matplotlib.use('A
 print('input: '+ args.filename)
 print('output directory: '+ args.outdir)
 
-df_mean = pd.read_pickle(args.filename)
 
 if args.all:
-    df_max = pd.read_pickle(args.filename.strip('mean.pkl') + 'max.pkl')
-    df_min = pd.read_pickle(args.filename.strip('mean.pkl') + 'min.pkl')
-    df_std = pd.read_pickle(args.filename.strip('mean.pkl') + 'std.pkl')  # standard deviation over all monte carlo runs
+    df_mean = pd.read_pickle(args.filename + 'mean.pkl')
+    df_max = pd.read_pickle(args.filename + 'max.pkl')
+    df_min = pd.read_pickle(args.filename + 'min.pkl')
+    df_std = pd.read_pickle(args.filename + 'std.pkl')  # standard deviation over all monte carlo runs
+else:
+    df_mean = pd.read_pickle(args.filename)
 
 #TODO: plot stddev montecarlo runs etc
 
 
-def plotdata(l, title, xlabel='time (day)', ylabel='', legend=None, lg=False, plot_sum=False, legend_sum=None, filename = ''):
-    df_mean[l].plot(logy=lg)
+def plotdata(l, title, xlabel='Time steps', ylabel='', legend=None, lg=False, plot_sum=False, legend_sum=None, filename = '', df=df_mean):
+    df[l].plot(logy=lg)
     plt.title(title)
     plt.xlabel(xlabel)
     plt.ylabel(ylabel)
     if plot_sum:
-        df_mean[l].sum(axis=1).plot()
+        df[l].sum(axis=1).plot()
         legend.append(legend_sum)
     if legend is not None:
         plt.legend(legend)
     create_plot(filename)
 
-plotdata('price', 'Bitcoin price', ylabel='price (USD)', filename='price')
+if args.all:
+    plotdata('price', 'Average Price', ylabel='USD/btc', filename='price')
+    plotdata('price', 'Standard Deviation of the Price', ylabel='USD/btc', filename='price_std', df=df_std)
+else:
+    plotdata('price', 'Price', ylabel='USD/btc', filename='price')
 
 #TODO candle plot for monte carlo simulations;
 # which values to take for max and min??
@@ -128,6 +134,8 @@ plotdata('hashing_cap_total', 'Total hashing capability', ylabel='GH/s', lg=True
 
 if 'btc_mined' in df_mean.columns:
     plotdata('btc_mined', 'Bitcoin mined by all Miners', ylabel='bitcoin', filename = 'bitcoin_mined')
+    df_mean['btc_mined_avg'] = df_mean['btc_mined']/df_mean['n_miner']
+    plotdata('btc_mined_avg', 'Average Bitcoin mined', ylabel='bitcoin', filename = 'bitcoin_mined_avg')
 
 plotdata('n_transactions', 'Number of transactions', ylabel='number of transactions', filename = 'transactions')
 plotdata('transaction_volume_btc', 'Transaction volume', ylabel='transaction volume (#bitcoin)', filename = 'transaction_volume_btc')
