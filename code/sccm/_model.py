@@ -117,7 +117,7 @@ class PaperModel(Model):
         number_of_initial_traders = self.parameters.number_of_agents(0)
         number_of_final_traders = self.parameters.number_of_agents(self.t_end)
         number_of_later_traders = number_of_final_traders-number_of_initial_traders
-        inv_factor = self.parameters.scalingfactor * calc_factor_total_vs_richest(number_of_later_traders - , exponent=self.parameters['Model']['zipf_total_cash_later']['exponent'])
+        inv_factor = self.parameters.scalingfactor * calc_factor_total_vs_richest(number_of_later_traders, exponent=self.parameters['Model']['zipf_total_cash_later']['exponent'])
         for i in range(number_of_later_traders):  # need range from 0 for zipf
             kind = self.parameters.random_agent_kind(self.t_end)
             cash = zipf(i, **self.parameters['Model']['zipf_total_cash_later'])/inv_factor
