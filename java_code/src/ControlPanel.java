@@ -52,19 +52,19 @@ public class ControlPanel extends JPanel
         enableForce = new JCheckBox("Force is a Danger Factor");
         enableForce.setSelected(true);
 
-        epsilonLabel = new JLabel("Repulsion Strength (ε)");
+        epsilonLabel = new JLabel("Repulsion Strength (\u03b5)");
 
         epsilonField = new JFormattedTextField();
         epsilonField.setValue(simulation.epsilon);
         epsilonField.setColumns(10);
 
-        muLabel = new JLabel("Propulsion Strength (µ)");
+        muLabel = new JLabel("Propulsion Strength (\u03bc)");
 
         muField = new JFormattedTextField();
         muField.setValue(simulation.mu);
         muField.setColumns(10);
 
-        alphaLabel = new JLabel("Flocking Force Strength (α)");
+        alphaLabel = new JLabel("Flocking Force Strength (\u03b1)");
 
         alphaField = new JFormattedTextField();
         alphaField.setValue(simulation.alpha);
@@ -75,7 +75,7 @@ public class ControlPanel extends JPanel
         flockRadiusSlider.setValue((int) simulation.flockRadius);
         configureSlider(flockRadiusSlider, 1, 5, 5, 2 * Simulation.SECTOR_SIZE);
 
-        gammaLabel = new JLabel("Centripetal Force Strength (γ)");
+        gammaLabel = new JLabel("Centripetal Force Strength (\u03b3)");
 
         gammaField = new JFormattedTextField();
         gammaField.setValue(simulation.gamma);

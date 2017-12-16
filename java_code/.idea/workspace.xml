@@ -3,17 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="ce8cecc0-57c7-4791-8da3-0432213a3646" name="Default" comment="Updated configGuide to match the report">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MSSSM.iml" afterPath="$PROJECT_DIR$/MSSSM.iml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/configs.sim" afterPath="$PROJECT_DIR$/configs.sim" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AutomaticSimulator.java" afterPath="$PROJECT_DIR$/src/AutomaticSimulator.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ControlPanel.java" afterPath="$PROJECT_DIR$/src/ControlPanel.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/DataCollector.java" afterPath="$PROJECT_DIR$/src/DataCollector.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Individual.java" afterPath="$PROJECT_DIR$/src/Individual.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Main.java" afterPath="$PROJECT_DIR$/src/Main.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/PositionMatrix.java" afterPath="$PROJECT_DIR$/src/PositionMatrix.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Simulation.java" afterPath="$PROJECT_DIR$/src/Simulation.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/SimulationGUI.java" afterPath="$PROJECT_DIR$/src/SimulationGUI.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/SimulationPanel.java" afterPath="$PROJECT_DIR$/src/SimulationPanel.java" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -49,16 +40,16 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ControlPanel.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="ControlPanel.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/ControlPanel.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1391">
-              <caret line="132" column="43" lean-forward="true" selection-start-line="132" selection-start-column="43" selection-end-line="132" selection-end-column="43" />
+            <state relative-caret-position="1050">
+              <caret line="77" column="67" lean-forward="false" selection-start-line="77" selection-start-column="67" selection-end-line="77" selection-end-column="67" />
               <folding>
-                <element signature="e#4937#5406#0" expanded="true" />
-                <element signature="e#5405#5406#0" expanded="true" />
-                <element signature="e#5450#5705#0" expanded="true" />
-                <element signature="e#5704#5705#0" expanded="true" />
+                <element signature="e#4957#5426#0" expanded="true" />
+                <element signature="e#5425#5426#0" expanded="true" />
+                <element signature="e#5470#5725#0" expanded="true" />
+                <element signature="e#5724#5725#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -88,7 +79,7 @@
         <entry file="file://$PROJECT_DIR$/src/Main.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="150">
-              <caret line="10" column="59" lean-forward="true" selection-start-line="10" selection-start-column="59" selection-end-line="10" selection-end-column="59" />
+              <caret line="10" column="59" lean-forward="false" selection-start-line="10" selection-start-column="59" selection-end-line="10" selection-end-column="59" />
               <folding />
             </state>
           </provider>
@@ -124,7 +115,7 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="SimulationPanel.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="SimulationPanel.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/SimulationPanel.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="540">
@@ -209,7 +200,6 @@
         <option value="$PROJECT_DIR$/configs/configGuide.config" />
         <option value="$PROJECT_DIR$/configs.sim" />
         <option value="$PROJECT_DIR$/src/AutomaticSimulator.java" />
-        <option value="$PROJECT_DIR$/src/ControlPanel.java" />
         <option value="$PROJECT_DIR$/src/DataCollector.java" />
         <option value="$PROJECT_DIR$/src/Individual.java" />
         <option value="$PROJECT_DIR$/src/Main.java" />
@@ -217,6 +207,7 @@
         <option value="$PROJECT_DIR$/src/Simulation.java" />
         <option value="$PROJECT_DIR$/src/SimulationGUI.java" />
         <option value="$PROJECT_DIR$/src/SimulationPanel.java" />
+        <option value="$PROJECT_DIR$/src/ControlPanel.java" />
       </list>
     </option>
   </component>
@@ -946,7 +937,7 @@
       <workItem from="1513081551777" duration="5343000" />
       <workItem from="1513373515218" duration="1122000" />
       <workItem from="1513423300984" duration="775000" />
-      <workItem from="1513440823710" duration="2251000" />
+      <workItem from="1513440823710" duration="2459000" />
     </task>
     <task id="LOCAL-00001" summary="Implemented getNeighbors. Added comments for clarity.">
       <created>1510873844677</created>
@@ -1158,31 +1149,38 @@
       <option name="project" value="LOCAL" />
       <updated>1513440914134</updated>
     </task>
-    <option name="localTasksCounter" value="31" />
+    <task id="LOCAL-00031" summary="Cleaned up code to wrap to 80 columns (to fit in report)">
+      <created>1513443130995</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1513443130995</updated>
+    </task>
+    <option name="localTasksCounter" value="32" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="121966000" />
+    <option name="totallyTimeSpent" value="122174000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1920" height="977" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Nl-Palette" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3270925" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32868218" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3270925" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32488987" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32488987" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Properties" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32921174" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.1828125" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.1828125" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -1197,7 +1195,6 @@
       <window_info id="Dependency Viewer" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32921174" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection Results" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32921174" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3270925" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Coverage" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3296875" sideWeight="0.5" order="4" side_tool="true" content_ui="tabs" />
       <window_info id="Run with VisualVM" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32868218" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
@@ -1215,7 +1212,6 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Reinstated Test.java" />
     <MESSAGE value="Cleaned up code. Added propulsion and controls for µ." />
     <MESSAGE value="Added code for isParticipating" />
     <MESSAGE value="Cleaned up code for danger level" />
@@ -1240,7 +1236,8 @@
     <MESSAGE value="Changed config parameters to be uniform for data collection" />
     <MESSAGE value="Now outputting continuous danger levels and median danger level" />
     <MESSAGE value="Updated configGuide to match the report" />
-    <option name="LAST_COMMIT_MESSAGE" value="Updated configGuide to match the report" />
+    <MESSAGE value="Cleaned up code to wrap to 80 columns (to fit in report)" />
+    <option name="LAST_COMMIT_MESSAGE" value="Cleaned up code to wrap to 80 columns (to fit in report)" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1410,19 +1407,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/ControlPanel.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1391">
-          <caret line="132" column="43" lean-forward="true" selection-start-line="132" selection-start-column="43" selection-end-line="132" selection-end-column="43" />
-          <folding>
-            <element signature="e#4937#5406#0" expanded="true" />
-            <element signature="e#5405#5406#0" expanded="true" />
-            <element signature="e#5450#5705#0" expanded="true" />
-            <element signature="e#5704#5705#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/DataCollector.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-1856">
@@ -1442,7 +1426,7 @@
     <entry file="file://$PROJECT_DIR$/src/Main.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="150">
-          <caret line="10" column="59" lean-forward="true" selection-start-line="10" selection-start-column="59" selection-end-line="10" selection-end-column="59" />
+          <caret line="10" column="59" lean-forward="false" selection-start-line="10" selection-start-column="59" selection-end-line="10" selection-end-column="59" />
           <folding />
         </state>
       </provider>
@@ -1476,6 +1460,19 @@
         <state relative-caret-position="540">
           <caret line="47" column="32" lean-forward="false" selection-start-line="47" selection-start-column="32" selection-end-line="47" selection-end-column="32" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/ControlPanel.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1050">
+          <caret line="77" column="67" lean-forward="false" selection-start-line="77" selection-start-column="67" selection-end-line="77" selection-end-column="67" />
+          <folding>
+            <element signature="e#4957#5426#0" expanded="true" />
+            <element signature="e#5425#5426#0" expanded="true" />
+            <element signature="e#5470#5725#0" expanded="true" />
+            <element signature="e#5724#5725#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
