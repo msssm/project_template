@@ -43,11 +43,13 @@ public class Individual {
      */
     public double density;
     /**
-     * Continuous (rather than discrete) measure of the danger level of an individual.
+     * Continuous (rather than discrete) measure of the danger level of an
+     * individual.
      */
     public double continuousDangerLevel;
 
-    public Individual(double x, double y, double vx, double vy, boolean isParticipating, int dangerLevel) {
+    public Individual(double x, double y, double vx, double vy,
+                      boolean isParticipating, int dangerLevel) {
         this.x = x;
         this.y = y;
         this.vx = vx;
@@ -56,8 +58,10 @@ public class Individual {
         this.dangerLevel = dangerLevel;
     }
 
-    public Individual(double[] position, double[] velocity, boolean isParticipating, int dangerLevel) {
-        this(position[0], position[1], velocity[0], velocity[1], isParticipating, dangerLevel);
+    public Individual(double[] position, double[] velocity,
+                      boolean isParticipating, int dangerLevel) {
+        this(position[0], position[1], velocity[0], velocity[1],
+             isParticipating, dangerLevel);
     }
 
     public double[] getPosition() {
@@ -84,6 +88,7 @@ public class Individual {
 
     @Override
     public String toString() {
-        return "Individual: position = (" + x + ", " + y + "), velocity = (" + vx + ", " + vy + "), isParticipating = " + isParticipating;
+        return "Individual: position = (" + x + ", " + y + "), velocity = (" +
+                vx + ", " + vy + "), isParticipating = " + isParticipating;
     }
 }

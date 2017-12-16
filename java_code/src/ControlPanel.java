@@ -7,7 +7,8 @@ import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
-public class ControlPanel extends JPanel implements PropertyChangeListener, ChangeListener {
+public class ControlPanel extends JPanel
+        implements PropertyChangeListener, ChangeListener {
 
     private Simulation simulation;
     private SimulationPanel simulationpanel;
@@ -17,13 +18,17 @@ public class ControlPanel extends JPanel implements PropertyChangeListener, Chan
     private JCheckBox enableDensity;
     private JCheckBox enableForce;
     private JCheckBox showParticipants;
-    private JLabel epsilonLabel, muLabel, alphaLabel, flockRadiusLabel, gammaLabel, initialParticipantsLabel, percLabel, rPartLabel, sizeLabel, minNeighborsLabel;
-    private JFormattedTextField epsilonField, muField, alphaField, gammaField, initialParticipantsField, percField, sizeField, minNeighborsField;
+    private JLabel epsilonLabel, muLabel, alphaLabel, flockRadiusLabel,
+            gammaLabel, initialParticipantsLabel, percLabel, rPartLabel,
+            sizeLabel, minNeighborsLabel;
+    private JFormattedTextField epsilonField, muField, alphaField, gammaField,
+            initialParticipantsField, percField, sizeField, minNeighborsField;
     private JSlider rPartSlider, flockRadiusSlider;
 
     private boolean paused = true;
 
-    public ControlPanel(Simulation simulation, SimulationPanel simulationpanel) {
+    public ControlPanel(Simulation simulation,
+                        SimulationPanel simulationpanel) {
         this.simulation = simulation;
         this.simulationpanel = simulationpanel;
         setPreferredSize(new Dimension(500, 230));
@@ -104,7 +109,8 @@ public class ControlPanel extends JPanel implements PropertyChangeListener, Chan
         sizeField.setValue(simulation.minCirclePitSize);
         sizeField.setColumns(10);
 
-        minNeighborsLabel = new JLabel("Neighbors Needed to Join in Circle Pit");
+        minNeighborsLabel = new JLabel(
+                "Neighbors Needed to Join in Circle Pit");
 
         minNeighborsField = new JFormattedTextField();
         minNeighborsField.setValue(simulation.minParticipatingNeighbors);
@@ -112,7 +118,9 @@ public class ControlPanel extends JPanel implements PropertyChangeListener, Chan
 
     }
 
-    private void configureSlider(JSlider slider, int minorSpacing, int majorSpacing, int lowerLimit, int upperLimit) {
+    private void configureSlider(JSlider slider, int minorSpacing,
+                                 int majorSpacing, int lowerLimit,
+                                 int upperLimit) {
         slider.setMajorTickSpacing(majorSpacing);
         slider.setMinorTickSpacing(minorSpacing);
         slider.setMinimum(lowerLimit);
@@ -137,7 +145,7 @@ public class ControlPanel extends JPanel implements PropertyChangeListener, Chan
         });
 
         restartButton.addActionListener(new ActionListener() {
-           /* @Override */
+            /* @Override */
             public void actionPerformed(ActionEvent e) {
                 startPauseButton.setText("Start");
                 paused = true;
@@ -148,7 +156,8 @@ public class ControlPanel extends JPanel implements PropertyChangeListener, Chan
         showParticipants.addActionListener(new ActionListener() {
             /* @Override */
             public void actionPerformed(ActionEvent e) {
-                simulationpanel.shouldShowParticipants = !simulationpanel.shouldShowParticipants;
+                simulationpanel.shouldShowParticipants =
+                        !simulationpanel.shouldShowParticipants;
                 getParent().repaint();
             }
         });
@@ -167,7 +176,8 @@ public class ControlPanel extends JPanel implements PropertyChangeListener, Chan
                     simulation.enableDensity = true;
                 } else {
                     simulation.enableDensity = false;
-                    for (Individual individual : simulation.getMatrix().getIndividuals()) {
+                    for (Individual individual : simulation.getMatrix()
+                                                           .getIndividuals()) {
                         individual.dangerLevel = 0;
                     }
                 }
@@ -181,7 +191,8 @@ public class ControlPanel extends JPanel implements PropertyChangeListener, Chan
                     simulation.enableForce = true;
                 } else {
                     simulation.enableForce = false;
-                    for (Individual individual : simulation.getMatrix().getIndividuals()) {
+                    for (Individual individual : simulation.getMatrix()
+                                                           .getIndividuals()) {
                         individual.dangerLevel = 0;
                     }
                 }
@@ -238,7 +249,8 @@ public class ControlPanel extends JPanel implements PropertyChangeListener, Chan
     public void propertyChange(PropertyChangeEvent e) {
         Object source = e.getSource();
         if (source == epsilonField) {
-            simulation.epsilon = ((Number) epsilonField.getValue()).doubleValue();
+            simulation.epsilon =
+                    ((Number) epsilonField.getValue()).doubleValue();
         } else if (source == muField) {
             simulation.mu = ((Number) muField.getValue()).doubleValue();
         } else if (source == alphaField) {
@@ -246,15 +258,20 @@ public class ControlPanel extends JPanel implements PropertyChangeListener, Chan
         } else if (source == gammaField) {
             simulation.gamma = ((Number) gammaField.getValue()).doubleValue();
         } else if (source == initialParticipantsField) {
-            simulation.numberOfPeople = ((Number) initialParticipantsField.getValue()).intValue();
+            simulation.numberOfPeople =
+                    ((Number) initialParticipantsField.getValue()).intValue();
         } else if (source == percField) {
-            simulation.percentParticipating = ((Number) percField.getValue()).doubleValue();
+            simulation.percentParticipating =
+                    ((Number) percField.getValue()).doubleValue();
         } else if (source == rPartSlider) {
-            simulation.rParticipating = ((Number) rPartSlider.getValue()).doubleValue();
+            simulation.rParticipating =
+                    ((Number) rPartSlider.getValue()).doubleValue();
         } else if (source == sizeField) {
-            simulation.minCirclePitSize = ((Number) sizeField.getValue()).intValue();
+            simulation.minCirclePitSize =
+                    ((Number) sizeField.getValue()).intValue();
         } else if (source == minNeighborsField) {
-            simulation.minParticipatingNeighbors = ((Number) minNeighborsField.getValue()).intValue();
+            simulation.minParticipatingNeighbors =
+                    ((Number) minNeighborsField.getValue()).intValue();
         }
     }
 
@@ -263,7 +280,8 @@ public class ControlPanel extends JPanel implements PropertyChangeListener, Chan
         JSlider source = (JSlider) e.getSource();
         if (source == rPartSlider && !source.getValueIsAdjusting()) {
             simulation.rParticipating = (double) rPartSlider.getValue();
-        } else if (source == flockRadiusSlider && !source.getValueIsAdjusting()) {
+        } else if (source == flockRadiusSlider &&
+                !source.getValueIsAdjusting()) {
             simulation.flockRadius = (double) flockRadiusSlider.getValue();
         }
     }

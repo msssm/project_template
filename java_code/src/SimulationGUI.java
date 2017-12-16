@@ -33,8 +33,10 @@ public class SimulationGUI extends JFrame {
 
     private void initComponents() {
         PositionMatrix matrix = simulation.getMatrix();
-        simulationPanel = new SimulationPanel(500, 500, simulation, matrix.width * matrix.sectorSize,
-                matrix.height * matrix.sectorSize);
+        simulationPanel = new SimulationPanel(500, 500, simulation,
+                                              matrix.width * matrix.sectorSize,
+                                              matrix.height *
+                                                      matrix.sectorSize);
 
         controlPanel = new ControlPanel(simulation, simulationPanel);
     }

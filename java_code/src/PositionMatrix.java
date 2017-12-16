@@ -20,7 +20,8 @@ public class PositionMatrix {
      */
     public final int sectorSize;
     /**
-     * A boolean matrix to indicate whether sector (i, j) is under police surveillance
+     * A boolean matrix to indicate whether sector (i, j) is under police
+     * surveillance
      */
     public boolean[][] isPoliceAtSector;
     // The actual matrix
@@ -93,7 +94,8 @@ public class PositionMatrix {
         individuals.add(individual);
     }
 
-    public void removeAndAdd(Individual individual, Sector oldSector, Sector newSector) {
+    public void removeAndAdd(Individual individual, Sector oldSector,
+                             Sector newSector) {
         matrix[oldSector.row][oldSector.col].remove(individual);
         matrix[newSector.row][newSector.col].add(individual);
     }
@@ -105,7 +107,8 @@ public class PositionMatrix {
      * @param radius     The radius in which to search
      * @return A <code>java.util.List</code> of the neighbors.
      */
-    public List<Individual> getNeighborsFor(Individual individual, double radius) {
+    public List<Individual> getNeighborsFor(Individual individual,
+                                            double radius) {
         ArrayList<Individual> neighbors = new ArrayList<Individual>(10);
         ArrayList<Sector> sectorsToSearch = new ArrayList<Sector>(9);
         Sector sector = getSectorForCoords(individual);
@@ -114,14 +117,17 @@ public class PositionMatrix {
         // Look around the current sector
         for (int i = -1; i <= 1; i++) {
             for (int j = -1; j <= 1; j++) {
-                Sector newSector = getSectorForCoords(individual.x + i * radius, individual.y + i * radius);
+                Sector newSector = getSectorForCoords(individual.x + i * radius,
+                                                      individual.y +
+                                                              i * radius);
                 if (!sector.equals(newSector)) {
                     sectorsToSearch.add(newSector);
                 }
             }
         }
 
-        // Look for neighbors at the appropriate distance in the sectors to search
+        // Look for neighbors at the appropriate distance in the sectors to
+        // search
         for (Sector sectorToSearch : sectorsToSearch) {
             List<Individual> possibleNeighbors = get(sectorToSearch);
             for (Individual neighbor : possibleNeighbors) {
@@ -139,7 +145,8 @@ public class PositionMatrix {
      *
      * @param x The x coordinate
      * @param y The y coordinate
-     * @return A <code>Sector</code> object corresponding the the given coordinates.
+     * @return A <code>Sector</code> object corresponding the the given
+     * coordinates.
      */
     public Sector getSectorForCoords(double x, double y) {
         int sectorX = (int) x / sectorSize;
@@ -167,7 +174,8 @@ public class PositionMatrix {
     }
 
     /**
-     * Gets the sector that the given individual is in given an array of {x, y} coordinates.
+     * Gets the sector that the given individual is in given an array of {x, y}
+     * coordinates.
      *
      * @param position The array of coordinates
      * @return The sector corresponding to <code>position</code>
@@ -187,7 +195,8 @@ public class PositionMatrix {
     /**
      * Adds the given list of sectors to be monitored by the police.
      *
-     * @param policeSectors A comma separated list of sectors, e.g. 0, 0, 1, 1, 2, 2
+     * @param policeSectors A comma separated list of sectors, e.g. 0, 0, 1, 1,
+     *                      2, 2
      */
     public void setMonitoredSectors(int... policeSectors) {
         for (int i = 0; i < policeSectors.length; i += 2) {
@@ -196,7 +205,8 @@ public class PositionMatrix {
     }
 
     /**
-     * An inner class that represents one sector at a particular location in the matrix.
+     * An inner class that represents one sector at a particular location in the
+     * matrix.
      */
     public class Sector {
         int row;  // Row of the matrix

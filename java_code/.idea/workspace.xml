@@ -1,11 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="ce8cecc0-57c7-4791-8da3-0432213a3646" name="Default" comment="">
+    <list default="true" id="ce8cecc0-57c7-4791-8da3-0432213a3646" name="Default" comment="Updated configGuide to match the report">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MSSSM.iml" afterPath="$PROJECT_DIR$/MSSSM.iml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/configs.sim" afterPath="$PROJECT_DIR$/configs.sim" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/configs/configGuide.config" afterPath="$PROJECT_DIR$/configs/configGuide.config" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AutomaticSimulator.java" afterPath="$PROJECT_DIR$/src/AutomaticSimulator.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ControlPanel.java" afterPath="$PROJECT_DIR$/src/ControlPanel.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/DataCollector.java" afterPath="$PROJECT_DIR$/src/DataCollector.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Individual.java" afterPath="$PROJECT_DIR$/src/Individual.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Main.java" afterPath="$PROJECT_DIR$/src/Main.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/PositionMatrix.java" afterPath="$PROJECT_DIR$/src/PositionMatrix.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Simulation.java" afterPath="$PROJECT_DIR$/src/Simulation.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/SimulationGUI.java" afterPath="$PROJECT_DIR$/src/SimulationGUI.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/SimulationPanel.java" afterPath="$PROJECT_DIR$/src/SimulationPanel.java" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -21,33 +29,106 @@
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="timeEvolution.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/timeEvolution.py">
+      <file leaf-file-name="configs.sim" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/configs.sim">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="180">
-              <caret line="13" column="22" lean-forward="false" selection-start-line="13" selection-start-column="22" selection-end-line="13" selection-end-column="22" />
-              <folding>
-                <element signature="e#89#108#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="configGuide.config" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/configs/configGuide.config">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="585">
-              <caret line="39" column="12" lean-forward="false" selection-start-line="39" selection-start-column="12" selection-end-line="39" selection-end-column="12" />
+            <state relative-caret-position="15">
+              <caret line="1" column="0" lean-forward="false" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="12" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="configs.sim" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/configs.sim">
+      <file leaf-file-name="AutomaticSimulator.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/AutomaticSimulator.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="15">
-              <caret line="1" column="12" lean-forward="false" selection-start-line="1" selection-start-column="12" selection-end-line="1" selection-end-column="12" />
+            <state relative-caret-position="-143">
+              <caret line="91" column="22" lean-forward="false" selection-start-line="91" selection-start-column="22" selection-end-line="91" selection-end-column="22" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ControlPanel.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/ControlPanel.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-1391">
+              <caret line="132" column="43" lean-forward="true" selection-start-line="132" selection-start-column="43" selection-end-line="132" selection-end-column="43" />
+              <folding>
+                <element signature="e#4937#5406#0" expanded="true" />
+                <element signature="e#5405#5406#0" expanded="true" />
+                <element signature="e#5450#5705#0" expanded="true" />
+                <element signature="e#5704#5705#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="DataCollector.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/DataCollector.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-1856">
+              <caret line="121" column="42" lean-forward="false" selection-start-line="121" selection-start-column="42" selection-end-line="121" selection-end-column="42" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Individual.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Individual.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="720">
+              <caret line="48" column="40" lean-forward="false" selection-start-line="48" selection-start-column="40" selection-end-line="48" selection-end-column="40" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Main.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Main.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="150">
+              <caret line="10" column="59" lean-forward="true" selection-start-line="10" selection-start-column="59" selection-end-line="10" selection-end-column="59" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="PositionMatrix.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/PositionMatrix.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-2411">
+              <caret line="8" column="0" lean-forward="false" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Simulation.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Simulation.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="900">
+              <caret line="67" column="41" lean-forward="false" selection-start-line="67" selection-start-column="41" selection-end-line="67" selection-end-column="41" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="SimulationGUI.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/SimulationGUI.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="390">
+              <caret line="27" column="25" lean-forward="false" selection-start-line="27" selection-start-column="25" selection-end-line="27" selection-end-column="25" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="SimulationPanel.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/SimulationPanel.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="540">
+              <caret line="47" column="32" lean-forward="false" selection-start-line="47" selection-start-column="32" selection-end-line="47" selection-end-column="32" />
               <folding />
             </state>
           </provider>
@@ -113,13 +194,7 @@
         <option value="$PROJECT_DIR$/data_analysis.py" />
         <option value="$PROJECT_DIR$/doubleHalfLine/out_0_0.py" />
         <option value="$PROJECT_DIR$/timeEvolution.py" />
-        <option value="$PROJECT_DIR$/src/PositionMatrix.java" />
-        <option value="$PROJECT_DIR$/src/SimulationGUI.java" />
-        <option value="$PROJECT_DIR$/src/AutomaticSimulator.java" />
-        <option value="$PROJECT_DIR$/src/ControlPanel.java" />
-        <option value="$PROJECT_DIR$/src/SimulationPanel.java" />
         <option value="$PROJECT_DIR$/configs/doubleHalfLine.config" />
-        <option value="$PROJECT_DIR$/src/Main.java" />
         <option value="$PROJECT_DIR$/configs/Arrow.config" />
         <option value="$PROJECT_DIR$/configs/bigCircle.config" />
         <option value="$PROJECT_DIR$/configs/C_shape.config" />
@@ -131,11 +206,17 @@
         <option value="$PROJECT_DIR$/configs/no.config" />
         <option value="$PROJECT_DIR$/configs/U_shape.config" />
         <option value="$PROJECT_DIR$/configs/verticalLine.config" />
-        <option value="$PROJECT_DIR$/src/Individual.java" />
-        <option value="$PROJECT_DIR$/src/Simulation.java" />
-        <option value="$PROJECT_DIR$/src/DataCollector.java" />
         <option value="$PROJECT_DIR$/configs/configGuide.config" />
         <option value="$PROJECT_DIR$/configs.sim" />
+        <option value="$PROJECT_DIR$/src/AutomaticSimulator.java" />
+        <option value="$PROJECT_DIR$/src/ControlPanel.java" />
+        <option value="$PROJECT_DIR$/src/DataCollector.java" />
+        <option value="$PROJECT_DIR$/src/Individual.java" />
+        <option value="$PROJECT_DIR$/src/Main.java" />
+        <option value="$PROJECT_DIR$/src/PositionMatrix.java" />
+        <option value="$PROJECT_DIR$/src/Simulation.java" />
+        <option value="$PROJECT_DIR$/src/SimulationGUI.java" />
+        <option value="$PROJECT_DIR$/src/SimulationPanel.java" />
       </list>
     </option>
   </component>
@@ -183,6 +264,34 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="MSSSM" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java_code" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="MSSSM" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java_code" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="configs" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
       </pane>
       <pane id="Scope" />
@@ -193,10 +302,10 @@
   </component>
   <component name="PropertiesComponent">
     <property name="last_opened_file_path" value="/usr/bin/python" />
-    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
+    <property name="settings.editor.selected.configurable" value="preferences.sourceCode.Java" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.last.edited" value="SDKs" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
@@ -837,7 +946,7 @@
       <workItem from="1513081551777" duration="5343000" />
       <workItem from="1513373515218" duration="1122000" />
       <workItem from="1513423300984" duration="775000" />
-      <workItem from="1513440823710" duration="46000" />
+      <workItem from="1513440823710" duration="2251000" />
     </task>
     <task id="LOCAL-00001" summary="Implemented getNeighbors. Added comments for clarity.">
       <created>1510873844677</created>
@@ -1042,11 +1151,18 @@
       <option name="project" value="LOCAL" />
       <updated>1513081885310</updated>
     </task>
-    <option name="localTasksCounter" value="30" />
+    <task id="LOCAL-00030" summary="Updated configGuide to match the report">
+      <created>1513440914134</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1513440914134</updated>
+    </task>
+    <option name="localTasksCounter" value="31" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="119761000" />
+    <option name="totallyTimeSpent" value="121966000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1920" height="977" extended-state="6" />
@@ -1099,7 +1215,6 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Fixed bug where window was not repainted on Windows and Linux" />
     <MESSAGE value="Reinstated Test.java" />
     <MESSAGE value="Cleaned up code. Added propulsion and controls for µ." />
     <MESSAGE value="Added code for isParticipating" />
@@ -1124,7 +1239,8 @@
     <MESSAGE value="Added compatibility with Java 5" />
     <MESSAGE value="Changed config parameters to be uniform for data collection" />
     <MESSAGE value="Now outputting continuous danger levels and median danger level" />
-    <option name="LAST_COMMIT_MESSAGE" value="Now outputting continuous danger levels and median danger level" />
+    <MESSAGE value="Updated configGuide to match the report" />
+    <option name="LAST_COMMIT_MESSAGE" value="Updated configGuide to match the report" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1173,27 +1289,6 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/special0.py" />
-    <entry file="file://$PROJECT_DIR$/src/AutomaticSimulator.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="86">
-          <caret line="12" column="0" lean-forward="false" selection-start-line="12" selection-start-column="0" selection-end-line="12" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/PositionMatrix.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
-          <caret line="8" column="0" lean-forward="false" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/ControlPanel.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1995">
-          <caret line="140" column="33" lean-forward="false" selection-start-line="140" selection-start-column="33" selection-end-line="140" selection-end-column="33" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/configs/arrow.config">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -1271,65 +1366,13 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/SimulationPanel.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="420">
-          <caret line="37" column="28" lean-forward="false" selection-start-line="37" selection-start-column="28" selection-end-line="37" selection-end-column="28" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/DataCollector.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1860">
-          <caret line="128" column="36" lean-forward="false" selection-start-line="128" selection-start-column="36" selection-end-line="128" selection-end-column="36" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/verticalLine/out_0_9.py" />
     <entry file="file://$PROJECT_DIR$/verticalLine/out_0_0.py" />
     <entry file="file://$PROJECT_DIR$/verticalLine/out_0_1.py" />
-    <entry file="file://$PROJECT_DIR$/src/Individual.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="444">
-          <caret line="47" column="40" lean-forward="false" selection-start-line="47" selection-start-column="40" selection-end-line="47" selection-end-column="40" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Main.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="195">
-          <caret line="13" column="0" lean-forward="false" selection-start-line="13" selection-start-column="0" selection-end-line="13" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/SimulationGUI.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="300">
-          <caret line="27" column="25" lean-forward="false" selection-start-line="27" selection-start-column="25" selection-end-line="27" selection-end-column="25" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Simulation.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="15">
-          <caret line="491" column="94" lean-forward="false" selection-start-line="491" selection-start-column="94" selection-end-line="491" selection-end-column="94" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/configs/no.config">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="34" lean-forward="false" selection-start-line="0" selection-start-column="34" selection-end-line="0" selection-end-column="34" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/timeEvolution.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="13" column="22" lean-forward="false" selection-start-line="13" selection-start-column="22" selection-end-line="13" selection-end-column="22" />
-          <folding>
-            <element signature="e#89#108#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1341,10 +1384,97 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/timeEvolution.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="195">
+          <caret line="13" column="22" lean-forward="false" selection-start-line="13" selection-start-column="22" selection-end-line="13" selection-end-column="22" />
+          <folding>
+            <element signature="e#89#108#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/configs.sim">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="15">
-          <caret line="1" column="12" lean-forward="false" selection-start-line="1" selection-start-column="12" selection-end-line="1" selection-end-column="12" />
+          <caret line="1" column="0" lean-forward="false" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="12" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/AutomaticSimulator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-143">
+          <caret line="91" column="22" lean-forward="false" selection-start-line="91" selection-start-column="22" selection-end-line="91" selection-end-column="22" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/ControlPanel.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1391">
+          <caret line="132" column="43" lean-forward="true" selection-start-line="132" selection-start-column="43" selection-end-line="132" selection-end-column="43" />
+          <folding>
+            <element signature="e#4937#5406#0" expanded="true" />
+            <element signature="e#5405#5406#0" expanded="true" />
+            <element signature="e#5450#5705#0" expanded="true" />
+            <element signature="e#5704#5705#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/DataCollector.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1856">
+          <caret line="121" column="42" lean-forward="false" selection-start-line="121" selection-start-column="42" selection-end-line="121" selection-end-column="42" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Individual.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="720">
+          <caret line="48" column="40" lean-forward="false" selection-start-line="48" selection-start-column="40" selection-end-line="48" selection-end-column="40" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Main.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="150">
+          <caret line="10" column="59" lean-forward="true" selection-start-line="10" selection-start-column="59" selection-end-line="10" selection-end-column="59" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/PositionMatrix.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-2411">
+          <caret line="8" column="0" lean-forward="false" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Simulation.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="900">
+          <caret line="67" column="41" lean-forward="false" selection-start-line="67" selection-start-column="41" selection-end-line="67" selection-end-column="41" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/SimulationGUI.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="390">
+          <caret line="27" column="25" lean-forward="false" selection-start-line="27" selection-start-column="25" selection-end-line="27" selection-end-column="25" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/SimulationPanel.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="540">
+          <caret line="47" column="32" lean-forward="false" selection-start-line="47" selection-start-column="32" selection-end-line="47" selection-end-column="32" />
           <folding />
         </state>
       </provider>
@@ -1402,12 +1532,11 @@
       </state>
       <state key="ModuleStructureConfigurable.UI">
         <settings>
-          <last-edited>MSSSM</last-edited>
+          <last-edited>Python|MSSSM</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>
                 <option value="0.2" />
-                <option value="0.6" />
               </list>
             </option>
           </splitter-proportions>

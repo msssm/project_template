@@ -5,7 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Class that automatically runs the simulation for one police configuration and harvests data from it.
+ * Class that automatically runs the simulation for one police configuration and
+ * harvests data from it.
  */
 public class DataCollector implements ActionListener {
 
@@ -14,35 +15,49 @@ public class DataCollector implements ActionListener {
     private final int dataCollectionInterval;  // How often to collect data
     public boolean hasInsertedPolice = false;  // True if police inserted
     private Simulation simulation;  // Simulation for which to collect data
-    private PrintWriter fileCounterWriter;  // Writes number of timepoints and number of seeds
+    private PrintWriter fileCounterWriter; // Writes number of timepoints and
+                                           // number of seeds
     private PrintWriter outWriter;  // Writes data
-    private int seedCounter = 0;  // Counts how many seeds have already been tested
-    private int timeCounter = 0;  // Counts how many timepoints we have already dumped data for
-    private int realTimeElapsed = 0;  // Amount of timesteps of the simulation elapsed
-    private int insertPoliceAfterCounter = 0;  // Counter to test if we should insert police
-    private boolean stillWaitingToInsertPolice = true;  // True if police not inserted yet
-    private int insertPoliceAfter;  // How many timesteps to wait before inserting police
-    private boolean[][] policeSectors = new boolean[10][10];  // Sectors with police
+    private int seedCounter = 0; // Counts how many seeds have already been
+                                 // tested
+    private int timeCounter = 0; // Counts how many timepoints we have
+                                 // already dumped data for
+    private int realTimeElapsed = 0; // Amount of timesteps of the simulation
+                                     // elapsed
+    private int insertPoliceAfterCounter = 0; // Counter to test if we should
+                                              // insert police
+    private boolean stillWaitingToInsertPolice = true; // True if police not
+                                                       // inserted yet
+    private int insertPoliceAfter; // How many timesteps to wait before
+                                   // inserting police
+    private boolean[][] policeSectors = new boolean[10][10]; // Sectors with
+                                                             // police
 
-    private String configurationName;  // Name of the configuration we are currently testing
+    private String configurationName; // Name of the configuration we are
+                                      // currently testing
 
-    public DataCollector(Simulation simulation, String configurationName, int dataCollectionInterval, int insertPoliceAfter, int maxSeeds, int maxTime, boolean[][] policeSectors) {
+    public DataCollector(Simulation simulation, String configurationName,
+                         int dataCollectionInterval, int insertPoliceAfter,
+                         int maxSeeds, int maxTime, boolean[][] policeSectors) {
         this.simulation = simulation;
         this.dataCollectionInterval = dataCollectionInterval;
         this.insertPoliceAfter = insertPoliceAfter;
         this.policeSectors = policeSectors;
         MAX_TIME = maxTime;
         MAX_SEEDS = maxSeeds;
-        // Files are named as out_[seed#]_[time#].py in a subfolder for this configuration
+        // Files are named as out_[seed#]_[time#].py in a subfolder for this
+        // configuration
         File file = new File(configurationName + "/out_0_0.py");
         file.getParentFile().mkdirs();
         try {
-            fileCounterWriter = new PrintWriter(configurationName + "/counter.py");
+            fileCounterWriter = new PrintWriter(
+                    configurationName + "/counter.py");
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
         try {
-            outWriter = new PrintWriter(configurationName + "/out_0_0.py", "UTF-8");
+            outWriter = new PrintWriter(configurationName + "/out_0_0.py",
+                                        "UTF-8");
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (UnsupportedEncodingException e) {
@@ -58,8 +73,9 @@ public class DataCollector implements ActionListener {
     }
 
     /**
-     * Iterates over the given list and, for each element of that list, adds the value of the field with the given name
-     * to a numpy array that is written to a file using the provided PrintWriter. The resulting array is named
+     * Iterates over the given list and, for each element of that list, adds the
+     * value of the field with the given name to a numpy array that is written
+     * to a file using the provided PrintWriter. The resulting array is named
      * <code>description</code>.
      *
      * @param list         The list from which to gather the data
@@ -67,12 +83,14 @@ public class DataCollector implements ActionListener {
      * @param writer       The writer with which to write the data
      * @param description  The name of the numpy array
      */
-    public static void writeNumPyArray(List list, String propertyName, PrintWriter writer, String description) {
+    public static void writeNumPyArray(List list, String propertyName,
+                                       PrintWriter writer, String description) {
         writer.print(description + " = array([");
         boolean firstTime = true;
         try {
             for (Object object : list) {
-                Object value = object.getClass().getField(propertyName).get(object);
+                Object value = object.getClass().getField(propertyName).get(
+                        object);
                 if (firstTime) writer.print(value);
                 else writer.print(", " + value);
                 firstTime = false;
@@ -89,23 +107,30 @@ public class DataCollector implements ActionListener {
     /*@Override*/
     public void actionPerformed(ActionEvent e) {
         PositionMatrix matrix = simulation.getMatrix();
-        realTimeElapsed += Simulation.TIMESTEP;  // Check how much time has elapsed to see if we should dump data
+        realTimeElapsed +=
+                Simulation.TIMESTEP;  // Check how much time has elapsed to
+                                      // see if we should dump data
         if (!simulation.isCurrentIterationFinished) {
             simulation.runOneTimestep();
             simulation.repaint();
             if (stillWaitingToInsertPolice) {
                 insertPoliceAfterCounter++;
             }
-            if (insertPoliceAfterCounter >= insertPoliceAfter) {  // Check if the appropriate amount of time before inserting police has elapsed
+            if (insertPoliceAfterCounter >=
+                    insertPoliceAfter) {  // Check if the appropriate amount
+                                          // of time before inserting police
+                                          // has elapsed
                 stillWaitingToInsertPolice = false;
             }
-            if (!stillWaitingToInsertPolice && !hasInsertedPolice) {  // Insert the police
+            if (!stillWaitingToInsertPolice &&
+                    !hasInsertedPolice) {  // Insert the police
                 simulation.setMonitoredSectors(policeSectors);
                 this.hasInsertedPolice = true;
             }
         }
         // Dump data if now is the right time
-        if (realTimeElapsed % dataCollectionInterval == 0 && !simulation.isCurrentIterationFinished) {
+        if (realTimeElapsed % dataCollectionInterval == 0 &&
+                !simulation.isCurrentIterationFinished) {
             realTimeElapsed = 0;
 
             outWriter.println("from numpy import *");
@@ -118,12 +143,19 @@ public class DataCollector implements ActionListener {
             writeNumPyArray(individuals, "y", outWriter, "y");
 
             // Write data on danger levels of individuals
-            writeNumPyArray(individuals, "dangerLevel", outWriter, "dangerLevel");
-            writeNumPyArray(individuals, "continuousDangerLevel", outWriter, "continuousDangerLevel");
+            writeNumPyArray(individuals, "dangerLevel", outWriter,
+                            "dangerLevel");
+            writeNumPyArray(individuals, "continuousDangerLevel", outWriter,
+                            "continuousDangerLevel");
 
-            writeIsParticipatingData(matrix);  // Write data on which individuals are participating
-            writeNumPyArray(individuals, "f", outWriter, "F");  // Write data on force acting on individuals
-            writeNumPyArray(individuals, "density", outWriter, "density");  // Write data on density surrounding individuals
+            writeIsParticipatingData(
+                    matrix);  // Write data on which individuals are
+            // participating
+            writeNumPyArray(individuals, "f", outWriter,
+                            "F");  // Write data on force acting on individuals
+            writeNumPyArray(individuals, "density", outWriter,
+                            "density");  // Write data on density surrounding
+            // individuals
             writeAverageDanger(matrix);
             writeMaxDanger(matrix);
             writeMedianDanger(matrix);
@@ -148,7 +180,8 @@ public class DataCollector implements ActionListener {
                 outWriter.close();
                 simulation.isCurrentIterationFinished = true;
             } else {
-                resetWriters(configurationName + "/out_" + seedCounter + "_" + timeCounter + ".py");
+                resetWriters(configurationName + "/out_" + seedCounter + "_" +
+                                     timeCounter + ".py");
                 timeCounter++;
             }
         }
@@ -159,7 +192,8 @@ public class DataCollector implements ActionListener {
         outWriter.print("isParticipating = array([");
         boolean firstTime = true;
         for (Individual individual : matrix.getIndividuals()) {
-            if (firstTime) outWriter.print((individual.isParticipating ? 1 : 0));
+            if (firstTime) outWriter.print(
+                    (individual.isParticipating ? 1 : 0));
             else outWriter.print(", " + (individual.isParticipating ? 1 : 0));
             firstTime = false;
         }
@@ -184,7 +218,8 @@ public class DataCollector implements ActionListener {
         outWriter.print("maxDanger = ");
         double maxDanger = Double.MIN_VALUE;
         for (Individual individual : matrix.getIndividuals()) {
-            maxDanger = Math.max(maxDanger, individual.f / 10000 + individual.density / 50);
+            maxDanger = Math.max(maxDanger, individual.f / 10000 +
+                    individual.density / 50);
         }
         outWriter.println(maxDanger);
         outWriter.flush();
@@ -193,11 +228,14 @@ public class DataCollector implements ActionListener {
     private void writeMedianDanger(PositionMatrix matrix) {
         outWriter.print("medianDanger = ");
         // Check if there is an even amount of individuals
-        ArrayList<Individual> individuals = (ArrayList<Individual>) matrix.getIndividuals();
+        ArrayList<Individual> individuals =
+                (ArrayList<Individual>) matrix.getIndividuals();
         int nOver2 = individuals.size() / 2;
 
         double median = (individuals.size() % 2 == 0) ?
-                (getNthSmallestContinuousDangerLevel(individuals, nOver2) + getNthSmallestContinuousDangerLevel(individuals, nOver2 + 1)) / 2 :
+                (getNthSmallestContinuousDangerLevel(individuals, nOver2) +
+                        getNthSmallestContinuousDangerLevel(individuals,
+                                                            nOver2 + 1)) / 2 :
                 getNthSmallestContinuousDangerLevel(individuals, nOver2);
 
         outWriter.println(median);
@@ -205,17 +243,20 @@ public class DataCollector implements ActionListener {
     }
 
     // QuickSelect algorithm
-    private static double getNthSmallestContinuousDangerLevel(ArrayList<Individual> individuals, int n) {
+    private static double getNthSmallestContinuousDangerLevel(
+            ArrayList<Individual> individuals, int n) {
         double result;
         double pivot;
 
-        // 3 ArrayLists for elements smaller than pivot, equal to pivot, larger than pivot
+        // 3 ArrayLists for elements smaller than pivot, equal to pivot,
+        // larger than pivot
         ArrayList<Individual> lessThanPivot = new ArrayList<Individual>();
         ArrayList<Individual> greaterThanPivot = new ArrayList<Individual>();
         ArrayList<Individual> equalToPivot = new ArrayList<Individual>();
 
         // Select a random pivot
-        pivot = individuals.get((int) (Math.random() * individuals.size())).continuousDangerLevel;
+        pivot = individuals.get((int) (Math.random() *
+                individuals.size())).continuousDangerLevel;
 
         // Add each element of the given list to the appropriate category
         for (Individual individual : individuals) {
@@ -234,7 +275,8 @@ public class DataCollector implements ActionListener {
         } else if (n < lessThanPivot.size() + equalToPivot.size()) {
             result = pivot;
         } else {
-            result = getNthSmallestContinuousDangerLevel(greaterThanPivot, n - lessThanPivot.size() - equalToPivot.size());
+            result = getNthSmallestContinuousDangerLevel(greaterThanPivot, n -
+                    lessThanPivot.size() - equalToPivot.size());
         }
 
         return result;

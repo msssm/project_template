@@ -41,7 +41,8 @@ public class Simulation {
      */
     public double numberOfPeople;
     /**
-     * Radius within which velocity of neighbors has an effect on the flocking force
+     * Radius within which velocity of neighbors has an effect on the flocking
+     * force
      */
     public double flockRadius;
     /**
@@ -53,17 +54,18 @@ public class Simulation {
      */
     public double percentParticipating;
     /**
-     * Radius within which the 'isParticipating' of neighbors affects the individual
+     * Radius within which the 'isParticipating' of neighbors affects the
+     * individual
      */
     public double rParticipating;
     /**
      * Minimum amount of people necessary to constitute a circle pit
      */
-    public int minCirclePitSize;  // how many people around max not to participate
+    public int minCirclePitSize;
     /**
      * Necessary number of neighbors participating to start participating
      */
-    public int minParticipatingNeighbors;  // how many to start participate
+    public int minParticipatingNeighbors;
     /**
      * Center of the matrix
      */
@@ -105,7 +107,8 @@ public class Simulation {
      */
     public boolean enableDensity = true;
     /**
-     * False while the current iteration of the simulation is running (used for automation)
+     * False while the current iteration of the simulation is running (used for
+     * automation)
      */
     public boolean isCurrentIterationFinished = false;
 
@@ -117,25 +120,37 @@ public class Simulation {
 
     private Random random = new Random(42);  // To generate random numbers
     private int fileCounter = 0;  // Counts how many files were written
-    private PrintWriter fileCounterWriter;  // Writes information about how many files were written to a file
+    private PrintWriter fileCounterWriter;
+            // Writes information about how many files were written to a file
 
     private PositionMatrix matrix;
 
     /**
      * Creates a new Simulation with the specified parameters.
-     * @param epsilon Strength of the repulsive force
-     * @param mu Strength of the propulsive force
-     * @param alpha Strength of the flocking force
-     * @param gamma Strength of the centripetal force
-     * @param numberOfPeople Number of people at the concert
-     * @param flockRadius Radius in which to look for neighbors for the flocking force
-     * @param dt Duration of one timestep
-     * @param percentParticipating Proportion of people initially participating in the circle pit
-     * @param rParticipating Radius in which to search for participating neighbors
-     * @param minCirclePitSize Minimum number of participating neighbors needed to continue participating in the circle pit
-     * @param minParticipatingNeighbors Minimum number of participating neighbors needed to join in the circle pit
+     *
+     * @param epsilon                   Strength of the repulsive force
+     * @param mu                        Strength of the propulsive force
+     * @param alpha                     Strength of the flocking force
+     * @param gamma                     Strength of the centripetal force
+     * @param numberOfPeople            Number of people at the concert
+     * @param flockRadius               Radius in which to look for neighbors
+     *                                  for the flocking force
+     * @param dt                        Duration of one timestep
+     * @param percentParticipating      Proportion of people initially
+     *                                  participating in the circle pit
+     * @param rParticipating            Radius in which to search for
+     *                                  participating neighbors
+     * @param minCirclePitSize          Minimum number of participating
+     *                                  neighbors needed to continue
+     *                                  participating in the circle pit
+     * @param minParticipatingNeighbors Minimum number of participating
+     *                                  neighbors needed to join in the circle
+     *                                  pit
      */
-    public Simulation(double epsilon, double mu, double alpha, double gamma, double numberOfPeople, double flockRadius, double dt, double percentParticipating, double rParticipating, int minCirclePitSize, int minParticipatingNeighbors) {
+    public Simulation(double epsilon, double mu, double alpha, double gamma,
+                      double numberOfPeople, double flockRadius, double dt,
+                      double percentParticipating, double rParticipating,
+                      int minCirclePitSize, int minParticipatingNeighbors) {
         this.epsilon = epsilon;
         this.mu = mu;
         this.alpha = alpha;
@@ -155,36 +170,40 @@ public class Simulation {
         initializeMatrix();
     }
 
-    // Initializes the matrix with individuals with random velocity and position.
+    // Initializes the matrix with individuals with random velocity and
+    // position.
     private void initializeMatrix() {
-        // TODO: Calculate optimal matrix size and sector size
-        // for now: create some bogus values
-        int tempMatrixSize = 10;
+        int matrixSize = 10;
 
         // The maximum x and y values that an individual can have
-        maxX = tempMatrixSize * SECTOR_SIZE;
-        maxY = tempMatrixSize * SECTOR_SIZE;
+        maxX = matrixSize * SECTOR_SIZE;
+        maxY = matrixSize * SECTOR_SIZE;
 
         center = new double[]{maxX / 2, maxY / 2};
 
-        matrix = new PositionMatrix(tempMatrixSize, tempMatrixSize, SECTOR_SIZE);
+        matrix = new PositionMatrix(matrixSize, matrixSize,
+                                    SECTOR_SIZE);
 
         for (int i = 0; i < numberOfPeople; i++) {
             // Generate random coordinates
             double[] coords = new double[2];
-            coords[0] = random.nextDouble() * SECTOR_SIZE * tempMatrixSize;
-            coords[1] = random.nextDouble() * SECTOR_SIZE * tempMatrixSize;
+            coords[0] = random.nextDouble() * SECTOR_SIZE * matrixSize;
+            coords[1] = random.nextDouble() * SECTOR_SIZE * matrixSize;
 
             // Generate random velocity
-            double[] velocity = new double[]{random.nextDouble() - 0.5, random.nextDouble() - 0.5};
+            double[] velocity = new double[]{random.nextDouble() - 0.5,
+                                             random.nextDouble() - 0.5};
 
             // Decide whether individual is initially participating
-            boolean isParticipating = random.nextDouble() < percentParticipating;
+            boolean isParticipating =
+                    random.nextDouble() < percentParticipating;
 
             //levels of danger, 0 is safe, by default it's safe
             int dangerLevel = 0;
 
-            Individual individual = new Individual(coords, velocity, isParticipating, dangerLevel);
+            Individual individual = new Individual(coords, velocity,
+                                                   isParticipating,
+                                                   dangerLevel);
 
             // Add individual to appropriate sector
             matrix.add(individual);
@@ -233,7 +252,9 @@ public class Simulation {
 
     /**
      * Creates a new <code>Timer</code> to run the simulation
-     * @param listener The <code>ActionListener</code> the new <code>Timer</code> should be based on
+     *
+     * @param listener The <code>ActionListener</code> the new
+     *                 <code>Timer</code> should be based on
      */
     public void createNewTimer(ActionListener listener) {
         timer = new Timer(TIMESTEP, listener);
@@ -247,7 +268,9 @@ public class Simulation {
     }
 
     /**
-     * Sets the seed of the <code>Random</code> object used during the simulation.
+     * Sets the seed of the <code>Random</code> object used during the
+     * simulation.
+     *
      * @param seed The seed to set the <code>Random</code> object to
      */
     public void setSeed(int seed) {
@@ -255,7 +278,8 @@ public class Simulation {
     }
 
     // Checks if the given neighbor at the given distance is participating
-    private boolean isNeighborParticipating(Individual neighbor, double distance) {
+    private boolean isNeighborParticipating(Individual neighbor,
+                                            double distance) {
         return neighbor.isParticipating && distance < rParticipating;
     }
 
@@ -286,17 +310,29 @@ public class Simulation {
     }
 
     /**
-     * Runs the simulation automatically (for use for automatic data collection).
-     * @param name The name of the folder in which to put generated data.
-     * @param dataCollectionInterval How often to collect data (in milliseconds)
-     * @param insertPoliceAfter The amount of time after which police should be inserted, if any
-     * @param amountOfSeeds How many random seeds to test
-     * @param collectionTimes How many times to collect data per seed
+     * Runs the simulation automatically (for use for automatic data
+     * collection).
+     *
+     * @param name                   The name of the folder in which to put
+     *                               generated data.
+     * @param dataCollectionInterval How often to collect data (in
+     *                               milliseconds)
+     * @param insertPoliceAfter      The amount of time after which police
+     *                               should be inserted, if any
+     * @param amountOfSeeds          How many random seeds to test
+     * @param collectionTimes        How many times to collect data per seed
      */
-    public void runAutomaticSimulation(String name, int dataCollectionInterval, int insertPoliceAfter, int amountOfSeeds, int collectionTimes) {
+    public void runAutomaticSimulation(String name, int dataCollectionInterval,
+                                       int insertPoliceAfter, int amountOfSeeds,
+                                       int collectionTimes) {
         window = new SimulationGUI(this);
 
-        DataCollector collector = new DataCollector(this, name, dataCollectionInterval, insertPoliceAfter, amountOfSeeds, collectionTimes, new boolean[10][10]);
+        DataCollector collector = new DataCollector(this, name,
+                                                    dataCollectionInterval,
+                                                    insertPoliceAfter,
+                                                    amountOfSeeds,
+                                                    collectionTimes,
+                                                    new boolean[10][10]);
         timer = new Timer(TIMESTEP, collector);
         timer.start();
         window.setVisible(true);
@@ -313,7 +349,8 @@ public class Simulation {
         // Iterate over each individual
         for (Individual individual : individuals) {
             // Sector where the individual is before updating position
-            PositionMatrix.Sector initialSector = matrix.getSectorForCoords(individual);
+            PositionMatrix.Sector initialSector = matrix.getSectorForCoords(
+                    individual);
             // Amount of neighbors participating with the radius rParticipating
             int sumParticipating = 0;
             // Forces acting upon individual
@@ -321,7 +358,8 @@ public class Simulation {
             // Sum of the neighbor velocities
             double[] sumOverVelocities = {0.0, 0.0};
             // List of neighbors
-            List<Individual> neighbors = matrix.getNeighborsFor(individual, flockRadius);
+            List<Individual> neighbors = matrix.getNeighborsFor(individual,
+                                                                flockRadius);
             // Position and velocity of individual
             double[] position = individual.getPosition();
             double[] velocity = individual.getVelocity();
@@ -331,7 +369,8 @@ public class Simulation {
             // Calculate the danger level
             int numNeighbors = neighbors.size();
 
-            // We use the number of people in the neighbor list to represent density
+            // We use the number of people in the neighbor list to represent
+            // density
             if (enableDensity) {
                 if (numNeighbors > density2)
                     individual.dangerLevel = 3;
@@ -343,7 +382,7 @@ public class Simulation {
                     individual.dangerLevel = 0;
             }
 
-            // =========================== CALCULATION OF THE FORCES =================================
+            // ================= CALCULATION OF THE FORCES =====================
             for (Individual neighbor : neighbors) {
                 // Make sure we are not using the individual him/herself
                 if (neighbor == individual) {
@@ -354,17 +393,22 @@ public class Simulation {
 
                 double distance = individual.distanceTo(neighbor);
 
-                sumParticipating += isNeighborParticipating(neighbor, distance) ? 1 : 0;
+                sumParticipating += isNeighborParticipating(neighbor,
+                                                            distance) ? 1 : 0;
 
                 // Repulsive force
                 // We only use neighbors within a radius of 2 * r0
 
                 if (distance < 2 * individual.radius) {
-                    F[0] += epsilon * 500 * (individual.x - neighbor.x) / distance;
-                    F[1] += epsilon * 500 * (individual.y - neighbor.y) / distance;
+                    F[0] += epsilon * 500 * (individual.x - neighbor.x) /
+                            distance;
+                    F[1] += epsilon * 500 * (individual.y - neighbor.y) /
+                            distance;
                 } else if (distance < 2 * r0) {
-                    F[0] += -epsilon * ((1 / (distance - 2 * r0)) * (position[0] - positionNeighbor[0])) / distance;
-                    F[1] += -epsilon * ((1 / (distance - 2 * r0)) * (position[1] - positionNeighbor[1])) / distance;
+                    F[0] += -epsilon * ((1 / (distance - 2 * r0)) *
+                            (position[0] - positionNeighbor[0])) / distance;
+                    F[1] += -epsilon * ((1 / (distance - 2 * r0)) *
+                            (position[1] - positionNeighbor[1])) / distance;
                 }
 
                 sumOverVelocities[0] += velocityNeighbor[0];
@@ -399,12 +443,14 @@ public class Simulation {
                 individual.isParticipating = false;
             }
 
-            if (matrix.isSectorMonitored(matrix.getSectorForCoords(individual))) {
+            if (matrix.isSectorMonitored(
+                    matrix.getSectorForCoords(individual))) {
                 individual.isParticipating = false;
             }
 
             // Set preferred speed accordingly
-            individual.preferredSpeed = individual.isParticipating ? 30 : 5 * random.nextDouble();
+            individual.preferredSpeed =
+                    individual.isParticipating ? 30 : 5 * random.nextDouble();
 
             // Propulsion
             // Makes the individual want to travel at their preferred speed
@@ -413,7 +459,8 @@ public class Simulation {
             F[1] += -mu * (norm(velocity) - vi) * velocity[1] / norm(velocity);
 
             // Flocking
-            if (individual.isParticipating && !(sumOverVelocities[0] == 0 && sumOverVelocities[1] == 0)) {
+            if (individual.isParticipating &&
+                    !(sumOverVelocities[0] == 0 && sumOverVelocities[1] == 0)) {
                 double norm = norm(sumOverVelocities);
                 F[0] += alpha * sumOverVelocities[0] / norm;
                 F[1] += alpha * sumOverVelocities[1] / norm;
@@ -424,7 +471,8 @@ public class Simulation {
                 double distanceToCenter = individual.distanceTo(center);
 
                 // Normalized vector from center to individual
-                double[] r = new double[]{center[0] - individual.x, center[1] - individual.y};
+                double[] r = new double[]{center[0] - individual.x,
+                                          center[1] - individual.y};
                 r[0] /= distanceToCenter;
                 r[1] /= distanceToCenter;
 
@@ -443,7 +491,7 @@ public class Simulation {
                 F[1] /= normOfF * Long.MAX_VALUE;
             }
 
-            // ======================= CALCULATE TIMESTEP ========================
+            // ====================== CALCULATE TIMESTEP ======================
             // Using the leap-frog method to integrate the differential equation
             // d^2y/dt^2 = rhs(y)
 
@@ -461,7 +509,6 @@ public class Simulation {
             double newVy = v_temp[1] + dt * F[1] / 2;
 
             // Make sure individuals rebound off the edges of the space
-            // TODO: Find a better way of avoiding individuals going out-of-bounds
             if (newX < 0 || newX > maxX) {
                 newVx = -newVx;
                 F[0] = -F[0];
@@ -481,20 +528,24 @@ public class Simulation {
             individual.vy = newVy;
 
             // Add the individual to the correct sector
-            PositionMatrix.Sector newSector = matrix.getSectorForCoords(individual);
+            PositionMatrix.Sector newSector = matrix.getSectorForCoords(
+                    individual);
             if (!newSector.equals(initialSector)) {
                 matrix.removeAndAdd(individual, initialSector, newSector);
             }
 
-            // Set the force acting on this individual and the amount of neighbors so that the danger level can be assessed
+            // Set the force acting on this individual and the amount of
+            // neighbors so that the danger level can be assessed
             individual.f = norm(F);
             individual.density = neighbors.size();
-            individual.continuousDangerLevel = individual.f / 10000 + individual.density / 50;
+            individual.continuousDangerLevel =
+                    individual.f / 10000 + individual.density / 50;
         }
     }
 
     /**
-     * Writes a small Python/Numpy script to allow analysis of the current situation.
+     * Writes a small Python/Numpy script to allow analysis of the current
+     * situation.
      */
     public void exportData() {
         try {
@@ -506,7 +557,8 @@ public class Simulation {
             e.printStackTrace();
         } catch (NullPointerException e) {
             try {
-                writer = new PrintWriter("special" + fileCounter + ".py", "UTF-8");
+                writer = new PrintWriter("special" + fileCounter + ".py",
+                                         "UTF-8");
             } catch (FileNotFoundException e1) {
                 e1.printStackTrace();
             } catch (UnsupportedEncodingException e1) {
@@ -591,7 +643,9 @@ public class Simulation {
 
     /**
      * Gets the matrix associated with this object.
-     * @return The <code>PositionMatrix</code> object the individuals are stored in.
+     *
+     * @return The <code>PositionMatrix</code> object the individuals are stored
+     * in.
      */
     public PositionMatrix getMatrix() {
         return matrix;
@@ -599,6 +653,7 @@ public class Simulation {
 
     /**
      * Gets the <code>Timer</code> that is running this simulation.
+     *
      * @return
      */
     public Timer getSimulationTimer() {
@@ -607,7 +662,9 @@ public class Simulation {
 
     /**
      * Sets which sectors are monitored by the police.
-     * @param sectors A comma-separated list of comma-separated pairs of numbers representing sectors monitored by the police
+     *
+     * @param sectors A comma-separated list of comma-separated pairs of numbers
+     *                representing sectors monitored by the police
      */
     public void setMonitoredSectors(int... sectors) {
         matrix.setMonitoredSectors(sectors);
@@ -615,7 +672,10 @@ public class Simulation {
 
     /**
      * Sets which sectors are monitored by the police.
-     * @param sectors A <code>boolean[][]</code> array containing <code>true</code> at position (i, j) if a policeman is in that sector
+     *
+     * @param sectors A <code>boolean[][]</code> array containing
+     *                <code>true</code> at position (i, j) if a policeman is in
+     *                that sector
      */
     public void setMonitoredSectors(boolean[][] sectors) {
         matrix.isPoliceAtSector = sectors;
