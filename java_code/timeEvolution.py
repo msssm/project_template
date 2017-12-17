@@ -8,7 +8,7 @@ from numpy import *
 from matplotlib.pylab import *
 
 
-colors=array(['dodgerblue','darkorange','g','red','purple','brown','violet','grey','y','lightskyblue','magenta','black'])
+colors=array(['dodgerblue','darkorange','g','red','purple','brown','violet','grey','y','lightskyblue','black','magenta'])
 
 def analyse_medianDanger(test_set,i):
     toDo = "from %s.counter import *" % test_set
@@ -28,7 +28,7 @@ def analyse_medianDanger(test_set,i):
     ylabel('Median Danger'  )
     ymax=max(y)
     if(test_set=='control'):
-        linewidth_=3
+        linewidth_=2
     else:
         linewidth_=1.2
     plot(t,y/ymax,colors[i],linewidth=linewidth_,label=test_set)
@@ -51,12 +51,13 @@ def analyse_isParticipating(test_set,i):
             isParticipating_TimeEvolution[k]+=sum(isParticipating)/(500*50)
             
     if(test_set=='control'):
-        linewidth_=3
+        linewidth_=2
     else:
         linewidth_=1.2
         
     plot(t,isParticipating_TimeEvolution,colors[i],linewidth=linewidth_,label=test_set)
     ylabel('Participation Rate')
+    
 #    savefig(test_set+'isParticipating_timeEvolution_average.png',dpi=600)
 
 
@@ -74,6 +75,7 @@ if __name__ == '__main__' and __package__ is None:
             
             analyse_isParticipating(test_set.strip(),k)
             k+=1
+
 
     legend(prop={'size':8},fancybox=True,ncol=3,loc=1)
     xlabel('Time')
@@ -94,4 +96,6 @@ if __name__ == '__main__' and __package__ is None:
     xlabel('Time')
     savefig('medianDanger_timeEvolution.png',dpi=600)
             
+            
+                        
             
