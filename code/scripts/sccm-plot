@@ -100,9 +100,9 @@ if args.candle:
     #TODO merge days and plot less because this way nothing can be seen
     candlestick_ohlc(plt.gca(), data, width=args.candlewidth)
     #TODO TODO: plt.xlabel, ylabel title
-    plt.xlabel = 'Time steps'
-    plt.ylabel = 'price in usd/btc'
-    plt.title = 'Bitcoin market price'
+    plt.xlabel('Time steps')
+    plt.ylabel('price in usd/btc')
+    plt.title('Bitcoin market price')
     create_plot('candle')
 
 legend_agents = ['miners', 'random traders', 'chartists', 'all agents']
