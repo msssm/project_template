@@ -100,6 +100,9 @@ if args.candle:
     #TODO merge days and plot less because this way nothing can be seen
     candlestick_ohlc(plt.gca(), data, width=args.candlewidth)
     #TODO TODO: plt.xlabel, ylabel title
+    plt.xlabel = 'Time steps'
+    plt.ylabel = 'price in usd/btc'
+    plt.title = 'Bitcoin market price'
     create_plot('candle')
 
 legend_agents = ['miners', 'random traders', 'chartists', 'all agents']
@@ -117,7 +120,7 @@ for agent in ['miner', 'trader', 'chartist']:
         df_mean[currency+'_' + agent + '_avg'] = df_mean[currency+'_'+agent] / df_mean['n_'+agent]
 
 
-# TODO: make this nicer
+# TODO: make this tnicer
 plotdata(['btc_miner_avg', 'btc_trader_avg', 'btc_chartist_avg'], 'Average Bitcoins owned by agents', ylabel='number of bitcoins', legend=legend_agents[:3], filename = 'bitcoin_avg', lg=True)
 plotdata(['cash_miner_avg', 'cash_trader_avg', 'cash_chartist_avg'], 'Average Cash owned by agents', ylabel='cash amount (USD)', legend=legend_agents[:3], filename = 'cash_avg', lg=True)
 
