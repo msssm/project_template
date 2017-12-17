@@ -103,7 +103,8 @@ class Miner(CryptoCurrencyAgent):
 
     def step(self):
         self.mine()
-        if self.clock == self.time_when_to_buy_again and not self.initial_trader_taken_first_decision:
+        if self.clock == self.time_when_to_buy_again:
+            if self.initial_trader_taken_first_decision:
+                self.invest_divest()
             self.initial_trader_taken_first_decision = True
-            self.invest_divest()
             self.update_time_when_to_buy_again()
