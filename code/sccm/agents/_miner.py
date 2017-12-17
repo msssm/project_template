@@ -23,6 +23,7 @@ class Miner(CryptoCurrencyAgent):
         self.equipment = deque()  # equipment owned by the miner
 
         if self.clock == 0: #entering at time zero
+            self.initial_trader_taken_first_decision = False  # the first time initial miners only decide but dont buy or sell hardware to prevent initial sellout
             self.time_when_to_buy_again = np.random.randint(0, self.model.parameters['Miner']['delta_time_to_decide_on_new_hardware']['mu'])  # take decision to buy in the first 60 days uniform distr
             age = np.random.randint(self.model.parameters['Miner']['age_divest_hardware'])  # to prevent all initial miners from divesting at t=365
             Corei5 = Equipment(**self.model.parameters['Miner']['initial_hardware'], time_bought = -age)
@@ -33,6 +34,7 @@ class Miner(CryptoCurrencyAgent):
             self.pool.hashing_capability += Corei5.hash_rate
             self.power_consumption = Corei5.power_consumption
         else: #later
+            self.initial_trader_taken_first_decision = True
             self.buy_hardware()   # buy new hardware immediately
             self.update_time_when_to_buy_again()  # update time when to buy new mining hardware
 
@@ -101,6 +103,7 @@ class Miner(CryptoCurrencyAgent):
 
     def step(self):
         self.mine()
-        if self.clock == self.time_when_to_buy_again:
+        if self.clock == self.time_when_to_buy_again and not self.initial_trader_taken_first_decision:
+            self.initial_trader_taken_first_decision = True
             self.invest_divest()
             self.update_time_when_to_buy_again()
