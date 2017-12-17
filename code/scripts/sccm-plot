@@ -118,8 +118,8 @@ for agent in ['miner', 'trader', 'chartist']:
 
 
 # TODO: make this nicer
-plotdata(['btc_miner_avg', 'btc_trader_avg', 'btc_chartist_avg'], 'Average Bitcoins owned by agents', ylabel='number of bitcoins', legend=legend_agents[:3], filename = 'bitcoin_avg')
-plotdata(['cash_miner_avg', 'cash_trader_avg', 'cash_chartist_avg'], 'Average Cash owned by agents', ylabel='cash amount (USD)', legend=legend_agents[:3], filename = 'cash_avg')
+plotdata(['btc_miner_avg', 'btc_trader_avg', 'btc_chartist_avg'], 'Average Bitcoins owned by agents', ylabel='number of bitcoins', legend=legend_agents[:3], filename = 'bitcoin_avg', lg=True)
+plotdata(['cash_miner_avg', 'cash_trader_avg', 'cash_chartist_avg'], 'Average Cash owned by agents', ylabel='cash amount (USD)', legend=legend_agents[:3], filename = 'cash_avg', lg=True)
 
 plotdata(['wealth_miner', 'wealth_trader', 'wealth_chartist'], 'Agent Wealth', ylabel='$', legend=legend_agents, plot_sum=True, legend_sum = 'Total wealth', filename = 'wealth')
 plotdata(['wealth_miner_avg', 'wealth_trader_avg', 'wealth_chartist_avg'], 'Average agent wealth', ylabel='$', legend=legend_agents[:3], filename = 'wealth_avg')
