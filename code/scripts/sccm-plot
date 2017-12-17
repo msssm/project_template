@@ -1,0 +1,176 @@
+#!/usr/bin/env python3
+
+import argparse
+import copy
+import numpy as np
+
+parser = argparse.ArgumentParser(description='plot simulation results')
+parser.add_argument('-o', action='store', dest='outdir', help='output directory', default='')
+parser.add_argument('-show', action="store_true", dest='show', help='show on screen instead of save to file', default=False)
+parser.add_argument('-all', action="store_true", dest='all', help=' min max std files of mc', default=False)  # TODO: imporve this
+parser.add_argument('-candle', action="store_true", dest='candle', help='plot price candlesticks', default=False)
+parser.add_argument('-ci', action="store", dest='candleinterval', type=int, help='candle interval', default=1)
+parser.add_argument('-cw', action="store", dest='candlewidth', type=int, help='candle box width (fraction of day)', default=0.8)
+
+parser.add_argument(action='store', dest='filename', help='input pickle df file')
+
+args = parser.parse_args()
+
+if args.show:
+    import matplotlib.pyplot as plt
+    create_plot = lambda _: plt.show()
+else:
+    import matplotlib
+    matplotlib.use('Agg')  # needed on headless machines without xserver
+    import matplotlib.pyplot as plt
+    def create_plot(name):
+        filename = args.outdir + name + '.png'
+        print(filename)
+        plt.savefig(filename,dpi=300)
+        plt.clf()  # clear legend, necessary if we dont provide a new legend for next plot
+
+import pandas as pd  # might import matplotlib, but we need to matplotlib.use('Agg') first
+
+print('input: '+ args.filename)
+print('output directory: '+ args.outdir)
+
+
+if args.all:
+    df_mean = pd.read_pickle(args.filename + 'mean.pkl')
+    df_max = pd.read_pickle(args.filename + 'max.pkl')
+    df_min = pd.read_pickle(args.filename + 'min.pkl')
+    df_std = pd.read_pickle(args.filename + 'std.pkl')  # standard deviation over all monte carlo runs
+else:
+    df_mean = pd.read_pickle(args.filename)
+
+#TODO: plot stddev montecarlo runs etc
+
+
+def plotdata(l, title, xlabel='Time steps', ylabel='', legend=None, lg=False, plot_sum=False, legend_sum=None, filename = '', df=df_mean):
+    df[l].plot(logy=lg)
+    plt.title(title)
+    plt.xlabel(xlabel)
+    plt.ylabel(ylabel)
+    plt.xlim(0, len(df[l]))
+    if plot_sum:
+        df[l].sum(axis=1).plot()
+        legend.append(legend_sum)
+    if legend is not None:
+        plt.legend(legend)
+    create_plot(filename)
+
+if args.all:
+    plotdata('price', 'Average Price', ylabel='USD/btc', filename='price')
+    plotdata('price', 'Standard Deviation of the Price', ylabel='USD/btc', filename='price_std', df=df_std)
+else:
+    plotdata('price', 'Price', ylabel='USD/btc', filename='price')
+
+#TODO candle plot for monte carlo simulations;
+# which values to take for max and min??
+
+# see: https://matplotlib.org/examples/pylab_examples/finance_demo.html
+if args.candle:
+    from matplotlib.finance import candlestick_ohlc  # this will give warning about deprecated, TODO fix
+    import numpy as np
+    df_candles_temp = pd.DataFrame()
+    if args.all:
+        df_candles_temp['price_max'] = df_max['price_max']  # TODO: do this straight after creating df instead of hidden here
+        df_candles_temp['price_min'] = df_min['price_max']
+        df_candles_temp['price_close'] = df_mean['price_close']
+        df_candles_temp['price_open'] = df_mean['price_open']
+    else:
+        df_candles_temp = copy.deepcopy(df_mean[['price_open', 'price_max', 'price_min', 'price_close']])
+
+    if args.candleinterval > 1:
+        nrows = len(df_candles_temp)
+        ncandles = int(np.ceil(nrows/args.candleinterval))
+        df_candles_temp['candleinterval'] = np.kron(np.arange(ncandles), np.ones(args.candleinterval))[:nrows].astype(int)
+        df_candles = df_candles_temp.groupby('candleinterval').max()
+        df_candles['price_min'] = df_candles_temp.groupby('candleinterval').min()['price_min'] # TODO: nicer
+        df_candles['price_open'] = df_candles_temp.groupby('candleinterval').first()['price_open'] # TODO: nicer
+        df_candles['price_close'] = df_candles_temp.groupby('candleinterval').last()['price_close'] # TODO: nicer
+        a = np.array((np.arange(ncandles) + np.ones(ncandles) * 0.5)* args.candleinterval).reshape((-1, 1))
+
+    else:
+        df_candles = df_candles_temp
+        a = np.array(df_mean.index).reshape((-1, 1))
+    #
+    b = df_candles[['price_open', 'price_max', 'price_min', 'price_close']].values
+    data = np.concatenate((a,b), axis=1)
+    #TODO merge days and plot less because this way nothing can be seen
+    candlestick_ohlc(plt.gca(), data, width=args.candlewidth)
+    #TODO TODO: plt.xlabel, ylabel title
+    plt.xlabel('Time steps')
+    plt.ylabel('price in usd/btc')
+    plt.title('Bitcoin market price')
+    create_plot('candle')
+
+legend_agents = ['miners', 'random traders', 'chartists', 'all agents']
+plotdata(['n_miner', 'n_trader', 'n_chartist', 'n_agents'], 'Number of agents', ylabel='number of agents', legend=legend_agents, filename = 'agents')
+plotdata(['btc_miner', 'btc_trader', 'btc_chartist'], 'Bitcoins owned by agents', ylabel='number of bitcoins', legend=legend_agents[:3], plot_sum=True, legend_sum = 'Total number of bitcoins', filename = 'bitcoin')
+plotdata(['cash_miner', 'cash_trader', 'cash_chartist'], 'Cash owned by agents', ylabel='cash amount (USD)', legend=legend_agents[:3], plot_sum=True, legend_sum = 'Total amount of cash', filename = 'cash')
+
+# calculate wealth
+for agent in ['miner', 'trader', 'chartist']:
+    df_mean['wealth_'+agent] = df_mean['cash_'+agent] + df_mean['btc_'+agent] * df_mean['price']
+
+# calculate mean over agents
+for agent in ['miner', 'trader', 'chartist']:
+    for currency in ['cash', 'btc', 'wealth']:
+        df_mean[currency+'_' + agent + '_avg'] = df_mean[currency+'_'+agent] / df_mean['n_'+agent]
+
+
+# TODO: make this tnicer
+plotdata(['btc_miner_avg', 'btc_trader_avg', 'btc_chartist_avg'], 'Average Bitcoins owned by agents', ylabel='number of bitcoins', legend=legend_agents[:3], filename = 'bitcoin_avg', lg=True)
+plotdata(['cash_miner_avg', 'cash_trader_avg', 'cash_chartist_avg'], 'Average Cash owned by agents', ylabel='cash amount (USD)', legend=legend_agents[:3], filename = 'cash_avg', lg=True)
+
+plotdata(['wealth_miner', 'wealth_trader', 'wealth_chartist'], 'Agent Wealth', ylabel='$', legend=legend_agents, plot_sum=True, legend_sum = 'Total wealth', filename = 'wealth')
+plotdata(['wealth_miner_avg', 'wealth_trader_avg', 'wealth_chartist_avg'], 'Average agent wealth', ylabel='$', legend=legend_agents[:3], filename = 'wealth_avg')
+
+legend_orders = ['sell orders', 'infinite sell orders', 'buy orders']
+plotdata(['n_orders_sell_left', 'n_orders_sellinf_left', 'n_orders_buy_left'], 'Number of orders left at end of day', ylabel='number of orders', legend=legend_orders, filename = 'orders')
+
+plotdata('energy_cons_avg', 'Average hashing capability', ylabel='hashing capability per miner (GH/s)', filename = 'energy_avg')
+plotdata('energy_cons_total', 'Total energy consumption', ylabel='energy comsumption (W)', lg=True, filename = 'energy_total')
+
+plotdata('hashing_cap_avg', 'Average hashing capability', ylabel='GH/s', filename = 'hashing_avg')
+plotdata('hashing_cap_total', 'Total hashing capability', ylabel='GH/s', lg=True, filename = 'hashing_total')
+
+if 'btc_mined' in df_mean.columns:
+    plotdata('btc_mined', 'Bitcoin mined by all Miners', ylabel='bitcoin', filename = 'bitcoin_mined')
+    df_mean['btc_mined_avg'] = df_mean['btc_mined']/df_mean['n_miner']
+    plotdata('btc_mined_avg', 'Average Bitcoin mined', ylabel='bitcoin', filename = 'bitcoin_mined_avg')
+
+plotdata('n_transactions', 'Number of transactions', ylabel='number of transactions', filename = 'transactions')
+plotdata('transaction_volume_btc', 'Transaction volume', ylabel='transaction volume (#bitcoin)', filename = 'transaction_volume_btc')
+
+plotdata('transaction_volume_cash', 'Transaction volume', ylabel='transaction volume (USD)', filename = 'transaction_volume_cash')
+
+for transaction in ['transaction_volume_cash', 'transaction_volume_btc']:
+    df_mean[transaction+'_avg'] = df_mean[transaction] / df_mean['n_transactions']
+
+plotdata('transaction_volume_btc_avg', 'Average Transaction volume', ylabel='bitcoin', filename = 'transaction_volume_btc_avg', lg=True)
+
+plotdata('transaction_volume_cash_avg', 'Average Transaction volume', ylabel='USD', filename = 'transaction_volume_cash_avg')
+
+def getsum6(p):
+    dat = list(df_mean[p])
+    n = len(dat)
+    m = int(np.floor(n/6))
+    k = 6*m
+    return np.array(dat[:k]).reshape(m, 6).sum(axis=1)
+
+if 'cash_spent_on_electricity' in df_mean.columns:
+    plt.semilogy(getsum6('cash_spent_on_electricity'))
+    plt.title('6-day sum of global electricity cost')
+    plt.xlabel('time (6 days)')
+    plt.ylabel('USD')
+    create_plot('electricity')
+
+if 'cash_spent_on_hardware' in df_mean.columns:
+    #TODO: multiply with available hashrate to get hashrate bought
+    plt.semilogy(getsum6('cash_spent_on_hardware'))
+    plt.title('6-day sum of cash spend on hardware')
+    plt.xlabel('time (6 days)')
+    plt.ylabel('USD')
+    create_plot('hardware')

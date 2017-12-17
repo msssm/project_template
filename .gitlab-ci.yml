@@ -1,0 +1,5 @@
+test:
+  script:
+  - cd code
+  - python3 setup.py install --user
+  - ~/.local/bin/sccm
