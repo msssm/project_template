@@ -8,7 +8,9 @@ from numpy import *
 from matplotlib.pylab import *
 
 
-def analyse_medianDanger(test_set):
+colors=array(['dodgerblue','darkorange','g','red','purple','brown','violet','grey','y','lightskyblue','magenta','black'])
+
+def analyse_medianDanger(test_set,i):
     toDo = "from %s.counter import *" % test_set
 
     exec(toDo, globals())
@@ -29,11 +31,11 @@ def analyse_medianDanger(test_set):
         linewidth_=3
     else:
         linewidth_=1.2
-    plot(t,y/ymax,linewidth=linewidth_,label=test_set)
+    plot(t,y/ymax,colors[i],linewidth=linewidth_,label=test_set)
 #    savefig(test_set+'averageOFmedianDanger_timeEvolution_average.png',dpi=600)
 
 
-def analyse_isParticipating(test_set):
+def analyse_isParticipating(test_set,i):
     toDo = "from %s.counter import *" % test_set
 
     exec(toDo, globals())
@@ -53,7 +55,7 @@ def analyse_isParticipating(test_set):
     else:
         linewidth_=1.2
         
-    plot(t,isParticipating_TimeEvolution,linewidth=linewidth_,label=test_set)
+    plot(t,isParticipating_TimeEvolution,colors[i],linewidth=linewidth_,label=test_set)
     ylabel('Participation Rate')
 #    savefig(test_set+'isParticipating_timeEvolution_average.png',dpi=600)
 
@@ -67,9 +69,11 @@ if __name__ == '__main__' and __package__ is None:
     with open("configs.sim") as f:
         next(f)
         figure(figsize=(7,5))
+        k=0
         for test_set in f:
-
-            analyse_isParticipating(test_set.strip())
+            
+            analyse_isParticipating(test_set.strip(),k)
+            k+=1
 
     legend(prop={'size':8},fancybox=True,ncol=3,loc=1)
     xlabel('Time')
@@ -79,11 +83,15 @@ if __name__ == '__main__' and __package__ is None:
     with open("configs.sim") as f:
         next(f)
         figure(figsize=(7,5))
+        k=0
         for test_set in f:
+            
 
-            analyse_medianDanger(test_set.strip())
+            analyse_medianDanger(test_set.strip(),k)
+            k+=1
 
     legend(prop={'size':8},fancybox=True,ncol=3,loc=1)
     xlabel('Time')
     savefig('medianDanger_timeEvolution.png',dpi=600)
+            
             
