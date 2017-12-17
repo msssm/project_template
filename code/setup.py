@@ -3,7 +3,7 @@
 from setuptools import setup, find_packages
 
 setup(name='sccm',
-      version='0.3.2',
+      version='0.3.3',
       description='Agent Based Simulation of the Cryptocurrency Market',
       url='https://github.com/inailuig/simulating_cryptocurrency_markets',
       author='<todo>',
