@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<eclipse-userlibraries>
+  <library name="Python 2.7.10 (/usr/bin/python) interpreter library">
+    <archive path="/System/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7" />
+    <archive path="/System/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/plat-darwin" />
+    <archive path="/System/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/plat-mac" />
+    <archive path="/System/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/plat-mac/lib-scriptpackages" />
+    <archive path="/System/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/lib-tk" />
+    <archive path="/System/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/lib-dynload" />
+    <archive path="/Library/Python/2.7/site-packages" />
+    <archive path="/System/Library/Frameworks/Python.framework/Versions/2.7/Extras/lib/python" />
+    <archive path="/System/Library/Frameworks/Python.framework/Versions/2.7/Extras/lib/python/PyObjC" />
+    <archive path="/Users/Leo/Library/Application Support/IntelliJIdea2017.1/python/helpers/python-skeletons" />
+  </library>
+</eclipse-userlibraries>
+

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="JAVA_MODULE" version="4">
+  <component name="FacetManager">
+    <facet type="Python" name="Python">
+      <configuration sdkName="Python 3.6.3 (/usr/local/bin/python3)" />
+    </facet>
+  </component>
+  <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_5" inherit-compiler-output="true">
+    <exclude-output />
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
+      <excludeFolder url="file://$MODULE_DIR$/circle" />
+      <excludeFolder url="file://$MODULE_DIR$/corner" />
+      <excludeFolder url="file://$MODULE_DIR$/cross" />
+      <excludeFolder url="file://$MODULE_DIR$/diagonal" />
+      <excludeFolder url="file://$MODULE_DIR$/doubleHalfLine" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="Python 3.6.3 (/usr/local/bin/python3) interpreter library" level="application" />
+  </component>
+</module>
